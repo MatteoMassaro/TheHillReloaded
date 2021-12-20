@@ -15,7 +15,35 @@ public class ModalitaAccessoActivity extends AppCompatActivity implements View.O
 
     //Variabili
     public CardView account, ospite;
-    public Animation scaleUp, scaleDown;
+    public Animation scaleUp, scaleDown, slideIn, slideOut;
+
+    //Chiama l'animazione all'avvio dell'activity
+    @Override
+    protected void onStart(){
+        super.onStart();
+        runAnimationSlideIn();
+    }
+
+    //Chiama l'animazione alla pausa dell'activity
+    @Override
+    protected void onPause(){
+        super.onPause();
+        runAnimationSlideOut();
+    }
+
+    //Setta l'animazione iniziale delle view
+    private void runAnimationSlideIn() {
+        slideIn = AnimationUtils.loadAnimation(this,R.anim.slide_in);
+        account.startAnimation(slideIn);
+        ospite.startAnimation(slideIn);
+    }
+
+    //Setta l'animazione finale delle view
+    private void runAnimationSlideOut() {
+        slideOut = AnimationUtils.loadAnimation(this,R.anim.slide_out);
+        account.startAnimation(slideOut);
+        ospite.startAnimation(slideOut);
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override

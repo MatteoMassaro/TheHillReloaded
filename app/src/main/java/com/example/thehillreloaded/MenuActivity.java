@@ -18,7 +18,39 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     //Variabili
     public CardView giocatoreSingolo, multigiocatore;
     public ImageButton logout, opzioni;
-    public Animation scaleUp, scaleDown;
+    public Animation scaleUp, scaleDown, slideIn, slideOut;
+
+    //Chiama l'animazione all'avvio dell'activity
+    @Override
+    protected void onStart(){
+        super.onStart();
+        runAnimationSlideIn();
+    }
+
+    //Chiama l'animazione alla pausa dell'activity
+    @Override
+    protected void onPause(){
+        super.onPause();
+        runAnimationSlideOut();
+    }
+
+    //Setta l'animazione iniziale delle view
+    private void runAnimationSlideIn() {
+        slideIn = AnimationUtils.loadAnimation(this,R.anim.slide_in);
+        giocatoreSingolo.startAnimation(slideIn);
+        multigiocatore.startAnimation(slideIn);
+        logout.startAnimation(slideIn);
+        opzioni.startAnimation(slideIn);
+    }
+
+    //Setta l'animazione finale delle view
+    private void runAnimationSlideOut() {
+        slideOut = AnimationUtils.loadAnimation(this,R.anim.slide_out);
+        giocatoreSingolo.startAnimation(slideOut);
+        multigiocatore.startAnimation(slideOut);
+        logout.startAnimation(slideOut);
+        opzioni.startAnimation(slideOut);
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override

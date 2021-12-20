@@ -18,7 +18,39 @@ public class GiocatoreSingoloActivity extends AppCompatActivity implements View.
     //Variabili
     public CardView modalitaClassica, modalitaPowerUp;
     public ImageButton logout, opzioni;
-    public Animation scaleUp, scaleDown;
+    public Animation scaleUp, scaleDown, slideIn, slideOut;
+
+    //Chiama l'animazione all'avvio dell'activity
+    @Override
+    protected void onStart(){
+        super.onStart();
+        runAnimationSlideIn();
+    }
+
+    //Chiama l'animazione alla pausa dell'activity
+    @Override
+    protected void onPause(){
+        super.onPause();
+        runAnimationSlideOut();
+    }
+
+    //Setta l'animazione iniziale delle view
+    private void runAnimationSlideIn() {
+        slideIn = AnimationUtils.loadAnimation(this,R.anim.slide_in);
+        modalitaClassica.startAnimation(slideIn);
+        modalitaPowerUp.startAnimation(slideIn);
+        logout.startAnimation(slideIn);
+        opzioni.startAnimation(slideIn);
+    }
+
+    //Setta l'animazione finale delle view
+    private void runAnimationSlideOut() {
+        slideOut = AnimationUtils.loadAnimation(this,R.anim.slide_out);
+        modalitaClassica.startAnimation(slideOut);
+        modalitaPowerUp.startAnimation(slideOut);
+        logout.startAnimation(slideOut);
+        opzioni.startAnimation(slideOut);
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
