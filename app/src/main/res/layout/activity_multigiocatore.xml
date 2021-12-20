@@ -28,7 +28,7 @@
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
         android:text="@string/multigiocatore"
-        android:textColor="@color/gray"
+        android:textColor="@color/dark_cornflower_blue"
         android:textSize="40sp" />
 
     <GridLayout
@@ -43,7 +43,7 @@
         android:focusable="true">
 
         <android.support.v7.widget.CardView
-            android:id="@+id/modalitaClassica"
+            android:id="@+id/uno_contro_uno"
             android:layout_width="match_parent"
             android:layout_height="160dp"
             app:cardCornerRadius="70dp"
@@ -55,7 +55,7 @@
                 android:background="@drawable/choice_button_background">
 
                 <ImageView
-                    android:contentDescription="@string/modalità_classica"
+                    android:contentDescription="@string/uno_contro_uno"
                     android:layout_width="70dp"
                     android:layout_height="60dp"
                     android:src="@drawable/vs"
@@ -85,7 +85,7 @@
         android:focusable="true">
 
         <android.support.v7.widget.CardView
-            android:id="@+id/modalitaPowerUp"
+            android:id="@+id/cooperativo"
             android:layout_width="match_parent"
             android:layout_height="160dp"
             app:cardCornerRadius="70dp"
@@ -97,7 +97,7 @@
                 android:background="@drawable/choice_button_background">
 
                 <ImageView
-                    android:contentDescription="@string/modalità_powerup"
+                    android:contentDescription="@string/cooperativo"
                     android:layout_width="70dp"
                     android:layout_height="60dp"
                     android:src="@drawable/cooperation"

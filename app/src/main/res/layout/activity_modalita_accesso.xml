@@ -29,7 +29,7 @@
         android:gravity="center"
         android:text="@string/modalità_accesso"
         android:lineSpacingExtra="-20dp"
-        android:textColor="@color/gray"
+        android:textColor="@color/dark_cornflower_blue"
         android:textSize="40sp" />
 
     <GridLayout
@@ -122,8 +122,8 @@
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
         android:text="@string/avviso_no_account"
-        android:textColor="@color/gray"
-        android:textSize="10sp"
+        android:textColor="@color/dark_cornflower_blue"
+        android:textSize="11sp"
         android:layout_marginTop="20dp"/>
 
 </LinearLayout>

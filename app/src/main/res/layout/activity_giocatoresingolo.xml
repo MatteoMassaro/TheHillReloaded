@@ -29,7 +29,7 @@
         android:gravity="center"
         android:text="@string/giocatore_singolo"
         android:lineSpacingExtra="-20dp"
-        android:textColor="@color/gray"
+        android:textColor="@color/dark_cornflower_blue"
         android:textSize="40sp" />
 
     <GridLayout

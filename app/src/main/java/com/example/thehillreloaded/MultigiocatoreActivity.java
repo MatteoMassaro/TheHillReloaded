@@ -16,7 +16,7 @@ import android.widget.ImageButton;
 public class MultigiocatoreActivity extends AppCompatActivity implements View.OnClickListener{
 
     //Variabili
-    public CardView modalitaClassica, modalitaPowerUp;
+    public CardView unoControUno, cooperativo;
     public ImageButton logout, opzioni;
     public Animation scaleUp, scaleDown, slideIn, slideOut;
 
@@ -37,8 +37,8 @@ public class MultigiocatoreActivity extends AppCompatActivity implements View.On
     //Setta l'animazione iniziale delle view
     private void runAnimationSlideIn() {
         slideIn = AnimationUtils.loadAnimation(this,R.anim.slide_in);
-        modalitaClassica.startAnimation(slideIn);
-        modalitaPowerUp.startAnimation(slideIn);
+        unoControUno.startAnimation(slideIn);
+        cooperativo.startAnimation(slideIn);
         logout.startAnimation(slideIn);
         opzioni.startAnimation(slideIn);
     }
@@ -46,8 +46,8 @@ public class MultigiocatoreActivity extends AppCompatActivity implements View.On
     //Setta l'animazione finale delle view
     private void runAnimationSlideOut() {
         slideOut = AnimationUtils.loadAnimation(this,R.anim.slide_out);
-        modalitaClassica.startAnimation(slideOut);
-        modalitaPowerUp.startAnimation(slideOut);
+        unoControUno.startAnimation(slideOut);
+        cooperativo.startAnimation(slideOut);
         logout.startAnimation(slideOut);
         opzioni.startAnimation(slideOut);
     }
@@ -62,14 +62,14 @@ public class MultigiocatoreActivity extends AppCompatActivity implements View.On
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         //Trova le view tramite l'id e le assegna alle variabili
-        modalitaClassica = findViewById(R.id.modalitaClassica);
-        modalitaPowerUp = findViewById(R.id.modalitaPowerUp);
+        unoControUno = findViewById(R.id.uno_contro_uno);
+        cooperativo = findViewById(R.id.cooperativo);
         logout = findViewById(R.id.logout);
         opzioni = findViewById(R.id.opzioni);
 
         //Imposta metodo di callback quando la view viene cliccata
-        modalitaClassica.setOnClickListener(this);
-        modalitaPowerUp.setOnClickListener(this);
+        unoControUno.setOnClickListener(this);
+        cooperativo.setOnClickListener(this);
         logout.setOnClickListener(this);
         opzioni.setOnClickListener(this);
 
@@ -77,22 +77,22 @@ public class MultigiocatoreActivity extends AppCompatActivity implements View.On
         scaleUp = AnimationUtils.loadAnimation(this,R.anim.scale_up);
         scaleDown = AnimationUtils.loadAnimation(this,R.anim.scale_down);
 
-        //Animazione pulsante giocatoreSingolo
-        modalitaClassica.setOnTouchListener((view, motionEvent) -> {
+        //Animazione pulsante uno contro uno
+        unoControUno.setOnTouchListener((view, motionEvent) -> {
             if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                modalitaClassica.startAnimation(scaleDown);
+                unoControUno.startAnimation(scaleDown);
             } else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                modalitaClassica.startAnimation(scaleUp);
+                unoControUno.startAnimation(scaleUp);
             }
             return false;
         });
 
-        //Animazione pulsante multigiocatore
-        modalitaPowerUp.setOnTouchListener((view, motionEvent) -> {
+        //Animazione pulsante cooperativo
+        cooperativo.setOnTouchListener((view, motionEvent) -> {
             if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                modalitaPowerUp.startAnimation(scaleDown);
+                cooperativo.startAnimation(scaleDown);
             } else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                modalitaPowerUp.startAnimation(scaleUp);
+                cooperativo.startAnimation(scaleUp);
             }
             return false;
         });

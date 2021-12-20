@@ -28,7 +28,7 @@
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
         android:text="@string/menu"
-        android:textColor="@color/gray"
+        android:textColor="@color/dark_cornflower_blue"
         android:textSize="60sp" />
 
     <GridLayout

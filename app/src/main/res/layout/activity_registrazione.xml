@@ -28,7 +28,7 @@
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
         android:text="@string/registrati"
-        android:textColor="@color/gray"
+        android:textColor="@color/dark_cornflower_blue"
         android:textSize="50sp" />
 
     <EditText
@@ -110,7 +110,7 @@
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
         android:text="@string/account_già_creato"
-        android:textColor="@color/gray"
+        android:textColor="@color/dark_cornflower_blue"
         android:textSize="15sp"
         android:layout_marginTop="-40dp"/>
 
