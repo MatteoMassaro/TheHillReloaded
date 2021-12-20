@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/emerald"
+    android:orientation="vertical"
+    tools:context=".MenuActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/bevan"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginEnd="150dp"
+        android:text="@string/theHillReloaded"
+        android:textColor="@color/black"
+        android:background="@drawable/logo_background"
+        android:textSize="19sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/bowlby_one_sc"
+        android:gravity="center"
+        android:text="@string/registrati"
+        android:textColor="@color/gray"
+        android:textSize="50sp" />
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:drawableStart="@drawable/ic_baseline_person_24"
+        android:drawableTint="@color/lincoln_green"
+        android:drawablePadding="5dp"
+        android:hint="@string/prompt_username"
+        android:fontFamily="@font/bowlby_one_sc"
+        android:inputType="textEmailAddress"
+        android:selectAllOnFocus="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="emailAddress"/>
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center"
+        android:drawableStart="@drawable/ic_baseline_alternate_email_24"
+        android:drawableTint="@color/lincoln_green"
+        android:drawablePadding="5dp"
+        android:hint="@string/prompt_email"
+        android:fontFamily="@font/bowlby_one_sc"
+        android:inputType="textEmailAddress"
+        android:selectAllOnFocus="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="emailAddress"/>
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center"
+        android:drawableStart="@drawable/ic_baseline_vpn_key_24"
+        android:drawablePadding="5dp"
+        android:hint="@string/prompt_password"
+        android:fontFamily="@font/bowlby_one_sc"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword"
+        android:selectAllOnFocus="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        android:autofillHints="password"/>
+
+    <Button
+        android:id="@+id/registrazione"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="64dp"
+        android:enabled="true"
+        android:text="@string/registrati"
+        android:textSize="15dp"
+        android:fontFamily="@font/bowlby_one_sc"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintVertical_bias="0.2"
+        android:background="@drawable/login_button_background"/>
+
+    <TextView
+        android:id="@+id/accountGiàCreato"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/bowlby_one_sc"
+        android:gravity="center"
+        android:text="@string/account_già_creato"
+        android:textColor="@color/gray"
+        android:textSize="15sp"
+        android:layout_marginTop="-40dp"/>
+
+
+</LinearLayout>

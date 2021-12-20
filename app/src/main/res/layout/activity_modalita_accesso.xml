@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/emerald"
+    android:orientation="vertical"
+    tools:context=".MenuActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/bevan"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginEnd="150dp"
+        android:text="@string/theHillReloaded"
+        android:textColor="@color/black"
+        android:background="@drawable/logo_background"
+        android:textSize="19sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/bowlby_one_sc"
+        android:gravity="center"
+        android:text="@string/modalità_accesso"
+        android:lineSpacingExtra="-20dp"
+        android:textColor="@color/gray"
+        android:textSize="40sp" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20sp"
+        tools:layout_editor_absoluteX="150dp"
+        tools:layout_editor_absoluteY="102dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/account"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            app:cardCornerRadius="70dp"
+            app:cardElevation="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@drawable/choice_button_background">
+
+                <ImageView
+                    android:contentDescription="@string/account"
+                    android:layout_width="70dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/add_user"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:fontFamily="@font/bowlby_one_sc"
+                    android:gravity="center"
+                    android:text="@string/account"
+                    android:textColor="@color/white"
+                    android:textSize="28sp" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </GridLayout>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        tools:layout_editor_absoluteX="150dp"
+        tools:layout_editor_absoluteY="102dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/ospite"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            app:cardCornerRadius="70dp"
+            app:cardElevation="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@drawable/choice_button_background">
+
+                <ImageView
+                    android:contentDescription="@string/ospite"
+                    android:layout_width="70dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/door"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/bowlby_one_sc"
+                    android:text="@string/ospite"
+                    android:textColor="@color/white"
+                    android:textSize="28sp" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </GridLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/bowlby_one_sc"
+        android:gravity="center"
+        android:text="@string/avviso_no_account"
+        android:textColor="@color/gray"
+        android:textSize="10sp"
+        android:layout_marginTop="20dp"/>
+
+</LinearLayout>

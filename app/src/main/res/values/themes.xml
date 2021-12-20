@@ -1,0 +1,18 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.TheHillReloaded" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/emerald</item>
+        <item name="colorButtonNormal">@color/lincoln_green</item>
+        <item name="colorAccent">@color/dark_spring_green</item>
+        <!-- Customize your theme here. -->
+
+        <!-- Attiva le transizioni -->
+        <item name="android:windowActivityTransitions">true</item>
+        <!-- Imposta le transizioni in entrata e in uscita -->
+        <item name="android:windowEnterTransition">@transition/trans_slide_in</item>
+        <item name="android:windowExitTransition">@transition/trans_slide_out</item>
+        <item name="android:windowBackground">@color/emerald</item>
+    </style>
+
+</resources>

@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">The (H)ill Reloaded</string>
+    <string name="theHillReloaded">The (H)ill <br>Reloaded</br></string>
+    <string name="powered_by">Powered by One Click to Create a Bug</string>
+    <string name="modalità_accesso">MODALITÀ ACCESSO</string>
+    <string name="menu">MENU</string>
+    <string name="login">LOGIN</string>
+    <string name="registrati">REGISTRATI</string>
+    <string name="giocatore_singolo">GIOCATORE SINGOLO</string>
+    <string name="multigiocatore">MULTIGIOCATORE</string>
+    <string name="exit_icon">exit_icon</string>
+    <string name="option_icon">option_icon</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="login_failed">"Login fallito"</string>
+    <string name="modalità_classica">MODALITÀ CLASSICA</string>
+    <string name="modalità_powerup">MODALITÀ POWER-UP</string>
+    <string name="prompt_username">username</string>
+    <string name="account_già_creato">Ho già un account</string>
+    <string name="crea_account">Crea un account</string>
+    <string name="uno_contro_uno">1 VS 1</string>
+    <string name="cooperativo">COOPERATIVO</string>
+    <string name="ospite">OSPITE</string>
+    <string name="account">ACCOUNT</string>
+    <string name="avviso_no_account">Accedendo come ospite non sarà possibile salvare i dati</string>
+
+</resources>
