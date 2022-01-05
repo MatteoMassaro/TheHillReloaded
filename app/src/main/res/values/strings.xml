@@ -24,5 +24,7 @@
     <string name="ospite">OSPITE</string>
     <string name="account">ACCOUNT</string>
     <string name="avviso_no_account">Accedendo come ospite non sarà possibile salvare i dati</string>
+    <string name="percentuale">0%</string>
+    <string name="caricamento">CARICAMENTO</string>
 
 </resources>

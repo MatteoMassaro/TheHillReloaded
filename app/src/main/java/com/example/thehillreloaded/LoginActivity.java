@@ -4,18 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends Animazioni {
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -27,7 +23,6 @@ public class LoginActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         //Variabili
-        Animation scaleUp, scaleDown;
         EditText username, password;
         TextView creaAccount;
         Button login;
@@ -41,19 +36,8 @@ public class LoginActivity extends AppCompatActivity {
 
         myDB = new DBHelper(this);
 
-        //Setta le animazioni per la pressione dei pulsanti
-        scaleUp = AnimationUtils.loadAnimation(this,R.anim.scale_up);
-        scaleDown = AnimationUtils.loadAnimation(this,R.anim.scale_down);
-
         //Animazione pulsante login
-        login.setOnTouchListener((view, motionEvent) -> {
-            if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                login.startAnimation(scaleDown);
-            } else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                login.startAnimation(scaleUp);
-            }
-            return false;
-        });
+        clickButtonAnimation(login);
 
         //Imposta metodo di callback quando la view viene cliccata
         login.setOnClickListener(new View.OnClickListener() {

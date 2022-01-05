@@ -2,13 +2,8 @@ package com.example.thehillreloaded;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,7 +11,7 @@ import android.widget.Toast;
 
 
 
-public class RegistrazioneActivity extends AppCompatActivity {
+public class RegistrazioneActivity extends Animazioni {
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -25,7 +20,6 @@ public class RegistrazioneActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registrazione);
 
         //Variabili
-        Animation scaleUp, scaleDown;
         EditText username, email, password;
         TextView accountCreato;
         Button registrazione;
@@ -40,19 +34,8 @@ public class RegistrazioneActivity extends AppCompatActivity {
 
         myDB = new DBHelper(this);
 
-        //Setta le animazioni per la pressione dei pulsanti
-        scaleUp = AnimationUtils.loadAnimation(this, R.anim.scale_up);
-        scaleDown = AnimationUtils.loadAnimation(this, R.anim.scale_down);
-
         //Animazione pulsante registrati
-        registrazione.setOnTouchListener((view, motionEvent) -> {
-            if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                registrazione.startAnimation(scaleDown);
-            } else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                registrazione.startAnimation(scaleUp);
-            }
-            return false;
-        });
+        clickButtonAnimation(registrazione);
 
         //Imposta metodo di callback quando la view viene cliccata
         registrazione.setOnClickListener(new View.OnClickListener() {

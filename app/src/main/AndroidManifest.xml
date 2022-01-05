@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHillReloaded">
         <activity
+            android:name=".SchermataCaricamentoActivity"
+            android:exported="false" />
+        <activity
             android:name=".ModalitaAccessoActivity"
             android:exported="false" />
         <activity

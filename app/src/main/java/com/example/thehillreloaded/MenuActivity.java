@@ -4,21 +4,19 @@ import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 
-public class MenuActivity extends AppCompatActivity implements View.OnClickListener{
+public class MenuActivity extends Animazioni implements View.OnClickListener{
 
     //Variabili
     public CardView giocatoreSingolo, multigiocatore;
     public ImageButton logout, opzioni;
-    public Animation scaleUp, scaleDown, slideIn, slideOut;
+    public Animation slideIn, slideOut;
 
     //Chiama l'animazione all'avvio dell'activity
     @Override
@@ -73,50 +71,11 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         logout.setOnClickListener(this);
         opzioni.setOnClickListener(this);
 
-        //Setta le animazioni per la pressione dei pulsanti
-        scaleUp = AnimationUtils.loadAnimation(this,R.anim.scale_up);
-        scaleDown = AnimationUtils.loadAnimation(this,R.anim.scale_down);
-
-        //Animazione pulsante giocatoreSingolo
-        giocatoreSingolo.setOnTouchListener((view, motionEvent) -> {
-            if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                giocatoreSingolo.startAnimation(scaleDown);
-            } else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                giocatoreSingolo.startAnimation(scaleUp);
-            }
-            return false;
-        });
-
-        //Animazione pulsante multigiocatore
-        multigiocatore.setOnTouchListener((view, motionEvent) -> {
-            if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                multigiocatore.startAnimation(scaleDown);
-            } else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                multigiocatore.startAnimation(scaleUp);
-            }
-            return false;
-        });
-
-        //Animazione pulsante logout
-        logout.setOnTouchListener((view, motionEvent) -> {
-            if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                logout.startAnimation(scaleDown);
-            } else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                logout.startAnimation(scaleUp);
-            }
-            return false;
-        });
-
-        //Animazione pulsante opzioni
-        opzioni.setOnTouchListener((view, motionEvent) -> {
-            if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                opzioni.startAnimation(scaleDown);
-            } else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                opzioni.startAnimation(scaleUp);
-            }
-            return false;
-        });
-
+        //Animazione pulsanti
+        clickButtonAnimation(giocatoreSingolo);
+        clickButtonAnimation(multigiocatore);
+        clickButtonAnimation(logout);
+        clickButtonAnimation(opzioni);
     }
 
     //Crea l'intent per passare all'activity successiva dopo la pressione di un bottone

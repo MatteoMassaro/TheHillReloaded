@@ -3,19 +3,17 @@ package com.example.thehillreloaded;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-public class ModalitaAccessoActivity extends AppCompatActivity implements View.OnClickListener{
+public class ModalitaAccessoActivity extends Animazioni implements View.OnClickListener{
 
     //Variabili
     public CardView account, ospite;
-    public Animation scaleUp, scaleDown, slideIn, slideOut;
+    public Animation slideIn, slideOut;
 
     //Chiama l'animazione all'avvio dell'activity
     @Override
@@ -62,29 +60,9 @@ public class ModalitaAccessoActivity extends AppCompatActivity implements View.O
         account.setOnClickListener(this);
         ospite.setOnClickListener(this);
 
-        //Setta le animazioni per la pressione dei pulsanti
-        scaleUp = AnimationUtils.loadAnimation(this,R.anim.scale_up);
-        scaleDown = AnimationUtils.loadAnimation(this,R.anim.scale_down);
-
-        //Animazione pulsante account
-        account.setOnTouchListener((view, motionEvent) -> {
-            if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                account.startAnimation(scaleDown);
-            } else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                account.startAnimation(scaleUp);
-            }
-            return false;
-        });
-
-        //Animazione pulsante ospite
-        ospite.setOnTouchListener((view, motionEvent) -> {
-            if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                ospite.startAnimation(scaleDown);
-            } else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                ospite.startAnimation(scaleUp);
-            }
-            return false;
-        });
+        //Animazione pulsanti
+        clickButtonAnimation(account);
+        clickButtonAnimation(ospite);
     }
 
     //Crea l'intent per passare all'activity successiva dopo la pressione di un bottone

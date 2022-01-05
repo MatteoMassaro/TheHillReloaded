@@ -115,34 +115,4 @@
         </android.support.v7.widget.CardView>
     </GridLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="68dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp">
-
-        <ImageButton
-            android:id="@+id/logout"
-            android:contentDescription="@string/exit_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:background="@color/emerald"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_baseline_exit_to_app_24"
-            android:onClick="onClick"/>
-
-        <ImageButton
-            android:id="@+id/opzioni"
-            android:contentDescription="@string/option_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/emerald"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_baseline_settings_24"
-            android:onClick="onClick"/>
-    </LinearLayout>
-
 </LinearLayout>

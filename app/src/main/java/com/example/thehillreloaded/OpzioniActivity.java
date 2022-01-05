@@ -1,10 +1,9 @@
 package com.example.thehillreloaded;
 
 import android.content.pm.ActivityInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class OpzioniActivity extends AppCompatActivity {
+public class OpzioniActivity extends Animazioni {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
