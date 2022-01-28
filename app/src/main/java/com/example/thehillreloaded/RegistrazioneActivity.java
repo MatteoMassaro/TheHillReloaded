@@ -23,7 +23,7 @@ public class RegistrazioneActivity extends Animazioni {
         EditText username, email, password;
         TextView accountCreato;
         Button registrazione;
-        DBHelper myDB;
+        DatabaseHelper myDB;
 
         //Trova le view tramite l'id e le assegna alle variabili
         username = findViewById(R.id.username);
@@ -32,7 +32,7 @@ public class RegistrazioneActivity extends Animazioni {
         registrazione = findViewById(R.id.registrazione);
         accountCreato = findViewById(R.id.accountGiàCreato);
 
-        myDB = new DBHelper(this);
+        myDB = new DatabaseHelper(this);
 
         //Animazione pulsante registrati
         clickButtonAnimation(registrazione);
