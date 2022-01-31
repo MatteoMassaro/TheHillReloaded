@@ -27,10 +27,9 @@
         android:layout_marginTop="20dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
-        android:text="@string/modalità_accesso"
-        android:lineSpacingExtra="-20dp"
+        android:text="@string/impostazioni"
         android:textColor="@color/dark_cornflower_blue"
-        android:textSize="40sp" />
+        android:textSize="45sp" />
 
     <GridLayout
         android:layout_width="match_parent"
@@ -44,7 +43,7 @@
         android:focusable="true">
 
         <android.support.v7.widget.CardView
-            android:id="@+id/account"
+            android:id="@+id/lingua"
             android:layout_width="match_parent"
             android:layout_height="160dp"
             app:cardCornerRadius="70dp"
@@ -56,10 +55,10 @@
                 android:background="@drawable/choice_button_background">
 
                 <ImageView
-                    android:contentDescription="@string/account"
+                    android:contentDescription="@string/lingua"
                     android:layout_width="70dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/add_user"
+                    android:src="@drawable/language"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp" />
                 <TextView
@@ -67,7 +66,7 @@
                     android:layout_height="60dp"
                     android:fontFamily="@font/bowlby_one_sc"
                     android:gravity="center"
-                    android:text="@string/account"
+                    android:text="@string/lingua"
                     android:textColor="@color/white"
                     android:textSize="28sp" />
             </LinearLayout>
@@ -86,7 +85,7 @@
         android:focusable="true">
 
         <android.support.v7.widget.CardView
-            android:id="@+id/ospite"
+            android:id="@+id/volume_effetti"
             android:layout_width="match_parent"
             android:layout_height="160dp"
             app:cardCornerRadius="70dp"
@@ -98,10 +97,10 @@
                 android:background="@drawable/choice_button_background">
 
                 <ImageView
-                    android:contentDescription="@string/ospite"
+                    android:contentDescription="@string/volume_effetti"
                     android:layout_width="70dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/door"
+                    android:src="@drawable/group"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"/>
                 <TextView
@@ -109,21 +108,22 @@
                     android:layout_height="60dp"
                     android:gravity="center"
                     android:fontFamily="@font/bowlby_one_sc"
-                    android:text="@string/ospite"
+                    android:text="@string/volume_effetti"
                     android:textColor="@color/white"
                     android:textSize="28sp" />
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </GridLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/bowlby_one_sc"
-        android:gravity="center"
-        android:text="@string/avviso_no_account"
-        android:textColor="@color/dark_cornflower_blue"
-        android:textSize="11sp"
-        android:layout_marginTop="20dp"/>
-
+        <ImageView
+            android:id="@+id/indietro"
+            android:contentDescription="@string/back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/back"
+            android:onClick="onClick"
+            android:background="@drawable/nav_button_background"/>
 </LinearLayout>

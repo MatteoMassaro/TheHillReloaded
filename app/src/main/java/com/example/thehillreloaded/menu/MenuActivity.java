@@ -1,4 +1,4 @@
-package com.example.thehillreloaded;
+package com.example.thehillreloaded.menu;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
@@ -7,47 +7,32 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 
-public class MenuActivity extends Animazioni implements View.OnClickListener{
+import com.example.thehillreloaded.R;
+import com.example.thehillreloaded.accesso.LoginActivity;
+import com.example.thehillreloaded.animazioni.AnimazioniView;
+
+public class MenuActivity extends AnimazioniView implements View.OnClickListener{
 
     //Variabili
     public CardView giocatoreSingolo, multigiocatore;
-    public ImageButton logout, opzioni;
-    public Animation slideIn, slideOut;
+    public ImageView logout, impostazioni;
 
     //Chiama l'animazione all'avvio dell'activity
     @Override
     protected void onStart(){
         super.onStart();
-        runAnimationSlideIn();
+        runAnimationSlideIn(giocatoreSingolo);
+        runAnimationSlideIn(multigiocatore);
     }
 
     //Chiama l'animazione alla pausa dell'activity
     @Override
     protected void onPause(){
         super.onPause();
-        runAnimationSlideOut();
-    }
-
-    //Setta l'animazione iniziale delle view
-    private void runAnimationSlideIn() {
-        slideIn = AnimationUtils.loadAnimation(this,R.anim.slide_in);
-        giocatoreSingolo.startAnimation(slideIn);
-        multigiocatore.startAnimation(slideIn);
-        logout.startAnimation(slideIn);
-        opzioni.startAnimation(slideIn);
-    }
-
-    //Setta l'animazione finale delle view
-    private void runAnimationSlideOut() {
-        slideOut = AnimationUtils.loadAnimation(this,R.anim.slide_out);
-        giocatoreSingolo.startAnimation(slideOut);
-        multigiocatore.startAnimation(slideOut);
-        logout.startAnimation(slideOut);
-        opzioni.startAnimation(slideOut);
+        runAnimationSlideOut(giocatoreSingolo);
+        runAnimationSlideOut(multigiocatore);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -63,19 +48,19 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
         giocatoreSingolo = findViewById(R.id.giocatoreSingolo);
         multigiocatore = findViewById(R.id.multigiocatore);
         logout = findViewById(R.id.logout);
-        opzioni = findViewById(R.id.opzioni);
+        impostazioni = findViewById(R.id.impostazioni);
 
         //Imposta metodo di callback quando la view viene cliccata
         multigiocatore.setOnClickListener(this);
         giocatoreSingolo.setOnClickListener(this);
         logout.setOnClickListener(this);
-        opzioni.setOnClickListener(this);
+        impostazioni.setOnClickListener(this);
 
         //Animazione pulsanti
         clickButtonAnimation(giocatoreSingolo);
         clickButtonAnimation(multigiocatore);
         clickButtonAnimation(logout);
-        clickButtonAnimation(opzioni);
+        clickButtonAnimation(impostazioni);
     }
 
     //Crea l'intent per passare all'activity successiva dopo la pressione di un bottone
@@ -100,8 +85,8 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
                 startActivity(i,b2);
                 finish();
                 break;
-            case R.id.opzioni:
-                i = new Intent(this, OpzioniActivity.class);
+            case R.id.impostazioni:
+                i = new Intent(this, ImpostazioniActivity.class);
                 Bundle b3 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i,b3);
                 break;

@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">The (H)ill Reloaded</string>
+    <string name="title">The (H)ill <br>Reloaded</br></string>
+    <string name="powered_by">Powered by One Click to Create a Bug</string>
+    <string name="modalità_accesso">ACCESS MODE</string>
+    <string name="menu">MENU</string>
+    <string name="login">LOGIN</string>
+    <string name="registrati">REGISTER</string>
+    <string name="giocatore_singolo">SINGLE PLAYER</string>
+    <string name="multigiocatore">MULTIPLAYER</string>
+    <string name="exit_icon">exit_icon</string>
+    <string name="option_icon">option_icon</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="modalità_classica">CLASSIC MODE</string>
+    <string name="modalità_powerup">POWER-UP MODE</string>
+    <string name="prompt_username">username</string>
+    <string name="account_già_creato">I already have an account</string>
+    <string name="crea_account">Create an account</string>
+    <string name="uno_contro_uno">1 VS 1</string>
+    <string name="cooperativo">COOPERATIVE</string>
+    <string name="ospite">GUEST</string>
+    <string name="account">ACCOUNT</string>
+    <string name="avviso_no_account">By logging in as a guest it will not be possible to save the data</string>
+    <string name="percentuale">0%</string>
+    <string name="caricamento">LOADING</string>
+    <string name="info_caricamento1">Loading the garbage...</string>
+    <string name="info_caricamento2">Loading the recycle unit...</string>
+    <string name="impostazioni">SETTINGS</string>
+    <string name="lingua">LANGUAGE</string>
+    <string name="volume_effetti">EFFECTS VOLUME</string>
+    <string name="back">indietro</string>
+    <string name="logout">logout</string>
+
+</resources>

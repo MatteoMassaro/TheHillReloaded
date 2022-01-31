@@ -1,4 +1,4 @@
-package com.example.thehillreloaded;
+package com.example.thehillreloaded.animazioni;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,11 +11,14 @@ import com.example.thehillreloaded.NewActivity;
 
 
 public class AnimazioneBarraCaricamento extends Animation{
+
+    //Variabili
     private Context contesto;
     private ProgressBar barraCaricamento;
     private TextView percentuale;
     private float da;
     private float a;
+
 
     public AnimazioneBarraCaricamento(Context contesto, ProgressBar barraCaricamento, TextView percentuale, float da, float a){
         this.contesto = contesto;
@@ -25,6 +28,7 @@ public class AnimazioneBarraCaricamento extends Animation{
         this.a = a;
     }
 
+    //Attiva l'animazione della barra di caricamento
     @Override
     protected void applyTransformation(float interpolatedTime, Transformation t){
         super.applyTransformation(interpolatedTime, t);
@@ -34,6 +38,7 @@ public class AnimazioneBarraCaricamento extends Animation{
 
         if(value == a){
             contesto.startActivity(new Intent(contesto, NewActivity.class));
+
         }
 
     }

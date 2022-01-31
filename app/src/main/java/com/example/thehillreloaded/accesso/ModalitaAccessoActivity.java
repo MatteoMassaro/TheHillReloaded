@@ -1,4 +1,4 @@
-package com.example.thehillreloaded;
+package com.example.thehillreloaded.accesso;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -9,7 +9,11 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-public class ModalitaAccessoActivity extends Animazioni implements View.OnClickListener{
+import com.example.thehillreloaded.menu.MenuActivity;
+import com.example.thehillreloaded.R;
+import com.example.thehillreloaded.animazioni.AnimazioniView;
+
+public class ModalitaAccessoActivity extends AnimazioniView implements View.OnClickListener{
 
     //Variabili
     public CardView account, ospite;
@@ -31,7 +35,7 @@ public class ModalitaAccessoActivity extends Animazioni implements View.OnClickL
 
     //Setta l'animazione iniziale delle view
     private void runAnimationSlideIn() {
-        slideIn = AnimationUtils.loadAnimation(this,R.anim.slide_in);
+        slideIn = AnimationUtils.loadAnimation(this, R.anim.slide_in);
         account.startAnimation(slideIn);
         ospite.startAnimation(slideIn);
     }

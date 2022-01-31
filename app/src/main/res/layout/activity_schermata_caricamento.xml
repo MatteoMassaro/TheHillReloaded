@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SchermataCaricamentoActivity">
+    tools:context=".animazioni.SchermataCaricamentoActivity">
 
     <TextView
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginStart="150dp"
         android:layout_marginEnd="150dp"
-        android:text="@string/theHillReloaded"
+        android:text="@string/"
         android:textColor="@color/black"
         android:background="@drawable/logo_background"
         android:textSize="19sp" />
@@ -49,5 +49,30 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="300dp"
         android:progressDrawable="@drawable/barra_caricamento" />
+
+    <TextView
+        android:id="@+id/info_caricamento1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="430dp"
+        android:fontFamily="@font/bowlby_one_sc"
+        android:gravity="center"
+        android:text="@string/info_caricamento1"
+        android:textColor="@color/dark_cornflower_blue"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/info_caricamento2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/bowlby_one_sc"
+        android:gravity="center"
+        android:text="@string/info_caricamento2"
+        android:textColor="@color/dark_cornflower_blue"
+        android:textSize="11sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="450dp"
+        android:visibility="gone"/>
 
 </RelativeLayout>

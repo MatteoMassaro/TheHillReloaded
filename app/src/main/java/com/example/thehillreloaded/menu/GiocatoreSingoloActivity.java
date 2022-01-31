@@ -1,4 +1,4 @@
-package com.example.thehillreloaded;
+package com.example.thehillreloaded.menu;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
@@ -7,63 +7,57 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
-public class MultigiocatoreActivity extends Animazioni implements View.OnClickListener{
+import com.example.thehillreloaded.R;
+import com.example.thehillreloaded.animazioni.SchermataCaricamentoActivity;
+import com.example.thehillreloaded.animazioni.AnimazioniView;
+
+public class GiocatoreSingoloActivity extends AnimazioniView implements View.OnClickListener{
 
     //Variabili
-    public CardView unoControUno, cooperativo;
-    public Animation slideIn, slideOut;
+    public CardView modalitaClassica, modalitaPowerUp;
+    public ImageView indietro;
 
     //Chiama l'animazione all'avvio dell'activity
     @Override
     protected void onStart(){
         super.onStart();
-        runAnimationSlideIn();
+        runAnimationSlideIn(modalitaClassica);
+        runAnimationSlideIn(modalitaPowerUp);
     }
 
     //Chiama l'animazione alla pausa dell'activity
     @Override
     protected void onPause(){
         super.onPause();
-        runAnimationSlideOut();
-    }
-
-    //Setta l'animazione iniziale delle view
-    private void runAnimationSlideIn() {
-        slideIn = AnimationUtils.loadAnimation(this,R.anim.slide_in);
-        unoControUno.startAnimation(slideIn);
-        cooperativo.startAnimation(slideIn);
-    }
-
-    //Setta l'animazione finale delle view
-    private void runAnimationSlideOut() {
-        slideOut = AnimationUtils.loadAnimation(this,R.anim.slide_out);
-        unoControUno.startAnimation(slideOut);
-        cooperativo.startAnimation(slideOut);
+        runAnimationSlideOut(modalitaClassica);
+        runAnimationSlideOut(modalitaPowerUp);
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_multigiocatore);
+        setContentView(R.layout.activity_giocatoresingolo);
 
         //Imposta l'orientamento portrait come obbligatorio
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         //Trova le view tramite l'id e le assegna alle variabili
-        unoControUno = findViewById(R.id.uno_contro_uno);
-        cooperativo = findViewById(R.id.cooperativo);
+        modalitaClassica = findViewById(R.id.modalitaClassica);
+        modalitaPowerUp = findViewById(R.id.modalitaPowerUp);
+        indietro = findViewById(R.id.indietro);
 
         //Imposta metodo di callback quando la view viene cliccata
-        unoControUno.setOnClickListener(this);
-        cooperativo.setOnClickListener(this);
+        modalitaClassica.setOnClickListener(this);
+        modalitaPowerUp.setOnClickListener(this);
+        indietro.setOnClickListener(this);
 
         //Animazione pulsanti
-        clickButtonAnimation(unoControUno);
-        clickButtonAnimation(cooperativo);
+        clickButtonAnimation(modalitaClassica);
+        clickButtonAnimation(modalitaPowerUp);
+        clickButtonAnimation(indietro);
     }
 
     //Crea l'intent per passare all'activity successiva dopo la pressione di un bottone
@@ -72,15 +66,23 @@ public class MultigiocatoreActivity extends Animazioni implements View.OnClickLi
     public void onClick(View view) {
         Intent i;
         switch (view.getId()){
-            case R.id.uno_contro_uno:
+            case R.id.modalitaClassica:
                 i = new Intent(this, SchermataCaricamentoActivity.class);
                 Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i, b);
+                finish();
                 break;
-            case R.id.cooperativo:
+            case R.id.modalitaPowerUp:
                 i = new Intent(this, SchermataCaricamentoActivity.class);
                 Bundle b1 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i,b1);
+                finish();
+                break;
+            case R.id.indietro:
+                i = new Intent(this, MenuActivity.class);
+                Bundle b2 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+                startActivity(i, b2);
+                finish();
                 break;
 
         }

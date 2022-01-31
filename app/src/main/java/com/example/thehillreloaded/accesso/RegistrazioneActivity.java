@@ -1,4 +1,4 @@
-package com.example.thehillreloaded;
+package com.example.thehillreloaded.accesso;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -6,12 +6,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.thehillreloaded.DBHelper;
+import com.example.thehillreloaded.R;
+import com.example.thehillreloaded.animazioni.AnimazioniView;
 
 
-public class RegistrazioneActivity extends Animazioni {
+public class RegistrazioneActivity extends AnimazioniView {
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -24,6 +28,7 @@ public class RegistrazioneActivity extends Animazioni {
         TextView accountCreato;
         Button registrazione;
         DBHelper myDB;
+        ImageView home;
 
         //Trova le view tramite l'id e le assegna alle variabili
         username = findViewById(R.id.username);
@@ -31,11 +36,13 @@ public class RegistrazioneActivity extends Animazioni {
         password = findViewById(R.id.password);
         registrazione = findViewById(R.id.registrazione);
         accountCreato = findViewById(R.id.accountGiàCreato);
+        home = findViewById(R.id.home);
 
         myDB = new DBHelper(this);
 
         //Animazione pulsante registrati
         clickButtonAnimation(registrazione);
+        clickButtonAnimation(home);
 
         //Imposta metodo di callback quando la view viene cliccata
         registrazione.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +92,17 @@ public class RegistrazioneActivity extends Animazioni {
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(i);
+                finish();
+            }
+        });
+
+        //Imposta metodo di callback quando la view viene cliccata
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), ModalitaAccessoActivity.class);
+                startActivity(i);
+                finish();
             }
         });
     }

@@ -10,35 +10,39 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHillReloaded">
         <activity
-            android:name=".SchermataCaricamentoActivity"
+            android:name=".NewActivity2"
             android:exported="false" />
         <activity
-            android:name=".ModalitaAccessoActivity"
+            android:name=".animazioni.SchermataCaricamentoActivity"
+            android:exported="false"
+            android:noHistory="true" />
+        <activity
+            android:name=".accesso.ModalitaAccessoActivity"
             android:exported="false" />
         <activity
             android:name=".NewActivity"
             android:exported="false" />
         <activity
-            android:name=".RegistrazioneActivity"
+            android:name=".accesso.RegistrazioneActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".accesso.LoginActivity"
             android:exported="false"
             android:label="@string/title_activity_login" />
         <activity
-            android:name=".OpzioniActivity"
+            android:name=".menu.ImpostazioniActivity"
             android:exported="false" />
         <activity
-            android:name=".MultigiocatoreActivity"
+            android:name=".menu.MultigiocatoreActivity"
             android:exported="false" />
         <activity
-            android:name=".GiocatoreSingoloActivity"
+            android:name=".menu.GiocatoreSingoloActivity"
             android:exported="false" />
         <activity
-            android:name=".MenuActivity"
+            android:name=".menu.MenuActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".animazioni.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

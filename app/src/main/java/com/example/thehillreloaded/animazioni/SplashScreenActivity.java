@@ -1,10 +1,13 @@
-package com.example.thehillreloaded;
+package com.example.thehillreloaded.animazioni;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.thehillreloaded.R;
+import com.example.thehillreloaded.accesso.ModalitaAccessoActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
     Handler h = new Handler();
