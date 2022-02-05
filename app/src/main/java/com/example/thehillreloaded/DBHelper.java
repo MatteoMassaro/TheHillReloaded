@@ -5,23 +5,26 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 public class DBHelper extends SQLiteOpenHelper {
+    private static final String DATABASE_NAME = "Login.db";
+    private static final int DATABASE_VERSION = 1;
+    // Creazione del database
+    private static final String DATABASE_CREATE = "CREATE TABLE utenti(username Text primary key, email Text, password Text)";
+    // Costruttore
     public DBHelper(Context context) {
-        super(context,"Login.db",null,1);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
-
-    //Crea la tabella utenti nel database
+    // Questo metodo viene chiamato durante la creazione del database
     @Override
-    public void onCreate(SQLiteDatabase myDB) {
-    myDB.execSQL("create Table utenti(username Text primary key, email Text, password Text)");
+    public void onCreate(SQLiteDatabase database) {
+        database.execSQL(DATABASE_CREATE);
     }
-
-    //Controlla se la tabella utenti esista già
+    // Questo metodo viene chiamato durante l'upgrade del database
     @Override
-    public void onUpgrade(SQLiteDatabase myDB, int i, int i1) {
-    myDB.execSQL("drop Table if exists utenti");
+    public void onUpgrade( SQLiteDatabase database, int oldVersion, int newVersion ) {
+        database.execSQL("DROP TABLE IF EXISTS utenti");
+        onCreate(database);
     }
 
     //Inserisce i dati dell'utente nel database
@@ -43,7 +46,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //Controlla esistenza username
     public boolean controllaEsistenzaUsername(String username){
         SQLiteDatabase myDB = this.getWritableDatabase();
-        Cursor coursor = myDB.rawQuery("select * from utenti where username = ?", new String[] {username});
+        Cursor coursor = myDB.rawQuery("SELECT * FROM utenti WHERE username = ?", new String[] {username});
         if (coursor.getCount()>0){
             return true;
         }else {
@@ -54,7 +57,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //Controlla esistenza mail
     public boolean controllaEsistenzaEmail(String email) {
         SQLiteDatabase myDB = this.getWritableDatabase();
-        Cursor cursor = myDB.rawQuery("select * from utenti where email = ?", new String[]{email});
+        Cursor cursor = myDB.rawQuery("SELECT * FROM utenti WHERE email = ?", new String[]{email});
         if (cursor.getCount() > 0) {
             return true;
         } else {
@@ -63,14 +66,14 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-        //Controlla validità password
-        public boolean controllaUsernamePassword(String username, String password){
-            SQLiteDatabase myDB = this.getWritableDatabase();
-            Cursor coursor = myDB.rawQuery("select * from utenti where username = ? and password = ?", new String[] {username,password});
-            if (coursor.getCount()>0){
-                return true;
-            }else {
-                return false;
-            }
+    //Controlla validità password
+    public boolean controllaUsernamePassword(String username, String password){
+        SQLiteDatabase myDB = this.getWritableDatabase();
+        Cursor coursor = myDB.rawQuery("SELECT * FROM utenti WHERE username = ? and password = ?", new String[] {username,password});
+        if (coursor.getCount()>0){
+            return true;
+        }else {
+            return false;
         }
+    }
 }

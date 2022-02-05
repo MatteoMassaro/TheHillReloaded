@@ -16,7 +16,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginStart="150dp"
         android:layout_marginEnd="150dp"
-        android:text="@string/"
+        android:text="@string/app_name"
         android:textColor="@color/black"
         android:background="@drawable/logo_background"
         android:textSize="19sp" />
@@ -24,7 +24,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
         android:text="@string/giocatore_singolo"

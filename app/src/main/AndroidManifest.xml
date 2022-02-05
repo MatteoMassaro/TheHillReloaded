@@ -10,7 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHillReloaded">
         <activity
-            android:name=".NewActivity2"
+            android:name=".LinguaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".menu.VolumeActivity"
             android:exported="false" />
         <activity
             android:name=".animazioni.SchermataCaricamentoActivity"

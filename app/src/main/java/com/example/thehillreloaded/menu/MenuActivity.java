@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Switch;
 
 import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.accesso.LoginActivity;
+import com.example.thehillreloaded.accesso.ModalitaAccessoActivity;
 import com.example.thehillreloaded.animazioni.AnimazioniView;
 
 public class MenuActivity extends AnimazioniView implements View.OnClickListener{
@@ -63,7 +65,7 @@ public class MenuActivity extends AnimazioniView implements View.OnClickListener
         clickButtonAnimation(impostazioni);
     }
 
-    //Crea l'intent per passare all'activity successiva dopo la pressione di un bottone
+    //Crea l'intent per passare all'activity successiva dopo la pressione di un pulsante
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
@@ -80,7 +82,7 @@ public class MenuActivity extends AnimazioniView implements View.OnClickListener
                 startActivity(i,b1);
                 break;
             case R.id.logout:
-                i = new Intent(this, LoginActivity.class);
+                i = new Intent(this, ModalitaAccessoActivity.class);
                 Bundle b2 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i,b2);
                 finish();

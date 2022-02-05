@@ -60,22 +60,17 @@ public class MultigiocatoreActivity extends AnimazioniView implements View.OnCli
         clickButtonAnimation(indietro);
     }
 
-    //Crea l'intent per passare all'activity successiva dopo la pressione di un bottone
+    //Crea l'intent per passare all'activity successiva dopo la pressione di un pulsante
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         Intent i;
         switch (view.getId()){
             case R.id.uno_contro_uno:
+            case R.id.cooperativo:
                 i = new Intent(this, SchermataCaricamentoActivity.class);
                 Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i, b);
-                finish();
-                break;
-            case R.id.cooperativo:
-                i = new Intent(this, SchermataCaricamentoActivity.class);
-                Bundle b1 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
-                startActivity(i,b1);
                 finish();
                 break;
             case R.id.indietro:

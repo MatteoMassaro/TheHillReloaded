@@ -28,10 +28,15 @@
     <string name="caricamento">LOADING</string>
     <string name="info_caricamento1">Loading the garbage...</string>
     <string name="info_caricamento2">Loading the recycle unit...</string>
+    <string name="info_caricamento3">Preparing the incinerator...</string>
     <string name="impostazioni">SETTINGS</string>
     <string name="lingua">LANGUAGE</string>
-    <string name="volume_effetti">EFFECTS VOLUME</string>
-    <string name="back">indietro</string>
+    <string name="volume">VOLUME</string>
+    <string name="effetti">EFFECTS</string>
+    <string name="musica">MUSIC</string>
+    <string name="back">back</string>
     <string name="logout">logout</string>
+    <string name="inglese">ENGLISH</string>
+    <string name="italiano">ITALIAN</string>
 
 </resources>

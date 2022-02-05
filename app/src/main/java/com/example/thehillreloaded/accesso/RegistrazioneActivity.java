@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.thehillreloaded.DBHelper;
@@ -25,10 +23,9 @@ public class RegistrazioneActivity extends AnimazioniView {
 
         //Variabili
         EditText username, email, password;
-        TextView accountCreato;
+        Button accountCreato;
         Button registrazione;
         DBHelper myDB;
-        ImageView home;
 
         //Trova le view tramite l'id e le assegna alle variabili
         username = findViewById(R.id.username);
@@ -36,13 +33,12 @@ public class RegistrazioneActivity extends AnimazioniView {
         password = findViewById(R.id.password);
         registrazione = findViewById(R.id.registrazione);
         accountCreato = findViewById(R.id.accountGiàCreato);
-        home = findViewById(R.id.home);
 
         myDB = new DBHelper(this);
 
         //Animazione pulsante registrati
         clickButtonAnimation(registrazione);
-        clickButtonAnimation(home);
+        clickButtonAnimation(accountCreato);
 
         //Imposta metodo di callback quando la view viene cliccata
         registrazione.setOnClickListener(new View.OnClickListener() {
@@ -59,11 +55,11 @@ public class RegistrazioneActivity extends AnimazioniView {
                     boolean controllaEsistenzaUtente = myDB.controllaEsistenzaUsername(nomeutente);
                     boolean controllaEsistenzaMail = myDB.controllaEsistenzaEmail(mail);
                     if(nomeutente.matches("^(?=.{1,15}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$")) {
-                        if (controllaEsistenzaUtente == false) {
+                        if (!controllaEsistenzaUtente) {
                             if (mail.matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
-                                if (controllaEsistenzaMail == false) {
+                                if (!controllaEsistenzaMail) {
                                     boolean datiRegistrazione = myDB.inserisciDati(nomeutente, mail, pass);
-                                    if (datiRegistrazione == true) {
+                                    if (datiRegistrazione) {
                                         Toast.makeText(RegistrazioneActivity.this, "Registrazione effettuata", Toast.LENGTH_SHORT).show();
                                         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                                         startActivity(i);
@@ -91,16 +87,6 @@ public class RegistrazioneActivity extends AnimazioniView {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
-
-        //Imposta metodo di callback quando la view viene cliccata
-        home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), ModalitaAccessoActivity.class);
                 startActivity(i);
                 finish();
             }

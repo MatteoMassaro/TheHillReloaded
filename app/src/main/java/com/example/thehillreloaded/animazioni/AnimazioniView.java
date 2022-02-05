@@ -2,6 +2,7 @@ package com.example.thehillreloaded.animazioni;
 
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.MotionEvent;
@@ -10,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.example.thehillreloaded.MusicPlayer;
 import com.example.thehillreloaded.R;
 
 public class AnimazioniView extends AppCompatActivity {
@@ -31,6 +33,12 @@ public class AnimazioniView extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     public void clickButtonAnimation(View button) {
+
+        SharedPreferences preferenze = getSharedPreferences("salva2",MODE_PRIVATE);
+        boolean b = preferenze.getBoolean("effetti",true);
+        if(!b) {
+            button.setSoundEffectsEnabled(false);
+        }
 
         //Assegnazione tipi di animazione
         scaleUp = AnimationUtils.loadAnimation(this, R.anim.scale_up);

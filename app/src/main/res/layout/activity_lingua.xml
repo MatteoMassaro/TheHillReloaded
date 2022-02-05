@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/emerald"
+    android:orientation="vertical"
+    tools:context=".menu.MenuActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/bevan"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginEnd="150dp"
+        android:text="@string/app_name"
+        android:textColor="@color/black"
+        android:background="@drawable/logo_background"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/testoGiocatoreSingolo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/bowlby_one_sc"
+        android:gravity="center"
+        android:text="@string/giocatore_singolo"
+        android:lineSpacingExtra="-20dp"
+        android:textColor="@color/dark_cornflower_blue"
+        android:textSize="45sp" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20sp"
+        tools:layout_editor_absoluteX="150dp"
+        tools:layout_editor_absoluteY="102dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/italiano"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            app:cardCornerRadius="70dp"
+            app:cardElevation="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@drawable/choice_button_background">
+
+                <ImageView
+                    android:contentDescription="@string/italiano"
+                    android:layout_width="70dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/italy"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp" />
+                <TextView
+                    android:id="@+id/testoItaliano"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:fontFamily="@font/bowlby_one_sc"
+                    android:gravity="center"
+                    android:text="@string/italiano"
+                    android:textColor="@color/white"
+                    android:textSize="28sp" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </GridLayout>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        tools:layout_editor_absoluteX="150dp"
+        tools:layout_editor_absoluteY="102dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/inglese"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            app:cardCornerRadius="70dp"
+            app:cardElevation="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@drawable/choice_button_background">
+
+                <ImageView
+                    android:contentDescription="@string/inglese"
+                    android:layout_width="70dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/united_kingdom"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"/>
+                <TextView
+                    android:id="@+id/testoInglese"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/bowlby_one_sc"
+                    android:text="@string/inglese"
+                    android:textColor="@color/white"
+                    android:textSize="28sp" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </GridLayout>
+
+    <ImageView
+        android:id="@+id/indietro"
+        android:contentDescription="@string/back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/back"
+        android:onClick="onClick"
+        android:background="@drawable/nav_button_background"/>
+
+
+</LinearLayout>

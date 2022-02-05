@@ -1,17 +1,19 @@
 package com.example.thehillreloaded.animazioni;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.thehillreloaded.MusicPlayer;
 import com.example.thehillreloaded.R;
 
 public class SchermataCaricamentoActivity extends AnimazioniView {
 
     ProgressBar barraCaricamento;
-    TextView percentuale, infoCaricamento1, infoCaricamento2;
+    TextView percentuale, infoCaricamento1, infoCaricamento2, infoCaricamento3;
 
     @Override
     public void onBackPressed() {
@@ -23,8 +25,13 @@ public class SchermataCaricamentoActivity extends AnimazioniView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schermata_caricamento);
 
-        Handler h = new Handler();
+        SharedPreferences preferenze = getSharedPreferences("salva1",MODE_PRIVATE);
+        boolean b = preferenze.getBoolean("musica",true);
+        if(b) {
+            MusicPlayer.stopAudio();
+        }
 
+        Handler h = new Handler();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //Trova le view tramite l'id e le assegna alle variabili
@@ -32,6 +39,7 @@ public class SchermataCaricamentoActivity extends AnimazioniView {
         percentuale = findViewById(R.id.percentuale);
         infoCaricamento1 = findViewById(R.id.info_caricamento1);
         infoCaricamento2 = findViewById(R.id.info_caricamento2);
+        infoCaricamento3 = findViewById(R.id.info_caricamento3);
 
         barraCaricamento.setMax(100);
         barraCaricamento.setScaleY(3f);
@@ -39,6 +47,9 @@ public class SchermataCaricamentoActivity extends AnimazioniView {
         textAnimation1(infoCaricamento1);
         h.postDelayed(() -> {
             textAnimation2(infoCaricamento2);
+        },3000);
+        h.postDelayed(() -> {
+            textAnimation2(infoCaricamento3);
         },5000);
         animazioneCaricamento();
     }

@@ -28,10 +28,15 @@
     <string name="caricamento">CARICAMENTO</string>
     <string name="info_caricamento1">Caricando i rifiuti...</string>
     <string name="info_caricamento2">Caricando le unità di riciclo...</string>
+    <string name="info_caricamento3">Preparando l\'inceneritore...</string>
     <string name="impostazioni">IMPOSTAZIONI</string>
     <string name="lingua">LINGUA</string>
-    <string name="volume_effetti">VOLUME EFFETTI</string>
+    <string name="volume">VOLUME</string>
+    <string name="effetti">EFFETTI</string>
+    <string name="musica">MUSICA</string>
     <string name="back">indietro</string>
     <string name="logout">logout</string>
+    <string name="inglese">INGLESE</string>
+    <string name="italiano">ITALIANO</string>
 
 </resources>

@@ -9,8 +9,7 @@ import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.thehillreloaded.NewActivity;
-import com.example.thehillreloaded.NewActivity2;
+import com.example.thehillreloaded.LinguaActivity;
 import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.animazioni.AnimazioniView;
 
@@ -19,6 +18,23 @@ public class ImpostazioniActivity extends AnimazioniView implements View.OnClick
     //Variabili
     public CardView lingua, volumeEffetti;
     public ImageView indietro;
+
+
+    //Chiama l'animazione all'avvio dell'activity
+    @Override
+    protected void onStart(){
+        super.onStart();
+        runAnimationSlideIn(lingua);
+        runAnimationSlideIn(volumeEffetti);
+    }
+
+    //Chiama l'animazione alla pausa dell'activity
+    @Override
+    protected void onPause(){
+        super.onPause();
+        runAnimationSlideOut(lingua);
+        runAnimationSlideOut(volumeEffetti);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,19 +60,19 @@ public class ImpostazioniActivity extends AnimazioniView implements View.OnClick
         clickButtonAnimation(indietro);
     }
 
-    //Crea l'intent per passare all'activity successiva dopo la pressione di un bottone
+    //Crea l'intent per passare all'activity successiva dopo la pressione di un pulsante
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         Intent i;
         switch (view.getId()){
             case R.id.lingua:
-                i = new Intent(this, NewActivity2.class);
+                i = new Intent(this, LinguaActivity.class);
                 Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i, b);
                 break;
             case R.id.volume_effetti:
-                i = new Intent(this, NewActivity2.class);
+                i = new Intent(this, VolumeActivity.class);
                 Bundle b1 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i, b1);
                 break;

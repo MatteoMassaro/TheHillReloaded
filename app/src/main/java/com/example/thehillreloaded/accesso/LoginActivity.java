@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.thehillreloaded.DBHelper;
@@ -30,23 +28,21 @@ public class LoginActivity extends AnimazioniView {
 
         //Variabili
         EditText username, password;
-        TextView creaAccount;
+        Button creaAccount;
         Button login;
         DBHelper myDB;
-        ImageView home;
 
         //Trova le view tramite l'id e le assegna alle variabili
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         creaAccount = findViewById(R.id.creaAccount);
         login = findViewById(R.id.login);
-        home = findViewById(R.id.home);
 
         myDB = new DBHelper(this);
 
         //Animazione pulsante login
         clickButtonAnimation(login);
-        clickButtonAnimation(home);
+        clickButtonAnimation(creaAccount);
 
         //Imposta metodo di callback quando la view viene cliccata
         login.setOnClickListener(new View.OnClickListener() {
@@ -59,8 +55,8 @@ public class LoginActivity extends AnimazioniView {
                 if(nomeutente.equals("") || pass.equals("")){
                     Toast.makeText(LoginActivity.this,"Compila tutti i campi", Toast.LENGTH_SHORT).show();
                 }else{
-                    Boolean credenziali = myDB.controllaUsernamePassword(nomeutente, pass);
-                    if(credenziali == true){
+                    boolean credenziali = myDB.controllaUsernamePassword(nomeutente, pass);
+                    if(credenziali){
                         Toast.makeText(LoginActivity.this,"Benvenuto " + username.getText().toString(), Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(getApplicationContext(), MenuActivity.class);
                         startActivity(i);
@@ -76,16 +72,6 @@ public class LoginActivity extends AnimazioniView {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), RegistrazioneActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
-
-        //Imposta metodo di callback quando la view viene cliccata
-        home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), ModalitaAccessoActivity.class);
                 startActivity(i);
                 finish();
             }

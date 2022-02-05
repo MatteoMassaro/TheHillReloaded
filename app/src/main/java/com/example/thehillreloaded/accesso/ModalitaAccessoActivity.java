@@ -2,6 +2,7 @@ package com.example.thehillreloaded.accesso;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -9,15 +10,18 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import com.example.thehillreloaded.MusicPlayer;
 import com.example.thehillreloaded.menu.MenuActivity;
 import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.animazioni.AnimazioniView;
+import com.example.thehillreloaded.menu.VolumeActivity;
 
 public class ModalitaAccessoActivity extends AnimazioniView implements View.OnClickListener{
 
     //Variabili
     public CardView account, ospite;
     public Animation slideIn, slideOut;
+    public static boolean isPlayingAudio = false;
 
     //Chiama l'animazione all'avvio dell'activity
     @Override
@@ -52,6 +56,16 @@ public class ModalitaAccessoActivity extends AnimazioniView implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modalita_accesso);
+
+        SharedPreferences preferenze = getSharedPreferences("salva1",MODE_PRIVATE);
+        boolean b = preferenze.getBoolean("musica",true);
+        if(b) {
+            if (VolumeActivity.flag == 0) {
+                MusicPlayer.playAudio(this, R.raw.menu_music);
+                isPlayingAudio = true;
+                VolumeActivity.flag = 1;
+            }
+        }
 
         //Imposta l'orientamento portrait come obbligatorio
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);

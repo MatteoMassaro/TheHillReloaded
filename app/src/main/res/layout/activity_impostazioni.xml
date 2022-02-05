@@ -16,7 +16,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginStart="150dp"
         android:layout_marginEnd="150dp"
-        android:text="@string/"
+        android:text="@string/app_name"
         android:textColor="@color/black"
         android:background="@drawable/logo_background"
         android:textSize="19sp" />
@@ -97,10 +97,10 @@
                 android:background="@drawable/choice_button_background">
 
                 <ImageView
-                    android:contentDescription="@string/volume_effetti"
+                    android:contentDescription="@string/volume"
                     android:layout_width="70dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/group"
+                    android:src="@drawable/mixer"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"/>
                 <TextView
@@ -108,7 +108,7 @@
                     android:layout_height="60dp"
                     android:gravity="center"
                     android:fontFamily="@font/bowlby_one_sc"
-                    android:text="@string/volume_effetti"
+                    android:text="@string/volume"
                     android:textColor="@color/white"
                     android:textSize="28sp" />
             </LinearLayout>
