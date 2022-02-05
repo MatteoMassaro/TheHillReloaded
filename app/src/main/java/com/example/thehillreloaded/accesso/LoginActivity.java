@@ -30,7 +30,7 @@ public class LoginActivity extends AnimazioniView {
         EditText username, password;
         Button creaAccount;
         Button login;
-        DBHelper myDB;
+        DatabaseHelper myDB;
 
         //Trova le view tramite l'id e le assegna alle variabili
         username = findViewById(R.id.username);
@@ -38,7 +38,7 @@ public class LoginActivity extends AnimazioniView {
         creaAccount = findViewById(R.id.creaAccount);
         login = findViewById(R.id.login);
 
-        myDB = new DBHelper(this);
+        myDB = new DatabaseHelper(this);
 
         //Animazione pulsante login
         clickButtonAnimation(login);
