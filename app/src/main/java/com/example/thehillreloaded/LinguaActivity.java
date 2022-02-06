@@ -21,7 +21,7 @@ public class LinguaActivity extends AnimazioniView {
 
     //Variabili
     public CardView italiano, inglese;
-    public TextView testoItaliano, testoInglese, testoGiocatoreSingolo;
+    public TextView testoItaliano, testoInglese, testoLingua;
     public ImageView indietro;
 
 
@@ -39,7 +39,7 @@ public class LinguaActivity extends AnimazioniView {
         inglese = findViewById(R.id.inglese);
         testoItaliano = findViewById(R.id.testoItaliano);
         testoInglese = findViewById(R.id.testoInglese);
-        testoGiocatoreSingolo = findViewById(R.id.testoGiocatoreSingolo);
+        testoLingua = findViewById(R.id.testoLingua);
         indietro = findViewById(R.id.indietro);
 
         //Imposta la lingua italiana quando si preme il pulsante
@@ -92,7 +92,7 @@ public class LinguaActivity extends AnimazioniView {
         super.onConfigurationChanged(newConfig);
         testoItaliano.setText(R.string.italiano);
         testoInglese.setText(R.string.inglese);
-        testoGiocatoreSingolo.setText(R.string.giocatore_singolo);
+        testoLingua.setText(R.string.lingua);
 
     }
 }

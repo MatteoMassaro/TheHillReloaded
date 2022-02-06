@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.thehillreloaded.DBHelper;
+import com.example.thehillreloaded.DatabaseHelper;
 import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.animazioni.AnimazioniView;
 

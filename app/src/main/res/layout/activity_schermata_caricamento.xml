@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".animazioni.SchermataCaricamentoActivity">
+    tools:context=".animazioni.SchermataCaricamentoActivity"
+    android:background="@drawable/sfondo">
 
     <TextView
         android:layout_width="match_parent"
@@ -26,7 +27,11 @@
         android:gravity="center"
         android:text="@string/caricamento"
         android:textColor="@color/dark_cornflower_blue"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        android:shadowColor="@color/black"
+        android:shadowDx="15"
+        android:shadowDy="10"
+        android:shadowRadius="1.5"/>
 
     <TextView
         android:id="@+id/percentuale"
@@ -58,9 +63,13 @@
         android:layout_marginTop="430dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
+        android:shadowColor="@color/black"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="1.5"
         android:text="@string/info_caricamento1"
         android:textColor="@color/dark_cornflower_blue"
-        android:textSize="11sp" />
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/info_caricamento2"
@@ -70,10 +79,14 @@
         android:gravity="center"
         android:text="@string/info_caricamento2"
         android:textColor="@color/dark_cornflower_blue"
-        android:textSize="11sp"
+        android:textSize="15sp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="450dp"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:shadowColor="@color/black"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="1.5"/>
 
     <TextView
         android:id="@+id/info_caricamento3"
@@ -83,9 +96,13 @@
         android:gravity="center"
         android:text="@string/info_caricamento3"
         android:textColor="@color/dark_cornflower_blue"
-        android:textSize="11sp"
+        android:textSize="15sp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="470dp"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:shadowColor="@color/black"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="1.5"/>
 
 </RelativeLayout>

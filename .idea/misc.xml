@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/back_text.xml" value="0.1425" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/background_choice.xml" value="0.1359375" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/background_home_button.xml" value="0.16510416666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/background_logo.xml" value="0.1359375" />
@@ -33,7 +34,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout-w936dp/activity_login.xml" value="0.128" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_giocatoresingolo.xml" value="0.176" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_impostazioni.xml" value="0.264" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_impostazioni.xml" value="0.176" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_lingua.xml" value="0.2" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_login.xml" value="0.176" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_main.xml" value="0.1" />
