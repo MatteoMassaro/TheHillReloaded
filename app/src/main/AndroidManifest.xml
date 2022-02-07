@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHillReloaded">
         <activity
-            android:name=".LinguaActivity"
+            android:name=".menu.LinguaActivity"
             android:exported="false" />
         <activity
             android:name=".menu.VolumeActivity"

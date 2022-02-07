@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import com.example.thehillreloaded.MusicPlayer;
+import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.MenuActivity;
 import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.animazioni.AnimazioniView;
@@ -61,7 +61,7 @@ public class ModalitaAccessoActivity extends AnimazioniView implements View.OnCl
         boolean b = preferenze.getBoolean("musica",true);
         if(b) {
             if (VolumeActivity.flag == 0) {
-                MusicPlayer.playAudio(this, R.raw.menu_music);
+                MusicPlayer.playMusic(this, R.raw.menu_music);
                 isPlayingAudio = true;
                 VolumeActivity.flag = 1;
             }

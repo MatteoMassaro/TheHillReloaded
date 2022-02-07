@@ -7,7 +7,7 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.thehillreloaded.MusicPlayer;
+import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.R;
 
 public class SchermataCaricamentoActivity extends AnimazioniView {
@@ -28,7 +28,7 @@ public class SchermataCaricamentoActivity extends AnimazioniView {
         SharedPreferences preferenze = getSharedPreferences("salva1",MODE_PRIVATE);
         boolean b = preferenze.getBoolean("musica",true);
         if(b) {
-            MusicPlayer.stopAudio();
+            MusicPlayer.stopMusic();
         }
 
         Handler h = new Handler();

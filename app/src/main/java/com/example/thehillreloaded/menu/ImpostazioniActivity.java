@@ -9,7 +9,6 @@ import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.thehillreloaded.LinguaActivity;
 import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.animazioni.AnimazioniView;
 

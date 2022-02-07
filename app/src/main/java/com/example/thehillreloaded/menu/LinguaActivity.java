@@ -1,4 +1,4 @@
-package com.example.thehillreloaded;
+package com.example.thehillreloaded.menu;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,8 +12,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.animazioni.AnimazioniView;
-import com.example.thehillreloaded.menu.ImpostazioniActivity;
 
 import java.util.Locale;
 
@@ -23,6 +23,23 @@ public class LinguaActivity extends AnimazioniView {
     public CardView italiano, inglese;
     public TextView testoItaliano, testoInglese, testoLingua;
     public ImageView indietro;
+
+
+    //Chiama l'animazione all'avvio dell'activity
+    @Override
+    protected void onStart(){
+        super.onStart();
+        runAnimationSlideIn(italiano);
+        runAnimationSlideIn(inglese);
+    }
+
+    //Chiama l'animazione alla pausa dell'activity
+    @Override
+    protected void onPause(){
+        super.onPause();
+        runAnimationSlideOut(italiano);
+        runAnimationSlideOut(inglese);
+    }
 
 
 
@@ -41,6 +58,10 @@ public class LinguaActivity extends AnimazioniView {
         testoInglese = findViewById(R.id.testoInglese);
         testoLingua = findViewById(R.id.testoLingua);
         indietro = findViewById(R.id.indietro);
+
+        //Animazione pulsanti
+        clickButtonAnimation(italiano);
+        clickButtonAnimation(inglese);
 
         //Imposta la lingua italiana quando si preme il pulsante
         italiano.setOnClickListener(new View.OnClickListener() {

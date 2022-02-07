@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.MotionEvent;
@@ -13,7 +14,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Switch;
 
-import com.example.thehillreloaded.MusicPlayer;
 import com.example.thehillreloaded.R;
 
 
@@ -24,6 +24,7 @@ public class VolumeActivity extends AppCompatActivity {
     public ImageView indietro;
     Animation slideIn, slideOut, scaleUp, scaleDown;
     public static int flag = 0;
+    Handler h = new Handler();
 
     //Setta l'animazione iniziale delle view
     protected void runAnimationSlideIn(CardView button) {
@@ -40,13 +41,6 @@ public class VolumeActivity extends AppCompatActivity {
     @SuppressLint("ClickableViewAccessibility")
     public void clickButtonAnimation(View button) {
 
-        SharedPreferences preferenze = getSharedPreferences("salva2",MODE_PRIVATE);
-        boolean b = preferenze.getBoolean("effetti",true);
-        if(!b) {
-            indietro.setSoundEffectsEnabled(false);
-            switchEffetti.setSoundEffectsEnabled(false);
-            switchMusica.setSoundEffectsEnabled(false);
-        }
 
         //Assegnazione tipi di animazione
         scaleUp = AnimationUtils.loadAnimation(this, R.anim.scale_up);
@@ -58,6 +52,14 @@ public class VolumeActivity extends AppCompatActivity {
         button.setOnTouchListener((view, motionEvent) -> {
             if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                 button.startAnimation(scaleDown);
+                SharedPreferences preferenze = getSharedPreferences("salva2",MODE_PRIVATE);
+                boolean b = preferenze.getBoolean("effetti",true);
+                if(b) {
+                    MusicPlayer.playEffetti(this,R.raw.tap_sound);
+                    h.postDelayed(() -> {
+                        MusicPlayer.stopEffetti();
+                    },200);
+                }
             } else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                 button.startAnimation(scaleUp);
             }
@@ -112,13 +114,13 @@ public class VolumeActivity extends AppCompatActivity {
                     editor.apply();
                     switchMusica.setChecked(true);
                     flag = 1;
-                    MusicPlayer.playAudio(VolumeActivity.this,R.raw.menu_music);
+                    MusicPlayer.playMusic(VolumeActivity.this,R.raw.menu_music);
                 }else {
                     SharedPreferences.Editor editor = getSharedPreferences("salva1",MODE_PRIVATE).edit();
                     editor.putBoolean("musica",false);
                     editor.apply();
                     switchMusica.setChecked(false);
-                    MusicPlayer.stopAudio();
+                    MusicPlayer.stopMusic();
                 }
             }
         });
@@ -131,18 +133,10 @@ public class VolumeActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = getSharedPreferences("salva2",MODE_PRIVATE).edit();
                     editor.putBoolean("effetti",true);
                     editor.apply();
-                    switchEffetti.setChecked(true);
-                    indietro.setSoundEffectsEnabled(true);
-                    switchEffetti.setSoundEffectsEnabled(true);
-                    switchMusica.setSoundEffectsEnabled(true);
                 }else {
                     SharedPreferences.Editor editor = getSharedPreferences("salva2",MODE_PRIVATE).edit();
                     editor.putBoolean("effetti",false);
                     editor.apply();
-                    switchEffetti.setChecked(false);
-                    indietro.setSoundEffectsEnabled(false);
-                    switchEffetti.setSoundEffectsEnabled(false);
-                    switchMusica.setSoundEffectsEnabled(false);
                 }
             }
         });

@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.thehillreloaded.menu.VolumeActivity;
+import com.example.thehillreloaded.menu.MusicPlayer;
 
 public class NewActivity extends AppCompatActivity {
 
@@ -14,8 +14,8 @@ public class NewActivity extends AppCompatActivity {
         SharedPreferences preferenze = getSharedPreferences("salva1",MODE_PRIVATE);
         boolean b = preferenze.getBoolean("musica",true);
         if(b) {
-            MusicPlayer.stopAudio();
-            MusicPlayer.playAudio(this, R.raw.menu_music);
+            MusicPlayer.stopMusic();
+            MusicPlayer.playMusic(this, R.raw.menu_music);
         }
     }
 
@@ -27,7 +27,7 @@ public class NewActivity extends AppCompatActivity {
         SharedPreferences preferenze = getSharedPreferences("salva1",MODE_PRIVATE);
         boolean b = preferenze.getBoolean("musica",true);
         if(b){
-            MusicPlayer.playAudio(this,R.raw.game_music);
+            MusicPlayer.playMusic(this,R.raw.game_music);
         }
     }
 }
