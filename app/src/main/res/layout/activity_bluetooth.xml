@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    tools:context=".menu.MenuActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/bevan"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginEnd="150dp"
+        android:text="@string/app_name"
+        android:textColor="@color/black"
+        android:background="@drawable/logo_background"
+        android:textSize="19sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:fontFamily="@font/bowlby_one_sc"
+        android:gravity="center"
+        android:text="@string/utenti_disponibili"
+        android:lineSpacingExtra="-20dp"
+        android:textColor="@color/dark_cornflower_blue"
+        android:textSize="45sp"
+        android:shadowColor="@color/black"
+        android:shadowDx="15"
+        android:shadowDy="10"
+        android:shadowRadius="1.5"/>
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_gravity="end"
+        android:text="@string/stato"
+        android:textColor="@color/lincoln_green"
+        android:textSize="20sp"
+        android:fontFamily="@font/bowlby_one_sc"/>
+
+    <ListView
+        android:id="@+id/listaDispositivi"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/listview_layout"
+        android:scrollbarThumbVertical="@android:color/transparent"
+        android:elevation="15dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/cerca"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:text="@string/cerca"
+        android:fontFamily="@font/bowlby_one_sc"
+        android:background="@drawable/login_button_background"/>
+
+    <Button
+        android:id="@+id/gioca"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:background="@drawable/login_button_background"
+        android:enabled="true"
+        android:visibility="gone"
+        android:fontFamily="@font/bowlby_one_sc"
+        android:text="@string/gioca"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <ImageView
+        android:id="@+id/indietro"
+        android:contentDescription="@string/back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/back"
+        android:onClick="onClick"
+        android:background="@drawable/nav_button_background"/>
+
+</LinearLayout>

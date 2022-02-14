@@ -2,11 +2,10 @@ package com.example.thehillreloaded.animazioni;
 
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -14,10 +13,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.example.thehillreloaded.R;
-import com.example.thehillreloaded.accesso.ModalitaAccessoActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
 
-public class AnimazioniView extends AppCompatActivity {
+public class Animazioni extends AppCompatActivity {
 
     //Variabili
     Animation slideIn, slideOut, scaleUp, scaleDown, scaleUpText;

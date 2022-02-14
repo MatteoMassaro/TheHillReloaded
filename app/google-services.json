@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "543610607432",
+    "firebase_url": "https://the-h-ill-reloaded-718ac-default-rtdb.firebaseio.com",
+    "project_id": "the-h-ill-reloaded-718ac",
+    "storage_bucket": "the-h-ill-reloaded-718ac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:543610607432:android:3250cc8e1640fd5c10457d",
+        "android_client_info": {
+          "package_name": "com.example.thehillreloaded"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "543610607432-v8dgcnp5qnfrdn0o6v03qpcl5vr8kdem.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9wV-diJGS1l18ih-Lb-QeoH2rHmrSjh0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "543610607432-v8dgcnp5qnfrdn0o6v03qpcl5vr8kdem.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

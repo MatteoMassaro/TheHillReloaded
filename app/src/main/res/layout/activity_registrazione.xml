@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/sfondo"
+    android:background="@drawable/background"
     android:orientation="vertical"
     tools:context=".menu.MenuActivity">
 
@@ -35,7 +35,7 @@
         android:shadowDy="10"
         android:shadowRadius="1.5"/>
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/username"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:autofillHints="emailAddress"/>
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/email"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:autofillHints="emailAddress"/>
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/password"
         android:layout_width="350dp"
         android:layout_height="wrap_content"

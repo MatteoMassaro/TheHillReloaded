@@ -5,14 +5,14 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
+import androidx.cardview.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.example.thehillreloaded.R;
-import com.example.thehillreloaded.animazioni.AnimazioniView;
+import com.example.thehillreloaded.animazioni.Animazioni;
 
-public class ImpostazioniActivity extends AnimazioniView implements View.OnClickListener {
+public class ImpostazioniActivity extends Animazioni implements View.OnClickListener {
 
     //Variabili
     public CardView lingua, volumeEffetti;

@@ -1,81 +1,80 @@
 package com.example.thehillreloaded.accesso;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.view.View;
+import android.text.TextUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.thehillreloaded.DatabaseHelper;
-import com.example.thehillreloaded.menu.MenuActivity;
+import androidx.annotation.NonNull;
+
 import com.example.thehillreloaded.R;
-import com.example.thehillreloaded.animazioni.AnimazioniView;
+import com.example.thehillreloaded.animazioni.Animazioni;
+import com.example.thehillreloaded.menu.MenuActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Objects;
 
 
-public class LoginActivity extends AnimazioniView {
+public class LoginActivity extends Animazioni {
 
-    @SuppressLint("ClickableViewAccessibility")
+
+    TextInputEditText loginEmail;
+    TextInputEditText loginPassword;
+    Button login, creaAccount;
+
+    FirebaseAuth mAuth;
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //Imposta l'orientamento portrait come obbligatorio
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        //Variabili
-        EditText username, password;
-        Button creaAccount;
-        Button login;
-        DatabaseHelper myDB;
-
-        //Trova le view tramite l'id e le assegna alle variabili
-        username = findViewById(R.id.username);
-        password = findViewById(R.id.password);
+        loginEmail = findViewById(R.id.email);
+        loginPassword = findViewById(R.id.password);
         creaAccount = findViewById(R.id.creaAccount);
         login = findViewById(R.id.login);
 
-        myDB = new DatabaseHelper(this);
+        mAuth = FirebaseAuth.getInstance();
 
-        //Animazione pulsante login
-        clickButtonAnimation(login);
-        clickButtonAnimation(creaAccount);
+        login.setOnClickListener(view -> {
+            loginUser();
+        });
+        creaAccount.setOnClickListener(view ->{
+            startActivity(new Intent(LoginActivity.this, RegistrazioneActivity.class));
+            finish();
+        });
+    }
 
-        //Imposta metodo di callback quando la view viene cliccata
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String nomeutente = username.getText().toString();
-                String pass = password.getText().toString();
+    private void loginUser(){
 
-                //Controlla se l'utente abbia inserito le credenziali e ne verifica la correttezza
-                if(nomeutente.equals("") || pass.equals("")){
-                    Toast.makeText(LoginActivity.this,"Compila tutti i campi", Toast.LENGTH_SHORT).show();
-                }else{
-                    boolean credenziali = myDB.controllaUsernamePassword(nomeutente, pass);
-                    if(credenziali){
-                        Toast.makeText(LoginActivity.this,"Benvenuto " + username.getText().toString(), Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(getApplicationContext(), MenuActivity.class);
-                        startActivity(i);
-                    }else {
-                        Toast.makeText(LoginActivity.this,"Username o password errati", Toast.LENGTH_SHORT).show();
+        String email = Objects.requireNonNull(loginEmail.getText()).toString();
+        String password = Objects.requireNonNull(loginPassword.getText()).toString();
+
+        if (TextUtils.isEmpty(email)){
+            loginEmail.setError("L'email non può essere vuota");
+            loginEmail.requestFocus();
+        }else if (TextUtils.isEmpty(password)){
+            loginPassword.setError("La password non può essere vuota");
+            loginPassword.requestFocus();
+        }else{
+            mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()){
+                        Toast.makeText(LoginActivity.this, R.string.accesso_effettuato, Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(LoginActivity.this, MenuActivity.class));
+                    }else{
+                        Toast.makeText(LoginActivity.this, R.string.errore + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
-            }
-        });
-
-        //Imposta metodo di callback quando la view viene cliccata
-        creaAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), RegistrazioneActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
+            });
+        }
     }
 
 }

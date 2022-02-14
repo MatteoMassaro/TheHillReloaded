@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
+import androidx.cardview.widget.CardView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -13,10 +13,10 @@ import android.view.animation.AnimationUtils;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.MenuActivity;
 import com.example.thehillreloaded.R;
-import com.example.thehillreloaded.animazioni.AnimazioniView;
+import com.example.thehillreloaded.animazioni.Animazioni;
 import com.example.thehillreloaded.menu.VolumeActivity;
 
-public class ModalitaAccessoActivity extends AnimazioniView implements View.OnClickListener{
+public class ModalitaAccessoActivity extends Animazioni implements View.OnClickListener{
 
     //Variabili
     public CardView account, ospite;

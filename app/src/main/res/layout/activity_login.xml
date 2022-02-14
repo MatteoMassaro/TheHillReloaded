@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/sfondo"
+    android:background="@drawable/background"
     android:orientation="vertical"
     tools:context=".menu.MenuActivity">
 
@@ -35,25 +35,25 @@
         android:shadowDy="10"
         android:shadowRadius="1.5"/>
 
-    <EditText
-        android:id="@+id/username"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/email"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
-        android:drawableStart="@drawable/ic_baseline_person_24"
+        android:drawableStart="@drawable/ic_baseline_alternate_email_24"
         android:drawableTint="@color/lincoln_green"
         android:drawablePadding="5dp"
-        android:hint="@string/prompt_username"
+        android:hint="@string/prompt_email"
         android:fontFamily="@font/bowlby_one_sc"
-        android:inputType="text"
+        android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:autofillHints="emailAddress"/>
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/password"
         android:layout_width="350dp"
         android:layout_height="wrap_content"

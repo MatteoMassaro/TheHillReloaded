@@ -5,15 +5,14 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
+import androidx.cardview.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.example.thehillreloaded.R;
-import com.example.thehillreloaded.animazioni.SchermataCaricamentoActivity;
-import com.example.thehillreloaded.animazioni.AnimazioniView;
+import com.example.thehillreloaded.animazioni.Animazioni;
 
-public class MultigiocatoreActivity extends AnimazioniView implements View.OnClickListener{
+public class MultigiocatoreActivity extends Animazioni implements View.OnClickListener{
 
     //Variabili
     public CardView unoControUno, cooperativo;
@@ -68,7 +67,7 @@ public class MultigiocatoreActivity extends AnimazioniView implements View.OnCli
         switch (view.getId()){
             case R.id.uno_contro_uno:
             case R.id.cooperativo:
-                i = new Intent(this, SchermataCaricamentoActivity.class);
+                i = new Intent(this, BluetoothActivity.class);
                 Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i, b);
                 finish();

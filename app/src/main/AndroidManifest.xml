@@ -2,6 +2,25 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.thehillreloaded">
 
+    <uses-permission
+        android:name="android.permission.ACCESS_WIFI_STATE"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.CHANGE_WIFI_STATE"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.INTERNET"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:required="true" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,13 +29,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHillReloaded">
         <activity
+            android:name=".gameplay.GameActivity"
+            android:exported="false" />
+        <activity
+            android:name=".menu.DifficoltaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".menu.BluetoothActivity"
+            android:exported="false" />
+        <activity
             android:name=".menu.LinguaActivity"
             android:exported="false" />
         <activity
             android:name=".menu.VolumeActivity"
             android:exported="false" />
         <activity
-            android:name=".animazioni.SchermataCaricamentoActivity"
+            android:name=".menu.SchermataCaricamentoActivity"
             android:exported="false"
             android:noHistory="true" />
         <activity

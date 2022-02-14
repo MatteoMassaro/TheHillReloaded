@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".animazioni.SchermataCaricamentoActivity"
-    android:background="@drawable/sfondo">
+    tools:context=".menu.SchermataCaricamentoActivity"
+    android:background="@drawable/background">
 
     <TextView
         android:layout_width="match_parent"

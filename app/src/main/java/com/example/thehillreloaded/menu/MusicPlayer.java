@@ -8,14 +8,15 @@ import android.media.SoundPool;
 public class MusicPlayer {
     //Variabili
     public static MediaPlayer mediaPlayer, mediaPlayer1;
-    public static boolean isPlayingAudio=false;
+    public static boolean isPlayingMusic=false;
+    public static boolean isPlayingEffect=false;
 
     //Riproduce la musica in background
     public static void playMusic(Context c, int id){
         mediaPlayer = MediaPlayer.create(c,id);
         if(!mediaPlayer.isPlaying())
         {
-            isPlayingAudio=true;
+            isPlayingMusic=true;
             mediaPlayer.start();
             mediaPlayer.setLooping(true);
         }
@@ -23,7 +24,7 @@ public class MusicPlayer {
 
     //Ferma la musica
     public static void stopMusic(){
-        isPlayingAudio = false;
+        isPlayingMusic = false;
         mediaPlayer.stop();
     }
 
@@ -32,14 +33,19 @@ public class MusicPlayer {
         mediaPlayer1 = MediaPlayer.create(c,id);
         if(!mediaPlayer1.isPlaying())
         {
-            isPlayingAudio=true;
+            isPlayingEffect=true;
             mediaPlayer1.start();
         }
     }
 
     //Ferma l'effetto
     public static void stopEffetti(){
-        isPlayingAudio = false;
+        isPlayingEffect = false;
         mediaPlayer1.stop();
+        mediaPlayer1.release();
+    }
+
+    public static void loopEffetti(){
+        mediaPlayer1.setLooping(true);
     }
 }

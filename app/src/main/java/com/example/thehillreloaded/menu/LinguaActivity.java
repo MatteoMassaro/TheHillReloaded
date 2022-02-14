@@ -6,18 +6,18 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
+import androidx.cardview.widget.CardView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.thehillreloaded.R;
-import com.example.thehillreloaded.animazioni.AnimazioniView;
+import com.example.thehillreloaded.animazioni.Animazioni;
 
 import java.util.Locale;
 
-public class LinguaActivity extends AnimazioniView {
+public class LinguaActivity extends Animazioni {
 
     //Variabili
     public CardView italiano, inglese;

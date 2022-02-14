@@ -14,9 +14,12 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/choice_background.xml" value="0.14322916666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/choice_button_background.xml" value="0.1203125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/ic_baseline_exit_to_app_24.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/ic_baseline_pause_circle_outline_24.xml" value="0.153" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.14322916666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/ic_launcher_background.xml" value="0.13229166666666667" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/layout_bg.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/listview_layout.xml" value="0.1425" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/listview_scrollbar_layout.xml" value="0.1425" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/login_background.xml" value="0.1203125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/login_button_background.xml" value="0.1425" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/logo_background.xml" value="0.14322916666666666" />
@@ -27,6 +30,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/rettangoli_menu.xml" value="0.14322916666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/switch_thumb.xml" value="0.1425" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/switch_track.xml" value="0.1425" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/textview_layout.xml" value="0.153" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/font/lobster_font.xml" value="0.15729166666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/font/lobster_regular.xml" value="0.15729166666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout-892x412/activity_schermata_caricamento.xml" value="0.1421875" />
@@ -35,6 +39,8 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout-land/activity_schermata_caricamento.xml" value="0.12037037037037036" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout-w936dp/activity_login.xml" value="0.128" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_bluetooth.xml" value="0.2" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_difficolta.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_giocatoresingolo.xml" value="0.176" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_impostazioni.xml" value="0.176" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_lingua.xml" value="0.2" />
@@ -51,6 +57,8 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_schermata_caricamento.xml" value="0.16" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_splashscreen.xml" value="0.12708333333333333" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_volume.xml" value="0.2" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/barre_unita_riciclo.xml" value="0.25" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/listview_layout.xml" value="1.113486842105263" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/rettangoli_menu.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.23425925925925925" />
       </map>

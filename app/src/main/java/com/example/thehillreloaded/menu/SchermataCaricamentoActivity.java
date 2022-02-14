@@ -1,4 +1,4 @@
-package com.example.thehillreloaded.animazioni;
+package com.example.thehillreloaded.menu;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -7,10 +7,12 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.thehillreloaded.animazioni.AnimazioneBarraCaricamento;
+import com.example.thehillreloaded.animazioni.Animazioni;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.R;
 
-public class SchermataCaricamentoActivity extends AnimazioniView {
+public class SchermataCaricamentoActivity extends Animazioni {
 
     ProgressBar barraCaricamento;
     TextView percentuale, infoCaricamento1, infoCaricamento2, infoCaricamento3;

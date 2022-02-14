@@ -5,19 +5,19 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
+import androidx.cardview.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.example.thehillreloaded.R;
-import com.example.thehillreloaded.animazioni.SchermataCaricamentoActivity;
-import com.example.thehillreloaded.animazioni.AnimazioniView;
+import com.example.thehillreloaded.animazioni.Animazioni;
 
-public class GiocatoreSingoloActivity extends AnimazioniView implements View.OnClickListener{
+public class GiocatoreSingoloActivity extends Animazioni implements View.OnClickListener{
 
     //Variabili
     public CardView modalitaClassica, modalitaPowerUp;
     public ImageView indietro;
+    public static boolean classica, powerUp = false;
 
     //Chiama l'animazione all'avvio dell'activity
     @Override
@@ -67,10 +67,17 @@ public class GiocatoreSingoloActivity extends AnimazioniView implements View.OnC
         Intent i;
         switch (view.getId()){
             case R.id.modalitaClassica:
-            case R.id.modalitaPowerUp:
-                i = new Intent(this, SchermataCaricamentoActivity.class);
+                classica = true;
+                i = new Intent(this, DifficoltaActivity.class);
                 Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i, b);
+                finish();
+                break;
+            case R.id.modalitaPowerUp:
+                powerUp = true;
+                i = new Intent(this, DifficoltaActivity.class);
+                Bundle b1 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+                startActivity(i, b1);
                 finish();
                 break;
             case R.id.indietro:

@@ -1,95 +1,78 @@
 package com.example.thehillreloaded.accesso;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.text.TextUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.thehillreloaded.DatabaseHelper;
+import androidx.annotation.NonNull;
+
 import com.example.thehillreloaded.R;
-import com.example.thehillreloaded.animazioni.AnimazioniView;
+import com.example.thehillreloaded.animazioni.Animazioni;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 
-public class RegistrazioneActivity extends AnimazioniView {
+public class RegistrazioneActivity extends Animazioni {
 
-    @SuppressLint("ClickableViewAccessibility")
+    TextInputEditText regUsername;
+    TextInputEditText regEmail;
+    TextInputEditText regPassword;
+    Button registrati, accountCreato;
+
+    FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrazione);
 
-        //Variabili
-        EditText username, email, password;
-        Button accountCreato;
-        Button registrazione;
-        DatabaseHelper myDB;
-
-        //Trova le view tramite l'id e le assegna alle variabili
-        username = findViewById(R.id.username);
-        email = findViewById(R.id.email);
-        password = findViewById(R.id.password);
-        registrazione = findViewById(R.id.registrazione);
+        regUsername = findViewById(R.id.username);
+        regEmail = findViewById(R.id.email);
+        regPassword = findViewById(R.id.password);
         accountCreato = findViewById(R.id.accountGiàCreato);
+        registrati = findViewById(R.id.registrazione);
 
-        myDB = new DatabaseHelper(this);
+        mAuth = FirebaseAuth.getInstance();
 
-        //Animazione pulsante registrati
-        clickButtonAnimation(registrazione);
-        clickButtonAnimation(accountCreato);
+        registrati.setOnClickListener(view ->{
+            createUser();
+        });
 
-        //Imposta metodo di callback quando la view viene cliccata
-        registrazione.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String nomeutente = username.getText().toString();
-                String mail = email.getText().toString();
-                String pass = password.getText().toString();
+        accountCreato.setOnClickListener(view ->{
+            startActivity(new Intent(RegistrazioneActivity.this, LoginActivity.class));
+            finish();
+        });
+    }
 
-                //Controlla se l'utente abbia inserito le credenziali e ne verifica la correttezza
-                if (nomeutente.equals("") || mail.equals("") || pass.equals("")) {
-                    Toast.makeText(RegistrazioneActivity.this, "Compila tutti i campi", Toast.LENGTH_SHORT).show();
-                } else {
-                    boolean controllaEsistenzaUtente = myDB.controllaEsistenzaUsername(nomeutente);
-                    boolean controllaEsistenzaMail = myDB.controllaEsistenzaEmail(mail);
-                    if(nomeutente.matches("^(?=.{1,15}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$")) {
-                        if (!controllaEsistenzaUtente) {
-                            if (mail.matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
-                                if (!controllaEsistenzaMail) {
-                                    boolean datiRegistrazione = myDB.inserisciDati(nomeutente, mail, pass);
-                                    if (datiRegistrazione) {
-                                        Toast.makeText(RegistrazioneActivity.this, "Registrazione effettuata", Toast.LENGTH_SHORT).show();
-                                        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                                        startActivity(i);
-                                    } else {
-                                        Toast.makeText(RegistrazioneActivity.this, "Registrazione fallita", Toast.LENGTH_SHORT).show();
-                                    }
-                                } else {
-                                    Toast.makeText(RegistrazioneActivity.this, "Email già esistente", Toast.LENGTH_SHORT).show();
-                                }
-                            } else {
-                                Toast.makeText(RegistrazioneActivity.this, "Email non valida", Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            Toast.makeText(RegistrazioneActivity.this, "Nome utente già in uso", Toast.LENGTH_SHORT).show();
-                        }
-                    }else {
-                        Toast.makeText(RegistrazioneActivity.this, "Nome utente non valido", Toast.LENGTH_SHORT).show();
+    private void createUser(){
+
+        String username = regUsername.getText().toString();
+        String email = regEmail.getText().toString();
+        String password = regPassword.getText().toString();
+
+        if (TextUtils.isEmpty(email)){
+            regEmail.setError("L'email non può essere vuota");
+            regEmail.requestFocus();
+        }else if (TextUtils.isEmpty(password)){
+            regPassword.setError("La password non può essere vuota");
+            regPassword.requestFocus();
+        }else{
+            mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()){
+                        Toast.makeText(RegistrazioneActivity.this, R.string.registrazione_effettuata, Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(RegistrazioneActivity.this, LoginActivity.class));
+                    }else{
+                        Toast.makeText(RegistrazioneActivity.this, R.string.errore + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
-            }
-        });
-
-        //Imposta metodo di callback quando la view viene cliccata
-        accountCreato.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
+            });
+        }
     }
 }
