@@ -9,14 +9,14 @@ import android.graphics.BitmapFactory;
 
 import com.example.thehillreloaded.R;
 
-public class UnitPoints extends RecImages {
+public class UnitInfo extends RecImages {
 
-    public UnitPoints(int x, int y, Resources res) {
+    public UnitInfo(int x, int y, Resources res) {
         super(x,y);
 
-        setImageBitmap(BitmapFactory.decodeResource(res, R.drawable.unitpoints));
-        super.setWidth((int)(getImageBitmap().getWidth() * screenRatioX/8));
-        super.setHeight((int)(getImageBitmap().getHeight() * screenRatioY/8));
+        setImageBitmap(BitmapFactory.decodeResource(res, R.drawable.info_rectangle));
+        super.setWidth((int)(getImageBitmap().getWidth() * screenRatioX*2.03));
+        super.setHeight((int)(getImageBitmap().getHeight() * screenRatioY*4));
         setImageBitmap(Bitmap.createScaledBitmap(getImageBitmap(), getWidth(), getHeight(), true));
     }
 }

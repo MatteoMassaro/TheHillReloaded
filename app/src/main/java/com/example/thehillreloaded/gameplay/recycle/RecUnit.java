@@ -14,10 +14,11 @@ public class RecUnit {
     private static double recyclingSpeed = 10;
     private int recTotal = 0, maxRecTotal = 900;
     private int unitPoints = 0, unitPrice;
-    private int upgradePrice = 10;
+    private static int upgradePrice = 5;
     private boolean isUnlocked = false;
     private boolean isUpgraded = false;
     private boolean isRecycling = false;
+    private boolean isCheckingInfo = false;
     private int state = 0;
     private int recycledUnitUpgraded = 0;
     private int x, y, width, height;
@@ -105,7 +106,7 @@ public class RecUnit {
         this.unitPrice = price;
     }
 
-    public int getUpgradePrice() {
+    public static int getUpgradePrice() {
         return upgradePrice;
     }
 
@@ -121,24 +122,24 @@ public class RecUnit {
         return isUpgraded;
     }
 
-    public void setIsUpgradedToTrue() {
-        isUpgraded = true;
-    }
-
-    public void demolishUpgraded() {
-        isUpgraded = false;
+    public void setIsUpgraded(boolean isTrue) {
+        isUpgraded = isTrue;
     }
 
     public boolean getIsRecycling() {
         return isRecycling;
     }
 
-    public void setIsRecyclingToTrue() {
-        isRecycling = true;
+    public void setIsRecycling(boolean isTrue) {
+        isRecycling = isTrue;
     }
 
-    public void setIsRecyclingToFalse() {
-        isRecycling = false;
+    public boolean getIsCheckingInfo() {
+        return isCheckingInfo;
+    }
+
+    public void setIsCheckingInfo(boolean isTrue) {
+        isCheckingInfo = isTrue;
     }
 
     public int getUnitPoints() {

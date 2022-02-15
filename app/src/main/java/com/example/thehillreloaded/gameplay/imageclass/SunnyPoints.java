@@ -9,14 +9,14 @@ import android.graphics.BitmapFactory;
 
 import com.example.thehillreloaded.R;
 
-public class UpgradableUnit extends RecImages {
+public class SunnyPoints extends RecImages {
 
-    public UpgradableUnit(int x, int y, Resources res) {
+    public SunnyPoints(int x, int y, Resources res) {
         super(x,y);
 
-        setImageBitmap(BitmapFactory.decodeResource(res, R.drawable.upgradable));
-        super.setWidth((int)(getImageBitmap().getWidth() * screenRatioX/5.5));
-        super.setHeight((int)(getImageBitmap().getHeight() * screenRatioY/5.5));
+        setImageBitmap(BitmapFactory.decodeResource(res, R.drawable.sun));
+        super.setWidth((int)(getImageBitmap().getWidth() * screenRatioX/8));
+        super.setHeight((int)(getImageBitmap().getHeight() * screenRatioY/8));
         setImageBitmap(Bitmap.createScaledBitmap(getImageBitmap(), getWidth(), getHeight(), true));
     }
 }
