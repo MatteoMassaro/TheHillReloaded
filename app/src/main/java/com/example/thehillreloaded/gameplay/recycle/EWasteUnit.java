@@ -17,14 +17,15 @@ public class EWasteUnit extends RecUnit{
 
     public EWasteUnit(int x, int y, Resources res) {
         super(x, y);
+        setUnitType("Rifiuti tecnologici");
         setUnitPrice(40);
 
         eWasteUnit = BitmapFactory.decodeResource(res, R.drawable.ewasteunit);
         eWasteUnitState2 = BitmapFactory.decodeResource(res, R.drawable.ewasteunit_state2);
         eWasteUnitState3 = BitmapFactory.decodeResource(res, R.drawable.ewasteunit_state3);
 
-        super.setWidth((int) (eWasteUnit.getWidth() * screenRatioX / 1.7));
-        super.setHeight((int) (eWasteUnit.getHeight() * screenRatioY / 1.7));
+        super.setWidth((int) (eWasteUnit.getWidth() * screenRatioX / 4.72));
+        super.setHeight((int) (eWasteUnit.getHeight() * screenRatioY / 4.72));
 
         eWasteUnit = Bitmap.createScaledBitmap(eWasteUnit, getWidth(), getHeight(), true);
         eWasteUnitState2 = Bitmap.createScaledBitmap(eWasteUnitState2, getWidth(), getHeight(), true);

@@ -20,8 +20,8 @@ public class Glass extends Junk {
 
         glass = BitmapFactory.decodeResource(res, R.drawable.glass);
 
-        super.setWidth((int) (glass.getWidth() * screenRatioX/1.7));
-        super.setHeight((int) (glass.getHeight() * screenRatioY/1.7));
+        super.setWidth((int) (glass.getWidth() * screenRatioX/4.64));
+        super.setHeight((int) (glass.getHeight() * screenRatioY/4.64));
 
         glass = Bitmap.createScaledBitmap(glass, getWidth(), getHeight(), true);
     }

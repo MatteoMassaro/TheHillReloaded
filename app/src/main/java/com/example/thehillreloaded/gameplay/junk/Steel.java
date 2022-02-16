@@ -21,8 +21,8 @@ public class Steel extends Junk {
 
         steel = BitmapFactory.decodeResource(res, R.drawable.steel);
 
-        super.setWidth((int) (steel.getWidth() * screenRatioX / 5));
-        super.setHeight((int) (steel.getHeight() * screenRatioY / 5));
+        super.setWidth((int) (steel.getWidth() * screenRatioX / 13.65));
+        super.setHeight((int) (steel.getHeight() * screenRatioY / 13.65));
 
         steel = Bitmap.createScaledBitmap(steel, getWidth(), getHeight(), true);
     }

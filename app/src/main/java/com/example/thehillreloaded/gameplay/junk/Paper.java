@@ -21,8 +21,8 @@ public class Paper extends Junk {
 
         paper = BitmapFactory.decodeResource(res, R.drawable.paper);
 
-        super.setWidth((int) (paper.getWidth() * screenRatioX / 1.9));
-        super.setHeight((int) (paper.getHeight() * screenRatioY / 1.9));
+        super.setWidth((int) (paper.getWidth() * screenRatioX / 5.19));
+        super.setHeight((int) (paper.getHeight() * screenRatioY / 5.19));
 
         paper = Bitmap.createScaledBitmap(paper, getWidth(), getHeight(), true);
     }

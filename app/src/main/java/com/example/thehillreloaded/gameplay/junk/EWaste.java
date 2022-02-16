@@ -21,8 +21,8 @@ public class EWaste extends Junk {
 
         eWaste = BitmapFactory.decodeResource(res, R.drawable.ewaste);
 
-        super.setWidth((int) (eWaste.getWidth() * screenRatioX / 2.3));
-        super.setHeight((int) (eWaste.getHeight() * screenRatioY / 2.3));
+        super.setWidth((int) (eWaste.getWidth() * screenRatioX / 6.28));
+        super.setHeight((int) (eWaste.getHeight() * screenRatioY / 6.28));
 
         eWaste = Bitmap.createScaledBitmap(eWaste, getWidth(), getHeight(), true);
     }

@@ -15,8 +15,8 @@ public class Upgrade extends RecImages {
         super(x,y);
 
         setImageBitmap(BitmapFactory.decodeResource(res, R.drawable.upgrade));
-        super.setWidth((int)(getImageBitmap().getWidth() * screenRatioX/4.2));
-        super.setHeight((int)(getImageBitmap().getHeight() * screenRatioY/4.2));
+        super.setWidth((int)(getImageBitmap().getWidth() * screenRatioX/11.47));
+        super.setHeight((int)(getImageBitmap().getHeight() * screenRatioY/11.47));
         setImageBitmap(Bitmap.createScaledBitmap(getImageBitmap(), getWidth(), getHeight(), true));
     }
 }

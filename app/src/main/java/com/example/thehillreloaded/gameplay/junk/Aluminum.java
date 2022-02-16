@@ -21,8 +21,8 @@ public class Aluminum extends Junk {
 
         aluminum = BitmapFactory.decodeResource(res, R.drawable.aluminum);
 
-        super.setWidth((int) (aluminum.getWidth() * screenRatioX / 1.8));
-        super.setHeight((int) (aluminum.getHeight() * screenRatioY / 1.8));
+        super.setWidth((int) (aluminum.getWidth() * screenRatioX / 4.91));
+        super.setHeight((int) (aluminum.getHeight() * screenRatioY / 4.91));
 
         aluminum = Bitmap.createScaledBitmap(aluminum, getWidth(), getHeight(), true);
     }

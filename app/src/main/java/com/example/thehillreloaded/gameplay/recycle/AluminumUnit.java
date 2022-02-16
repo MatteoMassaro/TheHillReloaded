@@ -17,14 +17,15 @@ public class AluminumUnit extends RecUnit {
 
     public AluminumUnit(int x, int y, Resources res) {
         super(x, y);
+        setUnitType("Alluminio");
         setUnitPrice(25);
 
         aluminumUnit = BitmapFactory.decodeResource(res, R.drawable.aluminumunit);
         aluminumUnitState2 = BitmapFactory.decodeResource(res, R.drawable.aluminumunit_state2);
         aluminumUnitState3 = BitmapFactory.decodeResource(res, R.drawable.aluminumunit_state3);
 
-        super.setWidth((int) (aluminumUnit.getWidth() * screenRatioX / 1.9));
-        super.setHeight((int) (aluminumUnit.getHeight() * screenRatioY / 1.9));
+        super.setWidth((int) (aluminumUnit.getWidth() * screenRatioX / 5.28));
+        super.setHeight((int) (aluminumUnit.getHeight() * screenRatioY / 5.28));
 
         aluminumUnit = Bitmap.createScaledBitmap(aluminumUnit, getWidth(), getHeight(), true);
         aluminumUnitState2 = Bitmap.createScaledBitmap(aluminumUnitState2, getWidth(), getHeight(), true);

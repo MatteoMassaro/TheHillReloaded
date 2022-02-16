@@ -17,14 +17,15 @@ public class PaperUnit extends RecUnit{
 
     public PaperUnit(int x, int y, Resources res) {
         super(x,y);
+        setUnitType("Carta");
         setUnitPrice(12);
 
         paperUnit = BitmapFactory.decodeResource(res, R.drawable.paperunit);
         paperUnitState2 = BitmapFactory.decodeResource(res, R.drawable.paperunit_state2);
         paperUnitState3 = BitmapFactory.decodeResource(res, R.drawable.paperunit_state3);
 
-        super.setWidth((int) (paperUnit.getWidth() * screenRatioX / 2));
-        super.setHeight((int) (paperUnit.getHeight() * screenRatioY / 2));
+        super.setWidth((int) (paperUnit.getWidth() * screenRatioX / 5.53));
+        super.setHeight((int) (paperUnit.getHeight() * screenRatioY / 5.53));
 
         paperUnit = Bitmap.createScaledBitmap(paperUnit, getWidth(), getHeight(), true);
         paperUnitState2 = Bitmap.createScaledBitmap(paperUnitState2, getWidth(), getHeight(), true);

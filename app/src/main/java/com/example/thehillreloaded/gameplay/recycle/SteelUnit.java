@@ -17,14 +17,15 @@ public class SteelUnit extends RecUnit{
 
     public SteelUnit(int x, int y, Resources res) {
         super(x, y);
+        setUnitType("Acciaio");
         setUnitPrice(30);
 
         steelUnit = BitmapFactory.decodeResource(res, R.drawable.steelunit);
         steelUnitState2 = BitmapFactory.decodeResource(res, R.drawable.steelunit_state2);
         steelUnitState3 = BitmapFactory.decodeResource(res, R.drawable.steelunit_state2);
 
-        super.setWidth((int) (steelUnit.getWidth() * screenRatioX / 1.7));
-        super.setHeight((int) (steelUnit.getHeight() * screenRatioY / 1.7));
+        super.setWidth((int) (steelUnit.getWidth() * screenRatioX / 4.71));
+        super.setHeight((int) (steelUnit.getHeight() * screenRatioY / 4.71));
 
         steelUnit = Bitmap.createScaledBitmap(steelUnit, getWidth(), getHeight(), true);
         steelUnitState2 = Bitmap.createScaledBitmap(steelUnitState2, getWidth(), getHeight(), true);

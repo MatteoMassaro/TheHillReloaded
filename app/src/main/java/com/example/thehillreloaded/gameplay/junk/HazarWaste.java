@@ -20,8 +20,8 @@ public class HazarWaste extends Junk {
 
         hazarWaste = BitmapFactory.decodeResource(res, R.drawable.radioactive);
 
-        super.setWidth((int) (hazarWaste.getWidth() * screenRatioX / 3.3));
-        super.setHeight((int) (hazarWaste.getHeight() * screenRatioY / 3.3));
+        super.setWidth((int) (hazarWaste.getWidth() * screenRatioX / 9.01));
+        super.setHeight((int) (hazarWaste.getHeight() * screenRatioY / 9.01));
 
         hazarWaste = Bitmap.createScaledBitmap(hazarWaste, getWidth(), getHeight(), true);
     }

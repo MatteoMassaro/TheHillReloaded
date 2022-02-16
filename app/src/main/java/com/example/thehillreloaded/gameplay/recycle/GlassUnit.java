@@ -18,14 +18,15 @@ public class GlassUnit extends RecUnit {
 
     public GlassUnit(int x, int y, Resources res) {
         super(x, y);
+        setUnitType("Vetro");
         setIsUnlockedToTrue();
 
         glassUnit = BitmapFactory.decodeResource(res, R.drawable.glassunit);
         glassUnitState2 = BitmapFactory.decodeResource(res, R.drawable.glassunit_state2);
         glassUnitState3 = BitmapFactory.decodeResource(res, R.drawable.glassunit_state3);
 
-        super.setWidth((int) (glassUnit.getWidth() * screenRatioX / 1.7));
-        super.setHeight((int) (glassUnit.getHeight() * screenRatioY / 1.7));
+        super.setWidth((int) (glassUnit.getWidth() * screenRatioX / 4.72));
+        super.setHeight((int) (glassUnit.getHeight() * screenRatioY / 4.72));
         glassUnit = Bitmap.createScaledBitmap(glassUnit, getWidth(), getHeight(), true);
         glassUnitState2 = Bitmap.createScaledBitmap(glassUnitState2, getWidth(), getHeight(), true);
         glassUnitState3 = Bitmap.createScaledBitmap(glassUnitState3, getWidth(), getHeight(), true);

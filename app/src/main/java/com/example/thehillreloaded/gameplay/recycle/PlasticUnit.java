@@ -17,14 +17,15 @@ public class PlasticUnit extends RecUnit{
 
     public PlasticUnit(int x, int y, Resources res) {
         super(x, y);
+        setUnitType("Plastica");
         setUnitPrice(35);
 
         plasticUnit = BitmapFactory.decodeResource(res, R.drawable.plasticunit);
         plasticUnitState2 = BitmapFactory.decodeResource(res, R.drawable.plasticunit_state2);
         plasticUnitState3 = BitmapFactory.decodeResource(res, R.drawable.plasticunit_state3);
 
-        super.setWidth((int) (plasticUnit.getWidth() * screenRatioX / 1.7));
-        super.setHeight((int) (plasticUnit.getHeight() * screenRatioY / 1.7));
+        super.setWidth((int) (plasticUnit.getWidth() * screenRatioX / 4.72));
+        super.setHeight((int) (plasticUnit.getHeight() * screenRatioY / 4.72));
 
         plasticUnit = Bitmap.createScaledBitmap(plasticUnit, getWidth(), getHeight(), true);
         plasticUnitState2 = Bitmap.createScaledBitmap(plasticUnitState2, getWidth(), getHeight(), true);

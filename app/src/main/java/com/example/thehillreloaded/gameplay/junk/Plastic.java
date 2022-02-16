@@ -21,8 +21,8 @@ public class Plastic extends Junk {
 
         plastic = BitmapFactory.decodeResource(res, R.drawable.plastic);
 
-        super.setWidth((int) (plastic.getWidth() * screenRatioX / 1.7));
-        super.setHeight((int) (plastic.getHeight() * screenRatioY / 1.7));
+        super.setWidth((int) (plastic.getWidth() * screenRatioX / 4.64));
+        super.setHeight((int) (plastic.getHeight() * screenRatioY / 4.64));
 
         plastic = Bitmap.createScaledBitmap(plastic, getWidth(), getHeight(), true);
     }

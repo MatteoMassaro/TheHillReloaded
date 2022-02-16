@@ -15,8 +15,8 @@ public class SunnyPoints extends RecImages {
         super(x,y);
 
         setImageBitmap(BitmapFactory.decodeResource(res, R.drawable.sun));
-        super.setWidth((int)(getImageBitmap().getWidth() * screenRatioX/8));
-        super.setHeight((int)(getImageBitmap().getHeight() * screenRatioY/8));
+        super.setWidth((int)(getImageBitmap().getWidth() * screenRatioX/21.84));
+        super.setHeight((int)(getImageBitmap().getHeight() * screenRatioY/21.84));
         setImageBitmap(Bitmap.createScaledBitmap(getImageBitmap(), getWidth(), getHeight(), true));
     }
 }

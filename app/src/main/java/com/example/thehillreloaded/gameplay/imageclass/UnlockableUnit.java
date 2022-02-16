@@ -15,8 +15,8 @@ public class UnlockableUnit extends RecImages {
         super(x,y);
 
         setImageBitmap(BitmapFactory.decodeResource(res, R.drawable.upgradable));
-        super.setWidth((int)(getImageBitmap().getWidth() * screenRatioX/5.5));
-        super.setHeight((int)(getImageBitmap().getHeight() * screenRatioY/5.5));
+        super.setWidth((int)(getImageBitmap().getWidth() * screenRatioX/15.01));
+        super.setHeight((int)(getImageBitmap().getHeight() * screenRatioY/15.01));
         setImageBitmap(Bitmap.createScaledBitmap(getImageBitmap(), getWidth(), getHeight(), true));
     }
 }

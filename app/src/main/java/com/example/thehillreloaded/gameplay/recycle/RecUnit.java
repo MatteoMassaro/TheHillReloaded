@@ -15,12 +15,13 @@ public class RecUnit {
     private int recTotal = 0, maxRecTotal = 900;
     private int unitPoints = 0, unitPrice;
     private static int upgradePrice = 5;
+    private String unitType;
     private boolean isUnlocked = false;
     private boolean isUpgraded = false;
     private boolean isRecycling = false;
     private boolean isCheckingInfo = false;
     private int state = 0;
-    private int recycledUnitUpgraded = 0;
+    private int recycledUnit = 0, recycledUnitUpgraded = 0;
     private int x, y, width, height;
     private Resources res;
 
@@ -90,6 +91,14 @@ public class RecUnit {
         return height;
     }
 
+    public void setUnitType(String unitType) {
+        this.unitType = unitType;
+    }
+
+    public String getUnitType() {
+        return unitType;
+    }
+
     public boolean getIsUnlocked() {
         return isUnlocked;
     }
@@ -114,9 +123,18 @@ public class RecUnit {
         recycledUnitUpgraded++;
     }
 
+    public int getRecycledUnit() {
+        return recycledUnitUpgraded;
+    }
+
+    public void recycledUnitUpgradedPlus() {
+        recycledUnitUpgraded++;
+    }
+
     public int getRecycledUnitUpgraded() {
         return recycledUnitUpgraded;
     }
+
 
     public boolean getIsUpgraded() {
         return isUpgraded;
