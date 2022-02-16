@@ -1,5 +1,6 @@
 package com.example.thehillreloaded.gameplay.recycle;
 
+import static com.example.thehillreloaded.gameplay.GameView.densityRatio;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioX;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioY;
 
@@ -24,8 +25,8 @@ public class PaperUnit extends RecUnit{
         paperUnitState2 = BitmapFactory.decodeResource(res, R.drawable.paperunit_state2);
         paperUnitState3 = BitmapFactory.decodeResource(res, R.drawable.paperunit_state3);
 
-        super.setWidth((int) (paperUnit.getWidth() * screenRatioX / 5.53));
-        super.setHeight((int) (paperUnit.getHeight() * screenRatioY / 5.53));
+        super.setWidth((int) (paperUnit.getWidth() * screenRatioX * densityRatio/ 5.53));
+        super.setHeight((int) (paperUnit.getHeight() * screenRatioY * densityRatio/ 5.53));
 
         paperUnit = Bitmap.createScaledBitmap(paperUnit, getWidth(), getHeight(), true);
         paperUnitState2 = Bitmap.createScaledBitmap(paperUnitState2, getWidth(), getHeight(), true);

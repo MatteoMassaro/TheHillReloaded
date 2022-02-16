@@ -1,5 +1,6 @@
 package com.example.thehillreloaded.gameplay.recycle;
 
+import static com.example.thehillreloaded.gameplay.GameView.densityRatio;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioX;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioY;
 
@@ -23,8 +24,8 @@ public class Incinerator extends RecUnit {
         incineratorState3 = BitmapFactory.decodeResource(res, R.drawable.incinerator_state3);
         incineratorState4 = BitmapFactory.decodeResource(res, R.drawable.incinerator_state4);
 
-        super.setWidth((int) (incinerator.getWidth() * screenRatioX / 2.77));
-        super.setHeight((int) (incinerator.getHeight() * screenRatioY / 2.77));
+        super.setWidth((int) (incinerator.getWidth() * screenRatioX * densityRatio/ 2.77));
+        super.setHeight((int) (incinerator.getHeight() * screenRatioY * densityRatio/ 2.77));
 
         incinerator = Bitmap.createScaledBitmap(incinerator, getWidth(), getHeight(), true);
         incineratorState2 = Bitmap.createScaledBitmap(incineratorState2, getWidth(), getHeight(), true);

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 
 import com.example.thehillreloaded.R;
 
+import static com.example.thehillreloaded.gameplay.GameView.densityRatio;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioX;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioY;
 
@@ -21,8 +22,8 @@ public class Steel extends Junk {
 
         steel = BitmapFactory.decodeResource(res, R.drawable.steel);
 
-        super.setWidth((int) (steel.getWidth() * screenRatioX / 13.65));
-        super.setHeight((int) (steel.getHeight() * screenRatioY / 13.65));
+        super.setWidth((int) (steel.getWidth() * screenRatioX * densityRatio/ 13.65));
+        super.setHeight((int) (steel.getHeight() * screenRatioY * densityRatio/ 13.65));
 
         steel = Bitmap.createScaledBitmap(steel, getWidth(), getHeight(), true);
     }

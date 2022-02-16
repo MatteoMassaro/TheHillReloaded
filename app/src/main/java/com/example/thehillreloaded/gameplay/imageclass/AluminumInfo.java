@@ -1,5 +1,6 @@
 package com.example.thehillreloaded.gameplay.imageclass;
 
+import static com.example.thehillreloaded.gameplay.GameView.densityRatio;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioX;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioY;
 
@@ -20,13 +21,13 @@ public class AluminumInfo extends InfoImages {
         setMaterial_lvl2(BitmapFactory.decodeResource(res, R.drawable.soup_can));
         setMaterial_lvl3(BitmapFactory.decodeResource(res, R.drawable.spray));
 
-        super.setWidth((int)(getImageBitmap().getWidth() * screenRatioX/8.19));
-        super.setHeight((int)(getImageBitmap().getHeight() * screenRatioY/8.19));
+        super.setWidth((int)(getImageBitmap().getWidth() * screenRatioX * densityRatio/8.19));
+        super.setHeight((int)(getImageBitmap().getHeight() * screenRatioY * densityRatio/8.19));
         setImageBitmap(Bitmap.createScaledBitmap(getImageBitmap(), getWidth(), getHeight(), true));
         setUpgradedImageBitmap(Bitmap.createScaledBitmap(getUpgradedImageBitmap(), getWidth(), getHeight(), true));
 
-        super.setWidth((int)(getMaterial_lvl1().getWidth() * screenRatioX / 2.75));
-        super.setHeight((int)(getMaterial_lvl1().getHeight() * screenRatioY / 2.75));
+        super.setWidth((int)(getMaterial_lvl1().getWidth() * screenRatioX * densityRatio/ 2.75));
+        super.setHeight((int)(getMaterial_lvl1().getHeight() * screenRatioY * densityRatio/ 2.75));
         setMaterial_lvl1(Bitmap.createScaledBitmap(getMaterial_lvl1(), (getWidth()), (getHeight()), true));
         setMaterial_lvl2(Bitmap.createScaledBitmap(getMaterial_lvl2(), (getWidth()), (getHeight()), true));
         setMaterial_lvl3(Bitmap.createScaledBitmap(getMaterial_lvl3(), (getWidth()), (getHeight()), true));

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 
 import com.example.thehillreloaded.R;
 
+import static com.example.thehillreloaded.gameplay.GameView.densityRatio;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioX;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioY;
 
@@ -21,8 +22,8 @@ public class Aluminum extends Junk {
 
         aluminum = BitmapFactory.decodeResource(res, R.drawable.aluminum);
 
-        super.setWidth((int) (aluminum.getWidth() * screenRatioX / 4.91));
-        super.setHeight((int) (aluminum.getHeight() * screenRatioY / 4.91));
+        super.setWidth((int) (aluminum.getWidth() * screenRatioX * densityRatio/ 4.91));
+        super.setHeight((int) (aluminum.getHeight() * screenRatioY * densityRatio/ 4.91));
 
         aluminum = Bitmap.createScaledBitmap(aluminum, getWidth(), getHeight(), true);
     }

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 
 import com.example.thehillreloaded.R;
 
+import static com.example.thehillreloaded.gameplay.GameView.densityRatio;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioX;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioY;
 
@@ -20,8 +21,8 @@ public class Glass extends Junk {
 
         glass = BitmapFactory.decodeResource(res, R.drawable.glass);
 
-        super.setWidth((int) (glass.getWidth() * screenRatioX/4.64));
-        super.setHeight((int) (glass.getHeight() * screenRatioY/4.64));
+        super.setWidth((int) (glass.getWidth() * screenRatioX * densityRatio/4.64));
+        super.setHeight((int) (glass.getHeight() * screenRatioY * densityRatio/4.64));
 
         glass = Bitmap.createScaledBitmap(glass, getWidth(), getHeight(), true);
     }

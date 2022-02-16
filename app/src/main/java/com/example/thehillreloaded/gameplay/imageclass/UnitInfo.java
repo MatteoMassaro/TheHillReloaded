@@ -1,5 +1,6 @@
 package com.example.thehillreloaded.gameplay.imageclass;
 
+import static com.example.thehillreloaded.gameplay.GameView.densityRatio;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioX;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioY;
 
@@ -15,8 +16,8 @@ public class UnitInfo extends RecImages {
         super(x,y);
 
         setImageBitmap(BitmapFactory.decodeResource(res, R.drawable.info_rectangle));
-        super.setWidth((int)(getImageBitmap().getWidth() * screenRatioX/1.34));
-        super.setHeight((int)(getImageBitmap().getHeight() * screenRatioY*1.47));
+        super.setWidth((int)(getImageBitmap().getWidth() * screenRatioX  * densityRatio/1.297));
+        super.setHeight((int)(getImageBitmap().getHeight() * screenRatioY * densityRatio *1.47));
         setImageBitmap(Bitmap.createScaledBitmap(getImageBitmap(), getWidth(), getHeight(), true));
     }
 }

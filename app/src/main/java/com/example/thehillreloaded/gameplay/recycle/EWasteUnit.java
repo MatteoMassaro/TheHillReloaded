@@ -1,5 +1,6 @@
 package com.example.thehillreloaded.gameplay.recycle;
 
+import static com.example.thehillreloaded.gameplay.GameView.densityRatio;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioX;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioY;
 
@@ -24,8 +25,8 @@ public class EWasteUnit extends RecUnit{
         eWasteUnitState2 = BitmapFactory.decodeResource(res, R.drawable.ewasteunit_state2);
         eWasteUnitState3 = BitmapFactory.decodeResource(res, R.drawable.ewasteunit_state3);
 
-        super.setWidth((int) (eWasteUnit.getWidth() * screenRatioX / 4.72));
-        super.setHeight((int) (eWasteUnit.getHeight() * screenRatioY / 4.72));
+        super.setWidth((int) (eWasteUnit.getWidth() * screenRatioX * densityRatio/ 4.72));
+        super.setHeight((int) (eWasteUnit.getHeight() * screenRatioY * densityRatio/ 4.72));
 
         eWasteUnit = Bitmap.createScaledBitmap(eWasteUnit, getWidth(), getHeight(), true);
         eWasteUnitState2 = Bitmap.createScaledBitmap(eWasteUnitState2, getWidth(), getHeight(), true);

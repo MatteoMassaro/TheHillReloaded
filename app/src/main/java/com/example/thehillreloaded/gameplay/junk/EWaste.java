@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 
 import com.example.thehillreloaded.R;
 
+import static com.example.thehillreloaded.gameplay.GameView.densityRatio;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioX;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioY;
 
@@ -21,8 +22,8 @@ public class EWaste extends Junk {
 
         eWaste = BitmapFactory.decodeResource(res, R.drawable.ewaste);
 
-        super.setWidth((int) (eWaste.getWidth() * screenRatioX / 6.28));
-        super.setHeight((int) (eWaste.getHeight() * screenRatioY / 6.28));
+        super.setWidth((int) (eWaste.getWidth() * screenRatioX * densityRatio/ 6.28));
+        super.setHeight((int) (eWaste.getHeight() * screenRatioY * densityRatio/ 6.28));
 
         eWaste = Bitmap.createScaledBitmap(eWaste, getWidth(), getHeight(), true);
     }

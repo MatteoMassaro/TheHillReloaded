@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 
 import com.example.thehillreloaded.R;
 
+import static com.example.thehillreloaded.gameplay.GameView.densityRatio;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioX;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioY;
 
@@ -21,8 +22,8 @@ public class Paper extends Junk {
 
         paper = BitmapFactory.decodeResource(res, R.drawable.paper);
 
-        super.setWidth((int) (paper.getWidth() * screenRatioX / 5.19));
-        super.setHeight((int) (paper.getHeight() * screenRatioY / 5.19));
+        super.setWidth((int) (paper.getWidth() * screenRatioX * densityRatio/ 5.19));
+        super.setHeight((int) (paper.getHeight() * screenRatioY * densityRatio/ 5.19));
 
         paper = Bitmap.createScaledBitmap(paper, getWidth(), getHeight(), true);
     }

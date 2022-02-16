@@ -51,11 +51,11 @@ public class GameView extends SurfaceView implements Runnable {
     private Thread thread;
     private boolean isPlaying;
     private static int nJunk;
-    private double designX = 1080f, designY = 2072f;
+    private double designX = 1080f, designY = 2072f, designDensity = 2.75;
     private int screenX, screenY, spawnBoundX, spawnY;
-    public static double screenRatioX, screenRatioY;
+    public static double screenRatioX, screenRatioY, densityRatio;
     private Background background;
-    private Paint paint, transparentPaint, rectPaint, strokePaint;
+    private Paint paint, transparentPaint, rectPaint, strokePaint, textPaint;
     private ArrayList<Junk> junkList = new ArrayList<>();
     private ArrayList<Rect> rectList = new ArrayList<>();
     private ArrayList<RecUnit> recUnitList = new ArrayList<>();
@@ -67,15 +67,17 @@ public class GameView extends SurfaceView implements Runnable {
     private UnitInfo unitInfo;
     private Upgrade upgrade;
     private UnitPoints unitPoints;
+    private double qualcosa;
 
     //Setta le view adattandole in base allo schermo
-    public GameView(Context context, int screenX, int screenY) {
+    public GameView(Context context, int screenX, int screenY, float density) {
         super(context);
         this.screenX = screenX;
         this.screenY = screenY;
-        screenRatioX = designX/screenX;
-        screenRatioY = designY/screenY;
-        spawnBoundX = (screenX - (int) (247f * screenRatioX));
+        screenRatioX = screenX/designX;
+        screenRatioY = screenY/designY;
+        densityRatio = designDensity/density;
+        spawnBoundX = (screenX - (int) (247f * screenRatioX * densityRatio));
         spawnY = screenY * 6/11;
         background = new Background(screenX, screenY, getResources());
 
@@ -139,16 +141,21 @@ public class GameView extends SurfaceView implements Runnable {
         recUnitList.get(4).setIsUnlockedToTrue();
         recUnitList.get(5).setIsUnlockedToTrue();
 
+        qualcosa = Math.sqrt(Math.pow(screenRatioX + screenRatioY, 2));
+
         paint = new Paint();
-        paint.setTextSize(64);
+        paint.setTextSize(64/ (float) densityRatio);
         paint.setTypeface(ResourcesCompat.getFont(context, R.font.bevan));
         transparentPaint = new Paint();
         transparentPaint.setAlpha(100);
         rectPaint = new Paint();
         rectPaint.setColor(Color.RED);
         strokePaint = new Paint();
-        strokePaint.setStrokeWidth(10);
+        strokePaint.setStrokeWidth(10/(float)(densityRatio));
         strokePaint.setStyle(Paint.Style.STROKE);
+        textPaint = new Paint();
+        textPaint.setTextSize(32/(float) densityRatio);
+        textPaint.setTypeface(ResourcesCompat.getFont(context, R.font.bevan));
     }
 
 
@@ -368,14 +375,22 @@ public class GameView extends SurfaceView implements Runnable {
                             infoUnit = x;
                             canvas.drawBitmap(unitInfo.getImageBitmap(), unitInfo.getX(), unitInfo.getY(), paint);
 
+                            canvas.drawText("Tipo unità: " + recUnit.getUnitType(), unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(290*screenRatioY), textPaint);
+                            canvas.drawText("Livello usura: " + recUnit.getRecycledUnitUpgraded() + "/23", unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(370*screenRatioY), textPaint);
+                            canvas.drawText("Totale riciclati: " + recUnit.getRecycledUnit() , unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(410*screenRatioY), textPaint);
+
+
                             //if(!recUnit.getIsUpgraded()) {
+                                canvas.drawText("Livello: 1", unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(330*screenRatioY), textPaint);
                                 canvas.drawBitmap(upgrade.getImageBitmap(), upgrade.getX(), upgrade.getY(), paint);
                                 canvas.drawBitmap(unitPoints.getImageBitmap(), unitPoints.getX(), unitPoints.getY(), paint);
                                 canvas.drawText(String.valueOf(RecUnit.getUpgradePrice()), unitPoints.getX() - (int)(49.47*screenRatioX), unitPoints.getY() + unitPoints.getHeight()*7/8, paint);
                             //}
+
                             canvas.drawRect(unitInfo.getX() + (int)(209.31*screenRatioX), unitInfo.getY() + (int)(529*screenRatioY), unitInfo.getX() + (int)(407*screenRatioX), unitInfo.getY() + (int)(691*screenRatioY), strokePaint);
 
                             //if(recUnit.getIsUpgraded()) {
+                            //canvas.drawText("Livello: 2", unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(330*screenRatioY), textPaint);
                             canvas.drawRect(unitInfo.getX() + (int)(445*screenRatioX), unitInfo.getY() + (int)(529*screenRatioY), unitInfo.getX() + (int)(643*screenRatioX), unitInfo.getY() + (int)(691*screenRatioY), strokePaint);
                             canvas.drawRect(unitInfo.getX() + (int)(681*screenRatioX), unitInfo.getY() + (int)(529*screenRatioY), unitInfo.getX() + (int)(879*screenRatioX), unitInfo.getY() + (int)(691*screenRatioY), strokePaint);
 
@@ -383,9 +398,9 @@ public class GameView extends SurfaceView implements Runnable {
                             //}
 
                             canvas.drawBitmap(infoImages.getImageBitmap(), infoImages.getX(), infoImages.getY(), paint);
-                            canvas.drawBitmap(infoImages.getMaterial_lvl1(), unitInfo.getX() + (int)(215*screenRatioX), unitInfo.getY() + (int)(536*screenRatioY), paint);
-                            canvas.drawBitmap(infoImages.getMaterial_lvl2(), unitInfo.getX() + (int)(451*screenRatioX), unitInfo.getY() + (int)(536*screenRatioY), paint);
-                            canvas.drawBitmap(infoImages.getMaterial_lvl3(), unitInfo.getX() + (int)(687*screenRatioX), unitInfo.getY() + (int)(536*screenRatioY), paint);
+                            canvas.drawBitmap(infoImages.getMaterial_lvl1(), unitInfo.getX() + (int)(216*screenRatioX), unitInfo.getY() + (int)(536*screenRatioY), paint);
+                            canvas.drawBitmap(infoImages.getMaterial_lvl2(), unitInfo.getX() + (int)(452*screenRatioX), unitInfo.getY() + (int)(536*screenRatioY), paint);
+                            canvas.drawBitmap(infoImages.getMaterial_lvl3(), unitInfo.getX() + (int)(688*screenRatioX), unitInfo.getY() + (int)(536*screenRatioY), paint);
 
                             for (int i = 0; i < unitPointsInfoList.size(); i++) {
                                 RecImages unitPoints = unitPointsInfoList.get(i);
@@ -395,7 +410,6 @@ public class GameView extends SurfaceView implements Runnable {
                                 canvas.drawBitmap(sunnyPoints.getImageBitmap(), sunnyPoints.getX(), sunnyPoints.getY(), paint);
                                 canvas.drawText(String.valueOf(infoImages.getUnitPoints(i)), sunnyPoints.getX() + sunnyPoints.getWidth() + (int)(7.61*screenRatioX), unitPoints.getY() + unitPoints.getHeight() * 7/8, paint);
                                 canvas.drawText(String.valueOf(infoImages.getSunnyPoints(i)), sunnyPoints.getX() + sunnyPoints.getWidth() + (int)(7.61*screenRatioX), sunnyPoints.getY() + sunnyPoints.getHeight() * 7/8, paint);
-
                             }
 
                         }

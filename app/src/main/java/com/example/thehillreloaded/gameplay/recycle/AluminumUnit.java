@@ -1,5 +1,6 @@
 package com.example.thehillreloaded.gameplay.recycle;
 
+import static com.example.thehillreloaded.gameplay.GameView.densityRatio;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioX;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioY;
 
@@ -24,8 +25,8 @@ public class AluminumUnit extends RecUnit {
         aluminumUnitState2 = BitmapFactory.decodeResource(res, R.drawable.aluminumunit_state2);
         aluminumUnitState3 = BitmapFactory.decodeResource(res, R.drawable.aluminumunit_state3);
 
-        super.setWidth((int) (aluminumUnit.getWidth() * screenRatioX / 5.28));
-        super.setHeight((int) (aluminumUnit.getHeight() * screenRatioY / 5.28));
+        super.setWidth((int) (aluminumUnit.getWidth() * screenRatioX * densityRatio/ 5.28));
+        super.setHeight((int) (aluminumUnit.getHeight() * screenRatioY * densityRatio/ 5.28));
 
         aluminumUnit = Bitmap.createScaledBitmap(aluminumUnit, getWidth(), getHeight(), true);
         aluminumUnitState2 = Bitmap.createScaledBitmap(aluminumUnitState2, getWidth(), getHeight(), true);

@@ -1,5 +1,6 @@
 package com.example.thehillreloaded.gameplay.recycle;
 
+import static com.example.thehillreloaded.gameplay.GameView.densityRatio;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioX;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioY;
 
@@ -25,8 +26,8 @@ public class GlassUnit extends RecUnit {
         glassUnitState2 = BitmapFactory.decodeResource(res, R.drawable.glassunit_state2);
         glassUnitState3 = BitmapFactory.decodeResource(res, R.drawable.glassunit_state3);
 
-        super.setWidth((int) (glassUnit.getWidth() * screenRatioX / 4.72));
-        super.setHeight((int) (glassUnit.getHeight() * screenRatioY / 4.72));
+        super.setWidth((int) (glassUnit.getWidth() * screenRatioX * densityRatio/ 4.72));
+        super.setHeight((int) (glassUnit.getHeight() * screenRatioY * densityRatio/ 4.72));
         glassUnit = Bitmap.createScaledBitmap(glassUnit, getWidth(), getHeight(), true);
         glassUnitState2 = Bitmap.createScaledBitmap(glassUnitState2, getWidth(), getHeight(), true);
         glassUnitState3 = Bitmap.createScaledBitmap(glassUnitState3, getWidth(), getHeight(), true);

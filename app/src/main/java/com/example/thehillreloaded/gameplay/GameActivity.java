@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 import com.example.thehillreloaded.R;
@@ -22,10 +23,13 @@ public class GameActivity extends AppCompatActivity {
 
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float density = displayMetrics.density;
+
         //Imposta l'orientamento portrait come obbligatorio
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        gameView = new GameView(this, point.x, point.y);
+        gameView = new GameView(this, point.x, point.y, density);
         setContentView(gameView);
 
         //Fa partire la musica
