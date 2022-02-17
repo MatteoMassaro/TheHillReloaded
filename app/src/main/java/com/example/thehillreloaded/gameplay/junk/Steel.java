@@ -34,7 +34,7 @@ public class Steel extends Junk {
                 tasso -= 0.00018;
             }
         } else if (Aluminum.isTassoMassimoRaggiunto()){
-            tasso += 0.00025;
+            tasso += 0.00015;
         }
     }
 

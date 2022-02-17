@@ -51,7 +51,7 @@ public class GameView extends SurfaceView implements Runnable {
     private Thread thread;
     private boolean isPlaying;
     private static int nJunk;
-    private double designX = 1080f, designY = 2072f, designDensity = 2.75;
+    private final double designX = 1080f, designY = 2072f, designDensity = 2.75;
     private int screenX, screenY, spawnBoundX, spawnY;
     public static double screenRatioX, screenRatioY, densityRatio;
     private Background background;
@@ -67,7 +67,6 @@ public class GameView extends SurfaceView implements Runnable {
     private UnitInfo unitInfo;
     private Upgrade upgrade;
     private UnitPoints unitPoints;
-    private double qualcosa;
 
     //Setta le view adattandole in base allo schermo
     public GameView(Context context, int screenX, int screenY, float density) {
@@ -83,28 +82,28 @@ public class GameView extends SurfaceView implements Runnable {
 
         Random random = new Random();
 
-        recUnitList.add(new GlassUnit((int) (-19 * screenRatioX), (int) (88 * screenRatioY), getResources()));
-        recUnitList.add(new PaperUnit((int) (-21 * screenRatioX), (int) (490 * screenRatioY), getResources()));
-        recUnitList.add(new AluminumUnit((int) (0 * screenRatioX), (int) (789 * screenRatioY), getResources()));
+        recUnitList.add(new GlassUnit((int) (10 * screenRatioX), (int) (88 * screenRatioY), getResources()));
+        recUnitList.add(new PaperUnit((int) (7 * screenRatioX), (int) (490 * screenRatioY), getResources()));
+        recUnitList.add(new AluminumUnit((int) (10 * screenRatioX), (int) (789 * screenRatioY), getResources()));
         recUnitList.add(new SteelUnit((int) (590 * screenRatioX), (int) (81 * screenRatioY), getResources()));
-        recUnitList.add(new PlasticUnit((int) (639 * screenRatioX), (int) (452 * screenRatioY), getResources()));
-        recUnitList.add(new EWasteUnit((int) (533 * screenRatioX), (int) (811 * screenRatioY), getResources()));
+        recUnitList.add(new PlasticUnit((int) (700 * screenRatioX), (int) (467 * screenRatioY), getResources()));
+        recUnitList.add(new EWasteUnit((int) (563 * screenRatioX), (int) (820 * screenRatioY), getResources()));
         recUnitList.add(new Incinerator((int) (381 * screenRatioX), (int) (388 * screenRatioY), getResources()));
 
-        rectList.add(new Rect((int)(95*screenRatioX), (int)(427*screenRatioY), (int)(304*screenRatioX), (int)(444*screenRatioY)));
-        rectList.add(new Rect((int)(95*screenRatioX), (int)(764*screenRatioY), (int)(304*screenRatioX), (int)(781*screenRatioY)));
-        rectList.add(new Rect((int)(95*screenRatioX), (int)(1085*screenRatioY), (int)(304*screenRatioX), (int)(1102*screenRatioY)));
-        rectList.add(new Rect((int)(799*screenRatioX), (int)(430*screenRatioY), (int)(1008*screenRatioX), (int)(447*screenRatioY)));
+        rectList.add(new Rect((int)(110*screenRatioX), (int)(431*screenRatioY), (int)(304*screenRatioX), (int)(448*screenRatioY)));
+        rectList.add(new Rect((int)(110*screenRatioX), (int)(764*screenRatioY), (int)(304*screenRatioX), (int)(781*screenRatioY)));
+        rectList.add(new Rect((int)(110*screenRatioX), (int)(1085*screenRatioY), (int)(304*screenRatioX), (int)(1102*screenRatioY)));
+        rectList.add(new Rect((int)(799*screenRatioX), (int)(436*screenRatioY), (int)(1008*screenRatioX), (int)(453*screenRatioY)));
         rectList.add(new Rect((int)(799*screenRatioX), (int)(781*screenRatioY), (int)(1008*screenRatioX), (int)(798*screenRatioY)));
         rectList.add(new Rect((int)(799*screenRatioX), (int)(1077*screenRatioY), (int)(1008*screenRatioX), (int)(1094*screenRatioY)));
         rectList.add(new Rect((int)(451*screenRatioX), (int)(787*screenRatioY), (int)(660*screenRatioX), (int)(804*screenRatioY)));
 
-        unitPointsRecImageList.add(new UnitPoints((int)(11.42*screenRatioX), (int)(123.48*screenRatioY), getResources()));
-        unitPointsRecImageList.add(new UnitPoints((int)(11.42*screenRatioX), (int)(512*screenRatioY), getResources()));
-        unitPointsRecImageList.add(new UnitPoints((int)(11.42*screenRatioX), (int)(829*screenRatioY), getResources()));
-        unitPointsRecImageList.add(new UnitPoints((int)(693*screenRatioX), (int)(123.48*screenRatioY), getResources()));
-        unitPointsRecImageList.add(new UnitPoints((int)(746*screenRatioX), (int)(529*screenRatioY), getResources()));
-        unitPointsRecImageList.add(new UnitPoints((int)(609*screenRatioX), (int)(847*screenRatioY), getResources()));
+        unitPointsRecImageList.add(new UnitPoints((int)(11.42*screenRatioX), (int)(125*screenRatioY), getResources()));
+        unitPointsRecImageList.add(new UnitPoints((int)(11.42*screenRatioX), (int)(514*screenRatioY), getResources()));
+        unitPointsRecImageList.add(new UnitPoints((int)(11.42*screenRatioX), (int)(830*screenRatioY), getResources()));
+        unitPointsRecImageList.add(new UnitPoints((int)(688*screenRatioX), (int)(138*screenRatioY), getResources()));
+        unitPointsRecImageList.add(new UnitPoints((int)(790*screenRatioX), (int)(510*screenRatioY), getResources()));
+        unitPointsRecImageList.add(new UnitPoints((int)(613*screenRatioX), (int)(845*screenRatioY), getResources()));
 
         unlockableUnitList.add(new UnlockableUnit((int)(81*screenRatioX),(int)(670*screenRatioY), getResources()));
         unlockableUnitList.add(new UnlockableUnit((int)(78*screenRatioX),(int)(988*screenRatioY), getResources()));
@@ -125,12 +124,12 @@ public class GameView extends SurfaceView implements Runnable {
         sunnyPointsInfoList.add(new SunnyPoints(unitInfo.getX() + (int)(475.7*screenRatioX), unitInfo.getY() + (int)(760*screenRatioY), getResources()));
         sunnyPointsInfoList.add(new SunnyPoints(unitInfo.getX() + (int)(711.65*screenRatioX), unitInfo.getY() + (int)(760*screenRatioY), getResources()));
 
-        infoImagesList.add(new GlassInfo(unitInfo.getX() + (int)(228.34*screenRatioX), unitInfo.getY() + (int)(170*screenRatioY), getResources()));
-        infoImagesList.add(new PaperInfo(unitInfo.getX() + (int)(217*screenRatioX), unitInfo.getY() + (int)(199*screenRatioY), getResources()));
-        infoImagesList.add(new AluminumInfo(unitInfo.getX() + (int)(232*screenRatioX), unitInfo.getY() + (int)(189*screenRatioY), getResources()));
-        infoImagesList.add(new SteelInfo(unitInfo.getX() + (int)(217*screenRatioX), unitInfo.getY() + (int)(185*screenRatioY), getResources()));
-        infoImagesList.add(new PlasticInfo(unitInfo.getX() + (int)(213*screenRatioX), unitInfo.getY() + (int)(184*screenRatioY), getResources()));
-        infoImagesList.add(new EWasteInfo(unitInfo.getX() + (int)(209*screenRatioX), unitInfo.getY() + (int)(201*screenRatioY), getResources()));
+        infoImagesList.add(new GlassInfo(unitInfo.getX() + (int)(222*screenRatioX), unitInfo.getY() + (int)(161*screenRatioY), getResources()));
+        infoImagesList.add(new PaperInfo(unitInfo.getX() + (int)(203*screenRatioX), unitInfo.getY() + (int)(190*screenRatioY), getResources()));
+        infoImagesList.add(new AluminumInfo(unitInfo.getX() + (int)(215*screenRatioX), unitInfo.getY() + (int)(182*screenRatioY), getResources()));
+        infoImagesList.add(new SteelInfo(unitInfo.getX() + (int)(201*screenRatioX), unitInfo.getY() + (int)(180*screenRatioY), getResources()));
+        infoImagesList.add(new PlasticInfo(unitInfo.getX() + (int)(208*screenRatioX), unitInfo.getY() + (int)(175*screenRatioY), getResources()));
+        infoImagesList.add(new EWasteInfo(unitInfo.getX() + (int)(185*screenRatioX), unitInfo.getY() + (int)(201*screenRatioY), getResources()));
 
 
         junkList.add(new Glass((random.nextInt(spawnBoundX) + (int) (15.22 * screenRatioX)), spawnY, getResources()));
@@ -141,20 +140,18 @@ public class GameView extends SurfaceView implements Runnable {
         recUnitList.get(4).setIsUnlockedToTrue();
         recUnitList.get(5).setIsUnlockedToTrue();
 
-        qualcosa = Math.sqrt(Math.pow(screenRatioX + screenRatioY, 2));
-
         paint = new Paint();
-        paint.setTextSize(64/ (float) densityRatio);
+        paint.setTextSize(64 * (float)(screenRatioX * screenRatioY * densityRatio));
         paint.setTypeface(ResourcesCompat.getFont(context, R.font.bevan));
         transparentPaint = new Paint();
         transparentPaint.setAlpha(100);
         rectPaint = new Paint();
         rectPaint.setColor(Color.RED);
         strokePaint = new Paint();
-        strokePaint.setStrokeWidth(10/(float)(densityRatio));
+        strokePaint.setStrokeWidth(10 * (float)(screenRatioX * screenRatioY * densityRatio));
         strokePaint.setStyle(Paint.Style.STROKE);
         textPaint = new Paint();
-        textPaint.setTextSize(32/(float) densityRatio);
+        textPaint.setTextSize(32 * (float)(screenRatioX * screenRatioY * densityRatio));
         textPaint.setTypeface(ResourcesCompat.getFont(context, R.font.bevan));
     }
 
@@ -236,20 +233,59 @@ public class GameView extends SurfaceView implements Runnable {
                 if (recUnit.getState() == 9 && !(recUnit instanceof Incinerator) || recUnit.getState() == 12 && recUnit instanceof Incinerator) {
                     recUnit.resetState();
                 }
-                recUnit.increaseRecTotal();
 
-                if(recUnit.recTotalIsEnough()) {
-                    recUnit.unitPointsPlus();
-                    recUnit.recycledUnitPlus();
-                    recUnit.resetState();
-                    recUnit.setIsRecycling(false);
-                    if(MusicPlayer.isPlayingEffect){
-                        MusicPlayer.stopEffetti();
+                if(recUnit.getJunkBeingRecycled() == 1) {
+
+                    if(recUnit.getRecTotal() >= recUnit.getRecTotalUpgraded()) {
+                        recUnit.increaseRecTotal();
+
+                    } else if (recUnit.getRecTotalUpgraded() > recUnit.getRecTotal()) {
+                        recUnit.increaseRecTotalUpgraded();
+
                     }
+
+                } else if (recUnit.getJunkBeingRecycled() == 2) {
+                    recUnit.increaseRecTotal();
+                    recUnit.increaseRecTotalUpgraded();
                 }
 
+                if (recUnit.recTotalIsEnough()) {
+                    recUnit.unitPointsPlus();
+                    recUnit.recycledUnitPlus();
+                    recUnit.junkBeingRecycledMinus();
+
+                    if(recUnit.getIsUpgraded()) {
+                        recUnit.recycledUnitUpgradedPlus();
+                    }
+
+                    if (recUnit.getRecTotalUpgraded() == 0) {
+                        recUnit.resetState();
+                        recUnit.setIsRecycling(false);
+                        if(MusicPlayer.isPlayingEffect){
+                            MusicPlayer.stopEffetti();
+                        }
+                    }
+
+                } else if (recUnit.recTotalUpgradedIsEnough()) {
+                    recUnit.unitPointsPlus();
+                    recUnit.recycledUnitPlus();
+                    recUnit.junkBeingRecycledMinus();
+                    recUnit.recycledUnitUpgradedPlus();
+
+                    if (recUnit.getRecTotal() == 0) {
+                        recUnit.resetState();
+                        recUnit.setIsRecycling(false);
+                        if(MusicPlayer.isPlayingEffect){
+                            MusicPlayer.stopEffetti();
+                        }
+                    }
+                }
             }
 
+            if(recUnit.getIsUpgraded() && recUnit.getRecycledUnitUpgraded() == recUnit.getMaxRecycledUnitUpgraded()) {
+                recUnit.setIsUpgraded(false);
+                recUnit.recycledUnitUpgradedReset();
+            }
         }
 
             Glass.rinnovaTasso();
@@ -329,10 +365,26 @@ public class GameView extends SurfaceView implements Runnable {
                             }
 
                         } else if (recUnit.getIsUpgraded()) {
-                            Rect rectLvl2 = new Rect(rectList.get(x).left, rectList.get(x).top + (int) (17.64 * screenRatioY), rectList.get(x).right, rectList.get(x).bottom + (int) (17.64 * screenRatioY));
+                            Rect rectLvl2 = new Rect(rectList.get(x).left, rectList.get(x).top + (int) (30 * screenRatioY), rectList.get(x).right, rectList.get(x).bottom + (int) (30 * screenRatioY));
                             canvas.drawRect(rectLvl2, paint);
 
                             if (recUnit.getIsRecycling()) {
+                                Rect progressRect = new Rect(rect.left, rect.top, rect.left + (int) ((rect.right - rect.left) * ((double) (recUnit.getRecTotal()) / (double) (recUnit.getMaxRecTotal()))), rect.bottom);
+                                Rect progressRectLvl2 = new Rect(rectLvl2.left, rectLvl2.top, rectLvl2.left + (int) ((rectLvl2.right - rectLvl2.left) * ((double) (recUnit.getRecTotalUpgraded()) / (double) (recUnit.getMaxRecTotal()))), rectLvl2.bottom);
+
+                                if (recUnit.getJunkBeingRecycled() == 1) {
+
+                                    if (recUnit.getRecTotal() >= recUnit.getRecTotalUpgraded()) {
+                                        canvas.drawRect(progressRect, rectPaint);
+
+                                    } else if (recUnit.getRecTotalUpgraded() > recUnit.getRecTotal()) {
+                                        canvas.drawRect(progressRectLvl2, rectPaint);
+                                    }
+
+                                } else if (recUnit.getJunkBeingRecycled() == 2) {
+                                    canvas.drawRect(progressRect, rectPaint);
+                                    canvas.drawRect(progressRectLvl2, rectPaint);
+                                }
 
                                 if (recUnit.getState() == 0 || recUnit.getState() == 1 || recUnit.getState() == 2) {
                                     canvas.drawBitmap(recUnit.getRecUnitLvl2(), recUnit.getX(), recUnit.getY(), paint);
@@ -376,40 +428,40 @@ public class GameView extends SurfaceView implements Runnable {
                             canvas.drawBitmap(unitInfo.getImageBitmap(), unitInfo.getX(), unitInfo.getY(), paint);
 
                             canvas.drawText("Tipo unità: " + recUnit.getUnitType(), unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(290*screenRatioY), textPaint);
-                            canvas.drawText("Livello usura: " + recUnit.getRecycledUnitUpgraded() + "/23", unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(370*screenRatioY), textPaint);
+                            canvas.drawText("Livello usura: " + recUnit.getRecycledUnitUpgraded() + "/" + recUnit.getMaxRecycledUnitUpgraded(), unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(370*screenRatioY), textPaint);
                             canvas.drawText("Totale riciclati: " + recUnit.getRecycledUnit() , unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(410*screenRatioY), textPaint);
 
 
-                            //if(!recUnit.getIsUpgraded()) {
+                            if(!recUnit.getIsUpgraded()) {
+                                canvas.drawBitmap(infoImages.getImageBitmap(), infoImages.getX(), infoImages.getY(), paint);
                                 canvas.drawText("Livello: 1", unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(330*screenRatioY), textPaint);
                                 canvas.drawBitmap(upgrade.getImageBitmap(), upgrade.getX(), upgrade.getY(), paint);
                                 canvas.drawBitmap(unitPoints.getImageBitmap(), unitPoints.getX(), unitPoints.getY(), paint);
                                 canvas.drawText(String.valueOf(RecUnit.getUpgradePrice()), unitPoints.getX() - (int)(49.47*screenRatioX), unitPoints.getY() + unitPoints.getHeight()*7/8, paint);
-                            //}
+
+                            } else if (recUnit.getIsUpgraded()) {
+                                canvas.drawBitmap(infoImages.getUpgradedImageBitmap(), infoImages.getX(), infoImages.getY(), paint);
+                                canvas.drawText("Livello: 2", unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(330*screenRatioY), textPaint);
+                                canvas.drawRect(unitInfo.getX() + (int)(445*screenRatioX), unitInfo.getY() + (int)(529*screenRatioY), unitInfo.getX() + (int)(643*screenRatioX), unitInfo.getY() + (int)(691*screenRatioY), strokePaint);
+                                canvas.drawRect(unitInfo.getX() + (int)(681*screenRatioX), unitInfo.getY() + (int)(529*screenRatioY), unitInfo.getX() + (int)(879*screenRatioX), unitInfo.getY() + (int)(691*screenRatioY), strokePaint);
+                                canvas.drawBitmap(infoImages.getMaterial_lvl2(), unitInfo.getX() + (int)(454*screenRatioX), unitInfo.getY() + (int)(536*screenRatioY), paint);
+                                canvas.drawBitmap(infoImages.getMaterial_lvl3(), unitInfo.getX() + (int)(690*screenRatioX), unitInfo.getY() + (int)(536*screenRatioY), paint);
+                            }
 
                             canvas.drawRect(unitInfo.getX() + (int)(209.31*screenRatioX), unitInfo.getY() + (int)(529*screenRatioY), unitInfo.getX() + (int)(407*screenRatioX), unitInfo.getY() + (int)(691*screenRatioY), strokePaint);
 
-                            //if(recUnit.getIsUpgraded()) {
-                            //canvas.drawText("Livello: 2", unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(330*screenRatioY), textPaint);
-                            canvas.drawRect(unitInfo.getX() + (int)(445*screenRatioX), unitInfo.getY() + (int)(529*screenRatioY), unitInfo.getX() + (int)(643*screenRatioX), unitInfo.getY() + (int)(691*screenRatioY), strokePaint);
-                            canvas.drawRect(unitInfo.getX() + (int)(681*screenRatioX), unitInfo.getY() + (int)(529*screenRatioY), unitInfo.getX() + (int)(879*screenRatioX), unitInfo.getY() + (int)(691*screenRatioY), strokePaint);
-
-
-                            //}
-
-                            canvas.drawBitmap(infoImages.getImageBitmap(), infoImages.getX(), infoImages.getY(), paint);
-                            canvas.drawBitmap(infoImages.getMaterial_lvl1(), unitInfo.getX() + (int)(216*screenRatioX), unitInfo.getY() + (int)(536*screenRatioY), paint);
-                            canvas.drawBitmap(infoImages.getMaterial_lvl2(), unitInfo.getX() + (int)(452*screenRatioX), unitInfo.getY() + (int)(536*screenRatioY), paint);
-                            canvas.drawBitmap(infoImages.getMaterial_lvl3(), unitInfo.getX() + (int)(688*screenRatioX), unitInfo.getY() + (int)(536*screenRatioY), paint);
+                            canvas.drawBitmap(infoImages.getMaterial_lvl1(), unitInfo.getX() + (int)(218*screenRatioX), unitInfo.getY() + (int)(536*screenRatioY), paint);
 
                             for (int i = 0; i < unitPointsInfoList.size(); i++) {
                                 RecImages unitPoints = unitPointsInfoList.get(i);
                                 RecImages sunnyPoints = sunnyPointsInfoList.get(i);
 
-                                canvas.drawBitmap(unitPoints.getImageBitmap(), unitPoints.getX(), unitPoints.getY(), paint);
-                                canvas.drawBitmap(sunnyPoints.getImageBitmap(), sunnyPoints.getX(), sunnyPoints.getY(), paint);
-                                canvas.drawText(String.valueOf(infoImages.getUnitPoints(i)), sunnyPoints.getX() + sunnyPoints.getWidth() + (int)(7.61*screenRatioX), unitPoints.getY() + unitPoints.getHeight() * 7/8, paint);
-                                canvas.drawText(String.valueOf(infoImages.getSunnyPoints(i)), sunnyPoints.getX() + sunnyPoints.getWidth() + (int)(7.61*screenRatioX), sunnyPoints.getY() + sunnyPoints.getHeight() * 7/8, paint);
+                                if(i < 1 || i > 0 && recUnit.getIsUpgraded()) {
+                                    canvas.drawBitmap(unitPoints.getImageBitmap(), unitPoints.getX(), unitPoints.getY(), paint);
+                                    canvas.drawBitmap(sunnyPoints.getImageBitmap(), sunnyPoints.getX(), sunnyPoints.getY(), paint);
+                                    canvas.drawText(String.valueOf(infoImages.getUnitPoints(i)), sunnyPoints.getX() + sunnyPoints.getWidth() + (int)(7.61*screenRatioX), unitPoints.getY() + unitPoints.getHeight() * 7/8, paint);
+                                    canvas.drawText(String.valueOf(infoImages.getSunnyPoints(i)), sunnyPoints.getX() + sunnyPoints.getWidth() + (int)(7.61*screenRatioX), sunnyPoints.getY() + sunnyPoints.getHeight() * 7/8, paint);
+                                }
                             }
 
                         }
@@ -464,25 +516,31 @@ public class GameView extends SurfaceView implements Runnable {
 
                 for (int i = 0; i < junkList.size(); i++) {
                     Junk junk = junkList.get(i);
-                    boolean isTouching = (touchY >= junk.getY() && touchX < junk.getX() + junk.getWidth() && touchY < junk.getY() + junk.getHeight());
-                    if (touchX >= junk.getX() && isTouching) {
+                    boolean isTouching = (touchX >= junk.getX() && touchY >= junk.getY() && touchX < junk.getX() + junk.getWidth() && touchY < junk.getY() + junk.getHeight());
+                    if (isTouching) {
                         nJunk = i;
                     }
                 }
 
                 for (int i = 0; i < recUnitList.size() - 1; i++) {
                     RecUnit recUnit = recUnitList.get(i);
-                    boolean isTouching = (touchY >= recUnit.getY() && touchX < recUnit.getX() + recUnit.getWidth() && touchY < recUnit.getY() + recUnit.getHeight());
+                    boolean isTouchingRecUnit = (touchX >= recUnit.getX() && touchY >= recUnit.getY() && touchX < recUnit.getX() + recUnit.getWidth() && touchY < recUnit.getY() + recUnit.getHeight());
+                    boolean isTouchingUpgrade = (touchX >= upgrade.getX() && touchY >= upgrade.getY() && touchX < upgrade.getX() + upgrade.getWidth() && touchY < upgrade.getY() + upgrade.getHeight());
 
-                    if (recUnit.getIsCheckingInfo() && touchY < unitInfo.getY() && !isTouching) {
+                    if (recUnit.getIsCheckingInfo() && touchY < unitInfo.getY() && !isTouchingRecUnit) {
                         recUnit.setIsCheckingInfo(false);
                         resume();
                     }
 
-                    if (touchX >= recUnit.getX() && isTouching) {
+                    if (touchX >= recUnit.getX() && isTouchingRecUnit) {
                         if (isPlaying) {
                             recUnit.setIsCheckingInfo(true);
                         }
+                    }
+
+                    if (recUnit.getIsCheckingInfo() && isTouchingUpgrade && recUnit.getUnitPoints() >= RecUnit.getUpgradePrice() && !recUnit.getIsUpgraded()) {
+                        recUnit.setIsUpgraded(true);
+                        recUnit.reduceUnitPoints(RecUnit.getUpgradePrice());
                     }
                 }
             }
@@ -509,47 +567,72 @@ public class GameView extends SurfaceView implements Runnable {
 
                     if (junk instanceof Glass && x >= recUnitList.get(0).getX() && y >= recUnitList.get(0).getY() &&
                             x < recUnitList.get(0).getX() + recUnitList.get(0).getWidth() && y <= recUnitList.get(0).getY()
-                            + recUnitList.get(0).getHeight() && !recUnitList.get(0).getIsRecycling()) {
-                        junkList.remove(nJunk);
-                        recUnitList.get(0).setIsRecycling(true);
+                            + recUnitList.get(0).getHeight()) {
+
+                        if((recUnitList.get(0).getJunkBeingRecycled() < 2 && recUnitList.get(0).getIsUpgraded()) ||
+                           (recUnitList.get(0).getJunkBeingRecycled() < 1 && !recUnitList.get(0).getIsUpgraded())) {
+                            junkList.remove(nJunk);
+                            recUnitList.get(0).setIsRecycling(true);
+                            recUnitList.get(0).junkBeingRecycledPlus();
+                        }
 
                     } else if (junk instanceof Paper && recUnitList.get(1).getIsUnlocked() && x >= recUnitList.get(1).getX()
                             && y >= recUnitList.get(1).getY() && x < recUnitList.get(1).getX() + recUnitList.get(1).getWidth()
-                            && y <= recUnitList.get(1).getY() + recUnitList.get(1).getHeight() && !recUnitList.get(1).getIsRecycling()) {
-                        junkList.remove(nJunk);
-                        recUnitList.get(1).setIsRecycling(true);
+                            && y <= recUnitList.get(1).getY() + recUnitList.get(1).getHeight()) {
+                        if((recUnitList.get(1).getJunkBeingRecycled() < 2 && recUnitList.get(1).getIsUpgraded()) ||
+                           (recUnitList.get(1).getJunkBeingRecycled() < 1 && !recUnitList.get(1).getIsUpgraded())) {
+                            junkList.remove(nJunk);
+                            recUnitList.get(1).setIsRecycling(true);
+                            recUnitList.get(1).junkBeingRecycledPlus();
+                        }
 
                     } else if (junk instanceof Aluminum && recUnitList.get(2).getIsUnlocked() && x >= recUnitList.get(2).getX()
                             && y >= recUnitList.get(2).getY() && x < recUnitList.get(2).getX() + recUnitList.get(2).getWidth()
-                            && y <= recUnitList.get(2).getY() + recUnitList.get(2).getHeight() && !recUnitList.get(2).getIsRecycling()) {
-                        junkList.remove(nJunk);
-                        recUnitList.get(2).setIsRecycling(true);
+                            && y <= recUnitList.get(2).getY() + recUnitList.get(2).getHeight()) {
+                        if((recUnitList.get(2).getJunkBeingRecycled() < 2 && recUnitList.get(2).getIsUpgraded()) ||
+                           (recUnitList.get(2).getJunkBeingRecycled() < 1 && !recUnitList.get(2).getIsUpgraded())) {
+                            junkList.remove(nJunk);
+                            recUnitList.get(2).setIsRecycling(true);
+                            recUnitList.get(2).junkBeingRecycledPlus();
+                        }
 
                     } else if (junk instanceof Steel && recUnitList.get(3).getIsUnlocked() && x >= recUnitList.get(3).getX()
                             && y >= recUnitList.get(3).getY() && x < recUnitList.get(3).getX() + recUnitList.get(3).getWidth()
-                            && y <= recUnitList.get(3).getY() + recUnitList.get(3).getHeight() && !recUnitList.get(3).getIsRecycling()) {
-                        junkList.remove(nJunk);
-                        recUnitList.get(3).setIsRecycling(true);
+                            && y <= recUnitList.get(3).getY() + recUnitList.get(3).getHeight()) {
+                        if((recUnitList.get(3).getJunkBeingRecycled() < 2 && recUnitList.get(3).getIsUpgraded()) ||
+                           (recUnitList.get(3).getJunkBeingRecycled() < 1 && !recUnitList.get(3).getIsUpgraded())) {
+                            junkList.remove(nJunk);
+                            recUnitList.get(3).setIsRecycling(true);
+                            recUnitList.get(3).junkBeingRecycledPlus();
+                        }
 
                     } else if (junk instanceof Plastic && recUnitList.get(4).getIsUnlocked() && x >= recUnitList.get(4).getX()
                             && y >= recUnitList.get(4).getY() && x < recUnitList.get(4).getX() + recUnitList.get(4).getWidth()
-                            && y <= recUnitList.get(4).getY() + recUnitList.get(4).getHeight() && !recUnitList.get(4).getIsRecycling()) {
-                        junkList.remove(nJunk);
-                        recUnitList.get(4).setIsRecycling(true);
+                            && y <= recUnitList.get(4).getY() + recUnitList.get(4).getHeight()) {
+                        if((recUnitList.get(4).getJunkBeingRecycled() < 2 && recUnitList.get(4).getIsUpgraded()) ||
+                           (recUnitList.get(4).getJunkBeingRecycled() < 1 && !recUnitList.get(4).getIsUpgraded())) {
+                            junkList.remove(nJunk);
+                            recUnitList.get(4).setIsRecycling(true);
+                            recUnitList.get(4).junkBeingRecycledPlus();
+                        }
 
                     } else if (junk instanceof EWaste && recUnitList.get(5).getIsUnlocked() && x >= recUnitList.get(5).getX()
                             && y >= recUnitList.get(5).getY() && x < recUnitList.get(5).getX() + recUnitList.get(5).getWidth()
-                            && y <= recUnitList.get(5).getY() + recUnitList.get(5).getHeight() && !recUnitList.get(5).getIsRecycling()) {
-                        junkList.remove(nJunk);
-                        recUnitList.get(5).setIsRecycling(true);
+                            && y <= recUnitList.get(5).getY() + recUnitList.get(5).getHeight()) {
+                        if ((recUnitList.get(5).getJunkBeingRecycled() < 2 && recUnitList.get(5).getIsUpgraded()) ||
+                            (recUnitList.get(5).getJunkBeingRecycled() < 1 && !recUnitList.get(5).getIsUpgraded())) {
+                            junkList.remove(nJunk);
+                            recUnitList.get(5).setIsRecycling(true);
+                            recUnitList.get(5).junkBeingRecycledPlus();
+                        }
 
                     } else if (x >= recUnitList.get(6).getX() && y >= recUnitList.get(6).getY()
                             && x < recUnitList.get(6).getX() + recUnitList.get(6).getWidth() && y < recUnitList.get(6).getY() +
                             recUnitList.get(6).getHeight() && !recUnitList.get(6).getIsRecycling()){
                         junkList.remove(nJunk);
                         recUnitList.get(6).setIsRecycling(true);
+                        recUnitList.get(6).junkBeingRecycledPlus();
                     }
-
                 }
             }
             return true;

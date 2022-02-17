@@ -34,7 +34,7 @@ public class Plastic extends Junk {
                 tasso -= 0.00006;
             }
         } else if (Aluminum.isTassoMassimoRaggiunto()) {
-            tasso += 0.00014;
+            tasso += 0.00006;
         }
     }
 

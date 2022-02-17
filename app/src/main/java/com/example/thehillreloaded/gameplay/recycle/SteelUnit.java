@@ -14,6 +14,7 @@ import com.example.thehillreloaded.R;
 public class SteelUnit extends RecUnit{
 
     private Bitmap steelUnit, steelUnitState2, steelUnitState3;
+    private Bitmap steelUnitUpgraded, steelUnitUpgradedState2, steelUnitUpgradedState3;
     private int maxRecTotal = 1500;
 
     public SteelUnit(int x, int y, Resources res) {
@@ -24,6 +25,9 @@ public class SteelUnit extends RecUnit{
         steelUnit = BitmapFactory.decodeResource(res, R.drawable.steelunit);
         steelUnitState2 = BitmapFactory.decodeResource(res, R.drawable.steelunit_state2);
         steelUnitState3 = BitmapFactory.decodeResource(res, R.drawable.steelunit_state2);
+        steelUnitUpgraded = BitmapFactory.decodeResource(res, R.drawable.steelunit_upgraded);
+        steelUnitUpgradedState2 = BitmapFactory.decodeResource(res, R.drawable.steelunit_upgraded_state2);
+        steelUnitUpgradedState3 = BitmapFactory.decodeResource(res, R.drawable.steelunit_upgraded_state3);
 
         super.setWidth((int) (steelUnit.getWidth() * screenRatioX * densityRatio/ 4.71));
         super.setHeight((int) (steelUnit.getHeight() * screenRatioY * densityRatio/ 4.71));
@@ -31,6 +35,9 @@ public class SteelUnit extends RecUnit{
         steelUnit = Bitmap.createScaledBitmap(steelUnit, getWidth(), getHeight(), true);
         steelUnitState2 = Bitmap.createScaledBitmap(steelUnitState2, getWidth(), getHeight(), true);
         steelUnitState3 = Bitmap.createScaledBitmap(steelUnitState3, getWidth(), getHeight(), true);
+        steelUnitUpgraded = Bitmap.createScaledBitmap(steelUnitUpgraded, getWidth(), getHeight(), true);
+        steelUnitUpgradedState2 = Bitmap.createScaledBitmap(steelUnitUpgradedState2, getWidth(), getHeight(), true);
+        steelUnitUpgradedState3 = Bitmap.createScaledBitmap(steelUnitUpgradedState3, getWidth(), getHeight(), true);
     }
 
     @Override
@@ -49,9 +56,34 @@ public class SteelUnit extends RecUnit{
     }
 
     @Override
+    public Bitmap getRecUnitLvl2() {
+        return steelUnitUpgraded;
+    }
+
+    @Override
+    public Bitmap getRecUnitLvl2State2() {
+        return steelUnitUpgradedState2;
+    }
+
+    @Override
+    public Bitmap getRecUnitLvl2State3() {
+        return steelUnitUpgradedState3;
+    }
+
+    @Override
     public boolean recTotalIsEnough() {
         if (getRecTotal() > maxRecTotal) {
             resetRecTotal();
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean recTotalUpgradedIsEnough() {
+        if (getRecTotalUpgraded() > maxRecTotal) {
+            resetRecTotalUpgraded();
             return true;
         }
 

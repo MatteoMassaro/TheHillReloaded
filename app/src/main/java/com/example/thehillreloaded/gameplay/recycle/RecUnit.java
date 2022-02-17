@@ -12,16 +12,17 @@ import com.example.thehillreloaded.R;
 public class RecUnit {
 
     private static double recyclingSpeed = 10;
-    private int recTotal = 0, maxRecTotal = 900;
+    private int recTotal = 0, recTotalUpgraded = 0, maxRecTotal = 900;
     private int unitPoints = 0, unitPrice;
     private static int upgradePrice = 5;
+    private int junkBeingRecycled = 0;
     private String unitType;
     private boolean isUnlocked = false;
     private boolean isUpgraded = false;
     private boolean isRecycling = false;
     private boolean isCheckingInfo = false;
     private int state = 0;
-    private int recycledUnit = 0, recycledUnitUpgraded = 0;
+    private int recycledUnit = 0, recycledUnitUpgraded = 0, maxRecycledUnitUpgraded = 23;
     private int x, y, width, height;
     private Resources res;
 
@@ -42,17 +43,38 @@ public class RecUnit {
         recTotal += (int) recyclingSpeed;
     }
 
+    public void increaseRecTotalUpgraded() {
+        recTotalUpgraded += (int) recyclingSpeed;
+    }
+
     public int getRecTotal() {
         return recTotal;
+    }
+
+    public int getRecTotalUpgraded() {
+        return recTotalUpgraded;
     }
 
     public void resetRecTotal() {
         recTotal = 0;
     }
 
+    public void resetRecTotalUpgraded() {
+        recTotalUpgraded = 0;
+    }
+
     public boolean recTotalIsEnough() {
         if (recTotal > 900) {
             recTotal = 0;
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean recTotalUpgradedIsEnough() {
+        if (recTotalUpgraded > 900) {
+            recTotalUpgraded = 0;
             return true;
         }
 
@@ -120,21 +142,28 @@ public class RecUnit {
     }
 
     public void recycledUnitPlus() {
-        recycledUnitUpgraded++;
+        recycledUnit++;
     }
 
     public int getRecycledUnit() {
-        return recycledUnitUpgraded;
+        return recycledUnit;
     }
 
     public void recycledUnitUpgradedPlus() {
         recycledUnitUpgraded++;
     }
 
+    public void recycledUnitUpgradedReset() {
+        recycledUnitUpgraded = 0;
+    }
+
     public int getRecycledUnitUpgraded() {
         return recycledUnitUpgraded;
     }
 
+    public int getMaxRecycledUnitUpgraded() {
+        return maxRecycledUnitUpgraded;
+    }
 
     public boolean getIsUpgraded() {
         return isUpgraded;
@@ -150,6 +179,18 @@ public class RecUnit {
 
     public void setIsRecycling(boolean isTrue) {
         isRecycling = isTrue;
+    }
+
+    public int getJunkBeingRecycled() {
+        return junkBeingRecycled;
+    }
+
+    public void junkBeingRecycledPlus() {
+        junkBeingRecycled++;
+    }
+
+    public void junkBeingRecycledMinus() {
+        junkBeingRecycled--;
     }
 
     public boolean getIsCheckingInfo() {
@@ -218,9 +259,5 @@ public class RecUnit {
 
     public int getMaxRecTotal() {
         return maxRecTotal;
-    }
-
-    public Bitmap getUnitPointsBitmap() {
-        return BitmapFactory.decodeResource(res, R.drawable.unitpoints);
     }
 }
