@@ -13,9 +13,12 @@ import androidx.core.content.res.ResourcesCompat;
 import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.gameplay.imageclass.AluminumInfo;
 import com.example.thehillreloaded.gameplay.imageclass.EWasteInfo;
+import com.example.thehillreloaded.gameplay.imageclass.GameBar;
 import com.example.thehillreloaded.gameplay.imageclass.GlassInfo;
 import com.example.thehillreloaded.gameplay.imageclass.InfoImages;
+import com.example.thehillreloaded.gameplay.imageclass.Missioni;
 import com.example.thehillreloaded.gameplay.imageclass.PaperInfo;
+import com.example.thehillreloaded.gameplay.imageclass.Pause;
 import com.example.thehillreloaded.gameplay.imageclass.PlasticInfo;
 import com.example.thehillreloaded.gameplay.imageclass.RecImages;
 import com.example.thehillreloaded.gameplay.imageclass.SteelInfo;
@@ -67,6 +70,8 @@ public class GameView extends SurfaceView implements Runnable {
     private UnitInfo unitInfo;
     private Upgrade upgrade;
     private UnitPoints unitPoints;
+    private RecImages sunnyPoints, missioni, pause;
+    private GameBar gameBar;
     private double qualcosa;
 
     //Setta le view adattandole in base allo schermo
@@ -80,6 +85,12 @@ public class GameView extends SurfaceView implements Runnable {
         spawnBoundX = (screenX - (int) (247f * screenRatioX * densityRatio));
         spawnY = screenY * 6/11;
         background = new Background(screenX, screenY, getResources());
+
+        gameBar = new GameBar(screenX, screenY, getResources());
+        gameBar.setMissioni();
+        sunnyPoints = new SunnyPoints((int)(30*screenRatioX), (int)(10*screenRatioY), getResources());
+        missioni = new Missioni((int)(30*screenRatioX), (int)(10*screenRatioY), getResources());
+        pause = new Pause((int)(30*screenRatioX), (int)(10*screenRatioY), getResources());
 
         Random random = new Random();
 
@@ -415,6 +426,24 @@ public class GameView extends SurfaceView implements Runnable {
                         }
                     }
                 }
+                canvas.drawBitmap(background.greenRect, background.getX(), background.getY(), paint);
+                canvas.drawBitmap(sunnyPoints.getImageBitmap(), sunnyPoints.getX(), sunnyPoints.getY(), paint);
+                canvas.drawText(String.valueOf(sunnyPoints.getSunnyPoints()), sunnyPoints.getX() + sunnyPoints.getWidth()* 3/2, sunnyPoints.getY() + sunnyPoints.getHeight() , paint);
+                canvas.drawBitmap(missioni.getImageBitmap(), missioni.getX() * 34/2, missioni.getY() - (float)(10 * screenRatioY) , paint);
+                if(pause.isClicked()){
+
+                    canvas.drawBitmap(pause.getImageBitmap2(), pause.getX() * 32 , pause.getY(), paint);
+                    canvas.drawBitmap(gameBar.getElencoMissioni(), gameBar.getHeight() * 1/15, gameBar.getWidth() * 1/14, paint);
+                    canvas.drawText("PAUSA",screenX/9 , screenY/5, paint);
+                    canvas.drawBitmap(gameBar.getAudioIcon(), gameBar.getHeight() * 8, gameBar.getWidth() * 10, paint);
+                    canvas.drawBitmap(gameBar.getMusicIcon(), gameBar.getHeight() * 16, gameBar.getWidth() * 10, paint);
+                    //for(int x = 0; x < gameBar.getNumeroMissioni(); x++){
+                    //canvas.drawText(gameBar.getMissioni(x),screenX/9 , screenY/5, paint);
+                    //}
+                }
+                else {
+                    canvas.drawBitmap(pause.getImageBitmap(), pause.getX() * 32 , pause.getY(), paint);
+                }
 
                 getHolder().unlockCanvasAndPost(canvas);
 
@@ -462,6 +491,25 @@ public class GameView extends SurfaceView implements Runnable {
 
                 nJunk = -1;
 
+                if(touchX >= pause.getX() * 32 && touchY >= pause.getY() && touchX < pause.getX() * 32 + pause.getWidth() && touchY < pause.getY() + pause.getHeight() && !(pause.isClicked())){
+
+                    pause.setClicked(true);
+                    sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints()+1);
+
+
+                }
+                else if(touchX >= pause.getX() * 32 && touchY >= pause.getY() && touchX < pause.getX() * 32 + pause.getWidth() && touchY < pause.getY() + pause.getHeight() && pause.isClicked()){
+                    pause.setClicked(false);
+                }
+
+                if(touchX >= missioni.getX() * 34/2 && touchY >= missioni.getY()-10 && touchX < missioni.getX() * 34/2 + missioni.getWidth() && touchY < missioni.getY()-10 + missioni.getHeight() && !(missioni.isClicked())){
+                    missioni.setClicked(true);
+                }
+
+                else if(touchX >= missioni.getX() * 34/2 && touchY >= missioni.getY()-10 && touchX < missioni.getX() * 34/2 + missioni.getWidth() && touchY < missioni.getY()-10 + missioni.getHeight() && missioni.isClicked()){
+                    missioni.setClicked(false);
+                }
+
                 for (int i = 0; i < junkList.size(); i++) {
                     Junk junk = junkList.get(i);
                     boolean isTouching = (touchY >= junk.getY() && touchX < junk.getX() + junk.getWidth() && touchY < junk.getY() + junk.getHeight());
@@ -502,6 +550,21 @@ public class GameView extends SurfaceView implements Runnable {
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 int x = (int)event.getX();
                 int y = (int)event.getY();
+
+                if(x >= pause.getX() * 32 && y >= pause.getY()/8 && x < pause.getX() * 32 + pause.getWidth() && y < pause.getY()/8 + pause.getHeight() && pause.isClicked()){
+                    pause();
+                }
+                else if(x >= pause.getX() * 32 && y >= pause.getY()/8 && x < pause.getX() * 32 + pause.getWidth() && y < pause.getY()/8 + pause.getHeight() && !(pause.isClicked())){
+                    resume();
+                }
+
+                if(x >= missioni.getX() * 34/2 && y >= missioni.getY()-20 && x < missioni.getX() * 34/2 + missioni.getWidth() && y < missioni.getY()-20 + missioni.getHeight() && missioni.isClicked()){
+                    pause();
+                }
+
+                else if(x >= missioni.getX() * 34/2 && y >= missioni.getY()-20 && x < missioni.getX() * 34/2 + missioni.getWidth() && y < missioni.getY()-20 + missioni.getHeight() && !(missioni.isClicked())){
+                    resume();
+                }
 
                 if ((nJunk != -1)) {
                     Junk junk = junkList.get(nJunk);
