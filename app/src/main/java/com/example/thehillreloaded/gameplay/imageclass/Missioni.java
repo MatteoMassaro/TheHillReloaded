@@ -12,6 +12,7 @@ import com.example.thehillreloaded.R;
 
 public class Missioni extends  RecImages{
 
+    private Bitmap elencoMissioni;
 
 
     public Missioni(int x ,int y, Resources res){
@@ -24,5 +25,13 @@ public class Missioni extends  RecImages{
         setImageBitmap(Bitmap.createScaledBitmap(getImageBitmap(), getWidth(), getHeight(), true));
         setElencoMissioni(Bitmap.createScaledBitmap(getElencoMissioni(), getWidth(), getHeight(), true));
 
+    }
+
+    public void setElencoMissioni(Bitmap elencoMissioni) {
+        this.elencoMissioni = elencoMissioni;
+    }
+
+    public Bitmap getElencoMissioni() {
+        return elencoMissioni;
     }
 }

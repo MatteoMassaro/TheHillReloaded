@@ -59,7 +59,7 @@ public class GameView extends SurfaceView implements Runnable {
     private int screenX, screenY, spawnBoundX, spawnY;
     public static double screenRatioX, screenRatioY, densityRatio;
     private Background background;
-    private Paint paint, transparentPaint, rectPaint, strokePaint, textPaint;
+    private Paint paint, transparentPaint, redPaint, strokePaint, textPaint;
     private ArrayList<Junk> junkList = new ArrayList<>();
     private ArrayList<Rect> rectList = new ArrayList<>();
     private ArrayList<RecUnit> recUnitList = new ArrayList<>();
@@ -121,7 +121,7 @@ public class GameView extends SurfaceView implements Runnable {
         unlockableUnitList.add(new UnlockableUnit((int)(81*screenRatioX),(int)(670*screenRatioY), getResources()));
         unlockableUnitList.add(new UnlockableUnit((int)(78*screenRatioX),(int)(988*screenRatioY), getResources()));
         unlockableUnitList.add(new UnlockableUnit((int)(760*screenRatioX),(int)(317.52*screenRatioY), getResources()));
-        unlockableUnitList.add(new UnlockableUnit((int)(760*screenRatioX),(int)(670*screenRatioY), getResources()));
+        unlockableUnitList.add(new UnlockableUnit((int)(800*screenRatioX),(int)(670*screenRatioY), getResources()));
         unlockableUnitList.add(new UnlockableUnit((int)(720*screenRatioX),(int)(988*screenRatioY), getResources()));
 
         unitInfo = new UnitInfo(0, (int) (1235 * screenRatioY), getResources());
@@ -147,19 +147,21 @@ public class GameView extends SurfaceView implements Runnable {
 
         junkList.add(new Glass((random.nextInt(spawnBoundX) + (int) (15.22 * screenRatioX)), spawnY, getResources()));
 
-        recUnitList.get(1).setIsUnlockedToTrue();
+        /*recUnitList.get(1).setIsUnlockedToTrue();
         recUnitList.get(2).setIsUnlockedToTrue();
         recUnitList.get(3).setIsUnlockedToTrue();
         recUnitList.get(4).setIsUnlockedToTrue();
-        recUnitList.get(5).setIsUnlockedToTrue();
+        recUnitList.get(5).setIsUnlockedToTrue();*/
 
         paint = new Paint();
         paint.setTextSize(64 * (float)(screenRatioX * screenRatioY * densityRatio));
         paint.setTypeface(ResourcesCompat.getFont(context, R.font.bevan));
         transparentPaint = new Paint();
         transparentPaint.setAlpha(100);
-        rectPaint = new Paint();
-        rectPaint.setColor(Color.RED);
+        redPaint = new Paint();
+        redPaint.setTextSize(64 * (float)(screenRatioX * screenRatioY * densityRatio));
+        redPaint.setTypeface(ResourcesCompat.getFont(context, R.font.bevan));
+        redPaint.setColor(Color.RED);
         strokePaint = new Paint();
         strokePaint.setStrokeWidth(10 * (float)(screenRatioX * screenRatioY * densityRatio));
         strokePaint.setStyle(Paint.Style.STROKE);
@@ -173,8 +175,8 @@ public class GameView extends SurfaceView implements Runnable {
     public void run() {
 
         while (isPlaying) {
-            update();
             draw();
+            update();
             sleep();
         }
     }
@@ -219,7 +221,9 @@ public class GameView extends SurfaceView implements Runnable {
 
                 if (Rect.intersects(junk.getCollisionShape(), otherJunk.getCollisionShape())) {
                     junk.setIntersectionTrue();
-                    junk.setY(otherJunk.getY() - junk.getHeight());
+                    junk.setY(otherJunk.getY() - junk.getHeight() + 1);
+                } else {
+                    junk.setIntersectionFalse();
                 }
             }
 
@@ -358,7 +362,7 @@ public class GameView extends SurfaceView implements Runnable {
 
                             if (recUnit.getIsRecycling()) {
                                 Rect progressRect = new Rect(rect.left, rect.top, rect.left + (int) ((rect.right - rect.left) * ((double) (recUnit.getRecTotal()) / (double) (recUnit.getMaxRecTotal()))), rect.bottom);
-                                canvas.drawRect(progressRect, rectPaint);
+                                canvas.drawRect(progressRect, redPaint);
 
                                 if (recUnit.getState() == 0 || recUnit.getState() == 1 || recUnit.getState() == 2) {
                                     canvas.drawBitmap(recUnit.getRecUnit(), recUnit.getX(), recUnit.getY(), paint);
@@ -388,15 +392,15 @@ public class GameView extends SurfaceView implements Runnable {
                                 if (recUnit.getJunkBeingRecycled() == 1) {
 
                                     if (recUnit.getRecTotal() >= recUnit.getRecTotalUpgraded()) {
-                                        canvas.drawRect(progressRect, rectPaint);
+                                        canvas.drawRect(progressRect, redPaint);
 
                                     } else if (recUnit.getRecTotalUpgraded() > recUnit.getRecTotal()) {
-                                        canvas.drawRect(progressRectLvl2, rectPaint);
+                                        canvas.drawRect(progressRectLvl2, redPaint);
                                     }
 
                                 } else if (recUnit.getJunkBeingRecycled() == 2) {
-                                    canvas.drawRect(progressRect, rectPaint);
-                                    canvas.drawRect(progressRectLvl2, rectPaint);
+                                    canvas.drawRect(progressRect, redPaint);
+                                    canvas.drawRect(progressRectLvl2, redPaint);
                                 }
 
                                 if (recUnit.getState() == 0 || recUnit.getState() == 1 || recUnit.getState() == 2) {
@@ -469,11 +473,18 @@ public class GameView extends SurfaceView implements Runnable {
                                 RecImages unitPoints = unitPointsInfoList.get(i);
                                 RecImages sunnyPoints = sunnyPointsInfoList.get(i);
 
-                                if(i < 1 || i > 0 && recUnit.getIsUpgraded()) {
+                                if (i < 1 || i > 0 && recUnit.getIsUpgraded()) {
                                     canvas.drawBitmap(unitPoints.getImageBitmap(), unitPoints.getX(), unitPoints.getY(), paint);
                                     canvas.drawBitmap(sunnyPoints.getImageBitmap(), sunnyPoints.getX(), sunnyPoints.getY(), paint);
-                                    canvas.drawText(String.valueOf(infoImages.getUnitPoints(i)), sunnyPoints.getX() + sunnyPoints.getWidth() + (int)(7.61*screenRatioX), unitPoints.getY() + unitPoints.getHeight() * 7/8, paint);
-                                    canvas.drawText(String.valueOf(infoImages.getSunnyPoints(i)), sunnyPoints.getX() + sunnyPoints.getWidth() + (int)(7.61*screenRatioX), sunnyPoints.getY() + sunnyPoints.getHeight() * 7/8, paint);
+
+                                    if (recUnit.getUnitPoints() < infoImages.getUnitPoints(i)) {
+                                        canvas.drawText(String.valueOf(infoImages.getUnitPoints(i)), sunnyPoints.getX() + sunnyPoints.getWidth() + (int)(7.61*screenRatioX), unitPoints.getY() + unitPoints.getHeight() * 7/8, redPaint);
+                                        canvas.drawText(String.valueOf(infoImages.getSunnyPoints(i)), sunnyPoints.getX() + sunnyPoints.getWidth() + (int)(7.61*screenRatioX), sunnyPoints.getY() + sunnyPoints.getHeight() * 7/8, redPaint);
+
+                                    } else {
+                                        canvas.drawText(String.valueOf(infoImages.getUnitPoints(i)), sunnyPoints.getX() + sunnyPoints.getWidth() + (int)(7.61*screenRatioX), unitPoints.getY() + unitPoints.getHeight() * 7/8, paint);
+                                        canvas.drawText(String.valueOf(infoImages.getSunnyPoints(i)), sunnyPoints.getX() + sunnyPoints.getWidth() + (int)(7.61*screenRatioX), sunnyPoints.getY() + sunnyPoints.getHeight() * 7/8, paint);
+                                    }
                                 }
                             }
 
@@ -575,23 +586,58 @@ public class GameView extends SurfaceView implements Runnable {
 
                 for (int i = 0; i < recUnitList.size() - 1; i++) {
                     RecUnit recUnit = recUnitList.get(i);
+                    InfoImages infoImages = infoImagesList.get(i);
                     boolean isTouchingRecUnit = (touchX >= recUnit.getX() && touchY >= recUnit.getY() && touchX < recUnit.getX() + recUnit.getWidth() && touchY < recUnit.getY() + recUnit.getHeight());
                     boolean isTouchingUpgrade = (touchX >= upgrade.getX() && touchY >= upgrade.getY() && touchX < upgrade.getX() + upgrade.getWidth() && touchY < upgrade.getY() + upgrade.getHeight());
-
-                    if (recUnit.getIsCheckingInfo() && touchY < unitInfo.getY() && !isTouchingRecUnit) {
-                        recUnit.setIsCheckingInfo(false);
-                        resume();
-                    }
+                    boolean isTouchingLvl1Material = (touchX >= unitInfo.getX() + (int)(218*screenRatioX) && touchY >= unitInfo.getY() + (int)(536*screenRatioY) && touchX < unitInfo.getX() + (int)(218*screenRatioX) + infoImages.getWidth() && touchY < unitInfo.getY() + (int)(536*screenRatioY) + infoImages.getHeight());
+                    boolean isTouchingLvl2Material = (touchX >= unitInfo.getX() + (int)(454*screenRatioX) && touchY >= unitInfo.getY() + (int)(536*screenRatioY) && touchX < unitInfo.getX() + (int)(454*screenRatioX) + infoImages.getWidth() && touchY < unitInfo.getY() + (int)(536*screenRatioY) + infoImages.getHeight());
+                    boolean isTouchingLvl3Material = (touchX >= unitInfo.getX() + (int)(690*screenRatioX) && touchY >= unitInfo.getY() + (int)(536*screenRatioY) && touchX < unitInfo.getX() + (int)(690*screenRatioX) + infoImages.getWidth() && touchY < unitInfo.getY() + (int)(536*screenRatioY) + infoImages.getHeight());
 
                     if (isTouchingRecUnit) {
                         if (isPlaying) {
                             recUnit.setIsCheckingInfo(true);
                         }
+
+                        if(!recUnit.getIsUnlocked() && sunnyPoints.getSunnyPoints() >= recUnit.getUnitPrice()) {
+                            recUnit.setIsUnlockedToTrue();
+                            sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() - recUnit.getUnitPrice());
+                        }
+
+                    } else if (recUnit.getIsCheckingInfo() && touchY < unitInfo.getY() && !isTouchingRecUnit) {
+                        recUnit.setIsCheckingInfo(false);
+                        resume();
                     }
 
                     if (recUnit.getIsCheckingInfo() && isTouchingUpgrade && recUnit.getUnitPoints() >= RecUnit.getUpgradePrice() && !recUnit.getIsUpgraded()) {
                         recUnit.setIsUpgraded(true);
+                        recUnit.setIsCheckingInfo(false);
                         recUnit.reduceUnitPoints(RecUnit.getUpgradePrice());
+                        resume();
+                    }
+
+                    if (recUnit.getIsCheckingInfo()) {
+
+                        if (isTouchingLvl1Material && recUnit.getUnitPoints() >= infoImages.getUnitPoints(0)) {
+                            recUnit.reduceUnitPoints(infoImages.getUnitPoints(0));
+                            sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() + infoImages.getSunnyPoints(0));
+                            recUnit.setIsCheckingInfo(false);
+                            infoImages.setIsCheckingMaterialInfoLvl1(true);
+                            resume();
+
+                        } else if (isTouchingLvl2Material && recUnit.getUnitPoints() >= infoImages.getUnitPoints(1) && recUnit.getIsUpgraded()) {
+                            recUnit.reduceUnitPoints(infoImages.getUnitPoints(1));
+                            sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() + infoImages.getSunnyPoints(1));
+                            recUnit.setIsCheckingInfo(false);
+                            infoImages.setIsCheckingMaterialInfoLvl2(true);
+                            resume();
+
+                        } else if (isTouchingLvl3Material && recUnit.getUnitPoints() >= infoImages.getUnitPoints(2) && recUnit.getIsUpgraded()) {
+                            recUnit.reduceUnitPoints(infoImages.getUnitPoints(2));
+                            sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() + infoImages.getSunnyPoints(2));
+                            recUnit.setIsCheckingInfo(false);
+                            infoImages.setIsCheckingMaterialInfoLvl3(true);
+                            resume();
+                        }
                     }
                 }
             }
@@ -695,9 +741,13 @@ public class GameView extends SurfaceView implements Runnable {
                     } else if (x >= recUnitList.get(6).getX() && y >= recUnitList.get(6).getY()
                             && x < recUnitList.get(6).getX() + recUnitList.get(6).getWidth() && y < recUnitList.get(6).getY() +
                             recUnitList.get(6).getHeight() && !recUnitList.get(6).getIsRecycling()){
-                        junkList.remove(nJunk);
-                        recUnitList.get(6).setIsRecycling(true);
-                        recUnitList.get(6).junkBeingRecycledPlus();
+
+                        if(sunnyPoints.getSunnyPoints() >= 2) {
+                            sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() - 2);
+                            junkList.remove(nJunk);
+                            recUnitList.get(6).setIsRecycling(true);
+                            recUnitList.get(6).junkBeingRecycledPlus();
+                        }
                     }
                 }
             }

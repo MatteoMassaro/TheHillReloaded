@@ -31,10 +31,10 @@ public class Paper extends Junk {
     public static void rinnovaTasso() {
         if (tassoMassimoRaggiunto) {
             if (tasso > 0.15834) {
-                tasso -= 0.00013;
+                tasso -= 0.0001;
             }
         } else {
-            tasso += 0.00008;
+            tasso += 0.00006;
         }
     }
 

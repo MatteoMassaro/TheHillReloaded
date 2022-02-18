@@ -30,7 +30,7 @@ public class HazarWaste extends Junk {
 
     public static void rinnovaTasso() {
         if (Paper.isTassoMassimoRaggiunto() && !isTassoMassimoRaggiunto()) {
-            tasso += 0.00002;
+            tasso += 0.000015;
         }
     }
 

@@ -11,8 +11,8 @@ import com.example.thehillreloaded.R;
 
 public class Junk {
 
-    private static double speed = 7, speedIncrease = 0.0014;
-    private static int distance = 0;
+    private static double speed = 7, speedIncrease = 0.0004;
+    private static int distance = 0, distanceRequired = 1000;
     private int x, y, width, height;
     private int dragX, dragY;
     private boolean doesIntersect = false;
@@ -45,7 +45,7 @@ public class Junk {
     }
 
     public static boolean distanceIsEnough() {
-        if (distance > 1250) {
+        if (distance > distanceRequired) {
             distance = 0;
             return true;
         }

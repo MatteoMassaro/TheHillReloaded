@@ -29,7 +29,7 @@ public class Glass extends Junk {
 
     public static void rinnovaTasso() {
         if (tasso > 0.15834) {
-            tasso -= 0.00012;
+            tasso -= 0.0001;
         }
     }
 

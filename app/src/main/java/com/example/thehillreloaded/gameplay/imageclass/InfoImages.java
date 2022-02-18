@@ -8,6 +8,8 @@ public class InfoImages extends RecImages {
     private Bitmap upgradedImageBitmap, material_lvl1, material_lvl2, material_lvl3;
     private int sunnyPointsLvl1 = 1, sunnyPointsLvl2 = 3, sunnyPointsLvl3 = 6;
     private int unitPointsLvl1 = 2, unitPointsLvl2 = 4, unitPointsLvl3 = 7;
+    private boolean isCheckingMaterialLvl1Info = false, isCheckingMaterialLvl2Info = false,
+            isCheckingMaterialLvl3Info = false;
 
     InfoImages(int x, int y) {
         super(x,y);
@@ -60,6 +62,18 @@ public class InfoImages extends RecImages {
         } else {
             return unitPointsLvl3;
         }
+    }
+
+    public void setIsCheckingMaterialInfoLvl1(boolean isTrue) {
+        isCheckingMaterialLvl1Info = isTrue;
+    }
+
+    public void setIsCheckingMaterialInfoLvl2(boolean isTrue) {
+        isCheckingMaterialLvl2Info = isTrue;
+    }
+
+    public void setIsCheckingMaterialInfoLvl3(boolean isTrue) {
+        isCheckingMaterialLvl3Info = isTrue;
     }
 
     public Bitmap getUpgradedImageBitmap() {

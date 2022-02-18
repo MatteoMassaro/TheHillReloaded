@@ -7,7 +7,6 @@ public class RecImages {
     private int x, y, width, height;
     private Bitmap imageBitmap;
     private Bitmap imageBitmap2;
-    private Bitmap elencoMissioni;
     private boolean clicked = false;
 
     public RecImages(int x, int y) {

@@ -34,7 +34,7 @@ public class EWaste extends Junk {
                 tasso -= 0.00006;
             }
         } else if (Aluminum.isTassoMassimoRaggiunto()) {
-            tasso += 0.000025;
+            tasso += 0.00001;
         }
     }
 
