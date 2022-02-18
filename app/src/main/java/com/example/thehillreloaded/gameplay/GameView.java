@@ -71,7 +71,8 @@ public class GameView extends SurfaceView implements Runnable {
     private UnitInfo unitInfo;
     private Upgrade upgrade;
     private UnitPoints unitPoints;
-    private RecImages sunnyPoints, missioni, pause;
+    private SunnyPoints sunnyPoints;
+    private RecImages missioni, pause;
     private GameBar gameBar;
 
     //Setta le view adattandole in base allo schermo
@@ -85,7 +86,6 @@ public class GameView extends SurfaceView implements Runnable {
         spawnBoundX = (screenX - (int) (247f * screenRatioX * densityRatio));
         spawnY = screenY * 6/11;
         background = new Background(screenX, screenY, getResources());
-
         gameBar = new GameBar(screenX, screenY, getResources());
         gameBar.setMissioni();
         sunnyPoints = new SunnyPoints((int)(30*screenRatioX), (int)(10*screenRatioY), getResources());
@@ -583,7 +583,7 @@ public class GameView extends SurfaceView implements Runnable {
                         resume();
                     }
 
-                    if (touchX >= recUnit.getX() && isTouchingRecUnit) {
+                    if (isTouchingRecUnit) {
                         if (isPlaying) {
                             recUnit.setIsCheckingInfo(true);
                         }

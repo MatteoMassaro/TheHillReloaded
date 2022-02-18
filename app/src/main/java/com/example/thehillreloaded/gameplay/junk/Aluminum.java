@@ -31,10 +31,10 @@ public class Aluminum extends Junk {
     public static void rinnovaTasso() {
         if (tassoMassimoRaggiunto) {
             if (tasso > 0.15834) {
-                tasso -= 0.00015;
+                tasso -= 0.00013;
             }
         } else if (Paper.isTassoMassimoRaggiunto()){
-            tasso += 0.00014;
+            tasso += 0.00013;
         } else {
             tasso += 0.00003;
         }

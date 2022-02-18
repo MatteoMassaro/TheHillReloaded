@@ -12,6 +12,8 @@ import com.example.thehillreloaded.R;
 
 public class SunnyPoints extends RecImages {
 
+    private int sunnyPoints = 0;
+
     public SunnyPoints(int x, int y, Resources res) {
         super(x,y);
 
@@ -19,5 +21,13 @@ public class SunnyPoints extends RecImages {
         super.setWidth((int)(getImageBitmap().getWidth() * screenRatioX * densityRatio/21.84));
         super.setHeight((int)(getImageBitmap().getHeight() * screenRatioY * densityRatio/21.84));
         setImageBitmap(Bitmap.createScaledBitmap(getImageBitmap(), getWidth(), getHeight(), true));
+    }
+
+    public int getSunnyPoints() {
+        return sunnyPoints;
+    }
+
+    public void setSunnyPoints(int sunny){
+        this.sunnyPoints = sunny;
     }
 }
