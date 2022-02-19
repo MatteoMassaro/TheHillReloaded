@@ -59,7 +59,7 @@ public class GameView extends SurfaceView implements Runnable {
     private int screenX, screenY, spawnBoundX, spawnY;
     public static double screenRatioX, screenRatioY, densityRatio;
     private Background background;
-    private Paint paint, transparentPaint, redPaint, strokePaint, textPaint;
+    private Paint paint, transparentPaint, redPaint, strokePaint, textPaint, missionPaint;
     private ArrayList<Junk> junkList = new ArrayList<>();
     private ArrayList<Rect> rectList = new ArrayList<>();
     private ArrayList<RecUnit> recUnitList = new ArrayList<>();
@@ -68,12 +68,15 @@ public class GameView extends SurfaceView implements Runnable {
     private ArrayList<RecImages> unitPointsInfoList = new ArrayList<>();
     private ArrayList<RecImages> sunnyPointsInfoList = new ArrayList<>();
     private ArrayList<InfoImages> infoImagesList = new ArrayList<>();
+    private ArrayList<Missioni> listaMissioni = new ArrayList<>();
     private UnitInfo unitInfo;
     private Upgrade upgrade;
     private UnitPoints unitPoints;
     private SunnyPoints sunnyPoints;
     private RecImages missioni, pause;
     private GameBar gameBar;
+    private int GoalJunkk, GoalRecUpgr, GoalSunnyAcc, GoalUnitPointsUsed;
+    private Missioni goals;
 
     //Setta le view adattandole in base allo schermo
     public GameView(Context context, int screenX, int screenY, float density) {
@@ -85,13 +88,13 @@ public class GameView extends SurfaceView implements Runnable {
         densityRatio = designDensity/density;
         spawnBoundX = (screenX - (int) (247f * screenRatioX * densityRatio));
         spawnY = screenY * 6/11;
+
         background = new Background(screenX, screenY, getResources());
         gameBar = new GameBar(screenX, screenY, getResources());
-        gameBar.setMissioni();
         sunnyPoints = new SunnyPoints((int)(30*screenRatioX), (int)(10*screenRatioY), getResources());
-
         missioni = new Missioni((int)(30*screenRatioX), (int)(10*screenRatioY), getResources());
         pause = new Pause((int)(30*screenRatioX), (int)(10*screenRatioY), getResources());
+        goals = new Missioni(missioni.getX(), missioni.getY(), getResources());
 
         Random random = new Random();
 
@@ -145,6 +148,16 @@ public class GameView extends SurfaceView implements Runnable {
         infoImagesList.add(new EWasteInfo(unitInfo.getX() + (int)(185*screenRatioX), unitInfo.getY() + (int)(201*screenRatioY), getResources()));
 
 
+        GoalJunkk = goals.getGoalJunkRec();
+        GoalRecUpgr = goals.getGoalRecUpgr();
+        GoalSunnyAcc = goals.getGoalSunnyAccum();
+        GoalUnitPointsUsed = goals.getGoalUnitPointsUsed();
+        listaMissioni.add(new Missioni(missioni.getX(), missioni.getY(), 0, "Ricicla " +GoalJunkk + " rifiuti totali.", getResources()));
+        listaMissioni.add(new Missioni(missioni.getX(), missioni.getY(), 1, "Effettua " +GoalRecUpgr + " upgrade per le stazioni.", getResources()));
+        listaMissioni.add(new Missioni(missioni.getX(), missioni.getY(), 2, "Guadagna " +GoalSunnyAcc + " Sunny points.", getResources()));
+        listaMissioni.add(new Missioni(missioni.getX(), missioni.getY(), 3, "Usa " +GoalUnitPointsUsed + " Unit points.", getResources()));
+
+
         junkList.add(new Glass((random.nextInt(spawnBoundX) + (int) (15.22 * screenRatioX)), spawnY, getResources()));
 
         /*recUnitList.get(1).setIsUnlockedToTrue();
@@ -168,6 +181,9 @@ public class GameView extends SurfaceView implements Runnable {
         textPaint = new Paint();
         textPaint.setTextSize(32 * (float)(screenRatioX * screenRatioY * densityRatio));
         textPaint.setTypeface(ResourcesCompat.getFont(context, R.font.bevan));
+        missionPaint = new Paint();
+        missionPaint.setTextSize(39 * (float)(screenRatioX * screenRatioY * densityRatio));
+        missionPaint.setTypeface(ResourcesCompat.getFont(context, R.font.bevan));
     }
 
 
@@ -322,6 +338,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             Junk.increaseDistance();
             Junk.increaseSpeed();
+
 
     }
 
@@ -496,16 +513,61 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas.drawBitmap(Bitmap.createScaledBitmap(sunnyPoints.getImageBitmap(), (int)(sunnyPoints.getWidth()*1.5), (int)(sunnyPoints.getHeight()*1.5), true), sunnyPoints.getX(), sunnyPoints.getY(), paint);
                 canvas.drawText(String.valueOf(sunnyPoints.getSunnyPoints()), sunnyPoints.getX() + sunnyPoints.getWidth() * 2, sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, paint);
                 canvas.drawBitmap(missioni.getImageBitmap(), missioni.getX() * 34/2, missioni.getY() - (float)(10 * screenRatioY) , paint);
+
+                if(missioni.isClicked()){
+                    canvas.drawBitmap(gameBar.getPausaRect(), gameBar.getHeight() * 2/9, gameBar.getWidth() * 8/5, paint);
+                    canvas.drawText("MISSIONI",missioni.getHeight()*7/2, missioni.getWidth()*5/2, paint);
+                    for(int m = 0; m < listaMissioni.size(); m++) {
+                        Missioni mission = listaMissioni.get(m);
+
+                        if (mission.getMissionType() == 0){
+                            canvas.drawText(mission.getDescrizione(), missioni.getHeight() * 7/3, missioni.getWidth() * 7/2, missionPaint);
+                            if(mission.getTotJunkRec() < mission.getGoalJunkRec()) {
+                                canvas.drawText("Obiettivo: " + mission.getTotJunkRec() + "/" + mission.getGoalJunkRec(), missioni.getHeight() * 7/3, missioni.getWidth() * 8/2, missionPaint);
+                            }
+                            else {
+                                canvas.drawText("Completata!", missioni.getHeight() * 7/3, missioni.getWidth() * 8/2, missionPaint);
+                            }
+                        }
+                        if(mission.getMissionType() == 1){
+                            canvas.drawText(mission.getDescrizione(), missioni.getHeight() * 7/3, missioni.getWidth() * 10/2, missionPaint);
+                            if(mission.getTotRecUpgr() < mission.getGoalRecUpgr()) {
+                                canvas.drawText("Obiettivo: " +mission.getTotRecUpgr()+"/"+mission.getGoalRecUpgr(), missioni.getHeight() * 7/3, missioni.getWidth() * 11/2, missionPaint);
+                            }
+                            else {
+                                canvas.drawText("Completata!", missioni.getHeight() * 7/3, missioni.getWidth() * 11/2, missionPaint);
+                            }
+                        }
+                        if(mission.getMissionType() == 2){
+                            canvas.drawText(mission.getDescrizione(), missioni.getHeight() * 7/3, missioni.getWidth() * 13/2, missionPaint);
+
+                            if(mission.getTotSunnyAccum() < mission.getGoalSunnyAccum()) {
+                                canvas.drawText("Obiettivo: " +mission.getTotSunnyAccum()+"/"+mission.getGoalSunnyAccum(), missioni.getHeight() * 7/3, missioni.getWidth() * 14/2, missionPaint);
+                            }
+                            else {
+                                canvas.drawText("Completata!", missioni.getHeight() * 7/3, missioni.getWidth() * 14/2, missionPaint);
+                            }
+                        }
+                        if(mission.getMissionType() == 3){
+                            canvas.drawText(mission.getDescrizione(), missioni.getHeight() * 7/3, missioni.getWidth() * 16/2, missionPaint);
+
+                            if(mission.getTotUnitPointsUsed() < mission.getGoalUnitPointsUsed()) {
+                                canvas.drawText("Obiettivo: " +mission.getTotUnitPointsUsed()+"/"+mission.getGoalUnitPointsUsed(), missioni.getHeight() * 7/3, missioni.getWidth() * 17/2, missionPaint);
+                            }
+                            else {
+                                canvas.drawText("Completata!", missioni.getHeight() * 7/3, missioni.getWidth() * 17/2, missionPaint);
+                            }
+                        }
+                    }
+                }
+
                 if(pause.isClicked()){
 
                     canvas.drawBitmap(pause.getImageBitmap2(), pause.getX() * 32 , pause.getY(), paint);
-                    canvas.drawBitmap(gameBar.getElencoMissioni(), gameBar.getHeight() * 1/15, gameBar.getWidth() * 1/14, paint);
-                    canvas.drawText("PAUSA",screenX/9 , screenY/5, paint);
+                    canvas.drawBitmap(gameBar.getPausaRect(), gameBar.getHeight() * 2/9, gameBar.getWidth() * 8/5, paint);
+                    canvas.drawText("PAUSA",missioni.getHeight()*7/2, missioni.getWidth()*5/2, paint);
                     canvas.drawBitmap(gameBar.getAudioIcon(), gameBar.getHeight() * 8, gameBar.getWidth() * 10, paint);
                     canvas.drawBitmap(gameBar.getMusicIcon(), gameBar.getHeight() * 16, gameBar.getWidth() * 10, paint);
-                    //for(int x = 0; x < gameBar.getNumeroMissioni(); x++){
-                    //canvas.drawText(gameBar.getMissioni(x),screenX/9 , screenY/5, paint);
-                    //}
                 }
                 else {
                     canvas.drawBitmap(pause.getImageBitmap(), pause.getX() * 32 , pause.getY(), paint);
@@ -560,7 +622,7 @@ public class GameView extends SurfaceView implements Runnable {
                 if(touchX >= pause.getX() * 32 && touchY >= pause.getY() && touchX < pause.getX() * 32 + pause.getWidth() && touchY < pause.getY() + pause.getHeight() && !(pause.isClicked())){
 
                     pause.setClicked(true);
-                    sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints()+1);
+                    //sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints()+1);
 
 
                 }
@@ -612,6 +674,9 @@ public class GameView extends SurfaceView implements Runnable {
                         recUnit.setIsUpgraded(true);
                         recUnit.setIsCheckingInfo(false);
                         recUnit.reduceUnitPoints(RecUnit.getUpgradePrice());
+
+                        listaMissioni.get(1).setTotRecUpgr(1);
+
                         resume();
                     }
 
@@ -622,6 +687,10 @@ public class GameView extends SurfaceView implements Runnable {
                             sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() + infoImages.getSunnyPoints(0));
                             recUnit.setIsCheckingInfo(false);
                             infoImages.setIsCheckingMaterialInfoLvl1(true);
+
+                            listaMissioni.get(2).setTotSunnyAccum(infoImages.getSunnyPoints(0));
+                            listaMissioni.get(3).setTotUnitPointsUsed(infoImages.getUnitPoints(0));
+
                             resume();
 
                         } else if (isTouchingLvl2Material && recUnit.getUnitPoints() >= infoImages.getUnitPoints(1) && recUnit.getIsUpgraded()) {
@@ -629,6 +698,10 @@ public class GameView extends SurfaceView implements Runnable {
                             sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() + infoImages.getSunnyPoints(1));
                             recUnit.setIsCheckingInfo(false);
                             infoImages.setIsCheckingMaterialInfoLvl2(true);
+
+                            listaMissioni.get(2).setTotSunnyAccum(infoImages.getSunnyPoints(1));
+                            listaMissioni.get(3).setTotUnitPointsUsed(infoImages.getUnitPoints(1));
+
                             resume();
 
                         } else if (isTouchingLvl3Material && recUnit.getUnitPoints() >= infoImages.getUnitPoints(2) && recUnit.getIsUpgraded()) {
@@ -636,6 +709,10 @@ public class GameView extends SurfaceView implements Runnable {
                             sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() + infoImages.getSunnyPoints(2));
                             recUnit.setIsCheckingInfo(false);
                             infoImages.setIsCheckingMaterialInfoLvl3(true);
+
+                            listaMissioni.get(2).setTotSunnyAccum(infoImages.getSunnyPoints(2));
+                            listaMissioni.get(3).setTotUnitPointsUsed(infoImages.getUnitPoints(2));
+
                             resume();
                         }
                     }
@@ -686,6 +763,8 @@ public class GameView extends SurfaceView implements Runnable {
                             junkList.remove(nJunk);
                             recUnitList.get(0).setIsRecycling(true);
                             recUnitList.get(0).junkBeingRecycledPlus();
+
+                            listaMissioni.get(0).setTotJunkRec(1);
                         }
 
                     } else if (junk instanceof Paper && recUnitList.get(1).getIsUnlocked() && x >= recUnitList.get(1).getX()
@@ -696,6 +775,8 @@ public class GameView extends SurfaceView implements Runnable {
                             junkList.remove(nJunk);
                             recUnitList.get(1).setIsRecycling(true);
                             recUnitList.get(1).junkBeingRecycledPlus();
+
+                            listaMissioni.get(0).setTotJunkRec(1);
                         }
 
                     } else if (junk instanceof Aluminum && recUnitList.get(2).getIsUnlocked() && x >= recUnitList.get(2).getX()
@@ -706,6 +787,8 @@ public class GameView extends SurfaceView implements Runnable {
                             junkList.remove(nJunk);
                             recUnitList.get(2).setIsRecycling(true);
                             recUnitList.get(2).junkBeingRecycledPlus();
+
+                            listaMissioni.get(0).setTotJunkRec(1);
                         }
 
                     } else if (junk instanceof Steel && recUnitList.get(3).getIsUnlocked() && x >= recUnitList.get(3).getX()
@@ -716,6 +799,8 @@ public class GameView extends SurfaceView implements Runnable {
                             junkList.remove(nJunk);
                             recUnitList.get(3).setIsRecycling(true);
                             recUnitList.get(3).junkBeingRecycledPlus();
+
+                            listaMissioni.get(0).setTotJunkRec(1);
                         }
 
                     } else if (junk instanceof Plastic && recUnitList.get(4).getIsUnlocked() && x >= recUnitList.get(4).getX()
@@ -726,6 +811,8 @@ public class GameView extends SurfaceView implements Runnable {
                             junkList.remove(nJunk);
                             recUnitList.get(4).setIsRecycling(true);
                             recUnitList.get(4).junkBeingRecycledPlus();
+
+                            listaMissioni.get(0).setTotJunkRec(1);
                         }
 
                     } else if (junk instanceof EWaste && recUnitList.get(5).getIsUnlocked() && x >= recUnitList.get(5).getX()
@@ -736,6 +823,8 @@ public class GameView extends SurfaceView implements Runnable {
                             junkList.remove(nJunk);
                             recUnitList.get(5).setIsRecycling(true);
                             recUnitList.get(5).junkBeingRecycledPlus();
+
+                            listaMissioni.get(0).setTotJunkRec(1);
                         }
 
                     } else if (x >= recUnitList.get(6).getX() && y >= recUnitList.get(6).getY()

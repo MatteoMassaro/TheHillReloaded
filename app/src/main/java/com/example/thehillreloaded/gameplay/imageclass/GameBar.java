@@ -15,21 +15,20 @@ import java.util.ArrayList;
 public class GameBar {
 
     private int x, y, width, height;
-    private Bitmap elencoMissioni, elencoPause, saveIcon, exitIcon, audioIcon, musicIcon, audioIconRed, musicIconRed;
-    private ArrayList<String> missioni;
+    private Bitmap pausaRect, elencoPause, saveIcon, exitIcon, audioIcon, musicIcon, audioIconRed, musicIconRed;
 
     public GameBar(int screenX, int screenY, Resources res) {
 
         this.x = screenX;
         this.y = screenY;
-        setElencoMissioni(BitmapFactory.decodeResource(res, R.drawable.pausarect));
+        setPausaRect(BitmapFactory.decodeResource(res, R.drawable.pausarect));
         setAudioIcon(BitmapFactory.decodeResource(res, R.drawable.audio));
         setMusicIcon(BitmapFactory.decodeResource(res, R.drawable.music));
         //setAudioIconRed(BitmapFactory.decodeResource(res, R.drawable.audiored));
         //setAudioIconRed(BitmapFactory.decodeResource(res, R.drawable.musicred));
 
-        this.setWidth((int)(getElencoMissioni().getWidth() * screenRatioX * densityRatio /30));
-        this.setHeight((int)(getElencoMissioni().getHeight() * screenRatioY * densityRatio /30));
+        this.setWidth((int)(getPausaRect().getWidth() * screenRatioX * densityRatio /30));
+        this.setHeight((int)(getPausaRect().getHeight() * screenRatioY * densityRatio /30));
         this.setWidth((int)(getAudioIcon().getWidth() * screenRatioX * densityRatio /30));
         this.setHeight((int)(getAudioIcon().getHeight() * screenRatioY * densityRatio /30));
         this.setWidth((int)(getMusicIcon().getWidth() * screenRatioX * densityRatio /30));
@@ -38,12 +37,11 @@ public class GameBar {
         //this.setHeight((int)(getAudioIconRed().getHeight() * screenRatioY * densityRatio /30));
         //this.setWidth((int)(getMusicIconRed().getWidth() * screenRatioX * densityRatio /30));
         //this.setHeight((int)(getMusicIconRed().getHeight() * screenRatioY * densityRatio /30));
-        setElencoMissioni(Bitmap.createScaledBitmap(getElencoMissioni(), screenX, screenY, true));
+        setPausaRect(Bitmap.createScaledBitmap(getPausaRect(), screenX, screenY*4/5, true));
         setAudioIcon(Bitmap.createScaledBitmap(getAudioIcon(), getWidth() *3, getHeight()*3, true));
         setMusicIcon(Bitmap.createScaledBitmap(getMusicIcon(), getWidth() *3, getHeight()*3, true));
         //setAudioIconRed(Bitmap.createScaledBitmap(getAudioIconRed(), getWidth() *3, getHeight()*3, true));
         //setMusicIconRed(Bitmap.createScaledBitmap(getMusicIconRed(), getWidth() *3, getHeight()*3, true));
-        missioni = new ArrayList<>();
     }
     public int getX() {
         return x;
@@ -69,23 +67,11 @@ public class GameBar {
         this.height = height;
     }
 
-    public Bitmap getElencoMissioni(){
-        return elencoMissioni;
+    public Bitmap getPausaRect(){
+        return pausaRect;
     }
 
-    public void setElencoMissioni(Bitmap elencoMissioni){ this.elencoMissioni = elencoMissioni;}
-
-    public void setMissioni(){
-        missioni.add("Costruisci la stazione della carta");
-    }
-
-    public String getMissioni(int a){
-        return missioni.get(a);
-    }
-
-    public int getNumeroMissioni(){
-        return missioni.size();
-    }
+    public void setPausaRect(Bitmap pausaRec){ this.pausaRect= pausaRec;}
 
     public Bitmap getAudioIcon() {
         return audioIcon;
