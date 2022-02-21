@@ -7,10 +7,16 @@ import static com.example.thehillreloaded.gameplay.GameView.screenRatioY;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 
 import com.example.thehillreloaded.R;
 
 public class PlasticInfo extends InfoImages {
+
+    private String materialLvl1Text = "A seconda del materiale di\ncui sono fatti, i sacchetti di\nplastica possono essere\nriciclati più o meno facilmente.\n\nhttps://it.wikipedia.org/\nwiki/Sacchetto_di_plastica",
+            materialLvl2Text = "Ogni minuto vengono vendute\n1 milione di bottiglie di plastica\nnel mondo e solamente il\n10% di queste viene riclato.\n\nhttps://ecocentrica.it/5-cose\n-da-sapere-sulle-bottiglie\n-di-plastica/",
+            materialLvl3Text = "Ogni bottiglia può essere\nriciclata infinite volte per\ndiventare una bottiglia nuova\ne identica all'originale.\n\nhttps://www.inabottle.it/it/\nambiente/sai-come-funziona\n-il-riciclo-delle-bottiglie-di\n-plastica";
 
     public PlasticInfo(int x, int y, Resources res) {
         super(x,y);
@@ -33,4 +39,18 @@ public class PlasticInfo extends InfoImages {
         setMaterial_lvl3(Bitmap.createScaledBitmap(getMaterial_lvl3(), (getWidth()), (getHeight()), true));
     }
 
+    @Override
+    public void drawMaterialLvl1Text(int x, int y, Paint paint, Canvas canvas) {
+        drawMultiLineText(materialLvl1Text, x, y, paint, canvas);
+    }
+
+    @Override
+    public void drawMaterialLvl2Text(int x, int y, Paint paint, Canvas canvas) {
+        drawMultiLineText(materialLvl2Text, x, y, paint, canvas);
+    }
+
+    @Override
+    public void drawMaterialLvl3Text(int x, int y, Paint paint, Canvas canvas) {
+        drawMultiLineText(materialLvl3Text, x, y, paint, canvas);
+    }
 }

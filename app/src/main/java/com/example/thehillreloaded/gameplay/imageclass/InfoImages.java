@@ -2,6 +2,8 @@ package com.example.thehillreloaded.gameplay.imageclass;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 
 public class InfoImages extends RecImages {
 
@@ -64,17 +66,47 @@ public class InfoImages extends RecImages {
         }
     }
 
-    public void setIsCheckingMaterialInfoLvl1(boolean isTrue) {
+    public void setIsCheckingMaterialLvl1Info(boolean isTrue) {
         isCheckingMaterialLvl1Info = isTrue;
     }
 
-    public void setIsCheckingMaterialInfoLvl2(boolean isTrue) {
+    public void setIsCheckingMaterialLvl2Info(boolean isTrue) {
         isCheckingMaterialLvl2Info = isTrue;
     }
 
-    public void setIsCheckingMaterialInfoLvl3(boolean isTrue) {
+    public void setIsCheckingMaterialLvl3Info(boolean isTrue) {
         isCheckingMaterialLvl3Info = isTrue;
     }
+
+    public boolean getIsCheckingMaterialLvl1Info() {
+        return isCheckingMaterialLvl1Info;
+    }
+
+    public boolean getIsCheckingMaterialLvl2Info() {
+        return isCheckingMaterialLvl2Info;
+    }
+
+    public boolean getIsCheckingMaterialLvl3Info() {
+        return isCheckingMaterialLvl3Info;
+    }
+
+    public void drawMultiLineText(String string, int x, int y, Paint paint, Canvas canvas) {
+        for (String line: string.split("\n")) {
+            canvas.drawText(line, x, y, paint);
+            y += paint.descent() - paint.ascent();
+        }
+    }
+
+    public void drawMaterialLvl1Text(int x, int y, Paint paint, Canvas canvas) {
+    }
+
+    public void drawMaterialLvl2Text(int x, int y, Paint paint, Canvas canvas) {
+    }
+
+    public void drawMaterialLvl3Text(int x, int y, Paint paint, Canvas canvas) {
+    }
+
+
 
     public Bitmap getUpgradedImageBitmap() {
         return upgradedImageBitmap;
