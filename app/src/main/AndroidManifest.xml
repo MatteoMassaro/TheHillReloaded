@@ -51,9 +51,6 @@
             android:name=".accesso.ModalitaAccessoActivity"
             android:exported="false" />
         <activity
-            android:name=".NewActivity"
-            android:exported="false" />
-        <activity
             android:name=".accesso.RegistrazioneActivity"
             android:exported="false" />
         <activity

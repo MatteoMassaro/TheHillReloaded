@@ -24,6 +24,8 @@ public class GameBar {
         setPausaRect(BitmapFactory.decodeResource(res, R.drawable.pausarect));
         setAudioIcon(BitmapFactory.decodeResource(res, R.drawable.audio));
         setMusicIcon(BitmapFactory.decodeResource(res, R.drawable.music));
+        setSaveIcon(BitmapFactory.decodeResource(res, R.drawable.save));
+        setExitIcon(BitmapFactory.decodeResource(res, R.drawable.exit));
         //setAudioIconRed(BitmapFactory.decodeResource(res, R.drawable.audiored));
         //setAudioIconRed(BitmapFactory.decodeResource(res, R.drawable.musicred));
 
@@ -33,6 +35,10 @@ public class GameBar {
         this.setHeight((int)(getAudioIcon().getHeight() * screenRatioY * densityRatio /30));
         this.setWidth((int)(getMusicIcon().getWidth() * screenRatioX * densityRatio /30));
         this.setHeight((int)(getMusicIcon().getHeight() * screenRatioY * densityRatio /30));
+        this.setWidth((int)(getSaveIcon().getWidth() * screenRatioX * densityRatio /30));
+        this.setHeight((int)(getSaveIcon().getHeight() * screenRatioY * densityRatio /30));
+        this.setWidth((int)(getExitIcon().getWidth() * screenRatioX * densityRatio /30));
+        this.setHeight((int)(getExitIcon().getHeight() * screenRatioY * densityRatio /30));
         //this.setWidth((int)(getAudioIconRed().getWidth() * screenRatioX * densityRatio /30));
         //this.setHeight((int)(getAudioIconRed().getHeight() * screenRatioY * densityRatio /30));
         //this.setWidth((int)(getMusicIconRed().getWidth() * screenRatioX * densityRatio /30));
@@ -40,6 +46,8 @@ public class GameBar {
         setPausaRect(Bitmap.createScaledBitmap(getPausaRect(), screenX, screenY*4/5, true));
         setAudioIcon(Bitmap.createScaledBitmap(getAudioIcon(), getWidth() *3, getHeight()*3, true));
         setMusicIcon(Bitmap.createScaledBitmap(getMusicIcon(), getWidth() *3, getHeight()*3, true));
+        setSaveIcon(Bitmap.createScaledBitmap(getSaveIcon(), getWidth() *3, getHeight()*3, true));
+        setExitIcon(Bitmap.createScaledBitmap(getExitIcon(), getWidth() *3, getHeight()*3, true));
         //setAudioIconRed(Bitmap.createScaledBitmap(getAudioIconRed(), getWidth() *3, getHeight()*3, true));
         //setMusicIconRed(Bitmap.createScaledBitmap(getMusicIconRed(), getWidth() *3, getHeight()*3, true));
     }
@@ -87,6 +95,22 @@ public class GameBar {
 
     public void setMusicIcon(Bitmap musicIcon) {
         this.musicIcon = musicIcon;
+    }
+
+    public Bitmap getSaveIcon() {
+        return saveIcon;
+    }
+
+    public void setSaveIcon(Bitmap saveIcon) {
+        this.saveIcon = saveIcon;
+    }
+
+    public Bitmap getExitIcon() {
+        return exitIcon;
+    }
+
+    public void setExitIcon(Bitmap exitIcon) {
+        this.exitIcon = exitIcon;
     }
 
     public Bitmap getAudioIconRed() {

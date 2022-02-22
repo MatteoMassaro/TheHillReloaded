@@ -14,9 +14,9 @@ import com.example.thehillreloaded.R;
 
 public class SteelInfo extends InfoImages {
 
-    private String materialLvl1Text = "Con 200 tappi di acciaio\nriciclati è possibile ottenere\nuna chiave inglese.\n\nhttp://alessandriaricicla.it/\nraccolta-differenziata-dell\n-acciaio/",
-            materialLvl2Text = "L'acciaio è il materiale più\nriciclato al mondo ed è\nriciclabile infinite volte.\n\nhttps://www.promozione\nacciaio.it/cms/it6637\n-economia-circolare-acciaio\n-e-riciclo.asp",
-            materialLvl3Text = "Con 1500 scatolette di tonno\nriciclate è possibile ottenere\nil telaio di una bicicletta.\n\nhttp://alessandriaricicla.it/\nraccolta-differenziata-dell-\nacciaio/";
+    private String materialLvl1Text = "Con 200 tappi di acciaio\nriciclati è possibile ottenere\nuna chiave inglese.\n\nFonte:\nhttp://alessandriaricicla.it/\nraccolta-differenziata-dell\n-acciaio/",
+            materialLvl2Text = "L'acciaio è il materiale più\nriciclato al mondo ed è\nriciclabile infinite volte.\n\nFonte:\nhttps://www.promozione\nacciaio.it/cms/it6637\n-economia-circolare-acciaio\n-e-riciclo.asp",
+            materialLvl3Text = "Con 1500 scatolette di tonno\nriciclate è possibile ottenere\nil telaio di una bicicletta.\n\nFonte:\nhttp://alessandriaricicla.it/\nraccolta-differenziata-dell-\nacciaio/";
 
     public SteelInfo(int x, int y, Resources res) {
         super(x,y);

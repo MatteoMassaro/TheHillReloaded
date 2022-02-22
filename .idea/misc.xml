@@ -40,7 +40,8 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout-w936dp/activity_login.xml" value="0.128" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_bluetooth.xml" value="0.2" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_difficolta.xml" value="0.25" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_difficolta.xml" value="0.2" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_game.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_giocatoresingolo.xml" value="0.176" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_impostazioni.xml" value="0.176" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_lingua.xml" value="0.2" />
@@ -60,7 +61,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/barre_unita_riciclo.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/listview_layout.xml" value="1.113486842105263" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/rettangoli_menu.xml" value="0.11302083333333333" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.23425925925925925" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.136" />
       </map>
     </option>
   </component>

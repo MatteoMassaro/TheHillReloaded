@@ -14,9 +14,9 @@ import com.example.thehillreloaded.R;
 
 public class PaperInfo extends InfoImages {
 
-    private String materialLvl1Text = "La percentuale di carta\nriciclata usata per produrre\ngiornali varia tra l'85% e il\n100%.\n\nhttps://www.perlen.ch/wp\n-content/uploads/files/\nRessourcen_Recycling-Prozess\n_i.pdf",
-            materialLvl2Text = "Il cartone può essere riciclato\npiù di 25 volte, senza perdere\nla sua integrità.\n\nhttps://www.askanews.it/\neconomia/2022/01/17/pro\n-carton-packaging-in-carta\n-e-cartone-riciclabili-pi%c3%b9\n-di-25-volte-pn_20220117_00128/",
-            materialLvl3Text = "In provincia di Bari viene\nprodotta una linea di borse\nin carta riciclata. Sono le\nKimoshi, dalla caratteristica\nforma versatile che permette al\ncliente di avere più soluzioni in\nun’unica borsa. La Kimoshi\ninfatti può essere zaino, pochette\n o borsa.\n\nhttps://www.comunieco\ncampioni.org/la-puglia\n-mette-in-mostra-lindustria\n-del-riciclo-di-carta-e-cartone/";
+    private String materialLvl1Text = "La percentuale di carta\nriciclata usata per produrre\ngiornali varia tra l'85% e il\n100%.\n\nFonte:\nhttps://www.perlen.ch/wp\n-content/uploads/files/\nRessourcen_Recycling-Prozess\n_i.pdf",
+            materialLvl2Text = "Il cartone può essere riciclato\npiù di 25 volte, senza perdere\nla sua integrità.\n\nFonte:\nhttps://www.askanews.it/\neconomia/2022/01/17/pro\n-carton-packaging-in-carta\n-e-cartone-riciclabili-pi%c3%b9\n-di-25-volte-pn_20220117_00128/",
+            materialLvl3Text = "In provincia di Bari viene\nprodotta una linea di borse\nin carta riciclata. Sono le\nKimoshi, dalla caratteristica\nforma versatile che permette al\ncliente di avere più soluzioni in\nun’unica borsa. La Kimoshi\ninfatti può essere zaino, pochette\n o borsa.\n\nFonte:\nhttps://www.comunieco\ncampioni.org/la-puglia\n-mette-in-mostra-lindustria\n-del-riciclo-di-carta-e-cartone/";
 
 
     public PaperInfo(int x, int y, Resources res) {
