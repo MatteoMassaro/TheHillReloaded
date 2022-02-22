@@ -88,7 +88,7 @@ public class GameView extends SurfaceView implements Runnable {
         screenRatioX = screenX/designX;
         screenRatioY = screenY/designY;
         densityRatio = designDensity/density;
-        spawnBoundX = (screenX - (int) (247f * screenRatioX * densityRatio));
+        spawnBoundX = screenX * 18/21;
         spawnY = screenY * 6/11;
 
         background = new Background(screenX, screenY, getResources());
@@ -134,7 +134,6 @@ public class GameView extends SurfaceView implements Runnable {
         unitPoints = new UnitPoints(unitInfo.getX() + (int)(228.34*screenRatioX), unitInfo.getY() + (int)(423.36*screenRatioY), getResources());
         materialInfo = new MaterialInfo(0, (int)(230 * screenRatioY), getResources());
 
-
         unitPointsInfoList.add(new UnitPoints(unitInfo.getX() + (int)(239.75*screenRatioX), unitInfo.getY() + (int)(699*screenRatioY), getResources()));
         unitPointsInfoList.add(new UnitPoints(unitInfo.getX() + (int)(475.7*screenRatioX), unitInfo.getY() + (int)(699*screenRatioY), getResources()));
         unitPointsInfoList.add(new UnitPoints(unitInfo.getX() + (int)(711.65*screenRatioX), unitInfo.getY() + (int)(699*screenRatioY), getResources()));
@@ -149,7 +148,6 @@ public class GameView extends SurfaceView implements Runnable {
         infoImagesList.add(new SteelInfo(unitInfo.getX() + (int)(201*screenRatioX), unitInfo.getY() + (int)(180*screenRatioY), getResources()));
         infoImagesList.add(new PlasticInfo(unitInfo.getX() + (int)(208*screenRatioX), unitInfo.getY() + (int)(175*screenRatioY), getResources()));
         infoImagesList.add(new EWasteInfo(unitInfo.getX() + (int)(185*screenRatioX), unitInfo.getY() + (int)(201*screenRatioY), getResources()));
-
 
         GoalJunkk = goals.getGoalJunkRec();
         GoalRecUpgr = goals.getGoalRecUpgr();
@@ -289,16 +287,16 @@ public class GameView extends SurfaceView implements Runnable {
                 if (Rect.intersects(junk.getCollisionShape(), otherJunk.getCollisionShape()) && x != y) {
                     junk.setIntersectionTrue();
                     junk.setY(otherJunk.getY() - junk.getHeight() + 1);
+                    break;
                 } else {
                     junk.setIntersectionFalse();
                 }
             }
 
             if (!junk.getIntersection() && junk.getY() < screenY - (int) (24.7 * screenRatioY) - junk.getHeight()) {
-                junk.setY(junk.getY() + (int) Junk.getSpeed());
-            }
+                junk.setY(junk.getY() + (int) (Junk.getSpeed() * screenRatioY * densityRatio));
 
-            if (junk.getY() >= screenY - (int) (24.7 * screenRatioY)) {
+            } else if (junk.getY() >= screenY - (int) (24.7 * screenRatioY) - junk.getHeight()) {
                 junk.setY(screenY - (int) (24.7 * screenRatioY) - junk.getHeight());
             }
         }
@@ -597,7 +595,7 @@ public class GameView extends SurfaceView implements Runnable {
                         if(mission.getMissionType() == 1){
                             canvas.drawText(mission.getDescrizione(), missioni.getWidth() * 2, missioni.getHeight() * 12/2, missionPaint);
                             if(mission.getTotRecUpgr() < mission.getGoalRecUpgr()) {
-                                canvas.drawText("Obiettivo: " +mission.getTotRecUpgr()+"/"+mission.getGoalRecUpgr(), missioni.getHeight() * 2, missioni.getWidth() * 13/2, missionPaint);
+                                canvas.drawText("Obiettivo: " +mission.getTotRecUpgr()+"/"+mission.getGoalRecUpgr(), missioni.getWidth() * 2, missioni.getHeight() * 13/2, missionPaint);
                             }
                             else {
                                 canvas.drawText("Completata!", missioni.getWidth() * 2, missioni.getHeight() * 13/2, missionPaint);
@@ -607,7 +605,7 @@ public class GameView extends SurfaceView implements Runnable {
                             canvas.drawText(mission.getDescrizione(), missioni.getWidth() * 2, missioni.getHeight() * 15/2, missionPaint);
 
                             if(mission.getTotSunnyAccum() < mission.getGoalSunnyAccum()) {
-                                canvas.drawText("Obiettivo: " +mission.getTotSunnyAccum()+"/"+mission.getGoalSunnyAccum(), missioni.getHeight() * 2, missioni.getWidth() * 16/2, missionPaint);
+                                canvas.drawText("Obiettivo: " +mission.getTotSunnyAccum()+"/"+mission.getGoalSunnyAccum(), missioni.getWidth() * 2, missioni.getHeight() * 16/2, missionPaint);
                             }
                             else {
                                 canvas.drawText("Completata!", missioni.getWidth() * 2, missioni.getHeight() * 16/2, missionPaint);
