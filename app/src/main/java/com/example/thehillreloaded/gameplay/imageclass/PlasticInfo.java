@@ -14,9 +14,9 @@ import com.example.thehillreloaded.R;
 
 public class PlasticInfo extends InfoImages {
 
-    private String materialLvl1Text = "A seconda del materiale di\ncui sono fatti, i sacchetti di\nplastica possono essere\nriciclati più o meno facilmente.\n\nhttps://it.wikipedia.org/\nwiki/Sacchetto_di_plastica",
-            materialLvl2Text = "Ogni minuto vengono vendute\n1 milione di bottiglie di plastica\nnel mondo e solamente il\n10% di queste viene riclato.\n\nhttps://ecocentrica.it/5-cose\n-da-sapere-sulle-bottiglie\n-di-plastica/",
-            materialLvl3Text = "Ogni bottiglia può essere\nriciclata infinite volte per\ndiventare una bottiglia nuova\ne identica all'originale.\n\nhttps://www.inabottle.it/it/\nambiente/sai-come-funziona\n-il-riciclo-delle-bottiglie-di\n-plastica";
+    private String materialLvl1Text = "A seconda del materiale di\ncui sono fatti, i sacchetti di\nplastica possono essere\nriciclati più o meno facilmente.\n\nFonte:\nhttps://it.wikipedia.org/\nwiki/Sacchetto_di_plastica",
+            materialLvl2Text = "Ogni minuto vengono vendute\n1 milione di bottiglie di plastica\nnel mondo e solamente il\n10% di queste viene riclato.\n\nFonte:\nhttps://ecocentrica.it/5-cose\n-da-sapere-sulle-bottiglie\n-di-plastica/",
+            materialLvl3Text = "Ogni bottiglia può essere\nriciclata infinite volte per\ndiventare una bottiglia nuova\ne identica all'originale.\n\nFonte:\nhttps://www.inabottle.it/it/\nambiente/sai-come-funziona\n-il-riciclo-delle-bottiglie-di\n-plastica";
 
     public PlasticInfo(int x, int y, Resources res) {
         super(x,y);

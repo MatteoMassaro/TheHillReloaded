@@ -14,9 +14,9 @@ import com.example.thehillreloaded.R;
 
 public class AluminumInfo extends InfoImages {
 
-    private String materialLvl1Text = "L'alluminio è un materiale\nmolto presente in  natura e\nriciclabile all'infinito.\n\nhttps://wisesociety.it/\nambiente-e-scienza/riciclo\n-alluminio-cial-economia\n-circolare/",
-            materialLvl2Text = "Riciclando l'alluminio si\nrisparmia il 95% dell'energia\nnecessaria per produrre\nalluminio nuovo.\n\nhttps://www.slowfood.it/\nlalluminio-riciclabile-al\n-100-una-ricchezza-infinita/",
-            materialLvl3Text = "Le bombolette spray possono\nessere riciclate al 100% e\nall'infinito.\n\nhttps://www.eso.it/rifiuti\n-industriali/smaltimento\n-bombolette-spray";
+    private String materialLvl1Text = "L'alluminio è un materiale\nmolto presente in  natura e\nriciclabile all'infinito.\n\nFonte:\nhttps://wisesociety.it/\nambiente-e-scienza/riciclo\n-alluminio-cial-economia\n-circolare/",
+            materialLvl2Text = "Riciclando l'alluminio si\nrisparmia il 95% dell'energia\nnecessaria per produrre\nalluminio nuovo.\n\nFonte:\nhttps://www.slowfood.it/\nlalluminio-riciclabile-al\n-100-una-ricchezza-infinita/",
+            materialLvl3Text = "Le bombolette spray possono\nessere riciclate al 100% e\nall'infinito.\n\nFonte:\nhttps://www.eso.it/rifiuti\n-industriali/smaltimento\n-bombolette-spray";
 
     public AluminumInfo(int x, int y, Resources res) {
         super(x,y);

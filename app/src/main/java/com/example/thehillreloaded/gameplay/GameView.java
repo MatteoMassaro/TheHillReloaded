@@ -505,8 +505,11 @@ public class GameView extends SurfaceView implements Runnable {
                     if (!recUnit.getIsUnlocked()) {
 
                     } else {
-
+                        //Imposta il menu unità quando viene toccata l'unità di riciclo
                         if (recUnit.getIsCheckingInfo()) {
+                            if(MusicPlayer.isPlayingEffect){
+                                MusicPlayer.stopEffetti();
+                            }
                             infoUnit = x;
                             canvas.drawBitmap(unitInfo.getImageBitmap(), unitInfo.getX(), unitInfo.getY(), paint);
 
@@ -554,7 +557,9 @@ public class GameView extends SurfaceView implements Runnable {
                                 }
                             }
 
-                        } else if (infoImages.getIsCheckingMaterialLvl1Info()) {
+                        }
+                        //Imposta il pop-up delle info sui materiali prodotti quando viene prodotto un materiale
+                        else if (infoImages.getIsCheckingMaterialLvl1Info()) {
                             canvas.drawBitmap(materialInfo.getImageBitmap(), materialInfo.getX(), materialInfo.getY(), paint);
                             infoImages.drawMaterialLvl1Text(materialInfo.getX() + (int)(220*screenRatioX), materialInfo.getY() + (int)(420*screenRatioY), missionPaint, canvas);
                             infoUnit = x;
@@ -577,8 +582,9 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas.drawText(String.valueOf(sunnyPoints.getSunnyPoints()), sunnyPoints.getX() + sunnyPoints.getWidth() * 2, sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, paint);
                 canvas.drawBitmap(missioni.getImageBitmap(), missioni.getX() * 34/2, missioni.getY() - (float)(10 * screenRatioY) , paint);
 
+                //Imposta il pannello delle missioni
                 if(missioni.isClicked()){
-                    canvas.drawBitmap(gameBar.getPausaRect(), 0, gameBar.getHeight() * 3, paint);
+                    canvas.drawBitmap(gameBar.getMissioniRect(), 0, gameBar.getHeight() * 3, paint);
                     canvas.drawText("MISSIONI",missioni.getWidth()*8/3, missioni.getHeight()*7/2, paint);
                     for(int m = 0; m < listaMissioni.size(); m++) {
                         Missioni mission = listaMissioni.get(m);
@@ -624,16 +630,22 @@ public class GameView extends SurfaceView implements Runnable {
                     }
                 }
 
+                //Imposta il menu di pausa
                 if (pause.isClicked()){
-
                     canvas.drawBitmap(pause.getImageBitmap2(), pause.getX() * 31 , pause.getY(), paint);
-                    canvas.drawBitmap(gameBar.getPausaRect(), gameBar.getWidth() * 2/9, gameBar.getHeight() * 8/5, paint);
-                    canvas.drawText("PAUSA",missioni.getWidth()*3, missioni.getHeight()*3, paint);
-                    canvas.drawBitmap(gameBar.getAudioIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 10, paint);
-                    canvas.drawBitmap(gameBar.getMusicIcon(), gameBar.getWidth() * 16, gameBar.getHeight() * 10, paint);
+                    canvas.drawBitmap(gameBar.getPausaRect(), gameBar.getWidth() * 2/9, gameBar.getHeight() * 1/4, paint);
+                    canvas.drawText("PAUSA",missioni.getWidth()*3, missioni.getHeight() * 11/2, paint);
+                    canvas.drawBitmap(gameBar.getMusicIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 16, paint);
+                    canvas.drawText("MUSICA",missioni.getWidth()* 9/2, missioni.getHeight() * 13/2, missionPaint);
+                    canvas.drawBitmap(gameBar.getAudioIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 20, paint);
+                    canvas.drawText("EFFETTI",missioni.getWidth()* 9/2, missioni.getHeight() * 16/2, missionPaint);
+                    canvas.drawBitmap(gameBar.getSaveIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 24, paint);
+                    canvas.drawText("SALVA",missioni.getWidth()* 9/2, missioni.getHeight() * 19/2, missionPaint);
+                    canvas.drawBitmap(gameBar.getExitIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 28, paint);
+                    canvas.drawText("ESCI",missioni.getWidth()* 9/2, missioni.getHeight() * 11, missionPaint);
                 }
                 else {
-                    canvas.drawBitmap(pause.getImageBitmap(), pause.getX() * 32 , pause.getY(), paint);
+                    canvas.drawBitmap(pause.getImageBitmap(), pause.getX() * 31 , pause.getY(), paint);
                 }
 
                 getHolder().unlockCanvasAndPost(canvas);
@@ -661,7 +673,7 @@ public class GameView extends SurfaceView implements Runnable {
             thread.start();
         }
 
-        //Pausa il gioco
+        //Mette in pausa il gioco
         public void pause() {
 
             try {
@@ -672,7 +684,7 @@ public class GameView extends SurfaceView implements Runnable {
             }
         }
 
-        //Cattura i movimenti e le posizioni dei blocchi
+        //Cattura i movimenti e le posizioni dei blocchi e dei pulsanti
         @Override
         public boolean onTouchEvent(MotionEvent event) {
 
@@ -743,6 +755,7 @@ public class GameView extends SurfaceView implements Runnable {
                         resume();
                     }
 
+                    //Aggiorna i SunnyPoints, gli UnitPoints e gli obiettivi delle missioni in base ai vari materiali prodotti
                     if (recUnit.getIsCheckingInfo()) {
 
                         if (isTouchingLvl1Material && recUnit.getUnitPoints() >= infoImages.getUnitPoints(0)) {
@@ -807,8 +820,12 @@ public class GameView extends SurfaceView implements Runnable {
                 int x = (int)event.getX();
                 int y = (int)event.getY();
 
+                //Mette in pausa o riprende il gioco in base alla pressione dell'utente sul pulsante
                 if(x >= pause.getX() * 32 && y >= pause.getY()/8 && x < pause.getX() * 32 + pause.getWidth() && y < pause.getY()/8 + pause.getHeight() && pause.isClicked()){
                     pause();
+                    if(MusicPlayer.isPlayingEffect){
+                        MusicPlayer.stopEffetti();
+                    }
                 }
                 else if(x >= pause.getX() * 32 && y >= pause.getY()/8 && x < pause.getX() * 32 + pause.getWidth() && y < pause.getY()/8 + pause.getHeight() && !(pause.isClicked())){
                     resume();
@@ -816,6 +833,9 @@ public class GameView extends SurfaceView implements Runnable {
 
                 if(x >= missioni.getX() * 34/2 && y >= missioni.getY()-20 && x < missioni.getX() * 34/2 + missioni.getWidth() && y < missioni.getY()-20 + missioni.getHeight() && missioni.isClicked()){
                     pause();
+                    if(MusicPlayer.isPlayingEffect){
+                        MusicPlayer.stopEffetti();
+                    }
                 }
 
                 else if(x >= missioni.getX() * 34/2 && y >= missioni.getY()-20 && x < missioni.getX() * 34/2 + missioni.getWidth() && y < missioni.getY()-20 + missioni.getHeight() && !(missioni.isClicked())){
