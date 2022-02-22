@@ -586,7 +586,7 @@ public class GameView extends SurfaceView implements Runnable {
 
                 //Imposta il pannello delle missioni
                 if(missioni.isClicked()){
-                    canvas.drawBitmap(gameBar.getPausaRect(), 0, gameBar.getHeight() * 3, paint);
+                    canvas.drawBitmap(gameBar.getMissioniRect(), 0, gameBar.getHeight() * 3, paint);
                     canvas.drawText("MISSIONI",missioni.getWidth()*8/3, missioni.getHeight()*7/2, paint);
                     for(int m = 0; m < listaMissioni.size(); m++) {
                         Missioni mission = listaMissioni.get(m);
@@ -635,16 +635,16 @@ public class GameView extends SurfaceView implements Runnable {
                 //Imposta il menu di pausa
                 if (pause.isClicked()){
                     canvas.drawBitmap(pause.getImageBitmap2(), pause.getX() * 31 , pause.getY(), paint);
-                    canvas.drawBitmap(gameBar.getPausaRect(), gameBar.getWidth() * 2/9, gameBar.getHeight() * 8/5, paint);
-                    canvas.drawText("PAUSA",missioni.getWidth()*3, missioni.getHeight()* 3, paint);
-                    canvas.drawBitmap(gameBar.getMusicIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 10, paint);
-                    canvas.drawText("MUSICA",missioni.getWidth()* 9/2, missioni.getHeight()* 9/2, missionPaint);
-                    canvas.drawBitmap(gameBar.getAudioIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 15, paint);
-                    canvas.drawText("EFFETTI",missioni.getWidth()* 9/2, missioni.getHeight()* 31/5, missionPaint);
-                    canvas.drawBitmap(gameBar.getSaveIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 20, paint);
-                    canvas.drawText("SALVA",missioni.getWidth()* 9/2, missioni.getHeight()* 8, missionPaint);
-                    canvas.drawBitmap(gameBar.getExitIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 25, paint);
-                    canvas.drawText("ESCI",missioni.getWidth()* 9/2, missioni.getHeight()* 49/5, missionPaint);
+                    canvas.drawBitmap(gameBar.getPausaRect(), gameBar.getWidth() * 2/9, gameBar.getHeight() * 1/4, paint);
+                    canvas.drawText("PAUSA",missioni.getWidth()*3, missioni.getHeight() * 11/2, paint);
+                    canvas.drawBitmap(gameBar.getMusicIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 16, paint);
+                    canvas.drawText("MUSICA",missioni.getWidth()* 9/2, missioni.getHeight() * 13/2, missionPaint);
+                    canvas.drawBitmap(gameBar.getAudioIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 20, paint);
+                    canvas.drawText("EFFETTI",missioni.getWidth()* 9/2, missioni.getHeight() * 16/2, missionPaint);
+                    canvas.drawBitmap(gameBar.getSaveIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 24, paint);
+                    canvas.drawText("SALVA",missioni.getWidth()* 9/2, missioni.getHeight() * 19/2, missionPaint);
+                    canvas.drawBitmap(gameBar.getExitIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 28, paint);
+                    canvas.drawText("ESCI",missioni.getWidth()* 9/2, missioni.getHeight() * 11, missionPaint);
                 }
                 else {
                     canvas.drawBitmap(pause.getImageBitmap(), pause.getX() * 31 , pause.getY(), paint);
@@ -675,7 +675,7 @@ public class GameView extends SurfaceView implements Runnable {
             thread.start();
         }
 
-        //Pausa il gioco
+        //Mette in pausa il gioco
         public void pause() {
 
             try {

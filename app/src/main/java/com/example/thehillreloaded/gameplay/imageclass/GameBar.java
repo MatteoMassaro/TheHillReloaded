@@ -10,18 +10,17 @@ import android.graphics.BitmapFactory;
 
 import com.example.thehillreloaded.R;
 
-import java.util.ArrayList;
-
 public class GameBar {
 
     private int x, y, width, height;
-    private Bitmap pausaRect, elencoPause, saveIcon, exitIcon, audioIcon, musicIcon, audioIconRed, musicIconRed;
+    private Bitmap pausaRect, missioniRect, elencoPause, saveIcon, exitIcon, audioIcon, musicIcon, audioIconRed, musicIconRed;
 
     public GameBar(int screenX, int screenY, Resources res) {
 
         this.x = screenX;
         this.y = screenY;
-        setPausaRect(BitmapFactory.decodeResource(res, R.drawable.pausarect));
+        setPausaRect(BitmapFactory.decodeResource(res, R.drawable.pausa_rect));
+        setMissioniRect(BitmapFactory.decodeResource(res, R.drawable.missioni_rect));
         setAudioIcon(BitmapFactory.decodeResource(res, R.drawable.audio));
         setMusicIcon(BitmapFactory.decodeResource(res, R.drawable.music));
         setSaveIcon(BitmapFactory.decodeResource(res, R.drawable.save));
@@ -44,6 +43,7 @@ public class GameBar {
         //this.setWidth((int)(getMusicIconRed().getWidth() * screenRatioX * densityRatio /30));
         //this.setHeight((int)(getMusicIconRed().getHeight() * screenRatioY * densityRatio /30));
         setPausaRect(Bitmap.createScaledBitmap(getPausaRect(), screenX, screenY*4/5, true));
+        setMissioniRect(Bitmap.createScaledBitmap(getMissioniRect(), screenX, screenY*4/5, true));
         setAudioIcon(Bitmap.createScaledBitmap(getAudioIcon(), getWidth() *3, getHeight()*3, true));
         setMusicIcon(Bitmap.createScaledBitmap(getMusicIcon(), getWidth() *3, getHeight()*3, true));
         setSaveIcon(Bitmap.createScaledBitmap(getSaveIcon(), getWidth() *3, getHeight()*3, true));
@@ -74,6 +74,12 @@ public class GameBar {
     public void setHeight(int height) {
         this.height = height;
     }
+
+    public Bitmap getMissioniRect(){
+        return missioniRect;
+    }
+
+    public void setMissioniRect(Bitmap missioniRect){ this.missioniRect= missioniRect;}
 
     public Bitmap getPausaRect(){
         return pausaRect;
