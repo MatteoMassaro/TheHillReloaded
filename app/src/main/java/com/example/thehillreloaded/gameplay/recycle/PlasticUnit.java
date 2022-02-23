@@ -20,6 +20,7 @@ public class PlasticUnit extends RecUnit{
     public PlasticUnit(int x, int y, Resources res) {
         super(x, y);
         setUnitType("Plastica");
+        setRecycleScore(10);
         setUnitPrice(35);
 
         plasticUnit = BitmapFactory.decodeResource(res, R.drawable.plasticunit);

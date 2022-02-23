@@ -15,6 +15,7 @@ public class RecUnit {
     private int recTotal = 0, recTotalUpgraded = 0, maxRecTotal = 900;
     private int unitPoints = 0, unitPrice;
     private static int upgradePrice = 5;
+    private int recycleScore = 0;
     private int junkBeingRecycled = 0;
     private String unitType;
     private boolean isUnlocked = false, isUnlocking = false;
@@ -148,6 +149,14 @@ public class RecUnit {
 
     public static int getUpgradePrice() {
         return upgradePrice;
+    }
+
+    public void setRecycleScore(int recScore) {
+        recycleScore = recScore;
+    }
+
+    public int getRecycleScore() {
+        return recycleScore;
     }
 
     public void recycledUnitPlus() {

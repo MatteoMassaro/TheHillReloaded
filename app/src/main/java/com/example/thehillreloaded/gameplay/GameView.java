@@ -176,7 +176,7 @@ public class GameView extends SurfaceView implements Runnable {
         Glass glass = new Glass(0, 0, getResources());
         junkList.add(new Glass(random.nextInt(spawnBoundX - glass.getWidth()) + (int) (25 * screenRatioX), spawnY, getResources()));
 
-        recUnitList.get(1).setIsUnlockedToTrue();
+        /*recUnitList.get(1).setIsUnlockedToTrue();
         recUnitList.get(2).setIsUnlockedToTrue();
         recUnitList.get(3).setIsUnlockedToTrue();
         recUnitList.get(4).setIsUnlockedToTrue();
@@ -229,7 +229,7 @@ public class GameView extends SurfaceView implements Runnable {
         recUnitList.get(5).unitPointsPlus();
         recUnitList.get(5).unitPointsPlus();
         recUnitList.get(5).unitPointsPlus();
-        sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints()+50);
+        sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints()+50);*/
 
         paint = new Paint();
         paint.setTextSize(64 * (float)(screenRatioX * screenRatioY * densityRatio));
@@ -360,6 +360,7 @@ public class GameView extends SurfaceView implements Runnable {
                     recUnit.unitPointsPlus();
                     recUnit.recycledUnitPlus();
                     recUnit.junkBeingRecycledMinus();
+                    gameBar.increaseScore(recUnit.getRecycleScore());
 
                     if(recUnit.getIsUpgraded()) {
                         recUnit.recycledUnitUpgradedPlus();
@@ -378,6 +379,7 @@ public class GameView extends SurfaceView implements Runnable {
                     recUnit.recycledUnitPlus();
                     recUnit.junkBeingRecycledMinus();
                     recUnit.recycledUnitUpgradedPlus();
+                    gameBar.increaseScore(recUnit.getRecycleScore());
 
                     if (recUnit.getRecTotal() == 0) {
                         recUnit.resetState();
@@ -644,6 +646,7 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas.drawBitmap(background.greenRect, background.getX(), background.getY(), paint);
                 canvas.drawBitmap(Bitmap.createScaledBitmap(sunnyPoints.getImageBitmap(), (int)(sunnyPoints.getWidth()*1.5), (int)(sunnyPoints.getHeight()*1.5), true), sunnyPoints.getX(), sunnyPoints.getY(), paint);
                 canvas.drawText(String.valueOf(sunnyPoints.getSunnyPoints()), sunnyPoints.getX() + sunnyPoints.getWidth() * 2, sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, paint);
+                canvas.drawText(String.valueOf(gameBar.getScore()), sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 10.5), sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, paint);
                 canvas.drawBitmap(missioni.getImageBitmap(), missioni.getX() * 34/2, missioni.getY() - (float)(10 * screenRatioY) , paint);
 
                 //Imposta il pannello delle missioni

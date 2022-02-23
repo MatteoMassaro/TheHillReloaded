@@ -20,6 +20,7 @@ public class EWasteUnit extends RecUnit{
     public EWasteUnit(int x, int y, Resources res) {
         super(x, y);
         setUnitType("Rifiuti tecnologici");
+        setRecycleScore(12);
         setUnitPrice(40);
 
         eWasteUnit = BitmapFactory.decodeResource(res, R.drawable.ewasteunit);

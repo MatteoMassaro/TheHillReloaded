@@ -14,6 +14,7 @@ public class GameBar {
 
     private int x, y, width, height;
     private Bitmap pausaRect, missioniRect, elencoPause, saveIcon, exitIcon, audioIcon, musicIcon, audioIconRed, musicIconRed;
+    private int score;
 
     public GameBar(int screenX, int screenY, Resources res) {
 
@@ -133,5 +134,13 @@ public class GameBar {
 
     public void setMusicIconRed(Bitmap musicIconRed) {
         this.musicIconRed = musicIconRed;
+    }
+
+    public void increaseScore(int score) {
+        this.score += score;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

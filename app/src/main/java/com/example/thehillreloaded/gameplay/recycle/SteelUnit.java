@@ -20,6 +20,7 @@ public class SteelUnit extends RecUnit{
     public SteelUnit(int x, int y, Resources res) {
         super(x, y);
         setUnitType("Acciaio");
+        setRecycleScore(8);
         setUnitPrice(30);
 
         steelUnit = BitmapFactory.decodeResource(res, R.drawable.steelunit);

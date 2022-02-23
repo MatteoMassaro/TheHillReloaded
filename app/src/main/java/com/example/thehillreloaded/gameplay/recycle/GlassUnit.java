@@ -21,6 +21,7 @@ public class GlassUnit extends RecUnit {
     public GlassUnit(int x, int y, Resources res) {
         super(x, y);
         setUnitType("Vetro");
+        setRecycleScore(3);
         setIsUnlockedToTrue();
 
         glassUnit = BitmapFactory.decodeResource(res, R.drawable.glassunit);
