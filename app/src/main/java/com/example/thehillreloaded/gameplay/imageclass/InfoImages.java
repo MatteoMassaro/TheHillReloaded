@@ -90,13 +90,6 @@ public class InfoImages extends RecImages {
         return isCheckingMaterialLvl3Info;
     }
 
-    public void drawMultiLineText(String string, int x, int y, Paint paint, Canvas canvas) {
-        for (String line: string.split("\n")) {
-            canvas.drawText(line, x, y, paint);
-            y += paint.descent() - paint.ascent();
-        }
-    }
-
     public void drawMaterialLvl1Text(int x, int y, Paint paint, Canvas canvas) {
     }
 

@@ -17,10 +17,11 @@ public class RecUnit {
     private static int upgradePrice = 5;
     private int junkBeingRecycled = 0;
     private String unitType;
-    private boolean isUnlocked = false;
+    private boolean isUnlocked = false, isUnlocking = false;
     private boolean isUpgraded = false;
     private boolean isRecycling = false;
     private boolean isCheckingInfo = false;
+    private boolean isPoweredUp = false;
     private int state = 0;
     private int recycledUnit = 0, recycledUnitUpgraded = 0, maxRecycledUnitUpgraded = 23;
     private int x, y, width, height;
@@ -64,7 +65,7 @@ public class RecUnit {
     }
 
     public boolean recTotalIsEnough() {
-        if (recTotal > 900) {
+        if (recTotal > maxRecTotal) {
             recTotal = 0;
             return true;
         }
@@ -73,7 +74,7 @@ public class RecUnit {
     }
 
     public boolean recTotalUpgradedIsEnough() {
-        if (recTotalUpgraded > 900) {
+        if (recTotalUpgraded > maxRecTotal) {
             recTotalUpgraded = 0;
             return true;
         }
@@ -127,6 +128,14 @@ public class RecUnit {
 
     public void setIsUnlockedToTrue() {
         isUnlocked = true;
+    }
+
+    public boolean getIsUnlocking() {
+        return isUnlocking;
+    }
+
+    public void setIsUnlocking(boolean isTrue) {
+        isUnlocking = isTrue;
     }
 
     public int getUnitPrice() {
@@ -199,6 +208,14 @@ public class RecUnit {
 
     public void setIsCheckingInfo(boolean isTrue) {
         isCheckingInfo = isTrue;
+    }
+
+    public boolean getIsPoweredUp() {
+        return isPoweredUp;
+    }
+
+    public void setIsPoweredUp(boolean isTrue) {
+        isPoweredUp = isTrue;
     }
 
     public int getUnitPoints() {
