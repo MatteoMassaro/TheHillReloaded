@@ -1,5 +1,7 @@
 package com.example.thehillreloaded.gameplay.recycle;
 
+import static com.example.thehillreloaded.menu.DifficoltaActivity.tassoDifficolta;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -11,7 +13,7 @@ import com.example.thehillreloaded.R;
 
 public class RecUnit {
 
-    private static double recyclingSpeed = 10;
+    private static double recyclingSpeed = 10 / tassoDifficolta;
     private int recTotal = 0, recTotalUpgraded = 0, maxRecTotal = 900;
     private int unitPoints = 0, unitPrice;
     private static int upgradePrice = 5;

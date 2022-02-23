@@ -18,6 +18,7 @@ public class DifficoltaActivity extends Animazioni implements View.OnClickListen
     //Variabili
     public CardView facile, media, difficile;
     public ImageView indietro;
+    public static double tassoDifficolta;
 
     //Chiama l'animazione all'avvio dell'activity
     @Override
@@ -70,12 +71,26 @@ public class DifficoltaActivity extends Animazioni implements View.OnClickListen
         @Override
         public void onClick(View view) {
             Intent i;
+            Bundle b;
             switch (view.getId()){
                 case R.id.facile:
-                case R.id.media:
-                case R.id.difficile:
+                    tassoDifficolta = 0.8;
                     i = new Intent(this, SchermataCaricamentoActivity.class);
-                    Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+                    b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+                    startActivity(i, b);
+                    finish();
+                    break;
+                case R.id.media:
+                    tassoDifficolta = 1;
+                    i = new Intent(this, SchermataCaricamentoActivity.class);
+                    b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+                    startActivity(i, b);
+                    finish();
+                    break;
+                case R.id.difficile:
+                    tassoDifficolta = 1.2;
+                    i = new Intent(this, SchermataCaricamentoActivity.class);
+                    b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                     startActivity(i, b);
                     finish();
                     break;

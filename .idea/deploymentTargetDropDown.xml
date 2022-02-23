@@ -7,12 +7,12 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\Danie\.android\avd\Some_Device.avd" />
+            <value value="C:\Users\Danie\.android\avd\5.1_WVGA_API_30.avd" />
           </Key>
         </deviceKey>
       </Target>
     </runningDeviceTargetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2022-02-23T21:05:53.816133500Z" />
+    <timeTargetWasSelectedWithDropDown value="2022-02-23T21:23:18.406858Z" />
     <runningDeviceTargetsSelectedWithDialog>
       <Target>
         <type value="RUNNING_DEVICE_TARGET" />

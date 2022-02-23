@@ -9,6 +9,7 @@ import com.example.thehillreloaded.R;
 import static com.example.thehillreloaded.gameplay.GameView.densityRatio;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioX;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioY;
+import static com.example.thehillreloaded.menu.DifficoltaActivity.tassoDifficolta;
 
 
 public class EWaste extends Junk {
@@ -31,10 +32,10 @@ public class EWaste extends Junk {
     public static void rinnovaTasso() {
         if (tassoMassimoRaggiunto) {
             if (tasso > 0.15834) {
-                tasso -= 0.00006;
+                tasso -= 0.00006 * tassoDifficolta;
             }
         } else if (Aluminum.isTassoMassimoRaggiunto()) {
-            tasso += 0.00001;
+            tasso += 0.00001 * tassoDifficolta;
         }
     }
 

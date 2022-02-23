@@ -435,7 +435,7 @@ public class GameView extends SurfaceView implements Runnable {
         public void draw() {
 
             if (getHolder().getSurface().isValid()) {
-                int infoUnit = -1;
+                boolean pauseFlag = false;
                 Canvas canvas = getHolder().lockCanvas();
                 canvas.drawBitmap(background.background, background.getX(), background.getY(), paint);
                 canvas.drawBitmap(background.spawnZone, background.getX(), this.screenY * 6 / 11, paint);
@@ -540,6 +540,10 @@ public class GameView extends SurfaceView implements Runnable {
                     } else {
                         canvas.drawBitmap(junk.getJunk(), junk.getX(), junk.getY(), paint);
                     }
+
+                    if (junk.getY() < spawnY) {
+                        pauseFlag = true;
+                    }
                 }
 
                 for (int x = 0; x <= recUnitList.size() - 1; x++) {
@@ -553,7 +557,7 @@ public class GameView extends SurfaceView implements Runnable {
                             confirmBuilding.drawConfirmBuildingText(confirmBuilding.getX() + (int)(200*screenRatioX), confirmBuilding.getY() + (int)(250*screenRatioY), missionPaint, canvas);
                             canvas.drawBitmap(confirmBuilding.getImageBitmap2(), confirmBuilding.getX() + (int)(180*screenRatioX), confirmBuilding.getY() + (int)(350*screenRatioY), paint);
                             canvas.drawBitmap(confirmBuilding.getImageBitmap3(), confirmBuilding.getX() + (int)(500*screenRatioX), confirmBuilding.getY() + (int)(350*screenRatioY), paint);
-                            infoUnit = x;
+                            pauseFlag = true;
                         }
 
                     } else {
@@ -562,7 +566,7 @@ public class GameView extends SurfaceView implements Runnable {
                             if(MusicPlayer.isPlayingEffect){
                                 MusicPlayer.stopEffetti();
                             }
-                            infoUnit = x;
+                            pauseFlag = true;
                             canvas.drawBitmap(unitInfo.getImageBitmap(), unitInfo.getX(), unitInfo.getY(), paint);
 
                             canvas.drawText("Tipo unità: " + recUnit.getUnitType(), unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(290*screenRatioY), textPaint);
@@ -612,7 +616,7 @@ public class GameView extends SurfaceView implements Runnable {
                             if(MusicPlayer.isPlayingEffect){
                                 MusicPlayer.stopEffetti();
                             }
-                            infoUnit = x;
+                            pauseFlag = true;
 
                             canvas.drawBitmap(unitInfo.getImageBitmap(), unitInfo.getX(), unitInfo.getY(), paint);
                             canvas.drawBitmap(infoImages.getImageBitmap(), infoImages.getX(), infoImages.getY(), paint);
@@ -628,17 +632,17 @@ public class GameView extends SurfaceView implements Runnable {
                         else if (infoImages.getIsCheckingMaterialLvl1Info()) {
                             canvas.drawBitmap(materialInfo.getImageBitmap(), materialInfo.getX(), materialInfo.getY(), paint);
                             infoImages.drawMaterialLvl1Text(materialInfo.getX() + (int)(220*screenRatioX), materialInfo.getY() + (int)(420*screenRatioY), missionPaint, canvas);
-                            infoUnit = x;
+                            pauseFlag = true;
 
                         } else if (infoImages.getIsCheckingMaterialLvl2Info()) {
                             canvas.drawBitmap(materialInfo.getImageBitmap(), materialInfo.getX(), materialInfo.getY(), paint);
                             infoImages.drawMaterialLvl2Text(materialInfo.getX() + (int)(220*screenRatioX), materialInfo.getY() + (int)(420*screenRatioY), missionPaint, canvas);
-                            infoUnit = x;
+                            pauseFlag = true;
 
                         } else if (infoImages.getIsCheckingMaterialLvl3Info()) {
                             canvas.drawBitmap(materialInfo.getImageBitmap(), materialInfo.getX(), materialInfo.getY(), paint);
                             infoImages.drawMaterialLvl3Text(materialInfo.getX() + (int)(220*screenRatioX), materialInfo.getY() + (int)(420*screenRatioY), missionPaint, canvas);
-                            infoUnit = x;
+                            pauseFlag = true;
                         }
                     }
                 }
@@ -720,7 +724,7 @@ public class GameView extends SurfaceView implements Runnable {
 
                 getHolder().unlockCanvasAndPost(canvas);
 
-                if(infoUnit != -1) {
+                if (pauseFlag) {
                     pause();
                 }
             }
@@ -900,7 +904,7 @@ public class GameView extends SurfaceView implements Runnable {
                 int x = (int)event.getX();
                 int y = (int)event.getY();
 
-                if ((nJunk != -1)) {
+                if ((nJunk != -1  && isPlaying)) {
                     Junk junk = junkList.get(nJunk);
                     junk.setBeingDraggedTrue();
                     junk.setDragX(x);
@@ -934,7 +938,7 @@ public class GameView extends SurfaceView implements Runnable {
                     resume();
                 }
 
-                if ((nJunk != -1)) {
+                if ((nJunk != -1 && isPlaying)) {
                     Junk junk = junkList.get(nJunk);
                     junk.setBeingDraggedFalse();
 

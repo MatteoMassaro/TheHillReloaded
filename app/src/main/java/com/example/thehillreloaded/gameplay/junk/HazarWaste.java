@@ -9,6 +9,7 @@ import com.example.thehillreloaded.R;
 import static com.example.thehillreloaded.gameplay.GameView.densityRatio;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioX;
 import static com.example.thehillreloaded.gameplay.GameView.screenRatioY;
+import static com.example.thehillreloaded.menu.DifficoltaActivity.tassoDifficolta;
 
 public class HazarWaste extends Junk {
 
@@ -30,7 +31,7 @@ public class HazarWaste extends Junk {
 
     public static void rinnovaTasso() {
         if (Paper.isTassoMassimoRaggiunto() && !isTassoMassimoRaggiunto()) {
-            tasso += 0.000015;
+            tasso += 0.000015 * tassoDifficolta;
         }
     }
 

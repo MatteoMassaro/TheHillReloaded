@@ -1,5 +1,7 @@
 package com.example.thehillreloaded.gameplay.junk;
 
+import static com.example.thehillreloaded.menu.DifficoltaActivity.tassoDifficolta;
+
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,7 +13,7 @@ import com.example.thehillreloaded.R;
 
 public class Junk {
 
-    private static double speed = 7, speedIncrease = 0.0004;
+    private static double speed = 7 * tassoDifficolta, speedIncrease = 0.0004 * tassoDifficolta;
     private static int distance = 0, distanceRequired = 1000;
     private int x, y, width, height;
     private int dragX, dragY;
