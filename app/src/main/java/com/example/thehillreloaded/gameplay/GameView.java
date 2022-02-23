@@ -12,6 +12,7 @@ import android.view.SurfaceView;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.example.thehillreloaded.R;
+import com.example.thehillreloaded.gameplay.imageclass.AboutToExpire;
 import com.example.thehillreloaded.gameplay.imageclass.AluminumInfo;
 import com.example.thehillreloaded.gameplay.imageclass.ConfirmBuilding;
 import com.example.thehillreloaded.gameplay.imageclass.EWasteInfo;
@@ -67,6 +68,7 @@ public class GameView extends SurfaceView implements Runnable {
     private ArrayList<Rect> rectList = new ArrayList<>();
     private ArrayList<RecUnit> recUnitList = new ArrayList<>();
     private ArrayList<RecImages> unitPointsRecImageList = new ArrayList<>();
+    private ArrayList<RecImages> upgradeAboutToExpireList = new ArrayList<>();
     private ArrayList<RecImages> unlockableUnitList = new ArrayList<>();
     private ArrayList<RecImages> unitPointsInfoList = new ArrayList<>();
     private ArrayList<RecImages> sunnyPointsInfoList = new ArrayList<>();
@@ -91,7 +93,7 @@ public class GameView extends SurfaceView implements Runnable {
         screenRatioX = screenX/designX;
         screenRatioY = screenY/designY;
         densityRatio = designDensity/density;
-        spawnBoundX = screenX * 18/21;
+        spawnBoundX = screenX * 65/68;
         spawnY = screenY * 6/11;
 
         background = new Background(screenX, screenY, getResources());
@@ -125,6 +127,13 @@ public class GameView extends SurfaceView implements Runnable {
         unitPointsRecImageList.add(new UnitPoints((int)(688*screenRatioX), (int)(138*screenRatioY), getResources()));
         unitPointsRecImageList.add(new UnitPoints((int)(790*screenRatioX), (int)(510*screenRatioY), getResources()));
         unitPointsRecImageList.add(new UnitPoints((int)(613*screenRatioX), (int)(845*screenRatioY), getResources()));
+        upgradeAboutToExpireList.add(new AboutToExpire((int)(320*screenRatioX), (int)(155*screenRatioY), getResources()));
+        upgradeAboutToExpireList.add(new AboutToExpire((int)(300*screenRatioX), (int)(514*screenRatioY), getResources()));
+        upgradeAboutToExpireList.add(new AboutToExpire((int)(350*screenRatioX), (int)(860*screenRatioY), getResources()));
+        upgradeAboutToExpireList.add(new AboutToExpire((int)(920*screenRatioX), (int)(160*screenRatioY), getResources()));
+        upgradeAboutToExpireList.add(new AboutToExpire((int)(910*screenRatioX), (int)(490*screenRatioY), getResources()));
+        upgradeAboutToExpireList.add(new AboutToExpire((int)(850*screenRatioX), (int)(845*screenRatioY), getResources()));
+
 
         unlockableUnitList.add(new UnlockableUnit((int)(98*screenRatioX),(int)(670*screenRatioY), getResources()));
         unlockableUnitList.add(new UnlockableUnit((int)(78*screenRatioX),(int)(988*screenRatioY), getResources()));
@@ -164,9 +173,10 @@ public class GameView extends SurfaceView implements Runnable {
         listaMissioni.add(new Missioni(missioni.getX(), missioni.getY(), 3, "Usa " +GoalUnitPointsUsed + " Unit points.", getResources()));
 
 
-        junkList.add(new Glass((random.nextInt(spawnBoundX) + (int) (15.22 * screenRatioX)), spawnY, getResources()));
+        Glass glass = new Glass(0, 0, getResources());
+        junkList.add(new Glass(random.nextInt(spawnBoundX - glass.getWidth()) + (int) (25 * screenRatioX), spawnY, getResources()));
 
-        /*recUnitList.get(1).setIsUnlockedToTrue();
+        recUnitList.get(1).setIsUnlockedToTrue();
         recUnitList.get(2).setIsUnlockedToTrue();
         recUnitList.get(3).setIsUnlockedToTrue();
         recUnitList.get(4).setIsUnlockedToTrue();
@@ -218,7 +228,7 @@ public class GameView extends SurfaceView implements Runnable {
         recUnitList.get(5).unitPointsPlus();
         recUnitList.get(5).unitPointsPlus();
         recUnitList.get(5).unitPointsPlus();
-        recUnitList.get(5).unitPointsPlus();*/
+        recUnitList.get(5).unitPointsPlus();
         sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints()+50);
 
         paint = new Paint();
@@ -262,25 +272,32 @@ public class GameView extends SurfaceView implements Runnable {
             double num = tassoTotale * random.nextDouble();
 
             if (num <= Glass.getTasso()) {
-                junkList.add(new Glass((random.nextInt(spawnBoundX) + (int) (9 * screenRatioX)), spawnY, getResources()));
+                Glass glass = new Glass(0,0, getResources());
+                junkList.add(new Glass((random.nextInt(spawnBoundX - glass.getWidth()) + (int) (25 * screenRatioX)), spawnY, getResources()));
 
             } else if (num > Glass.getTasso() && num <= Glass.getTasso() + Paper.getTasso()) {
-                junkList.add(new Paper((random.nextInt(spawnBoundX) + (int) (9 * screenRatioX)), spawnY, getResources()));
+                Paper paper = new Paper(0,0, getResources());
+                junkList.add(new Paper((random.nextInt(spawnBoundX - paper.getWidth()) + (int) (25 * screenRatioX)), spawnY, getResources()));
 
             } else if (num > Glass.getTasso() + Paper.getTasso() && num <= Glass.getTasso() + Paper.getTasso() + Aluminum.getTasso()) {
-                junkList.add(new Aluminum((random.nextInt(spawnBoundX) + (int) (9 * screenRatioX)), spawnY, getResources()));
+                Aluminum aluminum = new Aluminum(0,0, getResources());
+                junkList.add(new Aluminum((random.nextInt(spawnBoundX - aluminum.getWidth()) + (int) (25 * screenRatioX)), spawnY, getResources()));
 
             } else if (num > Glass.getTasso() + Paper.getTasso() + Aluminum.getTasso() && num <= Glass.getTasso() + Paper.getTasso() + Aluminum.getTasso() + HazarWaste.getTasso()) {
-                junkList.add(new HazarWaste((random.nextInt(spawnBoundX) + (int) (9 * screenRatioX)), spawnY, getResources()));
+                HazarWaste hazarWaste = new HazarWaste(0,0, getResources());
+                junkList.add(new HazarWaste((random.nextInt(spawnBoundX - hazarWaste.getWidth()) + (int) (25 * screenRatioX)), spawnY, getResources()));
 
             } else if (num > Glass.getTasso() + Paper.getTasso() + Aluminum.getTasso() + HazarWaste.getTasso() && num <= tassoTotale - Plastic.getTasso() - HazarWaste.getTasso()) {
-                junkList.add(new Steel((random.nextInt(spawnBoundX) + (int) (9 * screenRatioX)), spawnY, getResources()));
+                Steel steel = new Steel(0,0, getResources());
+                junkList.add(new Steel((random.nextInt(spawnBoundX - steel.getWidth()) + (int) (25 * screenRatioX)), spawnY, getResources()));
 
             } else if (num > tassoTotale - Plastic.getTasso() - HazarWaste.getTasso() && num <= tassoTotale - HazarWaste.getTasso()) {
-                junkList.add(new Plastic((random.nextInt(spawnBoundX) + (int) (9 * screenRatioX)), spawnY, getResources()));
+                Plastic plastic = new Plastic(0,0, getResources());
+                junkList.add(new Plastic((random.nextInt(spawnBoundX - plastic.getWidth()) + (int) (25 * screenRatioX)), spawnY, getResources()));
 
             } else {
-                junkList.add(new EWaste((random.nextInt(spawnBoundX) + (int) (7.6 * screenRatioX)), spawnY, getResources()));
+                EWaste eWaste = new EWaste(0,0, getResources());
+                junkList.add(new EWaste((random.nextInt(spawnBoundX - eWaste.getWidth()) + (int) (25 * screenRatioX)), spawnY, getResources()));
             }
         }
 
@@ -421,7 +438,6 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas.drawBitmap(background.background, background.getX(), background.getY(), paint);
                 canvas.drawBitmap(background.spawnZone, background.getX(), this.screenY * 6 / 11, paint);
 
-
                 for (int x = 0; x < recUnitList.size(); x++) {
                     RecUnit recUnit = recUnitList.get(x);
 
@@ -471,6 +487,11 @@ public class GameView extends SurfaceView implements Runnable {
                         } else if (recUnit.getIsUpgraded()) {
                             Rect rectLvl2 = new Rect(rectList.get(x).left, rectList.get(x).top + (int) (30 * screenRatioY), rectList.get(x).right, rectList.get(x).bottom + (int) (30 * screenRatioY));
                             canvas.drawRect(rectLvl2, paint);
+
+                            if (recUnit.getRecycledUnitUpgraded() >= recUnit.getMaxRecycledUnitUpgraded() - 3) {
+                                RecImages aboutToExpire = upgradeAboutToExpireList.get(x);
+                                canvas.drawBitmap(aboutToExpire.getImageBitmap(), aboutToExpire.getX(), aboutToExpire.getY(), paint);
+                            }
 
                             if (recUnit.getIsRecycling()) {
                                 Rect progressRect = new Rect(rect.left, rect.top, rect.left + (int) ((rect.right - rect.left) * ((double) (recUnit.getRecTotal()) / (double) (recUnit.getMaxRecTotal()))), rect.bottom);
@@ -865,6 +886,7 @@ public class GameView extends SurfaceView implements Runnable {
                             recUnit.setIsCheckingInfo(false);
                             recUnit.setIsRecycling(true);
                             sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() - 4);
+                            nJunk = -1;
                             resume();
                         }
                     }
