@@ -24,8 +24,8 @@ public class IncineratorInfo extends InfoImages {
         super.setHeight((int)(getImageBitmap().getHeight() * screenRatioY * densityRatio/3.6));
         setImageBitmap(Bitmap.createScaledBitmap(getImageBitmap(), getWidth(), getHeight(), true));
 
-        super.setWidth((int)(getImageBitmap2().getWidth() * screenRatioX * densityRatio/11.47));
-        super.setHeight((int)(getImageBitmap2().getHeight() * screenRatioY * densityRatio/11.47));
+        super.setWidth((int)(getImageBitmap2().getWidth()));
+        super.setHeight((int)(getImageBitmap2().getHeight()));
         setImageBitmap2(Bitmap.createScaledBitmap(getImageBitmap2(), getWidth(), getHeight(), true));
     }
 }

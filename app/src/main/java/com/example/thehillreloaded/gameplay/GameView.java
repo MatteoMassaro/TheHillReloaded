@@ -176,7 +176,7 @@ public class GameView extends SurfaceView implements Runnable {
         Glass glass = new Glass(0, 0, getResources());
         junkList.add(new Glass(random.nextInt(spawnBoundX - glass.getWidth()) + (int) (25 * screenRatioX), spawnY, getResources()));
 
-        /*recUnitList.get(1).setIsUnlockedToTrue();
+        recUnitList.get(1).setIsUnlockedToTrue();
         recUnitList.get(2).setIsUnlockedToTrue();
         recUnitList.get(3).setIsUnlockedToTrue();
         recUnitList.get(4).setIsUnlockedToTrue();
@@ -229,7 +229,7 @@ public class GameView extends SurfaceView implements Runnable {
         recUnitList.get(5).unitPointsPlus();
         recUnitList.get(5).unitPointsPlus();
         recUnitList.get(5).unitPointsPlus();
-        sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints()+50);*/
+        sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints()+50);
 
         paint = new Paint();
         paint.setTextSize(64 * (float)(screenRatioX * screenRatioY * densityRatio));
