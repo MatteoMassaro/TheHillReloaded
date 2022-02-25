@@ -703,6 +703,7 @@ public class GameView extends SurfaceView implements Runnable {
 
                 //Imposta il pannello delle missioni
                 if (missioni.isClicked()){
+                    pauseFlag = true;
                     canvas.drawBitmap(gameBar.getMissioniRect(), 0, gameBar.getHeight() * 3, paint);
                     canvas.drawText("MISSIONI",missioni.getWidth()*8/3, missioni.getHeight()*7/2, paint);
                     for(int m = 0; m < listaMissioni.size(); m++) {
@@ -754,6 +755,7 @@ public class GameView extends SurfaceView implements Runnable {
 
                 //Imposta il menu di pausa
                 if (pause.isClicked()){
+                    pauseFlag = true;
                     canvas.drawBitmap(pause.getImageBitmap2(), pause.getX() * 31 , pause.getY(), paint);
                     canvas.drawBitmap(gameBar.getPausaRect(), gameBar.getWidth() * 2/9, gameBar.getHeight() * 1/4, paint);
                     canvas.drawText("PAUSA",missioni.getWidth()*3, missioni.getHeight() * 11/2, paint);
@@ -773,6 +775,9 @@ public class GameView extends SurfaceView implements Runnable {
                 getHolder().unlockCanvasAndPost(canvas);
 
                 if (pauseFlag) {
+                    if(MusicPlayer.isPlayingEffect){
+                        MusicPlayer.stopEffetti();
+                    }
                     pause();
                 }
             }
@@ -813,23 +818,30 @@ public class GameView extends SurfaceView implements Runnable {
             if (event.getAction() == MotionEvent.ACTION_DOWN){
                 int touchX = (int)event.getX();
                 int touchY = (int)event.getY();
-
+                boolean isTouchingPause = touchX >= pause.getX() * 32 && touchY >= pause.getY() && touchX < pause.getX() * 32 + pause.getWidth() && touchY < pause.getY() + pause.getHeight();
+                boolean isTouchingMission = touchX >= missioni.getX() * 34/2 && touchY >= missioni.getY()-10 && touchX < missioni.getX() * 34/2 + missioni.getWidth() && touchY < missioni.getY()-10 + missioni.getHeight();
                 nJunk = -1;
 
-                if(touchX >= pause.getX() * 32 && touchY >= pause.getY() && touchX < pause.getX() * 32 + pause.getWidth() && touchY < pause.getY() + pause.getHeight() && !(pause.isClicked())){
+                //Mette in pausa o riprende il gioco in base alla pressione dell'utente sul pulsante
+                if (isTouchingPause && !(missioni.isClicked())){
 
-                    pause.setClicked(true);
-                }
-                else if(touchX >= pause.getX() * 32 && touchY >= pause.getY() && touchX < pause.getX() * 32 + pause.getWidth() && touchY < pause.getY() + pause.getHeight() && pause.isClicked()){
-                    pause.setClicked(false);
-                }
+                    if (!pause.isClicked() && isPlaying) {
+                        pause.setClicked(true);
 
-                if(touchX >= missioni.getX() * 34/2 && touchY >= missioni.getY()-10 && touchX < missioni.getX() * 34/2 + missioni.getWidth() && touchY < missioni.getY()-10 + missioni.getHeight() && !(missioni.isClicked())){
-                    missioni.setClicked(true);
-                }
+                    } else if (pause.isClicked() && !isPlaying) {
+                        pause.setClicked(false);
+                        resume();
+                    }
 
-                else if(touchX >= missioni.getX() * 34/2 && touchY >= missioni.getY()-10 && touchX < missioni.getX() * 34/2 + missioni.getWidth() && touchY < missioni.getY()-10 + missioni.getHeight() && missioni.isClicked()){
-                    missioni.setClicked(false);
+                } else if (isTouchingMission && !(pause.isClicked())) {
+
+                    if (!missioni.isClicked() && isPlaying) {
+                        missioni.setClicked(true);
+
+                    } else if (missioni.isClicked() && !isPlaying) {
+                        missioni.setClicked(false);
+                        resume();
+                    }
                 }
 
                 for (int i = 0; i < junkList.size(); i++) {
@@ -844,8 +856,9 @@ public class GameView extends SurfaceView implements Runnable {
                     RecUnit recUnit = recUnitList.get(i);
                     InfoImages infoImages = infoImagesList.get(i);
                     boolean isTouchingRecUnit = (touchX >= recUnit.getX() && touchY >= recUnit.getY() && touchX < recUnit.getX() + recUnit.getWidth() && touchY < recUnit.getY() + recUnit.getHeight());
+                    boolean isTouchingGameBar = touchY < screenY * 0.06;
 
-                    if (isTouchingRecUnit) {
+                    if (isTouchingRecUnit && !isTouchingGameBar && isPlaying) {
                         if (recUnit.getIsUnlocked()) {
                             recUnit.setIsCheckingInfo(true);
 
@@ -857,7 +870,7 @@ public class GameView extends SurfaceView implements Runnable {
                         recUnit.setIsCheckingInfo(false);
                         resume();
 
-                    } else if (recUnit.getIsUnlocking()) {
+                    } else if (recUnit.getIsUnlocking() && !isTouchingGameBar) {
                         boolean isTouchingYesButton = (touchX >= confirmBuilding.getX() + (int)(180*screenRatioX) && touchY >= confirmBuilding.getY() + (int)(350*screenRatioY) && touchX < confirmBuilding.getX() + (int)(180*screenRatioX) + confirmBuilding.getWidth() && touchY < confirmBuilding.getY() + (int)(350*screenRatioY) + confirmBuilding.getHeight());
                         boolean isTouchingNoButton = (touchX >= confirmBuilding.getX() + (int)(500*screenRatioX) && touchY >= confirmBuilding.getY() + (int)(350*screenRatioY) && touchX < confirmBuilding.getX() + (int)(500*screenRatioX) + confirmBuilding.getWidth() && touchY < confirmBuilding.getY() + (int)(350*screenRatioY) + confirmBuilding.getHeight());
 
@@ -963,28 +976,6 @@ public class GameView extends SurfaceView implements Runnable {
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 int x = (int)event.getX();
                 int y = (int)event.getY();
-
-                //Mette in pausa o riprende il gioco in base alla pressione dell'utente sul pulsante
-                if(x >= pause.getX() * 32 && y >= pause.getY()/8 && x < pause.getX() * 32 + pause.getWidth() && y < pause.getY()/8 + pause.getHeight() && pause.isClicked()){
-                    pause();
-                    if(MusicPlayer.isPlayingEffect){
-                        MusicPlayer.stopEffetti();
-                    }
-                }
-                else if(x >= pause.getX() * 32 && y >= pause.getY()/8 && x < pause.getX() * 32 + pause.getWidth() && y < pause.getY()/8 + pause.getHeight() && !(pause.isClicked())){
-                    resume();
-                }
-
-                if(x >= missioni.getX() * 34/2 && y >= missioni.getY()-20 && x < missioni.getX() * 34/2 + missioni.getWidth() && y < missioni.getY()-20 + missioni.getHeight() && missioni.isClicked()){
-                    pause();
-                    if(MusicPlayer.isPlayingEffect){
-                        MusicPlayer.stopEffetti();
-                    }
-                }
-
-                else if(x >= missioni.getX() * 34/2 && y >= missioni.getY()-20 && x < missioni.getX() * 34/2 + missioni.getWidth() && y < missioni.getY()-20 + missioni.getHeight() && !(missioni.isClicked())){
-                    resume();
-                }
 
                 if ((nJunk != -1 && isPlaying)) {
                     Junk junk = junkList.get(nJunk);
