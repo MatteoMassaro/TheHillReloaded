@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Danie/AndroidStudioProjects/androidApp/androidApp/app/src/main/res/drawable/add_user_background.xml" value="0.1" />
+        <entry key="..\:/Users/Danie/AndroidStudioProjects/androidApp/androidApp/app/src/main/res/drawable/back_background.xml" value="0.1" />
+        <entry key="..\:/Users/Danie/AndroidStudioProjects/androidApp/androidApp/app/src/main/res/drawable/barra_caricamento.xml" value="0.1" />
+        <entry key="..\:/Users/Danie/AndroidStudioProjects/androidApp/androidApp/app/src/main/res/drawable/group_background.xml" value="0.1" />
         <entry key="..\:/Users/Danie/AndroidStudioProjects/androidApp/androidApp/app/src/main/res/drawable/save_background.xml" value="0.1235" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/back_text.xml" value="0.1425" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/background_choice.xml" value="0.1359375" />

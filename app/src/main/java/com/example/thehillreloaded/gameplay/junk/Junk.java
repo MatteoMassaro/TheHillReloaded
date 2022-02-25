@@ -107,12 +107,8 @@ public class Junk {
         return new Rect(getX(), getY(), getX() + getWidth(), getY() + getHeight());
     }
 
-    public void setIntersectionTrue() {
-        doesIntersect = true;
-    }
-
-    public void setIntersectionFalse() {
-        doesIntersect = false;
+    public void setIntersection(boolean isTrue) {
+        doesIntersect = isTrue;
     }
 
     public boolean getIntersection() {
