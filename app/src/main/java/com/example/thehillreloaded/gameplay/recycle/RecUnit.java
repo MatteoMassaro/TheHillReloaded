@@ -16,7 +16,7 @@ public class RecUnit {
     private static double recyclingSpeed = 10 / tassoDifficolta;
     private int recTotal = 0, recTotalUpgraded = 0, maxRecTotal = 900;
     private int unitPoints = 0, unitPrice;
-    private static int upgradePrice = 5;
+    private int upgradePrice = 5;
     private int recycleScore = 0;
     private int junkBeingRecycled = 0;
     private String unitType;
@@ -35,12 +35,16 @@ public class RecUnit {
         this.y = y;
     }
 
-    public static void setSpeed(int newSpeed) {
+    public static void setRecyclingSpeed(int newSpeed) {
         recyclingSpeed = newSpeed;
     }
 
     public static double getRecyclingSpeed() {
         return recyclingSpeed;
+    }
+
+    public static void resetRecyclingSpeed() {
+        recyclingSpeed = recyclingSpeed = 10 / tassoDifficolta;
     }
 
     public void increaseRecTotal() {
@@ -149,7 +153,7 @@ public class RecUnit {
         this.unitPrice = price;
     }
 
-    public static int getUpgradePrice() {
+    public int getUpgradePrice() {
         return upgradePrice;
     }
 

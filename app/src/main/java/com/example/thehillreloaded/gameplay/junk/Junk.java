@@ -55,6 +55,16 @@ public class Junk {
         return false;
     }
 
+    public static void resetValues() {
+        distance = 0;
+        speed = 7 * tassoDifficolta;
+        speedIncrease = 0.0004 * tassoDifficolta;
+    }
+
+    public static int getDistance() {
+        return distance;
+    }
+
     public int getX() {
         return x;
     }
@@ -126,7 +136,6 @@ public class Junk {
     public boolean getBeingDragged() {
         return isBeingDragged;
     }
-
 
     public Bitmap getJunk() {
         return BitmapFactory.decodeResource(res, R.drawable.rubbish);

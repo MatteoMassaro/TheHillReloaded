@@ -53,6 +53,11 @@ public class Plastic extends Junk {
         return tasso;
     }
 
+    public static void resetValues() {
+        tasso = 0;
+        tassoMassimoRaggiunto = false;
+    }
+
     @Override
     public Bitmap getJunk() {
         return plastic;

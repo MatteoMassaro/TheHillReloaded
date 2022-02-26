@@ -10,6 +10,7 @@ import android.view.WindowManager;
 
 import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.menu.MusicPlayer;
+import com.example.thehillreloaded.menu.VolumeActivity;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -38,6 +39,7 @@ public class GameActivity extends AppCompatActivity {
         if(b){
             MusicPlayer.playMusic(this, R.raw.game_music);
         }
+        VolumeActivity.flag = 0;
     }
 
     @Override

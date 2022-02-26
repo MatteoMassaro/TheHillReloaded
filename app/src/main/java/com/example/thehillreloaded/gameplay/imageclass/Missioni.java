@@ -18,15 +18,13 @@ public class Missioni extends  RecImages{
     private int goalJunkRec = 50, goalRecUpgr = 5, goalSunnyAccum = 60, goalUnitPointsUsed = 30;
     private int missionType;
 
-
-    public Missioni(int x ,int y, Resources res){
-
+    public Missioni(int x, int y, Resources res){
         super(x, y);
+
         setImageBitmap(BitmapFactory.decodeResource(res, R.drawable.goal));
         super.setWidth((int)(getImageBitmap().getHeight() * screenRatioX * densityRatio/11));
         super.setHeight((int)(getImageBitmap().getWidth() * screenRatioY * densityRatio/11));
         setImageBitmap(Bitmap.createScaledBitmap(getImageBitmap(), getWidth(), getHeight(), true));
-
 
     }
 
@@ -35,8 +33,6 @@ public class Missioni extends  RecImages{
         setMissionType(type);
         setDescrizione(descr);
     }
-
-
 
     public boolean isCompleted() {
         return completed;

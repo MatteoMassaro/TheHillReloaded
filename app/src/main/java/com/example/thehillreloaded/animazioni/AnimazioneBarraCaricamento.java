@@ -39,10 +39,10 @@ public class AnimazioneBarraCaricamento extends Animation{
         barraCaricamento.setProgress((int)value);
         percentuale.setText((int)value + " %");
 
-        if(value == da && GiocatoreSingoloActivity.classica){
+        if (value == da && GiocatoreSingoloActivity.classica){
             contesto.startActivity(new Intent(contesto, GameActivity.class));
 
-        }else if(value == da && GiocatoreSingoloActivity.powerUp){
+        } else if(value == da && GiocatoreSingoloActivity.powerUp){
             //game activity per modalità power-up
             contesto.startActivity(new Intent(contesto, GameActivity.class));
         }

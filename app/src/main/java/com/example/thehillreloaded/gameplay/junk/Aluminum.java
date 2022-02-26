@@ -55,6 +55,11 @@ public class Aluminum extends Junk {
         return tasso;
     }
 
+    public static void resetValues() {
+        tasso = 0;
+        tassoMassimoRaggiunto = false;
+    }
+
     @Override
     public Bitmap getJunk() {
         return aluminum;

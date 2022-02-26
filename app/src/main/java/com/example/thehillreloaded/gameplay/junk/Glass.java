@@ -38,6 +38,10 @@ public class Glass extends Junk {
         return tasso;
     }
 
+    public static void resetValues() {
+        tasso = 1;
+    }
+
     @Override
     public Bitmap getJunk() {
         return glass;

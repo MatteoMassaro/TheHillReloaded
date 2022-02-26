@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.thehillreloaded.R;
+import com.example.thehillreloaded.accesso.ModalitaAccessoActivity;
 import com.example.thehillreloaded.animazioni.Animazioni;
 
 public class GiocatoreSingoloActivity extends Animazioni implements View.OnClickListener{
@@ -25,6 +26,11 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
         super.onStart();
         runAnimationSlideIn(modalitaClassica);
         runAnimationSlideIn(modalitaPowerUp);
+        if (VolumeActivity.flag == 0) {
+            MusicPlayer.playMusic(this, R.raw.menu_music);
+            ModalitaAccessoActivity.isPlayingAudio = true;
+            VolumeActivity.flag = 1;
+        }
     }
 
     //Chiama l'animazione alla pausa dell'activity

@@ -1,6 +1,10 @@
 package com.example.thehillreloaded.gameplay;
 
+import static com.example.thehillreloaded.menu.MusicPlayer.mediaPlayer;
+import static com.example.thehillreloaded.menu.MusicPlayer.stopMusic;
+
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -17,6 +21,7 @@ import com.example.thehillreloaded.gameplay.imageclass.AluminumInfo;
 import com.example.thehillreloaded.gameplay.imageclass.ConfirmBuilding;
 import com.example.thehillreloaded.gameplay.imageclass.EWasteInfo;
 import com.example.thehillreloaded.gameplay.imageclass.GameBar;
+import com.example.thehillreloaded.gameplay.imageclass.GameOver;
 import com.example.thehillreloaded.gameplay.imageclass.GlassInfo;
 import com.example.thehillreloaded.gameplay.imageclass.IncineratorInfo;
 import com.example.thehillreloaded.gameplay.imageclass.InfoImages;
@@ -48,7 +53,10 @@ import com.example.thehillreloaded.gameplay.recycle.PaperUnit;
 import com.example.thehillreloaded.gameplay.recycle.PlasticUnit;
 import com.example.thehillreloaded.gameplay.recycle.RecUnit;
 import com.example.thehillreloaded.gameplay.recycle.SteelUnit;
+import com.example.thehillreloaded.menu.DifficoltaActivity;
+import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
+import com.example.thehillreloaded.menu.SchermataCaricamentoActivity;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -75,6 +83,8 @@ public class GameView extends SurfaceView implements Runnable {
     private ArrayList<InfoImages> infoImagesList = new ArrayList<>();
     private ArrayList<Missioni> listaMissioni = new ArrayList<>();
     private ConfirmBuilding confirmBuilding;
+    private GameOver gameOver;
+    private boolean isGameOver;
     private UnitInfo unitInfo;
     private Upgrade upgrade;
     private UnitPoints unitPoints;
@@ -84,10 +94,12 @@ public class GameView extends SurfaceView implements Runnable {
     private GameBar gameBar;
     private int GoalJunkk, GoalRecUpgr, GoalSunnyAcc, GoalUnitPointsUsed;
     private Missioni goals;
+    private GameActivity gameActivity;
 
     //Setta le view adattandole in base allo schermo
     public GameView(Context context, int screenX, int screenY, float density) {
         super(context);
+        gameActivity = (GameActivity) context;
         this.screenX = screenX;
         this.screenY = screenY;
         screenRatioX = screenX/designX;
@@ -95,10 +107,12 @@ public class GameView extends SurfaceView implements Runnable {
         densityRatio = designDensity/density;
         spawnBoundX = screenX * 65/68;
         spawnY = screenY * 6/11;
+        isGameOver = false;
 
         //definisci oggetti per la visualizzazione e la manipolazione di dati inerenti il background, il rettangolo di spawn, la barra di sopra, ecc.
         background = new Background(screenX, screenY, getResources());
         gameBar = new GameBar(screenX, screenY, getResources());
+        gameOver = new GameOver((int)(60*screenRatioX), (int)(650 * screenRatioY), getResources());
         sunnyPoints = new SunnyPoints((int)(30*screenRatioX), (int)(10*screenRatioY), getResources());
         missioni = new Missioni((int)(30*screenRatioX), (int)(10*screenRatioY), getResources());
         pause = new Pause((int)(30*screenRatioX), (int)(10*screenRatioY), getResources());
@@ -241,8 +255,8 @@ public class GameView extends SurfaceView implements Runnable {
         recUnitList.get(5).unitPointsPlus();
         recUnitList.get(5).unitPointsPlus();
         recUnitList.get(5).unitPointsPlus();
-        recUnitList.get(5).unitPointsPlus();*/
-        sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints()+50);
+        recUnitList.get(5).unitPointsPlus();
+        sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints()+50);*/
 
 
         //definisci tutti i paint
@@ -444,6 +458,7 @@ public class GameView extends SurfaceView implements Runnable {
                     //se i rifiuti sono presenti sulla linea di base
                     if (junk.getY() > screenY - (int) (24.7 * screenRatioY) - junk.getHeight() - 1) {
                         junkList.remove(i); //rimuovi i rifiuti
+                        recUnit.recycledUnitPlus();
                     }
                 }
             }
@@ -590,7 +605,15 @@ public class GameView extends SurfaceView implements Runnable {
                     }
 
                     if (junk.getY() < spawnY) {
-                        pauseFlag = true;
+                        if(!isGameOver) {
+                            isPlaying = false;
+                        }
+                        isGameOver = true;
+                        canvas.drawBitmap(gameOver.getImageBitmap(), gameOver.getX(), gameOver.getY(), paint);
+                        canvas.drawBitmap(gameOver.getImageBitmap2(), gameOver.getX() + (int)(170*screenRatioX), gameOver.getY() + (int)(350*screenRatioY), paint);
+                        canvas.drawBitmap(gameOver.getImageBitmap3(), gameOver.getX() + (int)(170*screenRatioX), gameOver.getY() + (int)(500*screenRatioY), paint);
+                        canvas.drawText("RICOMINCIA", gameOver.getX() + gameOver.getWidth() + (int)(200*screenRatioX), gameOver.getY() + (int)(450*screenRatioY), paint);
+                        canvas.drawText("ESCI", gameOver.getX() + gameOver.getWidth() + (int)(200*screenRatioX), gameOver.getY() + (int)(600*screenRatioY), paint);
                     }
                 }
 
@@ -626,7 +649,7 @@ public class GameView extends SurfaceView implements Runnable {
                                 canvas.drawText("Livello: 1", unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(330*screenRatioY), textInfoPaint);
                                 canvas.drawBitmap(upgrade.getImageBitmap(), upgrade.getX(), upgrade.getY(), paint);
                                 canvas.drawBitmap(unitPoints.getImageBitmap(), unitPoints.getX(), unitPoints.getY(), paint);
-                                canvas.drawText(String.valueOf(RecUnit.getUpgradePrice()), unitPoints.getX() - (int)(49.47*screenRatioX), unitPoints.getY() + unitPoints.getHeight()*7/8, paint);
+                                canvas.drawText(String.valueOf(recUnit.getUpgradePrice()), unitPoints.getX() - (int)(49.47*screenRatioX), unitPoints.getY() + unitPoints.getHeight()*7/8, paint);
 
                             } else if (recUnit.getIsUpgraded()) {
                                 canvas.drawBitmap(infoImages.getUpgradedImageBitmap(), infoImages.getX(), infoImages.getY(), paint);
@@ -811,6 +834,47 @@ public class GameView extends SurfaceView implements Runnable {
             }
         }
 
+        public void restart() {
+
+            if (MusicPlayer.isPlayingEffect){
+                MusicPlayer.stopEffetti();
+            }
+
+            RecUnit.resetRecyclingSpeed();
+            Junk.resetValues();
+            Glass.resetValues();
+            Paper.resetValues();
+            Aluminum.resetValues();
+            HazarWaste.resetValues();
+            Steel.resetValues();
+            Plastic.resetValues();
+            HazarWaste.resetValues();
+
+            gameActivity.finish();
+            gameActivity.startActivity(new Intent(gameActivity, SchermataCaricamentoActivity.class));
+        }
+
+    public void exit() {
+
+        if (MusicPlayer.isPlayingEffect){
+            MusicPlayer.stopEffetti();
+        }
+
+        RecUnit.resetRecyclingSpeed();
+        Junk.resetValues();
+        Glass.resetValues();
+        Paper.resetValues();
+        Aluminum.resetValues();
+        HazarWaste.resetValues();
+        Steel.resetValues();
+        Plastic.resetValues();
+        HazarWaste.resetValues();
+
+        gameActivity.finish();
+        gameActivity.startActivity(new Intent(gameActivity, GiocatoreSingoloActivity.class));
+        stopMusic();
+    }
+
         //Cattura i movimenti e le posizioni dei blocchi e dei pulsanti
         @Override
         public boolean onTouchEvent(MotionEvent event) {
@@ -858,11 +922,11 @@ public class GameView extends SurfaceView implements Runnable {
                     boolean isTouchingRecUnit = (touchX >= recUnit.getX() && touchY >= recUnit.getY() && touchX < recUnit.getX() + recUnit.getWidth() && touchY < recUnit.getY() + recUnit.getHeight());
                     boolean isTouchingGameBar = touchY < screenY * 0.06;
 
-                    if (isTouchingRecUnit && !isTouchingGameBar && isPlaying) {
+                    if (isTouchingRecUnit && !isTouchingGameBar && !isGameOver) {
                         if (recUnit.getIsUnlocked()) {
                             recUnit.setIsCheckingInfo(true);
 
-                        } else if (!recUnit.getIsUnlocked() && sunnyPoints.getSunnyPoints() >= recUnit.getUnitPrice()) {
+                        } else if (!recUnit.getIsUnlocked() && sunnyPoints.getSunnyPoints() >= recUnit.getUnitPrice() && !missioni.isClicked() && !pause.isClicked()) {
                             recUnit.setIsUnlocking(true);
                         }
 
@@ -870,7 +934,7 @@ public class GameView extends SurfaceView implements Runnable {
                         recUnit.setIsCheckingInfo(false);
                         resume();
 
-                    } else if (recUnit.getIsUnlocking() && !isTouchingGameBar) {
+                    } else if (recUnit.getIsUnlocking() && !isTouchingGameBar && !isGameOver) {
                         boolean isTouchingYesButton = (touchX >= confirmBuilding.getX() + (int)(180*screenRatioX) && touchY >= confirmBuilding.getY() + (int)(350*screenRatioY) && touchX < confirmBuilding.getX() + (int)(180*screenRatioX) + confirmBuilding.getWidth() && touchY < confirmBuilding.getY() + (int)(350*screenRatioY) + confirmBuilding.getHeight());
                         boolean isTouchingNoButton = (touchX >= confirmBuilding.getX() + (int)(500*screenRatioX) && touchY >= confirmBuilding.getY() + (int)(350*screenRatioY) && touchX < confirmBuilding.getX() + (int)(500*screenRatioX) + confirmBuilding.getWidth() && touchY < confirmBuilding.getY() + (int)(350*screenRatioY) + confirmBuilding.getHeight());
 
@@ -884,6 +948,17 @@ public class GameView extends SurfaceView implements Runnable {
                             recUnit.setIsUnlocking(false);
                             resume();
                         }
+
+                    } else if (isGameOver) {
+                        boolean isTouchingRedo = (touchX >= gameOver.getX() + (int)(170*screenRatioX) && touchY >= gameOver.getY() + (int)(350*screenRatioY) && touchX < gameOver.getX() + (int)(170*screenRatioX) + gameOver.getWidth() && touchY < gameOver.getY() + (int)(350*screenRatioY) + gameOver.getHeight());
+                        boolean isTouchingExit = (touchX >= gameOver.getX() + (int)(170*screenRatioX) && touchY >= gameOver.getY() + (int)(500*screenRatioY) && touchX < gameOver.getX() + (int)(170*screenRatioX) + gameOver.getWidth() && touchY < gameOver.getY() + (int)(500*screenRatioY) + gameOver.getHeight());
+
+                        if (isTouchingRedo) {
+                            restart();
+
+                        } else if (isTouchingExit) {
+                            exit();
+                        }
                     }
 
                     //Aggiorna i SunnyPoints, gli UnitPoints e gli obiettivi delle missioni in base ai vari materiali prodotti
@@ -893,10 +968,10 @@ public class GameView extends SurfaceView implements Runnable {
                         boolean isTouchingLvl2Material = (touchX >= unitInfo.getX() + (int)(454*screenRatioX) && touchY >= unitInfo.getY() + (int)(536*screenRatioY) && touchX < unitInfo.getX() + (int)(454*screenRatioX) + infoImages.getWidth() && touchY < unitInfo.getY() + (int)(536*screenRatioY) + infoImages.getHeight());
                         boolean isTouchingLvl3Material = (touchX >= unitInfo.getX() + (int)(690*screenRatioX) && touchY >= unitInfo.getY() + (int)(536*screenRatioY) && touchX < unitInfo.getX() + (int)(690*screenRatioX) + infoImages.getWidth() && touchY < unitInfo.getY() + (int)(536*screenRatioY) + infoImages.getHeight());
 
-                        if (isTouchingUpgrade && recUnit.getUnitPoints() >= RecUnit.getUpgradePrice() && !recUnit.getIsUpgraded()) {
+                        if (isTouchingUpgrade && recUnit.getUnitPoints() >= recUnit.getUpgradePrice() && !recUnit.getIsUpgraded()) {
                             recUnit.setIsUpgraded(true);
                             recUnit.setIsCheckingInfo(false);
-                            recUnit.reduceUnitPoints(RecUnit.getUpgradePrice());
+                            recUnit.reduceUnitPoints(recUnit.getUpgradePrice());
 
                             listaMissioni.get(1).setTotRecUpgr(1);
 
