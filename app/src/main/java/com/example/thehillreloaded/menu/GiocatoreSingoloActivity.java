@@ -26,10 +26,10 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
         super.onStart();
         runAnimationSlideIn(modalitaClassica);
         runAnimationSlideIn(modalitaPowerUp);
-        if (VolumeActivity.flag == 0) {
+        if (VolumeActivity.flagMusic == 0) {
             MusicPlayer.playMusic(this, R.raw.menu_music);
             ModalitaAccessoActivity.isPlayingAudio = true;
-            VolumeActivity.flag = 1;
+            VolumeActivity.flagMusic = 1;
         }
     }
 

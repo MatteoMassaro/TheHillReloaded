@@ -16,6 +16,44 @@ public class GameActivity extends AppCompatActivity {
 
     //Variabili
     private GameView gameView;
+    public int flagAudio;
+    public int flagMusic;
+
+    public void changeAudio(int audioFlag){
+        SharedPreferences.Editor editor;
+        switch (audioFlag){
+            case 0:
+                VolumeActivity.flagAudio = audioFlag;
+                editor = getSharedPreferences("salva2",MODE_PRIVATE).edit();
+                editor.putBoolean("effetti",false);
+                editor.apply();
+                break;
+            case 1:
+                VolumeActivity.flagAudio = audioFlag;
+                editor = getSharedPreferences("salva2",MODE_PRIVATE).edit();
+                editor.putBoolean("effetti",true);
+                editor.apply();
+                break;
+        }
+    }
+
+    public void changeMusic(int musicFlag){
+        SharedPreferences.Editor editor;
+        switch (musicFlag){
+            case 0:
+                VolumeActivity.flagMusic = musicFlag;
+                editor = getSharedPreferences("salva1",MODE_PRIVATE).edit();
+                editor.putBoolean("musica",false);
+                editor.apply();
+                break;
+            case 1:
+                VolumeActivity.flagMusic = musicFlag;
+                editor = getSharedPreferences("salva1",MODE_PRIVATE).edit();
+                editor.putBoolean("musica",true);
+                editor.apply();
+                break;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +77,7 @@ public class GameActivity extends AppCompatActivity {
         if(b){
             MusicPlayer.playMusic(this, R.raw.game_music);
         }
-        VolumeActivity.flag = 0;
+        VolumeActivity.flagMusic = 0;
     }
 
     @Override
