@@ -30,10 +30,10 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
         SharedPreferences preferenze = getSharedPreferences("salva1",MODE_PRIVATE);
         boolean b = preferenze.getBoolean("musica",true);
         if(b) {
-            if (VolumeActivity.flag == 0) {
+            if (VolumeActivity.flagMusic == 0) {
                 MusicPlayer.playMusic(this, R.raw.menu_music);
                 ModalitaAccessoActivity.isPlayingAudio = true;
-                VolumeActivity.flag = 1;
+                VolumeActivity.flagMusic = 1;
             }
         }
     }
