@@ -3,6 +3,7 @@ package com.example.thehillreloaded.menu;
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import androidx.cardview.widget.CardView;
@@ -26,10 +27,14 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
         super.onStart();
         runAnimationSlideIn(modalitaClassica);
         runAnimationSlideIn(modalitaPowerUp);
-        if (VolumeActivity.flag == 0) {
-            MusicPlayer.playMusic(this, R.raw.menu_music);
-            ModalitaAccessoActivity.isPlayingAudio = true;
-            VolumeActivity.flag = 1;
+        SharedPreferences preferenze = getSharedPreferences("salva1",MODE_PRIVATE);
+        boolean b = preferenze.getBoolean("musica",true);
+        if(b) {
+            if (VolumeActivity.flag == 0) {
+                MusicPlayer.playMusic(this, R.raw.menu_music);
+                ModalitaAccessoActivity.isPlayingAudio = true;
+                VolumeActivity.flag = 1;
+            }
         }
     }
 
