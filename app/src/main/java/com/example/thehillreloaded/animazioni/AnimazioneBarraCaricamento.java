@@ -45,6 +45,8 @@ public class AnimazioneBarraCaricamento extends Animation{
         } else if(value == da && GiocatoreSingoloActivity.powerUp){
             //game activity per modalità power-up
             contesto.startActivity(new Intent(contesto, GameActivity.class));
+        } else if(value == a) {
+            contesto.startActivity(new Intent(contesto, GameActivity.class));
         }
 
     }

@@ -1,5 +1,6 @@
 package com.example.thehillreloaded.menu;
 
+import android.app.ActivityOptions;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.bluetooth.BluetoothAdapter;
@@ -80,7 +81,9 @@ public class BluetoothActivity extends Animazioni {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(BluetoothActivity.this, SchermataCaricamentoActivity.class);
-                startActivity(i);
+                Bundle b = ActivityOptions.makeSceneTransitionAnimation(BluetoothActivity.this).toBundle();
+                startActivity(i, b);
+                finish();
             }
         });
 
@@ -89,7 +92,9 @@ public class BluetoothActivity extends Animazioni {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(BluetoothActivity.this, MultigiocatoreActivity.class);
-                startActivity(i);
+                Bundle b = ActivityOptions.makeSceneTransitionAnimation(BluetoothActivity.this).toBundle();
+                startActivity(i, b);
+                finish();
             }
         });
     }
@@ -131,6 +136,8 @@ public class BluetoothActivity extends Animazioni {
                 clientClass.start();
 
                 status.setText(R.string.connessione);
+                gioca.setVisibility(Button.GONE);
+                indietro.setVisibility(Button.VISIBLE);
             }
         });
     }
@@ -142,9 +149,13 @@ public class BluetoothActivity extends Animazioni {
             {
                 case STATO_SELEZIONA_GIOCATORE:
                     status.setText(R.string.seleziona_giocatore);
+                    gioca.setVisibility(Button.GONE);
+                    indietro.setVisibility(Button.VISIBLE);
                     break;
                 case STATO_CONNESSIONE:
                     status.setText(R.string.connessione);
+                    gioca.setVisibility(Button.GONE);
+                    indietro.setVisibility(Button.VISIBLE);
                     break;
                 case STATO_CONNESSO:
                     status.setText(R.string.connesso);
@@ -153,6 +164,8 @@ public class BluetoothActivity extends Animazioni {
                     break;
                 case STATO_CONNESSIONE_FALLITA:
                     status.setText(R.string.connessione_fallita);
+                    gioca.setVisibility(Button.GONE);
+                    indietro.setVisibility(Button.VISIBLE);
                     break;
             }
             return true;
