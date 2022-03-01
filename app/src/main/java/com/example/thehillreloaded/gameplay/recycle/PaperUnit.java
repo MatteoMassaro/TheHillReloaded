@@ -1,8 +1,8 @@
 package com.example.thehillreloaded.gameplay.recycle;
 
-import static com.example.thehillreloaded.gameplay.GameView.densityRatio;
-import static com.example.thehillreloaded.gameplay.GameView.screenRatioX;
-import static com.example.thehillreloaded.gameplay.GameView.screenRatioY;
+import static com.example.thehillreloaded.menu.MenuActivity.densityRatio;
+import static com.example.thehillreloaded.menu.MenuActivity.screenRatioX;
+import static com.example.thehillreloaded.menu.MenuActivity.screenRatioY;
 
 import android.content.Context;
 import android.content.res.Resources;

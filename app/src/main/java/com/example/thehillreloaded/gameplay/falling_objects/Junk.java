@@ -1,4 +1,4 @@
-package com.example.thehillreloaded.gameplay.junk;
+package com.example.thehillreloaded.gameplay.falling_objects;
 
 import static com.example.thehillreloaded.menu.DifficoltaActivity.tassoDifficolta;
 
@@ -6,14 +6,12 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
-import android.view.MotionEvent;
-import android.view.View;
 
 import com.example.thehillreloaded.R;
 
 public class Junk {
 
-    private static double speed = 7 * tassoDifficolta, speedIncrease = 0.0004 * tassoDifficolta;
+    private static double speed = 7, speedIncrease = 0.0004;
     private static int distance = 0, distanceRequired = 1000;
     private int x, y, width, height;
     private int dragX, dragY;
@@ -26,7 +24,11 @@ public class Junk {
         this.y = y;
     }
 
-    public static void setSpeed(int newSpeed) {
+    public static void resetSpeed() {
+        speed = 7;
+    }
+
+    public static void setSpeed(double newSpeed) {
         speed = newSpeed;
     }
 
@@ -36,6 +38,14 @@ public class Junk {
 
     public static void increaseSpeed() {
         speed = speed + speedIncrease;
+    }
+
+    public static void resetSpeedIncrease() {
+        speedIncrease = 0.0004;
+    }
+
+    public static double getSpeedIncrease() {
+        return speedIncrease;
     }
 
     public static void setSpeedIncrease(double speedIncreaseValue) {
@@ -55,10 +65,10 @@ public class Junk {
         return false;
     }
 
-    public static void resetValues() {
+    public static void resetJunkValues() {
         distance = 0;
-        speed = 7 * tassoDifficolta;
-        speedIncrease = 0.0004 * tassoDifficolta;
+        speed = 7;
+        speedIncrease = 0.0004;
     }
 
     public static int getDistance() {
@@ -125,19 +135,16 @@ public class Junk {
         return doesIntersect;
     }
 
-    public void setBeingDraggedTrue() {
-        isBeingDragged = true;
-    }
-
-    public void setBeingDraggedFalse() {
-        isBeingDragged = false;
+    public void setBeingDragged(boolean isTrue) {
+        isBeingDragged = isTrue;
     }
 
     public boolean getBeingDragged() {
         return isBeingDragged;
     }
 
-    public Bitmap getJunk() {
+    public Bitmap getFallingObject() {
         return BitmapFactory.decodeResource(res, R.drawable.rubbish);
     }
+
 }

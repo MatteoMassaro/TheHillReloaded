@@ -74,7 +74,7 @@ public class DifficoltaActivity extends Animazioni implements View.OnClickListen
             Bundle b;
             switch (view.getId()){
                 case R.id.facile:
-                    tassoDifficolta = 0.8;
+                    tassoDifficolta = 0.5;
                     i = new Intent(this, SchermataCaricamentoActivity.class);
                     b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                     startActivity(i, b);
@@ -88,7 +88,7 @@ public class DifficoltaActivity extends Animazioni implements View.OnClickListen
                     finish();
                     break;
                 case R.id.difficile:
-                    tassoDifficolta = 1.2;
+                    tassoDifficolta = 2;
                     i = new Intent(this, SchermataCaricamentoActivity.class);
                     b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                     startActivity(i, b);

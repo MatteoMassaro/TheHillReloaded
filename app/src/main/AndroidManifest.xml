@@ -32,6 +32,9 @@
             android:name=".gameplay.GameActivity"
             android:exported="false" />
         <activity
+            android:name=".gameplay.PowerUpGameActivity"
+            android:exported="false" />
+        <activity
             android:name=".menu.DifficoltaActivity"
             android:exported="false" />
         <activity

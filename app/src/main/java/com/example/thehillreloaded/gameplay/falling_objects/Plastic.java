@@ -1,4 +1,4 @@
-package com.example.thehillreloaded.gameplay.junk;
+package com.example.thehillreloaded.gameplay.falling_objects;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -6,10 +6,10 @@ import android.graphics.BitmapFactory;
 
 import com.example.thehillreloaded.R;
 
-import static com.example.thehillreloaded.gameplay.GameView.densityRatio;
-import static com.example.thehillreloaded.gameplay.GameView.screenRatioX;
-import static com.example.thehillreloaded.gameplay.GameView.screenRatioY;
 import static com.example.thehillreloaded.menu.DifficoltaActivity.tassoDifficolta;
+import static com.example.thehillreloaded.menu.MenuActivity.densityRatio;
+import static com.example.thehillreloaded.menu.MenuActivity.screenRatioX;
+import static com.example.thehillreloaded.menu.MenuActivity.screenRatioY;
 
 
 public class Plastic extends Junk {
@@ -59,7 +59,7 @@ public class Plastic extends Junk {
     }
 
     @Override
-    public Bitmap getJunk() {
+    public Bitmap getFallingObject() {
         return plastic;
     }
 }

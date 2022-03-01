@@ -12,10 +12,10 @@ import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.VolumeActivity;
 
-public class GameActivity extends AppCompatActivity {
+public class PowerUpGameActivity extends AppCompatActivity {
 
     //Variabili
-    private GameView gameView;
+    private PowerUpGameView gameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class GameActivity extends AppCompatActivity {
         //Imposta l'orientamento portrait come obbligatorio
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        gameView = new GameView(this, point.x, point.y, density);
+        gameView = new PowerUpGameView(this, point.x, point.y, density);
         setContentView(gameView);
 
         //Fa partire la musica

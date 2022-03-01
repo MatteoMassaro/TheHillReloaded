@@ -1,6 +1,9 @@
 package com.example.thehillreloaded.gameplay;
 
-import static com.example.thehillreloaded.menu.MusicPlayer.mediaPlayer;
+import static com.example.thehillreloaded.menu.DifficoltaActivity.tassoDifficolta;
+import static com.example.thehillreloaded.menu.MenuActivity.densityRatio;
+import static com.example.thehillreloaded.menu.MenuActivity.screenRatioX;
+import static com.example.thehillreloaded.menu.MenuActivity.screenRatioY;
 import static com.example.thehillreloaded.menu.MusicPlayer.stopMusic;
 
 import android.content.Context;
@@ -37,14 +40,14 @@ import com.example.thehillreloaded.gameplay.imageclass.UnitInfo;
 import com.example.thehillreloaded.gameplay.imageclass.UnitPoints;
 import com.example.thehillreloaded.gameplay.imageclass.UnlockableUnit;
 import com.example.thehillreloaded.gameplay.imageclass.Upgrade;
-import com.example.thehillreloaded.gameplay.junk.Aluminum;
-import com.example.thehillreloaded.gameplay.junk.EWaste;
-import com.example.thehillreloaded.gameplay.junk.Glass;
-import com.example.thehillreloaded.gameplay.junk.HazarWaste;
-import com.example.thehillreloaded.gameplay.junk.Junk;
-import com.example.thehillreloaded.gameplay.junk.Paper;
-import com.example.thehillreloaded.gameplay.junk.Plastic;
-import com.example.thehillreloaded.gameplay.junk.Steel;
+import com.example.thehillreloaded.gameplay.falling_objects.Aluminum;
+import com.example.thehillreloaded.gameplay.falling_objects.EWaste;
+import com.example.thehillreloaded.gameplay.falling_objects.Glass;
+import com.example.thehillreloaded.gameplay.falling_objects.HazarWaste;
+import com.example.thehillreloaded.gameplay.falling_objects.Junk;
+import com.example.thehillreloaded.gameplay.falling_objects.Paper;
+import com.example.thehillreloaded.gameplay.falling_objects.Plastic;
+import com.example.thehillreloaded.gameplay.falling_objects.Steel;
 import com.example.thehillreloaded.gameplay.recycle.AluminumUnit;
 import com.example.thehillreloaded.gameplay.recycle.EWasteUnit;
 import com.example.thehillreloaded.gameplay.recycle.GlassUnit;
@@ -53,7 +56,6 @@ import com.example.thehillreloaded.gameplay.recycle.PaperUnit;
 import com.example.thehillreloaded.gameplay.recycle.PlasticUnit;
 import com.example.thehillreloaded.gameplay.recycle.RecUnit;
 import com.example.thehillreloaded.gameplay.recycle.SteelUnit;
-import com.example.thehillreloaded.menu.DifficoltaActivity;
 import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.SchermataCaricamentoActivity;
@@ -69,7 +71,6 @@ public class GameView extends SurfaceView implements Runnable {
     private static int nJunk;
     private final double designX = 1080f, designY = 2072f, designDensity = 2.75;
     private int screenX, screenY, spawnBoundX, spawnY;
-    public static double screenRatioX, screenRatioY, densityRatio;
     private Background background;
     private Paint paint, transparentPaint, redPaint, strokePaint, textInfoPaint, otherTextInfoPaint;
     private ArrayList<Junk> junkList = new ArrayList<>();
@@ -202,6 +203,10 @@ public class GameView extends SurfaceView implements Runnable {
         //definisci l'oggetto per la visualizzazione del pop-up di conferma della costruzione di un'unità di riciclo
         confirmBuilding = new ConfirmBuilding((int)(90*screenRatioX), (int)(750 * screenRatioY), getResources());
 
+        //modifica la velocità dei rifiuti e la velocità di riciclo in base alla difficoltà scelta
+        Junk.setSpeed(Junk.getSpeed()*tassoDifficolta);
+        Junk.setSpeedIncrease(Junk.getSpeedIncrease()*tassoDifficolta);
+        RecUnit.setRecyclingSpeed(RecUnit.getRecyclingSpeed()/tassoDifficolta);
 
         /*recUnitList.get(1).setIsUnlockedToTrue();
         recUnitList.get(2).setIsUnlockedToTrue();
@@ -593,65 +598,88 @@ public class GameView extends SurfaceView implements Runnable {
                     }
                 }
 
-                //Imposta l'ombra trasparente del blocco quando viene trascinato e lo riporta nella sua posizione al rilascio
+                //per ogni rifiuto
                 for (int x = 0; x < junkList.size(); x++) {
                     Junk junk = junkList.get(x);
 
+                    //se il rifiuto x-esimo viene trascinato
                     if (junk.getBeingDragged()) {
-                        canvas.drawBitmap(junk.getJunk(), junk.getX(), junk.getY(), transparentPaint);
-                        canvas.drawBitmap(junk.getJunk(), junk.getDragX(), junk.getDragY(), paint);
-                    } else {
-                        canvas.drawBitmap(junk.getJunk(), junk.getX(), junk.getY(), paint);
+                        canvas.drawBitmap(junk.getFallingObject(), junk.getX(), junk.getY(), transparentPaint); //disegna il rifiuto trasparente nella sua posizione originale
+                        canvas.drawBitmap(junk.getFallingObject(), junk.getDragX(), junk.getDragY(), paint); //e disegna l'ombra del rifiuto che viene trascinato
+
+                    } else { //altrimenti
+                        canvas.drawBitmap(junk.getFallingObject(), junk.getX(), junk.getY(), paint); //disegna il rifiuto in chiaro nella sua posizione originale
                     }
 
+                    //se il rifiuto supera la linea blu di sopra
                     if (junk.getY() < spawnY) {
-                        if(!isGameOver) {
-                            isPlaying = false;
+
+                        if (isGameOver) { //e se la variabile isGameOver è true
+                            try {
+                                thread.sleep(1500); //metti il thread in pausa per 1,5 secondi
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            //disegna a schermo il pop-up di fine partita
+                            canvas.drawBitmap(gameOver.getImageBitmap(), gameOver.getX(), gameOver.getY(), paint);
+                            canvas.drawBitmap(gameOver.getImageBitmap2(), gameOver.getX() + (int)(170*screenRatioX), gameOver.getY() + (int)(350*screenRatioY), paint);
+                            canvas.drawBitmap(gameOver.getImageBitmap3(), gameOver.getX() + (int)(170*screenRatioX), gameOver.getY() + (int)(500*screenRatioY), paint);
+                            canvas.drawText("RICOMINCIA", gameOver.getX() + gameOver.getWidth() + (int)(200*screenRatioX), gameOver.getY() + (int)(450*screenRatioY), paint);
+                            canvas.drawText("ESCI", gameOver.getX() + gameOver.getWidth() + (int)(200*screenRatioX), gameOver.getY() + (int)(600*screenRatioY), paint);
+                            isPlaying = false; //non verrà più rieseguito il corpo del metodo run() (simile a pause())
                         }
-                        isGameOver = true;
-                        canvas.drawBitmap(gameOver.getImageBitmap(), gameOver.getX(), gameOver.getY(), paint);
-                        canvas.drawBitmap(gameOver.getImageBitmap2(), gameOver.getX() + (int)(170*screenRatioX), gameOver.getY() + (int)(350*screenRatioY), paint);
-                        canvas.drawBitmap(gameOver.getImageBitmap3(), gameOver.getX() + (int)(170*screenRatioX), gameOver.getY() + (int)(500*screenRatioY), paint);
-                        canvas.drawText("RICOMINCIA", gameOver.getX() + gameOver.getWidth() + (int)(200*screenRatioX), gameOver.getY() + (int)(450*screenRatioY), paint);
-                        canvas.drawText("ESCI", gameOver.getX() + gameOver.getWidth() + (int)(200*screenRatioX), gameOver.getY() + (int)(600*screenRatioY), paint);
+
+                        isGameOver = true; //variabile che consente di interagire col pop-up di fine partita (assegnare true alla fine di questo corpo consente di ottenere una buona animazione)
                     }
                 }
 
+                //per ogni unità di riciclo
                 for (int x = 0; x <= recUnitList.size() - 1; x++) {
                     RecUnit recUnit = recUnitList.get(x);
                     InfoImages infoImages = infoImagesList.get(x);
 
+                    //se l'unità non è sbloccata
                     if (!recUnit.getIsUnlocked()) {
 
+                        //e se l'unità sta per essere sbloccata (è stata toccata l'unità di riciclo con sufficienti sunnyPoints)
                         if (recUnit.getIsUnlocking()) {
+
+                            //disegna a schermo il popup per sbloccare l'unità
                             canvas.drawBitmap(confirmBuilding.getImageBitmap(), confirmBuilding.getX(), confirmBuilding.getY(), paint);
                             confirmBuilding.drawConfirmBuildingText(confirmBuilding.getX() + (int)(200*screenRatioX), confirmBuilding.getY() + (int)(250*screenRatioY), otherTextInfoPaint, canvas);
                             canvas.drawBitmap(confirmBuilding.getImageBitmap2(), confirmBuilding.getX() + (int)(180*screenRatioX), confirmBuilding.getY() + (int)(350*screenRatioY), paint);
                             canvas.drawBitmap(confirmBuilding.getImageBitmap3(), confirmBuilding.getX() + (int)(500*screenRatioX), confirmBuilding.getY() + (int)(350*screenRatioY), paint);
-                            pauseFlag = true;
+                            pauseFlag = true; //il gioco verrà messo in pausa
                         }
 
-                    } else {
-                        //Imposta il menu unità quando viene toccata l'unità di riciclo
-                        if (recUnit.getIsCheckingInfo() && x != recUnitList.size() - 1) {
-                            if(MusicPlayer.isPlayingEffect){
-                                MusicPlayer.stopEffetti();
-                            }
-                            pauseFlag = true;
-                            canvas.drawBitmap(unitInfo.getImageBitmap(), unitInfo.getX(), unitInfo.getY(), paint);
+                    } else { //altrimenti
 
+                        //se si vogliono consultare le informazioni di un'unità tranne che l'inceneritore (si è cliccato sull'unità)
+                        if (recUnit.getIsCheckingInfo() && x != recUnitList.size() - 1) {
+
+                            if(MusicPlayer.isPlayingEffect){ //se ci sono gli effetti delle unità di riciclo
+                                MusicPlayer.stopEffetti(); //ferma gli effetti
+                            }
+
+                            pauseFlag = true; //il gioco verrà messo in pausa
+                            canvas.drawBitmap(unitInfo.getImageBitmap(), unitInfo.getX(), unitInfo.getY(), paint); //disegna a schermo il background delle informazioni dell'unità di riciclo
+
+                            //disegna a schermo il testo riguardante le informazioni
                             canvas.drawText("Tipo unità: " + recUnit.getUnitType(), unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(290*screenRatioY), textInfoPaint);
                             canvas.drawText("Livello usura: " + recUnit.getRecycledUnitUpgraded() + "/" + recUnit.getMaxRecycledUnitUpgraded(), unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(370*screenRatioY), textInfoPaint);
                             canvas.drawText("Totale riciclati: " + recUnit.getRecycledUnit() , unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(410*screenRatioY), textInfoPaint);
 
+                            //se l'unità non è aggiornata
                             if (!recUnit.getIsUpgraded()) {
+                                //disegna a schermo le informazioni per l'unità non aggiornata
                                 canvas.drawBitmap(infoImages.getImageBitmap(), infoImages.getX(), infoImages.getY(), paint);
                                 canvas.drawText("Livello: 1", unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(330*screenRatioY), textInfoPaint);
                                 canvas.drawBitmap(upgrade.getImageBitmap(), upgrade.getX(), upgrade.getY(), paint);
                                 canvas.drawBitmap(unitPoints.getImageBitmap(), unitPoints.getX(), unitPoints.getY(), paint);
                                 canvas.drawText(String.valueOf(recUnit.getUpgradePrice()), unitPoints.getX() - (int)(49.47*screenRatioX), unitPoints.getY() + unitPoints.getHeight()*7/8, paint);
 
-                            } else if (recUnit.getIsUpgraded()) {
+                            } else if (recUnit.getIsUpgraded()) { //se l'unità è aggiornata
+                                //disegna a schermo le informazioni per l'unità aggiornata
                                 canvas.drawBitmap(infoImages.getUpgradedImageBitmap(), infoImages.getX(), infoImages.getY(), paint);
                                 canvas.drawText("Livello: 2", unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(330*screenRatioY), textInfoPaint);
                                 canvas.drawRect(unitInfo.getX() + (int)(445*screenRatioX), unitInfo.getY() + (int)(529*screenRatioY), unitInfo.getX() + (int)(643*screenRatioX), unitInfo.getY() + (int)(691*screenRatioY), strokePaint);
@@ -660,35 +688,42 @@ public class GameView extends SurfaceView implements Runnable {
                                 canvas.drawBitmap(infoImages.getMaterial_lvl3(), unitInfo.getX() + (int)(690*screenRatioX), unitInfo.getY() + (int)(536*screenRatioY), paint);
                             }
 
+                            //disegna a schermo il primo materiale di ciascuna unità di riciclo
                             canvas.drawRect(unitInfo.getX() + (int)(209.31*screenRatioX), unitInfo.getY() + (int)(529*screenRatioY), unitInfo.getX() + (int)(407*screenRatioX), unitInfo.getY() + (int)(691*screenRatioY), strokePaint);
-
                             canvas.drawBitmap(infoImages.getMaterial_lvl1(), unitInfo.getX() + (int)(218*screenRatioX), unitInfo.getY() + (int)(536*screenRatioY), paint);
 
+                            //per ciascun elemento della lista unitPointsInfoList
                             for (int i = 0; i < unitPointsInfoList.size(); i++) {
                                 RecImages unitPoints = unitPointsInfoList.get(i);
                                 RecImages sunnyPoints = sunnyPointsInfoList.get(i);
 
-                                if (i < 1 || i > 0 && recUnit.getIsUpgraded()) {
+                                if (i == 0 || i > 0 && recUnit.getIsUpgraded()) { //se si tratta del primo elemento (oppure se l'unità è aggiornata)
+
+                                    //disegna a schermo gli unitPoints e i sunnyPoints nella posizione designata
                                     canvas.drawBitmap(unitPoints.getImageBitmap(), unitPoints.getX(), unitPoints.getY(), paint);
                                     canvas.drawBitmap(sunnyPoints.getImageBitmap(), sunnyPoints.getX(), sunnyPoints.getY(), paint);
 
-                                    if (recUnit.getUnitPoints() < infoImages.getUnitPoints(i)) {
+                                    if (recUnit.getUnitPoints() < infoImages.getUnitPoints(i)) { //se gli unitPoints dell'unità di riciclo sono inferiori degli unitPoints richiesti per costruire il materiale
+                                        //disegna il numero degli unitPoints richiesti e dei sunnyPoints ottenibili di colore rosso
                                         canvas.drawText(String.valueOf(infoImages.getUnitPoints(i)), sunnyPoints.getX() + sunnyPoints.getWidth() + (int)(7.61*screenRatioX), unitPoints.getY() + unitPoints.getHeight() * 7/8, redPaint);
                                         canvas.drawText(String.valueOf(infoImages.getSunnyPoints(i)), sunnyPoints.getX() + sunnyPoints.getWidth() + (int)(7.61*screenRatioX), sunnyPoints.getY() + sunnyPoints.getHeight() * 7/8, redPaint);
 
-                                    } else {
+                                    } else { //altrimenti
+                                        //disegnali di colore nero
                                         canvas.drawText(String.valueOf(infoImages.getUnitPoints(i)), sunnyPoints.getX() + sunnyPoints.getWidth() + (int)(7.61*screenRatioX), unitPoints.getY() + unitPoints.getHeight() * 7/8, paint);
                                         canvas.drawText(String.valueOf(infoImages.getSunnyPoints(i)), sunnyPoints.getX() + sunnyPoints.getWidth() + (int)(7.61*screenRatioX), sunnyPoints.getY() + sunnyPoints.getHeight() * 7/8, paint);
                                     }
                                 }
                             }
-                        } else if (recUnit.getIsCheckingInfo() && x == recUnitList.size() - 1) {
 
-                            if(MusicPlayer.isPlayingEffect){
-                                MusicPlayer.stopEffetti();
+                        } else if (recUnit.getIsCheckingInfo() && x == recUnitList.size() - 1) { //se si vogliono consultare le informazioni dell'inceneritore
+
+                            if(MusicPlayer.isPlayingEffect){ //se ci sono gli effetti delle unità di riciclo
+                                MusicPlayer.stopEffetti(); //ferma gli effetti
                             }
-                            pauseFlag = true;
+                            pauseFlag = true; //il gioco verrà messo in pausa
 
+                            //disegna a schermo tutte le informazioni riguardanti l'inceneritore
                             canvas.drawBitmap(unitInfo.getImageBitmap(), unitInfo.getX(), unitInfo.getY(), paint);
                             canvas.drawBitmap(infoImages.getImageBitmap(), infoImages.getX(), infoImages.getY(), paint);
                             canvas.drawText("Tipo unità: " + recUnit.getUnitType(), unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(320*screenRatioY), textInfoPaint);
@@ -697,38 +732,44 @@ public class GameView extends SurfaceView implements Runnable {
                             canvas.drawText("4", unitInfo.getX() + (int)(280*screenRatioX), unitInfo.getY() + (int)(590*screenRatioY), paint);
                             canvas.drawBitmap(sunnyPoints.getImageBitmap(), unitInfo.getX() + (int)(200*screenRatioX), unitInfo.getY() + (int)(530*screenRatioY), paint);
                             canvas.drawBitmap(infoImages.getImageBitmap2(), unitInfo.getX() + (int)(360*screenRatioX), unitInfo.getY() + (int)(490*screenRatioY), paint);
-                        }
 
-                        //Imposta il pop-up delle info sui materiali prodotti quando viene prodotto un materiale
-                        else if (infoImages.getIsCheckingMaterialLvl1Info()) {
+                        } else if (infoImages.getIsCheckingMaterialLvl1Info()) { //se si è prodotto il primo materiale
+                            //disegna a schermo il background e il testo inerente il primo materiale
                             canvas.drawBitmap(materialInfo.getImageBitmap(), materialInfo.getX(), materialInfo.getY(), paint);
                             infoImages.drawMaterialLvl1Text(materialInfo.getX() + (int)(220*screenRatioX), materialInfo.getY() + (int)(420*screenRatioY), otherTextInfoPaint, canvas);
-                            pauseFlag = true;
+                            pauseFlag = true; //il gioco verrà messo in pausa
 
-                        } else if (infoImages.getIsCheckingMaterialLvl2Info()) {
+                        } else if (infoImages.getIsCheckingMaterialLvl2Info()) { //se si è prodotto il secondo materiale
+                            //disegna a schermo il background e il testo inerente il secondo materiale
                             canvas.drawBitmap(materialInfo.getImageBitmap(), materialInfo.getX(), materialInfo.getY(), paint);
                             infoImages.drawMaterialLvl2Text(materialInfo.getX() + (int)(220*screenRatioX), materialInfo.getY() + (int)(420*screenRatioY), otherTextInfoPaint, canvas);
-                            pauseFlag = true;
+                            pauseFlag = true; //il gioco verrà messo in pausa
 
-                        } else if (infoImages.getIsCheckingMaterialLvl3Info()) {
+                        } else if (infoImages.getIsCheckingMaterialLvl3Info()) { //se si è prodotto il terzo materiale
+                            //disegna a schermo il background e il testo inerente il terzo materiale
                             canvas.drawBitmap(materialInfo.getImageBitmap(), materialInfo.getX(), materialInfo.getY(), paint);
                             infoImages.drawMaterialLvl3Text(materialInfo.getX() + (int)(220*screenRatioX), materialInfo.getY() + (int)(420*screenRatioY), otherTextInfoPaint, canvas);
-                            pauseFlag = true;
+                            pauseFlag = true; //il gioco verrà messo in pausa
                         }
                     }
                 }
 
+                //disegna a schermo la barra di sopra (con l'icona dei sunnyPoints, delle missioni, ecc.)
                 canvas.drawBitmap(background.greenRect, background.getX(), background.getY(), paint);
                 canvas.drawBitmap(Bitmap.createScaledBitmap(sunnyPoints.getImageBitmap(), (int)(sunnyPoints.getWidth()*1.5), (int)(sunnyPoints.getHeight()*1.5), true), sunnyPoints.getX(), sunnyPoints.getY(), paint);
                 canvas.drawText(String.valueOf(sunnyPoints.getSunnyPoints()), sunnyPoints.getX() + sunnyPoints.getWidth() * 2, sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, paint);
-                canvas.drawText(String.valueOf(gameBar.getScore()), sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 10.5), sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, paint);
+                canvas.drawText("PTS: " + String.valueOf(gameBar.getScore()), sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 10.5), sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, otherTextInfoPaint);
                 canvas.drawBitmap(missioni.getImageBitmap(), missioni.getX() * 34/2, missioni.getY() - (float)(10 * screenRatioY) , paint);
 
-                //Imposta il pannello delle missioni
+                //se l'icona delle missioni è stata cliccata
                 if (missioni.isClicked()){
-                    pauseFlag = true;
+                    pauseFlag = true; //il gioco verrà messo in pausa
+
+                    //disegna il background delle missioni
                     canvas.drawBitmap(gameBar.getMissioniRect(), 0, gameBar.getHeight() * 3, paint);
                     canvas.drawText("MISSIONI",missioni.getWidth()*8/3, missioni.getHeight()*7/2, paint);
+
+                    //per ogni missione, disegna il testo e gli obiettivi inerenti la missione
                     for(int m = 0; m < listaMissioni.size(); m++) {
                         Missioni mission = listaMissioni.get(m);
 
@@ -776,9 +817,11 @@ public class GameView extends SurfaceView implements Runnable {
                     }
                 }
 
-                //Imposta il menu di pausa
+                //se il bottone della pausa è stato cliccato
                 if (pause.isClicked()){
-                    pauseFlag = true;
+                    pauseFlag = true; //il gioco verrà messo in pausa
+
+                    //disegna il menu di pausa
                     canvas.drawBitmap(pause.getImageBitmap2(), pause.getX() * 31 , pause.getY(), paint);
                     canvas.drawBitmap(gameBar.getPausaRect(), gameBar.getWidth() * 2/9, gameBar.getHeight() * 1/4, paint);
                     canvas.drawText("PAUSA",missioni.getWidth()*3, missioni.getHeight() * 11/2, paint);
@@ -791,17 +834,21 @@ public class GameView extends SurfaceView implements Runnable {
                     canvas.drawBitmap(gameBar.getExitIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 28, paint);
                     canvas.drawText("ESCI",missioni.getWidth()* 9/2, missioni.getHeight() * 11, otherTextInfoPaint);
                 }
-                else {
+
+                else { //altrimenti
+                    //disegna l'icona di base della pausa
                     canvas.drawBitmap(pause.getImageBitmap(), pause.getX() * 31 , pause.getY(), paint);
                 }
 
-                getHolder().unlockCanvasAndPost(canvas);
+                getHolder().unlockCanvasAndPost(canvas); //mostra tutti i contenuti del canvas a schermo
 
+                //se è stata eseguita un'azione di pausa
                 if (pauseFlag) {
-                    if(MusicPlayer.isPlayingEffect){
-                        MusicPlayer.stopEffetti();
+
+                    if(MusicPlayer.isPlayingEffect){ //se ci sono gli effetti delle unità di riciclo
+                        MusicPlayer.stopEffetti(); //ferma gli effetti
                     }
-                    pause();
+                    pause(); //metti il gioco in pausa
                 }
             }
         }
@@ -834,14 +881,16 @@ public class GameView extends SurfaceView implements Runnable {
             }
         }
 
+        //metodo per ricominciare la partita
         public void restart() {
 
-            if (MusicPlayer.isPlayingEffect){
-                MusicPlayer.stopEffetti();
+            if (MusicPlayer.isPlayingEffect){ //se ci sono gli effetti delle unità di riciclo
+                MusicPlayer.stopEffetti(); //ferma gli effetti
             }
 
+            //ripristina tutti gli attributi statici ai valori originali
             RecUnit.resetRecyclingSpeed();
-            Junk.resetValues();
+            Junk.resetJunkValues();
             Glass.resetValues();
             Paper.resetValues();
             Aluminum.resetValues();
@@ -850,294 +899,343 @@ public class GameView extends SurfaceView implements Runnable {
             Plastic.resetValues();
             HazarWaste.resetValues();
 
+            //termina la partita e ricomincia dalla schermata di caricamento
             gameActivity.finish();
             gameActivity.startActivity(new Intent(gameActivity, SchermataCaricamentoActivity.class));
         }
 
-    public void exit() {
+        public void exit() {
 
-        if (MusicPlayer.isPlayingEffect){
-            MusicPlayer.stopEffetti();
+            if (MusicPlayer.isPlayingEffect){ //se ci sono gli effetti delle unità di riciclo
+                MusicPlayer.stopEffetti(); //ferma gli effetti
+            }
+
+            //ripristina tutti gli attributi statici ai valori originali
+            RecUnit.resetRecyclingSpeed();
+            Junk.resetJunkValues();
+            Glass.resetValues();
+            Paper.resetValues();
+            Aluminum.resetValues();
+            HazarWaste.resetValues();
+            Steel.resetValues();
+            Plastic.resetValues();
+            HazarWaste.resetValues();
+
+            //termina la partita, interrompi l'audio di gioco e ritorna all'activity per scegliere la modalità di gioco
+            gameActivity.finish();
+            gameActivity.startActivity(new Intent(gameActivity, GiocatoreSingoloActivity.class));
+            stopMusic();
         }
-
-        RecUnit.resetRecyclingSpeed();
-        Junk.resetValues();
-        Glass.resetValues();
-        Paper.resetValues();
-        Aluminum.resetValues();
-        HazarWaste.resetValues();
-        Steel.resetValues();
-        Plastic.resetValues();
-        HazarWaste.resetValues();
-
-        gameActivity.finish();
-        gameActivity.startActivity(new Intent(gameActivity, GiocatoreSingoloActivity.class));
-        stopMusic();
-    }
 
         //Cattura i movimenti e le posizioni dei blocchi e dei pulsanti
         @Override
         public boolean onTouchEvent(MotionEvent event) {
 
+            //se l'utente tocca lo schermo
             if (event.getAction() == MotionEvent.ACTION_DOWN){
+                //definisci variabili rappresentanti le coordinate dell'evento
                 int touchX = (int)event.getX();
                 int touchY = (int)event.getY();
+
+                //variabili booleane utilizzate per verificare che l'utente abbia toccato l'icona di pausa o delle missioni
                 boolean isTouchingPause = touchX >= pause.getX() * 32 && touchY >= pause.getY() && touchX < pause.getX() * 32 + pause.getWidth() && touchY < pause.getY() + pause.getHeight();
                 boolean isTouchingMission = touchX >= missioni.getX() * 34/2 && touchY >= missioni.getY()-10 && touchX < missioni.getX() * 34/2 + missioni.getWidth() && touchY < missioni.getY()-10 + missioni.getHeight();
-                nJunk = -1;
+                nJunk = -1; //variabile definita per controllare il rifiuto da manipolare
 
-                //Mette in pausa o riprende il gioco in base alla pressione dell'utente sul pulsante
+                //se l'utente sta toccando l'icona di pausa
                 if (isTouchingPause && !(missioni.isClicked())){
 
-                    if (!pause.isClicked() && isPlaying) {
-                        pause.setClicked(true);
+                    if (!pause.isClicked() && isPlaying) { //se la pausa non è stata cliccata
+                        pause.setClicked(true); //la pausa ora è considerata cliccata
 
-                    } else if (pause.isClicked() && !isPlaying) {
-                        pause.setClicked(false);
-                        resume();
+                    } else if (pause.isClicked() && !isPlaying) { //se la pausa è stata cliccata
+                        pause.setClicked(false); //la pausa ora è considerata non cliccata
+                        resume(); //riprendi la partita
                     }
 
-                } else if (isTouchingMission && !(pause.isClicked())) {
+                } else if (isTouchingMission && !(pause.isClicked())) { //se l'utente sta toccando l'icona delle missioni
 
-                    if (!missioni.isClicked() && isPlaying) {
-                        missioni.setClicked(true);
+                    if (!missioni.isClicked() && isPlaying) { //se l'icona non è stata cliccata
+                        missioni.setClicked(true); //l'icona è ora considerata cliccata
 
-                    } else if (missioni.isClicked() && !isPlaying) {
-                        missioni.setClicked(false);
-                        resume();
+                    } else if (missioni.isClicked() && !isPlaying) {//se l'icona è stata cliccata
+                        missioni.setClicked(false); //l'icona non è più considerata cliccata
+                        resume(); //riprendi la partita
                     }
                 }
 
+                //per ciascun rifiuto presente sullo schermo
                 for (int i = 0; i < junkList.size(); i++) {
                     Junk junk = junkList.get(i);
                     boolean isTouching = (touchX >= junk.getX() && touchY >= junk.getY() && touchX < junk.getX() + junk.getWidth() && touchY < junk.getY() + junk.getHeight());
+
+                    //se si sta toccando il rifiuto i-esimo
                     if (isTouching) {
-                        nJunk = i;
+                        nJunk = i; //imposta la variabile nJunk
                     }
                 }
 
+                //per ciascuna unità di riciclo
                 for (int i = 0; i <= recUnitList.size() - 1; i++) {
                     RecUnit recUnit = recUnitList.get(i);
                     InfoImages infoImages = infoImagesList.get(i);
+
+                    //variabili booleane utilizzate per verificare che l'utente abbia toccato l'unità di riciclo e la barra di gioco di sopra
                     boolean isTouchingRecUnit = (touchX >= recUnit.getX() && touchY >= recUnit.getY() && touchX < recUnit.getX() + recUnit.getWidth() && touchY < recUnit.getY() + recUnit.getHeight());
                     boolean isTouchingGameBar = touchY < screenY * 0.06;
 
+                    //se l'utente ha toccato l'unità di riciclo
                     if (isTouchingRecUnit && !isTouchingGameBar && !isGameOver) {
-                        if (recUnit.getIsUnlocked()) {
-                            recUnit.setIsCheckingInfo(true);
 
-                        } else if (!recUnit.getIsUnlocked() && sunnyPoints.getSunnyPoints() >= recUnit.getUnitPrice() && !missioni.isClicked() && !pause.isClicked()) {
-                            recUnit.setIsUnlocking(true);
+                        //se l'unità di riciclo è sbloccata
+                        if (recUnit.getIsUnlocked()) {
+                            recUnit.setIsCheckingInfo(true); //imposta la variabile per visualizzare le informazioni dell'unità di riciclo
+
+                        } else if (!recUnit.getIsUnlocked() && sunnyPoints.getSunnyPoints() >= recUnit.getUnitPrice() && !missioni.isClicked() && !pause.isClicked()) { //se l'unità di riciclo non è stata sbloccata e si hanno sufficienti sunnyPoints per sbloccarla
+                            recUnit.setIsUnlocking(true); //imposta la variabile per visualizzare il pop-up per sbloccare l'unità
                         }
 
-                    } else if (recUnit.getIsCheckingInfo() && touchY < unitInfo.getY() && !isTouchingRecUnit) {
-                        recUnit.setIsCheckingInfo(false);
-                        resume();
+                    } else if (recUnit.getIsCheckingInfo() && touchY < unitInfo.getY() && !isTouchingRecUnit) { //se l'utente sta visualizzando le informazioni dell'unità di riciclo e tocca una parte dello schermo che non sia il background delle informazioni
+                        recUnit.setIsCheckingInfo(false); //imposta la variabile in maniera tale che le informazioni dell'unità di riciclo non siano più visualizzabili
+                        resume(); //riprendi la partita
 
-                    } else if (recUnit.getIsUnlocking() && !isTouchingGameBar && !isGameOver) {
+                    } else if (recUnit.getIsUnlocking() && !isTouchingGameBar && !isGameOver) { //se l'utente sta visualizzando il pop-up per sbloccare un'unità di riciclo
+
+                        //definisci le variabili booleane per verificare che venga toccato il tasto di conferma o il tasto di declino
                         boolean isTouchingYesButton = (touchX >= confirmBuilding.getX() + (int)(180*screenRatioX) && touchY >= confirmBuilding.getY() + (int)(350*screenRatioY) && touchX < confirmBuilding.getX() + (int)(180*screenRatioX) + confirmBuilding.getWidth() && touchY < confirmBuilding.getY() + (int)(350*screenRatioY) + confirmBuilding.getHeight());
                         boolean isTouchingNoButton = (touchX >= confirmBuilding.getX() + (int)(500*screenRatioX) && touchY >= confirmBuilding.getY() + (int)(350*screenRatioY) && touchX < confirmBuilding.getX() + (int)(500*screenRatioX) + confirmBuilding.getWidth() && touchY < confirmBuilding.getY() + (int)(350*screenRatioY) + confirmBuilding.getHeight());
 
+                        //se è stato toccato il tasto di conferma
                         if (isTouchingYesButton) {
-                            recUnit.setIsUnlockedToTrue();
-                            sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() - recUnit.getUnitPrice());
-                            recUnit.setIsUnlocking(false);
-                            resume();
+                            recUnit.setIsUnlockedToTrue(); //l'unità viene sbloccata
+                            sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() - recUnit.getUnitPrice()); //i sunnyPoints vengono ridotti in base al costo dell'unità
+                            recUnit.setIsUnlocking(false); //il pop-up non sarà più visualizzato
+                            resume(); //riprendi la partita
 
-                        } else if (isTouchingNoButton) {
-                            recUnit.setIsUnlocking(false);
-                            resume();
+                        } else if (isTouchingNoButton) { //se è stato toccato il tasto di declino
+                            recUnit.setIsUnlocking(false); //il pop-up non sarà più visualizzato
+                            resume(); //riprendi la partita
                         }
 
-                    } else if (isGameOver) {
+                    } else if (isGameOver) { //se è apparso il pop-up di fine partita
+
+                        //definisci le variabili booleane per verificare che venga toccato il tasto per ricominciare la partita o il tasto per uscire dal gioco
                         boolean isTouchingRedo = (touchX >= gameOver.getX() + (int)(170*screenRatioX) && touchY >= gameOver.getY() + (int)(350*screenRatioY) && touchX < gameOver.getX() + (int)(170*screenRatioX) + gameOver.getWidth() && touchY < gameOver.getY() + (int)(350*screenRatioY) + gameOver.getHeight());
                         boolean isTouchingExit = (touchX >= gameOver.getX() + (int)(170*screenRatioX) && touchY >= gameOver.getY() + (int)(500*screenRatioY) && touchX < gameOver.getX() + (int)(170*screenRatioX) + gameOver.getWidth() && touchY < gameOver.getY() + (int)(500*screenRatioY) + gameOver.getHeight());
 
+                        //se è stato toccato il tasto di ricomincia
                         if (isTouchingRedo) {
-                            restart();
+                            restart(); //ricomincia la partita
 
-                        } else if (isTouchingExit) {
-                            exit();
+                        } else if (isTouchingExit) { //se è stato toccato il tasto per uscire
+                            exit(); //esci dal gioco
                         }
                     }
 
-                    //Aggiorna i SunnyPoints, gli UnitPoints e gli obiettivi delle missioni in base ai vari materiali prodotti
+                    //se si stanno visualizzando le informazioni di un'unità di riciclo
                     if (recUnit.getIsCheckingInfo() && i != recUnitList.size() - 1) {
+
+                        //definisci le variabili booleane per verificare che venga toccata l'icona dell'aggiornamento o l'icona di uno dei tre materiali
                         boolean isTouchingUpgrade = (touchX >= upgrade.getX() && touchY >= upgrade.getY() && touchX < upgrade.getX() + upgrade.getWidth() && touchY < upgrade.getY() + upgrade.getHeight());
                         boolean isTouchingLvl1Material = (touchX >= unitInfo.getX() + (int)(218*screenRatioX) && touchY >= unitInfo.getY() + (int)(536*screenRatioY) && touchX < unitInfo.getX() + (int)(218*screenRatioX) + infoImages.getWidth() && touchY < unitInfo.getY() + (int)(536*screenRatioY) + infoImages.getHeight());
                         boolean isTouchingLvl2Material = (touchX >= unitInfo.getX() + (int)(454*screenRatioX) && touchY >= unitInfo.getY() + (int)(536*screenRatioY) && touchX < unitInfo.getX() + (int)(454*screenRatioX) + infoImages.getWidth() && touchY < unitInfo.getY() + (int)(536*screenRatioY) + infoImages.getHeight());
                         boolean isTouchingLvl3Material = (touchX >= unitInfo.getX() + (int)(690*screenRatioX) && touchY >= unitInfo.getY() + (int)(536*screenRatioY) && touchX < unitInfo.getX() + (int)(690*screenRatioX) + infoImages.getWidth() && touchY < unitInfo.getY() + (int)(536*screenRatioY) + infoImages.getHeight());
 
+                        //se è stato toccato il pulsante di aggiornamento dell'unità di riciclo e il numero di unitPoints è sufficiente
                         if (isTouchingUpgrade && recUnit.getUnitPoints() >= recUnit.getUpgradePrice() && !recUnit.getIsUpgraded()) {
-                            recUnit.setIsUpgraded(true);
-                            recUnit.setIsCheckingInfo(false);
-                            recUnit.reduceUnitPoints(recUnit.getUpgradePrice());
+                            recUnit.setIsUpgraded(true); //l'unità è ora aggiornata
+                            recUnit.setIsCheckingInfo(false); //le informazioni non saranno più visualizzate
+                            recUnit.reduceUnitPoints(recUnit.getUpgradePrice()); //riduci il numero di unitPoints in base al costo dell'aggiornamento
 
-                            listaMissioni.get(1).setTotRecUpgr(1);
+                            listaMissioni.get(1).setTotRecUpgr(1); //incrementa di uno il numero delle stazioni aggiornata (per la missione)
 
-                            resume();
+                            resume(); //riprendi la partita
 
-                        } else if (isTouchingLvl1Material && recUnit.getUnitPoints() >= infoImages.getUnitPoints(0)) {
-                            recUnit.reduceUnitPoints(infoImages.getUnitPoints(0));
-                            sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() + infoImages.getSunnyPoints(0));
-                            recUnit.setIsCheckingInfo(false);
-                            infoImages.setIsCheckingMaterialLvl1Info(true);
+                        } else if (isTouchingLvl1Material && recUnit.getUnitPoints() >= infoImages.getUnitPoints(0)) { //se è stata toccata l'icona del primo materiale e si hanno unitPoints sufficienti
+                            recUnit.reduceUnitPoints(infoImages.getUnitPoints(0)); //riduci gli unitPoints del valore prestabilito
+                            sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() + infoImages.getSunnyPoints(0)); //incrementa i sunnyPoints del valore prestabilito
+                            recUnit.setIsCheckingInfo(false); //le informazioni non saranno più visualizzate
+                            infoImages.setIsCheckingMaterialLvl1Info(true); //saranno visualizzate le informazioni riguardanti il materiale
 
-                            listaMissioni.get(2).setTotSunnyAccum(infoImages.getSunnyPoints(0));
-                            listaMissioni.get(3).setTotUnitPointsUsed(infoImages.getUnitPoints(0));
+                            listaMissioni.get(2).setTotSunnyAccum(infoImages.getSunnyPoints(0)); //incrementa il numero dei sunnyPoints accumulati (per la missione)
+                            listaMissioni.get(3).setTotUnitPointsUsed(infoImages.getUnitPoints(0)); //incrementa il numero degli unitPoints spesi (per la missione)
 
-                            resume();
+                            resume(); //riprendi la partita
 
-                        } else if (isTouchingLvl2Material && recUnit.getUnitPoints() >= infoImages.getUnitPoints(1) && recUnit.getIsUpgraded()) {
-                            recUnit.reduceUnitPoints(infoImages.getUnitPoints(1));
-                            sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() + infoImages.getSunnyPoints(1));
-                            recUnit.setIsCheckingInfo(false);
-                            infoImages.setIsCheckingMaterialLvl2Info(true);
+                        } else if (isTouchingLvl2Material && recUnit.getUnitPoints() >= infoImages.getUnitPoints(1) && recUnit.getIsUpgraded()) { //se è stata toccata l'icona del secondo materiale e si hanno unitPoints sufficienti (l'unità deve essere aggiornata)
+                            recUnit.reduceUnitPoints(infoImages.getUnitPoints(1)); //riduci gli unitPoints del valore prestabilito
+                            sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() + infoImages.getSunnyPoints(1)); //incrementa i sunnyPoints del valore prestabilito
+                            recUnit.setIsCheckingInfo(false); //le informazioni non saranno più visualizzate
+                            infoImages.setIsCheckingMaterialLvl2Info(true); //saranno visualizzate le informazioni riguardanti il materiale
 
-                            listaMissioni.get(2).setTotSunnyAccum(infoImages.getSunnyPoints(1));
-                            listaMissioni.get(3).setTotUnitPointsUsed(infoImages.getUnitPoints(1));
+                            listaMissioni.get(2).setTotSunnyAccum(infoImages.getSunnyPoints(1)); //incrementa il numero dei sunnyPoints accumulati (per la missione)
+                            listaMissioni.get(3).setTotUnitPointsUsed(infoImages.getUnitPoints(1)); //incrementa il numero degli unitPoints spesi (per la missione)
 
-                            resume();
+                            resume(); //riprendi la partita
 
-                        } else if (isTouchingLvl3Material && recUnit.getUnitPoints() >= infoImages.getUnitPoints(2) && recUnit.getIsUpgraded()) {
-                            recUnit.reduceUnitPoints(infoImages.getUnitPoints(2));
-                            sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() + infoImages.getSunnyPoints(2));
-                            recUnit.setIsCheckingInfo(false);
-                            infoImages.setIsCheckingMaterialLvl3Info(true);
+                        } else if (isTouchingLvl3Material && recUnit.getUnitPoints() >= infoImages.getUnitPoints(2) && recUnit.getIsUpgraded()) { //se è stata toccata l'icona del terzo materiale e si hanno unitPoints sufficienti (l'unità deve essere aggiornata)
+                            recUnit.reduceUnitPoints(infoImages.getUnitPoints(2)); //riduci gli unitPoints del valore prestabilito
+                            sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() + infoImages.getSunnyPoints(2)); //incrementa i sunnyPoints del valore prestabilito
+                            recUnit.setIsCheckingInfo(false); //le informazioni non saranno più visualizzate
+                            infoImages.setIsCheckingMaterialLvl3Info(true); //saranno visualizzate le informazioni riguardanti il materiale
 
-                            listaMissioni.get(2).setTotSunnyAccum(infoImages.getSunnyPoints(2));
-                            listaMissioni.get(3).setTotUnitPointsUsed(infoImages.getUnitPoints(2));
+                            listaMissioni.get(2).setTotSunnyAccum(infoImages.getSunnyPoints(2)); //incrementa il numero dei sunnyPoints accumulati (per la missione)
+                            listaMissioni.get(3).setTotUnitPointsUsed(infoImages.getUnitPoints(2)); //incrementa il numero degli unitPoints spesi (per la missione)
 
-                            resume();
+                            resume(); //riprendi la partita
                         }
 
-                    } else if ((infoImages.getIsCheckingMaterialLvl1Info() || infoImages.getIsCheckingMaterialLvl2Info() || infoImages.getIsCheckingMaterialLvl3Info()) && i != recUnitList.size() - 1) {
+                    } else if ((infoImages.getIsCheckingMaterialLvl1Info() || infoImages.getIsCheckingMaterialLvl2Info() || infoImages.getIsCheckingMaterialLvl3Info()) && i != recUnitList.size() - 1) { //se si stanno visualizzando le informazioni riguardanti uno dei materiali
+
+                        //definisci la variabile booleane per verificare che venga toccato il background delle informazioni
                         boolean isTouchingMaterialInfo = (touchX >= materialInfo.getX() && touchY >= materialInfo.getY() && touchX < materialInfo.getX() + materialInfo.getWidth() && touchY < materialInfo.getY() + materialInfo.getHeight());
 
-                        if (!isTouchingMaterialInfo) {
+                        if (!isTouchingMaterialInfo) { //se non è stato toccato il background
+                            //le informazioni riguardanti i materiali non saranno più visualizzate
                             infoImages.setIsCheckingMaterialLvl1Info(false);
                             infoImages.setIsCheckingMaterialLvl2Info(false);
                             infoImages.setIsCheckingMaterialLvl3Info(false);
-                            resume();
+                            resume(); //riprendi la partita
                         }
 
-                    } else if (recUnit.getIsCheckingInfo() && i == recUnitList.size() - 1) {
+                    } else if (recUnit.getIsCheckingInfo() && i == recUnitList.size() - 1) { //se si stanno visualizzando le informazioni dell'inceneritore
+                        //definisci la variabile booleane per verificare che venga toccato il pulsante del potenziamento dell'inceneritore
                         boolean isTouchingPowerUp = (touchX >= unitInfo.getX() + (int)(360*screenRatioX) && touchY >= unitInfo.getY() + (int)(500*screenRatioY) && touchX < unitInfo.getX() + (int)(360*screenRatioX) + infoImages.getWidth() && touchY < unitInfo.getY() + (int)(500*screenRatioY) + infoImages.getHeight());
 
+                        //se è stato toccato il bottone dell'abilità dell'inceneritore, si hanno sunnyPoints sufficienti e l'inceneritore non sta già riciclando
                         if (isTouchingPowerUp && sunnyPoints.getSunnyPoints() >= 4 && !recUnit.getIsRecycling()) {
-                            recUnit.setIsPoweredUp(true);
-                            recUnit.setIsCheckingInfo(false);
-                            recUnit.setIsRecycling(true);
-                            sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() - 4);
-                            nJunk = -1;
-                            resume();
+                            recUnit.setIsPoweredUp(true); //verrà applicata l'abilità dell'inceneritore
+                            recUnit.setIsCheckingInfo(false); //le informazioni dell'inceneritore non verranno più visualizzate
+                            recUnit.setIsRecycling(true); //l'inceneritore sta ora riciclando
+                            sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() - 4); //verrà scalato il numero di sunnyPoints di 4
+                            resume(); //riprendi la partita
                         }
                     }
                 }
             }
 
+            //se l'utente muove il dito mentre sta ancora toccando lo schermo
             if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                //definisci le coordinate dell'evento (la posizione del dito)
                 int x = (int)event.getX();
                 int y = (int)event.getY();
 
+                //se è stato precedentemente toccato un rifiuto
                 if ((nJunk != -1  && isPlaying)) {
                     Junk junk = junkList.get(nJunk);
-                    junk.setBeingDraggedTrue();
-                    junk.setDragX(x);
-                    junk.setDragY(y);
+                    junk.setBeingDragged(true); //il rifiuto viene trascinato
+                    junk.setDragX(x - junk.getWidth()/2); //la posizione dell'ombra lungo l'asse x
+                    junk.setDragY(y - junk.getHeight()/2); //e l'asse y
                 }
             }
 
+            //se il dito viene sollevato
             if (event.getAction() == MotionEvent.ACTION_UP) {
+
+                //definsci le coordinate dell'evento (punto in cui è stato sollevato il dito)
                 int x = (int)event.getX();
                 int y = (int)event.getY();
 
+                //se è stato trascinato un rifiuto
                 if ((nJunk != -1 && isPlaying)) {
                     Junk junk = junkList.get(nJunk);
-                    junk.setBeingDraggedFalse();
+                    junk.setBeingDragged(false); //il rifiuto non viene più trascinato
 
+                    //se il rifiuto è di vetro e viene rilasciato sull'unità di riciclo del vetro
                     if (junk instanceof Glass && x >= recUnitList.get(0).getX() && y >= recUnitList.get(0).getY() &&
                             x < recUnitList.get(0).getX() + recUnitList.get(0).getWidth() && y <= recUnitList.get(0).getY()
                             + recUnitList.get(0).getHeight()) {
 
+                        //se i processi di riciclo non sono tutti occupati
                         if((recUnitList.get(0).getJunkBeingRecycled() < 2 && recUnitList.get(0).getIsUpgraded()) ||
                            (recUnitList.get(0).getJunkBeingRecycled() < 1 && !recUnitList.get(0).getIsUpgraded())) {
-                            junkList.remove(nJunk);
-                            recUnitList.get(0).setIsRecycling(true);
-                            recUnitList.get(0).junkBeingRecycledPlus();
+                            junkList.remove(nJunk); //rimuovi il rifiuto
+                            recUnitList.get(0).setIsRecycling(true); //l'unità di riciclo sta ora riciclando
+                            recUnitList.get(0).junkBeingRecycledPlus(); //aumenta il numero di rifiuti che sono attualmente riciclati
 
-                            listaMissioni.get(0).setTotJunkRec(1);
+                            listaMissioni.get(0).setTotJunkRec(1); //aumenta di uno il numero dei rifiuti che è stato riciclato (per la missione)
                         }
 
                     } else if (junk instanceof Paper && recUnitList.get(1).getIsUnlocked() && x >= recUnitList.get(1).getX()
                             && y >= recUnitList.get(1).getY() && x < recUnitList.get(1).getX() + recUnitList.get(1).getWidth()
-                            && y <= recUnitList.get(1).getY() + recUnitList.get(1).getHeight()) {
+                            && y <= recUnitList.get(1).getY() + recUnitList.get(1).getHeight()) { //se il rifiuto è di carta e viene rilasciato sull'unità di riciclo della carta
+
+                        //se i processi di riciclo non sono tutti occupati
                         if((recUnitList.get(1).getJunkBeingRecycled() < 2 && recUnitList.get(1).getIsUpgraded()) ||
                            (recUnitList.get(1).getJunkBeingRecycled() < 1 && !recUnitList.get(1).getIsUpgraded())) {
-                            junkList.remove(nJunk);
-                            recUnitList.get(1).setIsRecycling(true);
-                            recUnitList.get(1).junkBeingRecycledPlus();
+                            junkList.remove(nJunk); //rimuovi il rifiuto
+                            recUnitList.get(1).setIsRecycling(true); //l'unità di riciclo sta ora riciclando
+                            recUnitList.get(1).junkBeingRecycledPlus(); //aumenta il numero di rifiuti che sono attualmente riciclati
 
-                            listaMissioni.get(0).setTotJunkRec(1);
+                            listaMissioni.get(0).setTotJunkRec(1); //aumenta di uno il numero dei rifiuti che è stato riciclato (per la missione)
                         }
 
                     } else if (junk instanceof Aluminum && recUnitList.get(2).getIsUnlocked() && x >= recUnitList.get(2).getX()
                             && y >= recUnitList.get(2).getY() && x < recUnitList.get(2).getX() + recUnitList.get(2).getWidth()
-                            && y <= recUnitList.get(2).getY() + recUnitList.get(2).getHeight()) {
+                            && y <= recUnitList.get(2).getY() + recUnitList.get(2).getHeight()) { //se il rifiuto è di alluminio e viene rilasciato sull'unità di riciclo dell'alluminio
+
+                        //se i processi di riciclo non sono tutti occupati
                         if((recUnitList.get(2).getJunkBeingRecycled() < 2 && recUnitList.get(2).getIsUpgraded()) ||
                            (recUnitList.get(2).getJunkBeingRecycled() < 1 && !recUnitList.get(2).getIsUpgraded())) {
-                            junkList.remove(nJunk);
-                            recUnitList.get(2).setIsRecycling(true);
-                            recUnitList.get(2).junkBeingRecycledPlus();
+                            junkList.remove(nJunk); //rimuovi il rifiuto
+                            recUnitList.get(2).setIsRecycling(true); //l'unità di riciclo sta ora riciclando
+                            recUnitList.get(2).junkBeingRecycledPlus(); //aumenta il numero di rifiuti che sono attualmente riciclati
 
-                            listaMissioni.get(0).setTotJunkRec(1);
+                            listaMissioni.get(0).setTotJunkRec(1); //aumenta di uno il numero dei rifiuti che è stato riciclato (per la missione)
                         }
 
                     } else if (junk instanceof Steel && recUnitList.get(3).getIsUnlocked() && x >= recUnitList.get(3).getX()
                             && y >= recUnitList.get(3).getY() && x < recUnitList.get(3).getX() + recUnitList.get(3).getWidth()
-                            && y <= recUnitList.get(3).getY() + recUnitList.get(3).getHeight()) {
+                            && y <= recUnitList.get(3).getY() + recUnitList.get(3).getHeight()) { //se il rifiuto è di acciaio e viene rilasciato sull'unità di riciclo dell'acciaio
+
+                        //se i processi di riciclo non sono tutti occupati
                         if((recUnitList.get(3).getJunkBeingRecycled() < 2 && recUnitList.get(3).getIsUpgraded()) ||
                            (recUnitList.get(3).getJunkBeingRecycled() < 1 && !recUnitList.get(3).getIsUpgraded())) {
-                            junkList.remove(nJunk);
-                            recUnitList.get(3).setIsRecycling(true);
-                            recUnitList.get(3).junkBeingRecycledPlus();
+                            junkList.remove(nJunk); //rimuovi il rifiuto
+                            recUnitList.get(3).setIsRecycling(true); //l'unità di riciclo sta ora riciclando
+                            recUnitList.get(3).junkBeingRecycledPlus(); //aumenta il numero di rifiuti che sono attualmente riciclati
 
-                            listaMissioni.get(0).setTotJunkRec(1);
+                            listaMissioni.get(0).setTotJunkRec(1); //aumenta di uno il numero dei rifiuti che è stato riciclato (per la missione)
                         }
 
                     } else if (junk instanceof Plastic && recUnitList.get(4).getIsUnlocked() && x >= recUnitList.get(4).getX()
                             && y >= recUnitList.get(4).getY() && x < recUnitList.get(4).getX() + recUnitList.get(4).getWidth()
-                            && y <= recUnitList.get(4).getY() + recUnitList.get(4).getHeight()) {
+                            && y <= recUnitList.get(4).getY() + recUnitList.get(4).getHeight()) { //se il rifiuto è di plastica e viene rilasciato sull'unità di riciclo della plastica
+
+                        //se i processi di riciclo non sono tutti occupati
                         if((recUnitList.get(4).getJunkBeingRecycled() < 2 && recUnitList.get(4).getIsUpgraded()) ||
                            (recUnitList.get(4).getJunkBeingRecycled() < 1 && !recUnitList.get(4).getIsUpgraded())) {
-                            junkList.remove(nJunk);
-                            recUnitList.get(4).setIsRecycling(true);
-                            recUnitList.get(4).junkBeingRecycledPlus();
+                            junkList.remove(nJunk); //rimuovi il rifiuto
+                            recUnitList.get(4).setIsRecycling(true); //l'unità di riciclo sta ora riciclando
+                            recUnitList.get(4).junkBeingRecycledPlus(); //aumenta il numero di rifiuti che sono attualmente riciclati
 
-                            listaMissioni.get(0).setTotJunkRec(1);
+                            listaMissioni.get(0).setTotJunkRec(1); //aumenta di uno il numero dei rifiuti che è stato riciclato (per la missione)
                         }
 
                     } else if (junk instanceof EWaste && recUnitList.get(5).getIsUnlocked() && x >= recUnitList.get(5).getX()
                             && y >= recUnitList.get(5).getY() && x < recUnitList.get(5).getX() + recUnitList.get(5).getWidth()
-                            && y <= recUnitList.get(5).getY() + recUnitList.get(5).getHeight()) {
+                            && y <= recUnitList.get(5).getY() + recUnitList.get(5).getHeight()) { //se il rifiuto appartiene ai rifiuti tecnologici e viene rilasciato sull'unità di riciclo dei rifiuti tecnologici
+
+                        //se i processi di riciclo non sono tutti occupati
                         if ((recUnitList.get(5).getJunkBeingRecycled() < 2 && recUnitList.get(5).getIsUpgraded()) ||
                             (recUnitList.get(5).getJunkBeingRecycled() < 1 && !recUnitList.get(5).getIsUpgraded())) {
-                            junkList.remove(nJunk);
-                            recUnitList.get(5).setIsRecycling(true);
-                            recUnitList.get(5).junkBeingRecycledPlus();
+                            junkList.remove(nJunk); //rimuovi il rifiuto
+                            recUnitList.get(5).setIsRecycling(true); //l'unità di riciclo sta ora riciclando
+                            recUnitList.get(5).junkBeingRecycledPlus(); //aumenta il numero di rifiuti che sono attualmente riciclati
 
-                            listaMissioni.get(0).setTotJunkRec(1);
+                            listaMissioni.get(0).setTotJunkRec(1); //aumenta di uno il numero dei rifiuti che è stato riciclato (per la missione)
                         }
 
                     } else if (x >= recUnitList.get(6).getX() && y >= recUnitList.get(6).getY()
                             && x < recUnitList.get(6).getX() + recUnitList.get(6).getWidth() && y < recUnitList.get(6).getY() +
-                            recUnitList.get(6).getHeight() && !recUnitList.get(6).getIsRecycling()){
+                            recUnitList.get(6).getHeight() && !recUnitList.get(6).getIsRecycling()){ //se il rifiuto viene trascinato sull'inceneritore
 
+                        //se il numero di sunnyPoints è maggiore o uguale a 2
                         if(sunnyPoints.getSunnyPoints() >= 2) {
-                            sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() - 2);
-                            junkList.remove(nJunk);
-                            recUnitList.get(6).setIsRecycling(true);
-                            recUnitList.get(6).junkBeingRecycledPlus();
+                            sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints() - 2); //riduci il numero di sunnyPoints di due unità
+                            junkList.remove(nJunk); //rimuovi il rifiuto
+                            recUnitList.get(6).setIsRecycling(true); //l'inceneritore sta ora riciclando
+                            recUnitList.get(6).junkBeingRecycledPlus(); //aumenta il numero dei rifiuti che sono attualmente riciclati
                         }
                     }
                 }
