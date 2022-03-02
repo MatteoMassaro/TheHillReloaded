@@ -27,15 +27,6 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
         super.onStart();
         runAnimationSlideIn(modalitaClassica);
         runAnimationSlideIn(modalitaPowerUp);
-        SharedPreferences preferenze = getSharedPreferences("salva1",MODE_PRIVATE);
-        boolean b = preferenze.getBoolean("musica",true);
-        if(b) {
-            if (VolumeActivity.flagMusic == 0) {
-                MusicPlayer.playMusic(this, R.raw.menu_music);
-                ModalitaAccessoActivity.isPlayingAudio = true;
-                VolumeActivity.flagMusic = 1;
-            }
-        }
     }
 
     //Chiama l'animazione alla pausa dell'activity

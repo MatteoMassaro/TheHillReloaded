@@ -3,13 +3,17 @@ package com.example.thehillreloaded.accesso;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.animazioni.Animazioni;
+import com.example.thehillreloaded.menu.ImpostazioniActivity;
+import com.example.thehillreloaded.menu.LinguaActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -23,6 +27,7 @@ public class RegistrazioneActivity extends Animazioni {
     TextInputEditText regEmail;
     TextInputEditText regPassword;
     Button registrati, accountCreato;
+    ImageView indietro;
 
     FirebaseAuth mAuth;
 
@@ -36,6 +41,7 @@ public class RegistrazioneActivity extends Animazioni {
         regPassword = findViewById(R.id.password);
         accountCreato = findViewById(R.id.accountGiàCreato);
         registrati = findViewById(R.id.registrazione);
+        indietro = findViewById(R.id.indietro);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -47,6 +53,20 @@ public class RegistrazioneActivity extends Animazioni {
             startActivity(new Intent(RegistrazioneActivity.this, LoginActivity.class));
             finish();
         });
+
+        //Crea l'intent per passare all'activity successiva dopo la pressione del pulsante
+        indietro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(RegistrazioneActivity.this, ModalitaAccessoActivity.class);
+                startActivity(i);
+            }
+        });
+
+        //Animazione pulsanti
+        clickButtonAnimation(registrati);
+        clickButtonAnimation(accountCreato);
+        clickButtonAnimation(indietro);
     }
 
     private void createUser(){
@@ -55,7 +75,11 @@ public class RegistrazioneActivity extends Animazioni {
         String email = regEmail.getText().toString();
         String password = regPassword.getText().toString();
 
-        if (TextUtils.isEmpty(email)){
+        if(TextUtils.isEmpty(username)){
+            regUsername.setError("L'username non può essere vuoto");
+            regUsername.requestFocus();
+        }
+        else if (TextUtils.isEmpty(email)){
             regEmail.setError("L'email non può essere vuota");
             regEmail.requestFocus();
         }else if (TextUtils.isEmpty(password)){
@@ -68,6 +92,7 @@ public class RegistrazioneActivity extends Animazioni {
                     if (task.isSuccessful()){
                         Toast.makeText(RegistrazioneActivity.this, R.string.registrazione_effettuata, Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(RegistrazioneActivity.this, LoginActivity.class));
+                        finish();
                     }else{
                         Toast.makeText(RegistrazioneActivity.this, R.string.errore + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }

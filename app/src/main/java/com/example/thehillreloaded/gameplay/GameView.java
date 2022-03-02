@@ -63,6 +63,7 @@ import com.example.thehillreloaded.menu.VolumeActivity;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
 
 public class GameView extends SurfaceView implements Runnable {
 
@@ -715,11 +716,14 @@ public class GameView extends SurfaceView implements Runnable {
                     }
                 }
 
+                //Imposta il pannello generale
                 canvas.drawBitmap(background.greenRect, background.getX(), background.getY(), paint);
                 canvas.drawBitmap(Bitmap.createScaledBitmap(sunnyPoints.getImageBitmap(), (int)(sunnyPoints.getWidth()*1.5), (int)(sunnyPoints.getHeight()*1.5), true), sunnyPoints.getX(), sunnyPoints.getY(), paint);
                 canvas.drawText(String.valueOf(sunnyPoints.getSunnyPoints()), sunnyPoints.getX() + sunnyPoints.getWidth() * 2, sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, paint);
-                canvas.drawText(String.valueOf(gameBar.getScore()), sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 10.5), sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, paint);
-                canvas.drawBitmap(missioni.getImageBitmap(), missioni.getX() * 34/2, missioni.getY() - (float)(10 * screenRatioY) , paint);
+                canvas.drawText("Punti: " + String.valueOf(gameBar.getScore()), sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 10), sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, otherTextInfoPaint);
+                canvas.drawBitmap(missioni.getImageBitmap(), missioni.getX() * 33/2, missioni.getY() - (float)(10 * screenRatioY) , paint);
+                canvas.drawText("Difficoltà:", sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 0.8), textInfoPaint);
+                canvas.drawText(DifficoltaActivity.difficoltà, sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 1.4), textInfoPaint);
 
                 //Imposta il pannello delle missioni
                 if (missioni.isClicked()){
@@ -796,8 +800,8 @@ public class GameView extends SurfaceView implements Runnable {
                         gameBar.setAudioClicked(false);
                     }
                     canvas.drawText("EFFETTI",missioni.getWidth()* 9/2, missioni.getHeight() * 16/2, otherTextInfoPaint);
-                    canvas.drawBitmap(gameBar.getSaveIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 24, paint);
-                    canvas.drawText("SALVA",missioni.getWidth()* 9/2, missioni.getHeight() * 19/2, otherTextInfoPaint);
+                    canvas.drawBitmap(gameOver.getImageBitmap2(), gameBar.getWidth() * 8, gameBar.getHeight() * 24, paint);
+                    canvas.drawText("RICOMINCIA",missioni.getWidth()* 9/2, missioni.getHeight() * 19/2, otherTextInfoPaint);
                     canvas.drawBitmap(gameBar.getExitIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 28, paint);
                     canvas.drawText("ESCI",missioni.getWidth()* 9/2, missioni.getHeight() * 11, otherTextInfoPaint);
                 }
@@ -844,6 +848,7 @@ public class GameView extends SurfaceView implements Runnable {
             }
         }
 
+        //Ricomincia il gioco
         public void restart() {
 
             if (MusicPlayer.isPlayingEffect){
@@ -864,26 +869,29 @@ public class GameView extends SurfaceView implements Runnable {
             gameActivity.startActivity(new Intent(gameActivity, SchermataCaricamentoActivity.class));
         }
 
-    public void exit() {
+        //Esce dal gioco
+        public void exit() {
 
-        if (MusicPlayer.isPlayingEffect){
-            MusicPlayer.stopEffetti();
+            if(MusicPlayer.isPlayingEffect){
+                MusicPlayer.stopEffetti();
+            }
+
+            RecUnit.resetRecyclingSpeed();
+            Junk.resetValues();
+            Glass.resetValues();
+            Paper.resetValues();
+            Aluminum.resetValues();
+            HazarWaste.resetValues();
+            Steel.resetValues();
+            Plastic.resetValues();
+            HazarWaste.resetValues();
+
+            gameActivity.finish();
+            gameActivity.startActivity(new Intent(gameActivity, MenuActivity.class));
+            if(MusicPlayer.isPlayingMusic){
+                MusicPlayer.stopMusic();
+            }
         }
-
-        RecUnit.resetRecyclingSpeed();
-        Junk.resetValues();
-        Glass.resetValues();
-        Paper.resetValues();
-        Aluminum.resetValues();
-        HazarWaste.resetValues();
-        Steel.resetValues();
-        Plastic.resetValues();
-        HazarWaste.resetValues();
-
-        gameActivity.finish();
-        gameActivity.startActivity(new Intent(gameActivity, GiocatoreSingoloActivity.class));
-        stopMusic();
-    }
 
         //Cattura i movimenti e le posizioni dei blocchi e dei pulsanti
         @Override

@@ -75,6 +75,11 @@ public class GameActivity extends AppCompatActivity {
             MusicPlayer.playMusic(this, R.raw.game_music);
         }
         VolumeActivity.flagMusic = 0;
+        SharedPreferences preferenze1 = getSharedPreferences("salva2", MODE_PRIVATE);
+        b1 = preferenze1.getBoolean("effetti", true);
+        if (b1){
+            changeAudio(1);
+        }
         preferences();
 
     }

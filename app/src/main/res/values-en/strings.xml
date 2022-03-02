@@ -23,6 +23,7 @@
     <string name="connessione">CONNECTING...</string>
     <string name="connesso">CONNECTED</string>
     <string name="connessione_fallita">CONNECTION FAILED</string>
+    <string name="errore_connessione">CONNECTION ERROR</string>
     <string name="utenti_disponibili">AVAILABLE USERS</string>
     <string name="cerca">FIND</string>
     <string name="stato">STATUS</string>

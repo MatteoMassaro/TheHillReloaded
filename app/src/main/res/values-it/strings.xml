@@ -24,6 +24,7 @@
     <string name="connessione">CONNESSIONE...</string>
     <string name="connesso">CONNESSO</string>
     <string name="connessione_fallita">CONNESSIONE FALLITA</string>
+    <string name="errore_connessione">ERRORE DI CONNESSIONE</string>
     <string name="utenti_disponibili">UTENTI DISPONIBILI</string>
     <string name="cerca">CERCA</string>
     <string name="gioca">GIOCA</string>
