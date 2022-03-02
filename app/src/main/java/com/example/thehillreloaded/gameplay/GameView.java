@@ -902,6 +902,8 @@ public class GameView extends SurfaceView implements Runnable {
                 int touchY = (int)event.getY();
                 boolean isTouchingPause = touchX >= pause.getX() * 32 && touchY >= pause.getY() && touchX < pause.getX() * 32 + pause.getWidth() && touchY < pause.getY() + pause.getHeight();
                 boolean isTouchingMission = touchX >= missioni.getX() * 34/2 && touchY >= missioni.getY()-10 && touchX < missioni.getX() * 34/2 + missioni.getWidth() && touchY < missioni.getY()-10 + missioni.getHeight();
+                boolean isTouchingRedoPause = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 24 && touchX < gameBar.getWidth() * 8 + gameOver.getWidth() && touchY < gameBar.getHeight() * 24 + gameOver.getHeight();
+                boolean isTouchingExitPause = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 28 && touchX < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && touchY < gameBar.getHeight() * 28 + gameBar.getHeight()*3;
                 nJunk = -1;
 
                 //Mette in pausa o riprende il gioco in base alla pressione dell'utente sul pulsante
@@ -941,6 +943,12 @@ public class GameView extends SurfaceView implements Runnable {
                     else{
                         gameBar.setAudioClicked(true);
                     }
+                }
+
+                if(isTouchingExitPause || isTouchingRedoPause){
+                    pause.setClicked(false);
+                    resume();
+                    isPlaying = false;
                 }
 
                 for (int i = 0; i < junkList.size(); i++) {
@@ -1086,6 +1094,8 @@ public class GameView extends SurfaceView implements Runnable {
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 int x = (int)event.getX();
                 int y = (int)event.getY();
+                boolean isTouchingRedoPause = x >= gameBar.getWidth() * 8 && y >= gameBar.getHeight() * 24 && x < gameBar.getWidth() * 8 + gameOver.getWidth() && y < gameBar.getHeight() * 24 + gameOver.getHeight();
+                boolean isTouchingExitPause = x >= gameBar.getWidth() * 8 && y >= gameBar.getHeight() * 28 && x < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 28 + gameBar.getHeight()*3;
 
                 if(x >= gameBar.getWidth() * 8 && y >= gameBar.getHeight() * 16 && x < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 16 + gameBar.getHeight()*3 && pause.isClicked()){
                     if(gameBar.isMusicClicked() && GameActivity.b == false) {
@@ -1105,6 +1115,14 @@ public class GameView extends SurfaceView implements Runnable {
                     else{
                         this.gameActivity.changeAudio(0);
                     }
+                }
+
+                if(isTouchingRedoPause){
+                    restart();
+                }
+
+                if(isTouchingExitPause){
+                    exit();
                 }
 
                 if ((nJunk != -1 && isPlaying)) {
