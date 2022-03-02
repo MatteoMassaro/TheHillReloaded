@@ -39,7 +39,6 @@ public class PowerUpGameActivity extends AppCompatActivity {
         if(b){
             MusicPlayer.playMusic(this, R.raw.game_music);
         }
-        VolumeActivity.flag = 0;
     }
 
     @Override

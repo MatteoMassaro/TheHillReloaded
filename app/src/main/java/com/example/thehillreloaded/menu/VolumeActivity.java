@@ -20,10 +20,11 @@ import com.example.thehillreloaded.R;
 public class VolumeActivity extends AppCompatActivity {
     //Variabili
     public CardView musica, effetti;
-    public Switch switchMusica, switchEffetti;
+    public static Switch switchMusica, switchEffetti;
     public ImageView indietro;
     Animation slideIn, slideOut, scaleUp, scaleDown;
-    public static int flag = 0;
+    public static int flagAudio = 0;
+    public static int flagMusic = 0;
     Handler h = new Handler();
 
     //Setta l'animazione iniziale delle view
@@ -113,13 +114,14 @@ public class VolumeActivity extends AppCompatActivity {
                     editor.putBoolean("musica",true);
                     editor.apply();
                     switchMusica.setChecked(true);
-                    flag = 1;
+                    flagMusic = 1;
                     MusicPlayer.playMusic(VolumeActivity.this,R.raw.menu_music);
                 }else {
                     SharedPreferences.Editor editor = getSharedPreferences("salva1",MODE_PRIVATE).edit();
                     editor.putBoolean("musica",false);
                     editor.apply();
                     switchMusica.setChecked(false);
+                    flagMusic = 0;
                     MusicPlayer.stopMusic();
                 }
             }

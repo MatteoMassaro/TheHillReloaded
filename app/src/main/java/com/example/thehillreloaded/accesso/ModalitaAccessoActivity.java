@@ -60,10 +60,10 @@ public class ModalitaAccessoActivity extends Animazioni implements View.OnClickL
         SharedPreferences preferenze = getSharedPreferences("salva1",MODE_PRIVATE);
         boolean b = preferenze.getBoolean("musica",true);
         if(b) {
-            if (VolumeActivity.flag == 0) {
+            if (VolumeActivity.flagMusic == 0) {
                 MusicPlayer.playMusic(this, R.raw.menu_music);
                 isPlayingAudio = true;
-                VolumeActivity.flag = 1;
+                VolumeActivity.flagMusic = 1;
             }
         }
 

@@ -8,6 +8,7 @@ import static com.example.thehillreloaded.menu.MusicPlayer.stopMusic;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -57,8 +58,10 @@ import com.example.thehillreloaded.gameplay.recycle.PlasticUnit;
 import com.example.thehillreloaded.gameplay.recycle.RecUnit;
 import com.example.thehillreloaded.gameplay.recycle.SteelUnit;
 import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
+import com.example.thehillreloaded.menu.MenuActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.SchermataCaricamentoActivity;
+import com.example.thehillreloaded.menu.VolumeActivity;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -96,6 +99,7 @@ public class GameView extends SurfaceView implements Runnable {
     private int GoalJunkk, GoalRecUpgr, GoalSunnyAcc, GoalUnitPointsUsed;
     private Missioni goals;
     private GameActivity gameActivity;
+    private VolumeActivity volumeActivity;
 
     //Setta le view adattandole in base allo schermo
     public GameView(Context context, int screenX, int screenY, float density) {
@@ -377,7 +381,7 @@ public class GameView extends SurfaceView implements Runnable {
             //se l'unità di riciclo sta riciclando
             if (recUnit.getIsRecycling()) {
 
-                if (!MusicPlayer.isPlayingEffect) {
+                if (!MusicPlayer.isPlayingEffect && VolumeActivity.flagAudio != 0) {
                     MusicPlayer.playEffetti(getContext(), R.raw.incinerator_sound);
                     MusicPlayer.loopEffetti();
                 }
@@ -715,7 +719,6 @@ public class GameView extends SurfaceView implements Runnable {
                                     }
                                 }
                             }
-
                         } else if (recUnit.getIsCheckingInfo() && x == recUnitList.size() - 1) { //se si vogliono consultare le informazioni dell'inceneritore
 
                             if(MusicPlayer.isPlayingEffect){ //se ci sono gli effetti delle unità di riciclo
@@ -821,13 +824,25 @@ public class GameView extends SurfaceView implements Runnable {
                 if (pause.isClicked()){
                     pauseFlag = true; //il gioco verrà messo in pausa
 
-                    //disegna il menu di pausa
+                    gameActivity.preferences();
                     canvas.drawBitmap(pause.getImageBitmap2(), pause.getX() * 31 , pause.getY(), paint);
                     canvas.drawBitmap(gameBar.getPausaRect(), gameBar.getWidth() * 2/9, gameBar.getHeight() * 1/4, paint);
                     canvas.drawText("PAUSA",missioni.getWidth()*3, missioni.getHeight() * 11/2, paint);
-                    canvas.drawBitmap(gameBar.getMusicIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 16, paint);
+                    if(gameBar.isMusicClicked() && GameActivity.b == true){
+                        canvas.drawBitmap(gameBar.getMusicIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 16, paint);
+                    }
+                    else {
+                        canvas.drawBitmap(gameBar.getMusicIconRed(), gameBar.getWidth() * 8, gameBar.getHeight() * 16, paint);
+                        gameBar.setMusicClicked(false);
+                    }
                     canvas.drawText("MUSICA",missioni.getWidth()* 9/2, missioni.getHeight() * 13/2, otherTextInfoPaint);
-                    canvas.drawBitmap(gameBar.getAudioIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 20, paint);
+                    if(gameBar.isAudioClicked() && GameActivity.b1 == true){
+                        canvas.drawBitmap(gameBar.getAudioIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 20, paint);
+                    }
+                    else{
+                        canvas.drawBitmap(gameBar.getAudioIconRed(), gameBar.getWidth() * 8, gameBar.getHeight() * 20, paint);
+                        gameBar.setAudioClicked(false);
+                    }
                     canvas.drawText("EFFETTI",missioni.getWidth()* 9/2, missioni.getHeight() * 16/2, otherTextInfoPaint);
                     canvas.drawBitmap(gameBar.getSaveIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 24, paint);
                     canvas.drawText("SALVA",missioni.getWidth()* 9/2, missioni.getHeight() * 19/2, otherTextInfoPaint);
@@ -961,6 +976,24 @@ public class GameView extends SurfaceView implements Runnable {
                     } else if (missioni.isClicked() && !isPlaying) {//se l'icona è stata cliccata
                         missioni.setClicked(false); //l'icona non è più considerata cliccata
                         resume(); //riprendi la partita
+                    }
+                }
+
+                if(touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 16 && touchX < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && touchY < gameBar.getHeight() * 16 + gameBar.getHeight()*3 && pause.isClicked()){
+                    if(gameBar.isMusicClicked() && GameActivity.b == false) {
+                        gameBar.setMusicClicked(false);
+                    }
+                    else {
+                        gameBar.setMusicClicked(true);
+                    }
+                }
+
+                if(touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 20 && touchX < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && touchY < gameBar.getHeight() * 20 + gameBar.getHeight()*3 && pause.isClicked()) {
+                    if(gameBar.isAudioClicked() && GameActivity.b1 == false){
+                        gameBar.setAudioClicked(false);
+                    }
+                    else{
+                        gameBar.setAudioClicked(true);
                     }
                 }
 
@@ -1135,6 +1168,26 @@ public class GameView extends SurfaceView implements Runnable {
                 //definsci le coordinate dell'evento (punto in cui è stato sollevato il dito)
                 int x = (int)event.getX();
                 int y = (int)event.getY();
+
+                if(x >= gameBar.getWidth() * 8 && y >= gameBar.getHeight() * 16 && x < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 16 + gameBar.getHeight()*3 && pause.isClicked()){
+                    if(gameBar.isMusicClicked() && GameActivity.b == false) {
+                        MusicPlayer.playMusic(this.gameActivity, R.raw.game_music);
+                        this.gameActivity.changeMusic(1);
+                    }
+                    else {
+                        stopMusic();
+                        this.gameActivity.changeMusic(0);
+                    }
+                }
+
+                if(x >= gameBar.getWidth() * 8 && y >= gameBar.getHeight() * 20 && x < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 20 + gameBar.getHeight()*3 && pause.isClicked()){
+                    if(gameBar.isAudioClicked() && GameActivity.b1 == false) {
+                        this.gameActivity.changeAudio(1);
+                    }
+                    else{
+                        this.gameActivity.changeAudio(0);
+                    }
+                }
 
                 //se è stato trascinato un rifiuto
                 if ((nJunk != -1 && isPlaying)) {
