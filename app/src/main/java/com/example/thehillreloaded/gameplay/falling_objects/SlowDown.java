@@ -48,18 +48,20 @@ public class SlowDown extends PowerUp {
     private static void powerUpHasEnded() {
         if (currentDuration >= duration) {
             isPoweredUp = false;
-            resetValues();
+            adjustValues();
         }
     }
 
-    private static void resetValues() {
+    private static void adjustValues() {
         currentDuration = 0;
         Junk.setSpeed(Junk.getSpeed()*2);
         Junk.setSpeedIncrease(Junk.getSpeedIncrease()*2);
     }
 
-    public static void resetDuration() {
+    public static void resetValues() {
         duration = 1500;
+        currentDuration = 0;
+        isPoweredUp = false;
     }
 
     public static int getDuration() {

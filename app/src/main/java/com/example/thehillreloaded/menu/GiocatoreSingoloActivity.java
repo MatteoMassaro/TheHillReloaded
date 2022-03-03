@@ -20,6 +20,7 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
     public CardView modalitaClassica, modalitaPowerUp;
     public ImageView indietro;
     public static boolean classica, powerUp = false;
+    public static boolean b, b1;
 
     //Chiama l'animazione all'avvio dell'activity
     @Override
@@ -27,15 +28,6 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
         super.onStart();
         runAnimationSlideIn(modalitaClassica);
         runAnimationSlideIn(modalitaPowerUp);
-        SharedPreferences preferenze = getSharedPreferences("salva1",MODE_PRIVATE);
-        boolean b = preferenze.getBoolean("musica",true);
-        if(b) {
-            if (VolumeActivity.flagMusic == 0) {
-                MusicPlayer.playMusic(this, R.raw.menu_music);
-                ModalitaAccessoActivity.isPlayingAudio = true;
-                VolumeActivity.flagMusic = 1;
-            }
-        }
     }
 
     //Chiama l'animazione alla pausa dell'activity
@@ -79,6 +71,7 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
         switch (view.getId()){
             case R.id.modalitaClassica:
                 classica = true;
+                powerUp = false;
                 i = new Intent(this, DifficoltaActivity.class);
                 Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i, b);
@@ -86,6 +79,7 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
                 break;
             case R.id.modalitaPowerUp:
                 powerUp = true;
+                classica = false;
                 i = new Intent(this, DifficoltaActivity.class);
                 Bundle b1 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i, b1);

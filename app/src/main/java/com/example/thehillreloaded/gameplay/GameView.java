@@ -8,7 +8,6 @@ import static com.example.thehillreloaded.menu.MusicPlayer.stopMusic;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -57,8 +56,8 @@ import com.example.thehillreloaded.gameplay.recycle.PaperUnit;
 import com.example.thehillreloaded.gameplay.recycle.PlasticUnit;
 import com.example.thehillreloaded.gameplay.recycle.RecUnit;
 import com.example.thehillreloaded.gameplay.recycle.SteelUnit;
+import com.example.thehillreloaded.menu.DifficoltaActivity;
 import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
-import com.example.thehillreloaded.menu.MenuActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.SchermataCaricamentoActivity;
 import com.example.thehillreloaded.menu.VolumeActivity;
@@ -264,8 +263,8 @@ public class GameView extends SurfaceView implements Runnable {
         recUnitList.get(5).unitPointsPlus();
         recUnitList.get(5).unitPointsPlus();
         recUnitList.get(5).unitPointsPlus();
-        recUnitList.get(5).unitPointsPlus();
-        sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints()+50);*/
+        recUnitList.get(5).unitPointsPlus();*/
+        sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints()+50);
 
 
         //definisci tutti i paint
@@ -497,7 +496,7 @@ public class GameView extends SurfaceView implements Runnable {
             Junk.increaseSpeed();
     }
 
-        //Disegna le unità di riciclo
+        //metodo per disegnare a schermo i rifiuti, le unità di riciclo, i pop-up, ecc.
         public void draw() {
 
             if (getHolder().getSurface().isValid()) {
@@ -505,6 +504,10 @@ public class GameView extends SurfaceView implements Runnable {
                 Canvas canvas = getHolder().lockCanvas(); //canvas su cui verranno disegnate le bitmap, i testi, ecc.
                 canvas.drawBitmap(background.background, background.getX(), background.getY(), paint); //disegna il background
                 canvas.drawBitmap(background.spawnZone, background.getX(), this.screenY * 6 / 11, paint); //disegna la zona di spawn (rettangolo celeste)
+                canvas.drawText(String.valueOf(Junk.getSpeed()), 200, 80, paint);
+                canvas.drawText(String.valueOf(Junk.getSpeedIncrease()), 200, 100, paint);
+                canvas.drawText(String.valueOf(Junk.getDistance()), 200, 120, paint);
+                canvas.drawText(String.valueOf(RecUnit.getRecyclingSpeed()), 200, 140, paint);
 
                 //per ogni unità di riciclo
                 for (int x = 0; x < recUnitList.size(); x++) {
@@ -761,8 +764,11 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas.drawBitmap(background.greenRect, background.getX(), background.getY(), paint);
                 canvas.drawBitmap(Bitmap.createScaledBitmap(sunnyPoints.getImageBitmap(), (int)(sunnyPoints.getWidth()*1.5), (int)(sunnyPoints.getHeight()*1.5), true), sunnyPoints.getX(), sunnyPoints.getY(), paint);
                 canvas.drawText(String.valueOf(sunnyPoints.getSunnyPoints()), sunnyPoints.getX() + sunnyPoints.getWidth() * 2, sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, paint);
-                canvas.drawText("PTS: " + String.valueOf(gameBar.getScore()), sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 10.5), sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, otherTextInfoPaint);
-                canvas.drawBitmap(missioni.getImageBitmap(), missioni.getX() * 34/2, missioni.getY() - (float)(10 * screenRatioY) , paint);
+                canvas.drawText("Punti: " + String.valueOf(gameBar.getScore()), sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 10), sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, otherTextInfoPaint);
+                canvas.drawBitmap(missioni.getImageBitmap(), missioni.getX() * 33/2, missioni.getY() - (float)(10 * screenRatioY) , paint);
+                canvas.drawText("Difficoltà:", sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 0.8), textInfoPaint);
+                canvas.drawText(DifficoltaActivity.difficoltà, sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 1.4), textInfoPaint);
+
 
                 //se l'icona delle missioni è stata cliccata
                 if (missioni.isClicked()){
@@ -822,13 +828,15 @@ public class GameView extends SurfaceView implements Runnable {
 
                 //se il bottone della pausa è stato cliccato
                 if (pause.isClicked()){
-                    pauseFlag = true; //il gioco verrà messo in pausa
+                    isPlaying = false; //non verrà più rieseguito il corpo del metodo run() (simile a pause())
 
                     gameActivity.preferences();
+
+                    //visualizza i testi e le icone della pausa
                     canvas.drawBitmap(pause.getImageBitmap2(), pause.getX() * 31 , pause.getY(), paint);
                     canvas.drawBitmap(gameBar.getPausaRect(), gameBar.getWidth() * 2/9, gameBar.getHeight() * 1/4, paint);
                     canvas.drawText("PAUSA",missioni.getWidth()*3, missioni.getHeight() * 11/2, paint);
-                    if(gameBar.isMusicClicked() && GameActivity.b == true){
+                    if(gameBar.isMusicClicked() && GiocatoreSingoloActivity.b == true){
                         canvas.drawBitmap(gameBar.getMusicIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 16, paint);
                     }
                     else {
@@ -836,7 +844,7 @@ public class GameView extends SurfaceView implements Runnable {
                         gameBar.setMusicClicked(false);
                     }
                     canvas.drawText("MUSICA",missioni.getWidth()* 9/2, missioni.getHeight() * 13/2, otherTextInfoPaint);
-                    if(gameBar.isAudioClicked() && GameActivity.b1 == true){
+                    if(gameBar.isAudioClicked() && GiocatoreSingoloActivity.b1 == true){
                         canvas.drawBitmap(gameBar.getAudioIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 20, paint);
                     }
                     else{
@@ -844,9 +852,9 @@ public class GameView extends SurfaceView implements Runnable {
                         gameBar.setAudioClicked(false);
                     }
                     canvas.drawText("EFFETTI",missioni.getWidth()* 9/2, missioni.getHeight() * 16/2, otherTextInfoPaint);
-                    canvas.drawBitmap(gameBar.getSaveIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 24, paint);
-                    canvas.drawText("SALVA",missioni.getWidth()* 9/2, missioni.getHeight() * 19/2, otherTextInfoPaint);
-                    canvas.drawBitmap(gameBar.getExitIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 28, paint);
+                    canvas.drawBitmap(gameOver.getImageBitmap2(), gameBar.getWidth() * 8, gameBar.getHeight() * 24, paint);
+                    canvas.drawText("RICOMINCIA",missioni.getWidth()* 9/2, missioni.getHeight() * 19/2, otherTextInfoPaint);
+                    canvas.drawBitmap(gameOver.getImageBitmap3(), gameBar.getWidth() * 8, gameBar.getHeight() * 28, paint);
                     canvas.drawText("ESCI",missioni.getWidth()* 9/2, missioni.getHeight() * 11, otherTextInfoPaint);
                 }
 
@@ -919,6 +927,7 @@ public class GameView extends SurfaceView implements Runnable {
             gameActivity.startActivity(new Intent(gameActivity, SchermataCaricamentoActivity.class));
         }
 
+        //metodo per uscire dalla partita
         public void exit() {
 
             if (MusicPlayer.isPlayingEffect){ //se ci sono gli effetti delle unità di riciclo
@@ -939,10 +948,12 @@ public class GameView extends SurfaceView implements Runnable {
             //termina la partita, interrompi l'audio di gioco e ritorna all'activity per scegliere la modalità di gioco
             gameActivity.finish();
             gameActivity.startActivity(new Intent(gameActivity, GiocatoreSingoloActivity.class));
-            stopMusic();
+            if(MusicPlayer.isPlayingMusic){
+                MusicPlayer.stopMusic();
+            }
         }
 
-        //Cattura i movimenti e le posizioni dei blocchi e dei pulsanti
+
         @Override
         public boolean onTouchEvent(MotionEvent event) {
 
@@ -952,9 +963,13 @@ public class GameView extends SurfaceView implements Runnable {
                 int touchX = (int)event.getX();
                 int touchY = (int)event.getY();
 
-                //variabili booleane utilizzate per verificare che l'utente abbia toccato l'icona di pausa o delle missioni
+                //variabili booleane utilizzate per verificare che l'utente abbia toccato l'icona di pausa, delle missioni, della musica, ecc.
                 boolean isTouchingPause = touchX >= pause.getX() * 32 && touchY >= pause.getY() && touchX < pause.getX() * 32 + pause.getWidth() && touchY < pause.getY() + pause.getHeight();
                 boolean isTouchingMission = touchX >= missioni.getX() * 34/2 && touchY >= missioni.getY()-10 && touchX < missioni.getX() * 34/2 + missioni.getWidth() && touchY < missioni.getY()-10 + missioni.getHeight();
+                boolean isTouchingMusic = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 16 && touchX < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && touchY < gameBar.getHeight() * 16 + gameBar.getHeight()*3;
+                boolean isTouchingAudio = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 20 && touchX < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && touchY < gameBar.getHeight() * 20 + gameBar.getHeight()*3;
+                boolean isTouchingRestart = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 24 && touchX < gameBar.getWidth() * 8 + gameOver.getWidth() && touchY < gameBar.getHeight() * 24 + gameOver.getHeight();
+                boolean isTouchingPauseExit = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 28 && touchX < gameBar.getWidth() * 8 + gameOver.getWidth() && touchY < gameBar.getHeight() * 28 + gameOver.getHeight();
                 nJunk = -1; //variabile definita per controllare il rifiuto da manipolare
 
                 //se l'utente sta toccando l'icona di pausa
@@ -977,23 +992,48 @@ public class GameView extends SurfaceView implements Runnable {
                         missioni.setClicked(false); //l'icona non è più considerata cliccata
                         resume(); //riprendi la partita
                     }
-                }
 
-                if(touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 16 && touchX < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && touchY < gameBar.getHeight() * 16 + gameBar.getHeight()*3 && pause.isClicked()){
-                    if(gameBar.isMusicClicked() && GameActivity.b == false) {
-                        gameBar.setMusicClicked(false);
-                    }
-                    else {
-                        gameBar.setMusicClicked(true);
-                    }
-                }
+                } else if (pause.isClicked()) { //se la pausa è stata cliccata
 
-                if(touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 20 && touchX < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && touchY < gameBar.getHeight() * 20 + gameBar.getHeight()*3 && pause.isClicked()) {
-                    if(gameBar.isAudioClicked() && GameActivity.b1 == false){
-                        gameBar.setAudioClicked(false);
+                    //se l'utente sta toccando l'icona della musica
+                    if (isTouchingMusic) {
+
+                        if(gameBar.isMusicClicked() && GiocatoreSingoloActivity.b == false) {
+                            gameBar.setMusicClicked(false); //l'icona non è considerata cliccata
+                        }
+                        else {
+                            gameBar.setMusicClicked(true); //l'icona è ora considerata cliccata
+                        }
+
+                    } else if (isTouchingAudio) { //se l'utente sta toccando l'icona degli effetti
+                        if(gameBar.isAudioClicked() && GiocatoreSingoloActivity.b1 == false){
+                            gameBar.setAudioClicked(false); //l'icona non è considerata cliccata
+                        }
+                        else{
+                            gameBar.setAudioClicked(true);//l'icona è ora considerata cliccata
+                        }
+
+                    } else if (isTouchingRestart) { //se è stato toccato il tasto per ricominciare
+                        restart(); //ricomincia la partita
+
+                    } else if (isTouchingPauseExit) { //se è stato toccato il tasto per uscire
+                        exit(); //esci dal gioco
+                        exit();
                     }
-                    else{
-                        gameBar.setAudioClicked(true);
+
+                } else if (isGameOver) { //se è apparso il pop-up di fine partita
+
+                    //definisci le variabili booleane per verificare che venga toccato il tasto per ricominciare la partita o il tasto per uscire dal gioco
+                    boolean isTouchingRedo = (touchX >= gameOver.getX() + (int)(170*screenRatioX) && touchY >= gameOver.getY() + (int)(350*screenRatioY) && touchX < gameOver.getX() + (int)(170*screenRatioX) + gameOver.getWidth() && touchY < gameOver.getY() + (int)(350*screenRatioY) + gameOver.getHeight());
+                    boolean isTouchingGameOverExit = (touchX >= gameOver.getX() + (int)(170*screenRatioX) && touchY >= gameOver.getY() + (int)(500*screenRatioY) && touchX < gameOver.getX() + (int)(170*screenRatioX) + gameOver.getWidth() && touchY < gameOver.getY() + (int)(500*screenRatioY) + gameOver.getHeight());
+
+                    //se è stato toccato il tasto di ricomincia
+                    if (isTouchingRedo) {
+                        restart(); //ricomincia la partita
+
+                    } else if (isTouchingGameOverExit) { //se è stato toccato il tasto per uscire
+                        exit(); //esci dal gioco
+                        exit();
                     }
                 }
 
@@ -1050,19 +1090,6 @@ public class GameView extends SurfaceView implements Runnable {
                             resume(); //riprendi la partita
                         }
 
-                    } else if (isGameOver) { //se è apparso il pop-up di fine partita
-
-                        //definisci le variabili booleane per verificare che venga toccato il tasto per ricominciare la partita o il tasto per uscire dal gioco
-                        boolean isTouchingRedo = (touchX >= gameOver.getX() + (int)(170*screenRatioX) && touchY >= gameOver.getY() + (int)(350*screenRatioY) && touchX < gameOver.getX() + (int)(170*screenRatioX) + gameOver.getWidth() && touchY < gameOver.getY() + (int)(350*screenRatioY) + gameOver.getHeight());
-                        boolean isTouchingExit = (touchX >= gameOver.getX() + (int)(170*screenRatioX) && touchY >= gameOver.getY() + (int)(500*screenRatioY) && touchX < gameOver.getX() + (int)(170*screenRatioX) + gameOver.getWidth() && touchY < gameOver.getY() + (int)(500*screenRatioY) + gameOver.getHeight());
-
-                        //se è stato toccato il tasto di ricomincia
-                        if (isTouchingRedo) {
-                            restart(); //ricomincia la partita
-
-                        } else if (isTouchingExit) { //se è stato toccato il tasto per uscire
-                            exit(); //esci dal gioco
-                        }
                     }
 
                     //se si stanno visualizzando le informazioni di un'unità di riciclo
@@ -1170,7 +1197,7 @@ public class GameView extends SurfaceView implements Runnable {
                 int y = (int)event.getY();
 
                 if(x >= gameBar.getWidth() * 8 && y >= gameBar.getHeight() * 16 && x < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 16 + gameBar.getHeight()*3 && pause.isClicked()){
-                    if(gameBar.isMusicClicked() && GameActivity.b == false) {
+                    if(gameBar.isMusicClicked() && GiocatoreSingoloActivity.b == false) {
                         MusicPlayer.playMusic(this.gameActivity, R.raw.game_music);
                         this.gameActivity.changeMusic(1);
                     }
@@ -1181,7 +1208,7 @@ public class GameView extends SurfaceView implements Runnable {
                 }
 
                 if(x >= gameBar.getWidth() * 8 && y >= gameBar.getHeight() * 20 && x < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 20 + gameBar.getHeight()*3 && pause.isClicked()){
-                    if(gameBar.isAudioClicked() && GameActivity.b1 == false) {
+                    if(gameBar.isAudioClicked() && GiocatoreSingoloActivity.b1 == false) {
                         this.gameActivity.changeAudio(1);
                     }
                     else{

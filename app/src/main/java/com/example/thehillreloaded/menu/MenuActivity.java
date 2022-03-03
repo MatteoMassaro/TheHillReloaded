@@ -3,6 +3,7 @@ package com.example.thehillreloaded.menu;
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import androidx.cardview.widget.CardView;
@@ -26,6 +27,15 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
         super.onStart();
         runAnimationSlideIn(giocatoreSingolo);
         runAnimationSlideIn(multigiocatore);
+        SharedPreferences preferenze = getSharedPreferences("salva1",MODE_PRIVATE);
+        boolean b = preferenze.getBoolean("musica",true);
+        if(b) {
+            if (VolumeActivity.flagMusic == 0) {
+                MusicPlayer.playMusic(this, R.raw.menu_music);
+                ModalitaAccessoActivity.isPlayingAudio = true;
+                VolumeActivity.flagMusic = 1;
+            }
+        }
     }
 
     //Chiama l'animazione alla pausa dell'activity

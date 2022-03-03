@@ -24,10 +24,6 @@ public class Junk {
         this.y = y;
     }
 
-    public static void resetSpeed() {
-        speed = 7;
-    }
-
     public static void setSpeed(double newSpeed) {
         speed = newSpeed;
     }
@@ -38,10 +34,6 @@ public class Junk {
 
     public static void increaseSpeed() {
         speed = speed + speedIncrease;
-    }
-
-    public static void resetSpeedIncrease() {
-        speedIncrease = 0.0004;
     }
 
     public static double getSpeedIncrease() {

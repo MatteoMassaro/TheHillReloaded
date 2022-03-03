@@ -22,8 +22,8 @@ public class ClearJunk extends PowerUp {
 
         clearJunk = BitmapFactory.decodeResource(res, R.drawable.clear_junk);
 
-        super.setWidth((int) (clearJunk.getWidth() * screenRatioX * densityRatio/ 7));
-        super.setHeight((int) (clearJunk.getHeight() * screenRatioY * densityRatio/ 7));
+        super.setWidth((int) (clearJunk.getWidth() * screenRatioX * densityRatio/ 8.5));
+        super.setHeight((int) (clearJunk.getHeight() * screenRatioY * densityRatio/ 8.5));
 
         clearJunk = Bitmap.createScaledBitmap(clearJunk, getWidth(), getHeight(), true);
     }

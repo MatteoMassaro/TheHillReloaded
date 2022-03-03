@@ -1,5 +1,8 @@
 package com.example.thehillreloaded.gameplay;
 
+import static com.example.thehillreloaded.menu.GiocatoreSingoloActivity.b;
+import static com.example.thehillreloaded.menu.GiocatoreSingoloActivity.b1;
+
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
@@ -16,7 +19,6 @@ public class GameActivity extends AppCompatActivity {
 
     //Variabili
     private GameView gameView;
-    public static boolean b, b1;
 
     public void changeAudio(int audioFlag){
         SharedPreferences.Editor editor;
@@ -75,6 +77,11 @@ public class GameActivity extends AppCompatActivity {
             MusicPlayer.playMusic(this, R.raw.game_music);
         }
         VolumeActivity.flagMusic = 0;
+        SharedPreferences preferenze1 = getSharedPreferences("salva2", MODE_PRIVATE);
+        b1 = preferenze1.getBoolean("effetti", true);
+        if (b1){
+            changeAudio(1);
+        }
         preferences();
 
     }

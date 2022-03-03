@@ -1,14 +1,17 @@
 package com.example.thehillreloaded.menu;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.net.wifi.WifiManager;
+import android.net.wifi.p2p.WifiP2pConfig;
+import android.net.wifi.p2p.WifiP2pDevice;
+import android.net.wifi.p2p.WifiP2pDeviceList;
+import android.net.wifi.p2p.WifiP2pInfo;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothServerSocket;
-import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,8 +24,14 @@ import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.animazioni.Animazioni;
 
 import java.io.IOException;
-import java.util.Set;
-import java.util.UUID;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class BluetoothActivity extends Animazioni {
@@ -32,18 +41,31 @@ public class BluetoothActivity extends Animazioni {
     ImageView indietro;
     ListView listaDispositivi;
     TextView status;
-    BluetoothAdapter bluetoothAdapter;
-    BluetoothDevice[] btArray;
+    WifiP2pManager wifiP2pManager;
+    WifiP2pManager.Channel channel;
+    BroadcastReceiver receiver;
+    IntentFilter intentFilter;
+    List<WifiP2pDevice> peers = new ArrayList<>();
+    String[] deviceNameArray;
+    WifiP2pDevice[] deviceArray;
+    boolean isHost;
 
-    static final int STATO_SELEZIONA_GIOCATORE = 1;
-    static final int STATO_CONNESSIONE = 2;
-    static final int STATO_CONNESSO = 3;
-    static final int STATO_CONNESSIONE_FALLITA = 4;
+    ServerClass serverClass;
+    ClientClass clientClass;
+    Socket socket;
 
-    int REQUEST_ENABLE_BLUETOOTH = 1;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(receiver, intentFilter);
+    }
 
-    private static final String APP_NAME = "The Hill Reloaded";
-    private static final UUID MY_UUID = UUID.fromString("8ce255c0-223a-11e0-ac64-0803450c9a66");
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(receiver);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,17 +86,6 @@ public class BluetoothActivity extends Animazioni {
         clickButtonAnimation(cerca);
         clickButtonAnimation(gioca);
 
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-        //Richiede l'attivazione del bluetooth se disattivato
-        if(!bluetoothAdapter.isEnabled())
-        {
-            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableIntent,REQUEST_ENABLE_BLUETOOTH);
-        }
-
-        implementListeners();
-
         //Crea l'intent per passare all'activity successiva dopo la pressione del pulsante
         gioca.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +103,20 @@ public class BluetoothActivity extends Animazioni {
                 startActivity(i);
             }
         });
+
+        initialize();
+        implementListeners();
+    }
+
+    private void initialize(){
+        wifiP2pManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
+        channel = wifiP2pManager.initialize(this, getMainLooper(), null);
+        receiver = new WiFiDirectBroadcastReceiver(wifiP2pManager, channel, this);
+
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION);
+        intentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
+        intentFilter.addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION);
     }
 
     private void implementListeners() {
@@ -100,139 +125,123 @@ public class BluetoothActivity extends Animazioni {
         cerca.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Set<BluetoothDevice>
-                        bt = bluetoothAdapter.getBondedDevices();
-                String[] strings= new String[bt.size()];
-                btArray= new BluetoothDevice[bt.size()];
-                int index=0;
-
-                if(bt.size()>0)
-                {
-                    for(BluetoothDevice device : bt)
-                    {
-                        btArray[index] = device;
-                        strings[index] = device.getName();
-                        index++;
+                wifiP2pManager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
+                    @Override
+                    public void onSuccess() {
+                        status.setText(R.string.cercando_giocatori);
                     }
-                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, strings);
-                    listaDispositivi.setAdapter(arrayAdapter);
-                }
+
+                    @Override
+                    public void onFailure(int i) {
+                        status.setText(R.string.errore_connessione);
+                    }
+                });
             }
         });
-
-        ServerClass serverClass = new ServerClass();
-        serverClass.start();
 
         //Connette il dispositivo attuale con quello selezionato dalla lista
         listaDispositivi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ClientClass clientClass = new ClientClass(btArray[i]);
-                clientClass.start();
+                final WifiP2pDevice device = deviceArray[i];
+                WifiP2pConfig config = new WifiP2pConfig();
+                config.deviceAddress = device.deviceAddress;
+                wifiP2pManager.connect(channel, config, new WifiP2pManager.ActionListener() {
+                    @Override
+                    public void onSuccess() {
+                        status.setText(R.string.connesso);
+                    }
 
-                status.setText(R.string.connessione);
+                    @Override
+                    public void onFailure(int i) {
+                        status.setText(R.string.connessione_fallita);
+                    }
+                });
             }
         });
     }
 
-    Handler handler = new Handler(new Handler.Callback() {
+    WifiP2pManager.PeerListListener peerListListener = new WifiP2pManager.PeerListListener() {
         @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what)
-            {
-                case STATO_SELEZIONA_GIOCATORE:
-                    status.setText(R.string.seleziona_giocatore);
-                    break;
-                case STATO_CONNESSIONE:
-                    status.setText(R.string.connessione);
-                    break;
-                case STATO_CONNESSO:
-                    status.setText(R.string.connesso);
-                    gioca.setVisibility(Button.VISIBLE);
-                    indietro.setVisibility(Button.GONE);
-                    break;
-                case STATO_CONNESSIONE_FALLITA:
-                    status.setText(R.string.connessione_fallita);
-                    break;
+        public void onPeersAvailable(WifiP2pDeviceList wifiP2pDeviceList) {
+            if(!wifiP2pDeviceList.getDeviceList().equals(peers)){
+                peers.clear();
+                peers.addAll(wifiP2pDeviceList.getDeviceList());
+
+                deviceNameArray = new String[wifiP2pDeviceList.getDeviceList().size()];
+                deviceArray = new WifiP2pDevice[wifiP2pDeviceList.getDeviceList().size()];
+
+                int index = 0;
+                for(WifiP2pDevice device : wifiP2pDeviceList.getDeviceList()){
+                    deviceNameArray[index] = device.deviceName;
+                    deviceArray[index] = device;
+                    index ++;
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, deviceNameArray);
+                listaDispositivi.setAdapter(adapter);
+
+                if(peers.size() == 0){
+                    status.setText(R.string.nessun_giocatore);
+                    return;
+                }
+
             }
-            return true;
         }
-    });
+    };
+
+    WifiP2pManager.ConnectionInfoListener connectionInfoListener = new WifiP2pManager.ConnectionInfoListener() {
+        @Override
+        public void onConnectionInfoAvailable(WifiP2pInfo wifiP2pInfo) {
+            final InetAddress groupOwnerAddress = wifiP2pInfo.groupOwnerAddress;
+            if(wifiP2pInfo.groupFormed && wifiP2pInfo.isGroupOwner){
+                isHost = true;
+                serverClass = new ServerClass();
+                serverClass.start();
+            }else if(wifiP2pInfo.groupFormed){
+                isHost = false;
+                clientClass = new ClientClass(groupOwnerAddress);
+                clientClass.start();
+            }
+        }
+    };
 
     private class ServerClass extends Thread
     {
-        private BluetoothServerSocket serverSocket;
+        ServerSocket serverSocket;
 
-        public ServerClass(){
-            try {
-                serverSocket = bluetoothAdapter.listenUsingRfcommWithServiceRecord(APP_NAME,MY_UUID);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
 
         //Imposta lo stato della connessione
+        @Override
         public void run()
         {
-            BluetoothSocket socket = null;
-
-            while (true)
-            {
-                try {
-                    Message message=Message.obtain();
-                    message.what = STATO_SELEZIONA_GIOCATORE;
-                    handler.sendMessage(message);
-                    socket = serverSocket.accept();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Message message=Message.obtain();
-                    message.what=STATO_CONNESSIONE_FALLITA;
-                    handler.sendMessage(message);
-                }
-
-                if(socket!=null)
-                {
-                    Message message=Message.obtain();
-                    message.what=STATO_CONNESSO;
-                    handler.sendMessage(message);
-
-                    break;
-                }
+            try {
+                serverSocket = new ServerSocket(8888);
+                socket = serverSocket.accept();
+                InputStream inputStream = socket.getInputStream();
+                OutputStream outputStream = socket.getOutputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
 
-    private class ClientClass extends Thread
-    {
-        private BluetoothSocket socket;
+    public class ClientClass extends Thread {
+        String hostAdd;
 
-        public ClientClass (BluetoothDevice device1)
-        {
-
-            try {
-                socket= device1.createRfcommSocketToServiceRecord(MY_UUID);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        public ClientClass (InetAddress hostAddress) {
+            hostAdd = hostAddress.getHostAddress();
+            socket = new Socket();
         }
-
-        //Imposta lo stato della connessione
-        public void run()
-        {
-            try {
-                socket.connect();
-                Message message=Message.obtain();
-                message.what=STATO_CONNESSO;
-                handler.sendMessage(message);
-
-            } catch (IOException e) {
+        @Override
+        public void run(){
+            try{
+                socket.connect(new InetSocketAddress(hostAdd, 8888), 500);
+                InputStream inputStream = socket.getInputStream();
+                OutputStream outputStream = socket.getOutputStream();
+            }catch (IOException e){
                 e.printStackTrace();
-                Message message=Message.obtain();
-                message.what=STATO_CONNESSIONE_FALLITA;
-                handler.sendMessage(message);
             }
         }
     }
-
-
 }

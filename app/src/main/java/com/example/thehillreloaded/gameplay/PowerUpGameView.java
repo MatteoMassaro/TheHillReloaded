@@ -13,6 +13,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.nfc.NfcAdapter;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
@@ -61,9 +62,11 @@ import com.example.thehillreloaded.gameplay.recycle.PaperUnit;
 import com.example.thehillreloaded.gameplay.recycle.PlasticUnit;
 import com.example.thehillreloaded.gameplay.recycle.RecUnit;
 import com.example.thehillreloaded.gameplay.recycle.SteelUnit;
+import com.example.thehillreloaded.menu.DifficoltaActivity;
 import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.SchermataCaricamentoActivity;
+import com.example.thehillreloaded.menu.VolumeActivity;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -101,6 +104,7 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
     private int GoalJunkk, GoalRecUpgr, GoalSunnyAcc, GoalUnitPointsUsed;
     private Missioni goals;
     private PowerUpGameActivity powerUpGameActivity;
+    private VolumeActivity volumeActivity;
 
     //Setta le view adattandole in base allo schermo
     public PowerUpGameView(Context context, int screenX, int screenY, float density) {
@@ -187,7 +191,6 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
         infoImagesList.add(new EWasteInfo(unitInfo.getX() + (int)(185*screenRatioX), unitInfo.getY() + (int)(201*screenRatioY), getResources()));
         infoImagesList.add(new IncineratorInfo(unitInfo.getX() + (int)(200*screenRatioX), unitInfo.getY() + (int)(180*screenRatioY), getResources()));
 
-
         GoalJunkk = goals.getGoalJunkRec();
         GoalRecUpgr = goals.getGoalRecUpgr();
         GoalSunnyAcc = goals.getGoalSunnyAccum();
@@ -201,10 +204,6 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
         Random random = new Random();
         Glass glass = new Glass(0, 0, getResources());
         junkList.add(new Glass(random.nextInt(spawnBoundX - glass.getWidth()) + (int) (25 * screenRatioX), spawnY, getResources()));
-        junkList.add(new SlowDown(random.nextInt(spawnBoundX - glass.getWidth()) + (int) (25 * screenRatioX), spawnY, getResources()));
-        junkList.add(new SpeedUp(random.nextInt(spawnBoundX - glass.getWidth()) + (int) (25 * screenRatioX), spawnY, getResources()));
-        //junkList.add(new ClearJunk(random.nextInt(spawnBoundX - glass.getWidth()) + (int) (25 * screenRatioX), spawnY, getResources()));
-        //junkList.add(new SunnyPow(random.nextInt(spawnBoundX - glass.getWidth()) + (int) (25 * screenRatioX), spawnY, getResources()));
 
         //definisci l'oggetto per la visualizzazione delle info riguardanti l'oggetto ottenuto utilizzando gli unitPoints
         materialInfo = new MaterialInfo(0, (int)(230 * screenRatioY), getResources());
@@ -321,22 +320,22 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
             if (num <= PowerUp.getTasso()) {
                 //aggiungi il power up per rallentare la caduta dei rifiuti
                 SlowDown slowDown = new SlowDown(0,0, getResources());
-                junkList.add(new EWaste((random.nextInt(spawnBoundX - slowDown.getWidth()) + (int) (25 * screenRatioX)), spawnY, getResources()));
+                junkList.add(new SlowDown((random.nextInt(spawnBoundX - slowDown.getWidth()) + (int) (25 * screenRatioX)), spawnY, getResources()));
 
             } else if (num > PowerUp.getTasso() && num <= PowerUp.getTasso()*2) {
                 //aggiungi il power up per velocizzare i processi di smaltimento dei rifiuti
                 SpeedUp speedUp = new SpeedUp(0,0, getResources());
-                junkList.add(new EWaste((random.nextInt(spawnBoundX - speedUp.getWidth()) + (int) (25 * screenRatioX)), spawnY, getResources()));
+                junkList.add(new SpeedUp((random.nextInt(spawnBoundX - speedUp.getWidth()) + (int) (25 * screenRatioX)), spawnY, getResources()));
 
             } else if (num > PowerUp.getTasso()*2 && num <= PowerUp.getTasso()*3) {
                 //aggiungi il power up per ricevere due sunnyPoints extra
                 SunnyPow sunnyPow = new SunnyPow(0,0, getResources());
-                junkList.add(new EWaste((random.nextInt(spawnBoundX - sunnyPow.getWidth()) + (int) (25 * screenRatioX)), spawnY, getResources()));
+                junkList.add(new SunnyPow((random.nextInt(spawnBoundX - sunnyPow.getWidth()) + (int) (25 * screenRatioX)), spawnY, getResources()));
 
             } else if (num > PowerUp.getTasso()*3 && num <= PowerUp.getTasso()*4) {
                 //aggiungi il power up per rimuovere due rifiuti istantaneamente
                 ClearJunk clearJunk = new ClearJunk(0,0, getResources());
-                junkList.add(new EWaste((random.nextInt(spawnBoundX - clearJunk.getWidth()) + (int) (25 * screenRatioX)), spawnY, getResources()));
+                junkList.add(new ClearJunk((random.nextInt(spawnBoundX - clearJunk.getWidth()) + (int) (25 * screenRatioX)), spawnY, getResources()));
 
             } else if (num > PowerUp.getTasso()*4 && num <= Glass.getTasso() + PowerUp.getTasso()*4) {
                 //aggiungi un rifiuto di vetro
@@ -520,7 +519,7 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
 
         //controlla se i potenziamenti sono ancora attivi (se sono stati attivati precedentemente)
         SlowDown.checkIfPowerIsUp();
-        SpeedUp.checkPowerIsUp();
+        SpeedUp.checkIfPowerIsUp();
 
         //aumenta la distanza percorsa dai rifiuti e dai potenziamenti
         Junk.increaseDistance();
@@ -529,7 +528,7 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
         Junk.increaseSpeed();
     }
 
-    //Disegna le unità di riciclo
+    //metodo per disegnare a schermo i rifiuti, le unità di riciclo, i pop-up, ecc.
     public void draw() {
 
         if (getHolder().getSurface().isValid()) {
@@ -537,12 +536,10 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
             Canvas canvas = getHolder().lockCanvas(); //canvas su cui verranno disegnate le bitmap, i testi, ecc.
             canvas.drawBitmap(background.background, background.getX(), background.getY(), paint); //disegna il background
             canvas.drawBitmap(background.spawnZone, background.getX(), this.screenY * 6 / 11, paint); //disegna la zona di spawn (rettangolo celeste)
-            canvas.drawText(String.valueOf(RecUnit.getRecyclingSpeed()), 200, 80, paint);
-            canvas.drawText(String.valueOf(Junk.getSpeed()), 200, 100, paint);
-            canvas.drawText(String.valueOf(Junk.getSpeedIncrease()), 200, 120, paint);
-            canvas.drawText(String.valueOf(PowerUp.getTasso()), 200, 140, paint);
-            canvas.drawText(String.valueOf(SlowDown.getDuration()), 200, 160, paint);
-            canvas.drawText(String.valueOf(SpeedUp.getDuration()), 200, 180, paint);
+            canvas.drawText(String.valueOf(Junk.getSpeed()), 400, 200, paint);
+            canvas.drawText(String.valueOf(Junk.getSpeedIncrease()), 400, 240, paint);
+            canvas.drawText(String.valueOf(Junk.getDistance()), 400, 280, paint);
+            canvas.drawText(String.valueOf(RecUnit.getRecyclingSpeed()), 400, 320, paint);
 
             //per ogni unità di riciclo
             for (int x = 0; x < recUnitList.size(); x++) {
@@ -757,7 +754,6 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
                                 }
                             }
                         }
-
                     } else if (recUnit.getIsCheckingInfo() && x == recUnitList.size() - 1) { //se si vogliono consultare le informazioni dell'inceneritore
 
                         if(MusicPlayer.isPlayingEffect){ //se ci sono gli effetti delle unità di riciclo
@@ -800,8 +796,11 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(background.greenRect, background.getX(), background.getY(), paint);
             canvas.drawBitmap(Bitmap.createScaledBitmap(sunnyPoints.getImageBitmap(), (int)(sunnyPoints.getWidth()*1.5), (int)(sunnyPoints.getHeight()*1.5), true), sunnyPoints.getX(), sunnyPoints.getY(), paint);
             canvas.drawText(String.valueOf(sunnyPoints.getSunnyPoints()), sunnyPoints.getX() + sunnyPoints.getWidth() * 2, sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, paint);
-            canvas.drawText("PTS: " + String.valueOf(gameBar.getScore()), sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 10.5), sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, otherTextInfoPaint);
-            canvas.drawBitmap(missioni.getImageBitmap(), missioni.getX() * 34/2, missioni.getY() - (float)(10 * screenRatioY) , paint);
+            canvas.drawText("Punti: " + String.valueOf(gameBar.getScore()), sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 10), sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, otherTextInfoPaint);
+            canvas.drawBitmap(missioni.getImageBitmap(), missioni.getX() * 33/2, missioni.getY() - (float)(10 * screenRatioY) , paint);
+            canvas.drawText("Difficoltà:", sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 0.8), textInfoPaint);
+            canvas.drawText(DifficoltaActivity.difficoltà, sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 1.4), textInfoPaint);
+
 
             //se l'icona delle missioni è stata cliccata
             if (missioni.isClicked()){
@@ -861,19 +860,33 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
 
             //se il bottone della pausa è stato cliccato
             if (pause.isClicked()){
-                pauseFlag = true; //il gioco verrà messo in pausa
+                isPlaying = false; //non verrà più rieseguito il corpo del metodo run() (simile a pause())
 
-                //disegna il menu di pausa
+                powerUpGameActivity.preferences();
+
+                //visualizza i testi e le icone della pausa
                 canvas.drawBitmap(pause.getImageBitmap2(), pause.getX() * 31 , pause.getY(), paint);
                 canvas.drawBitmap(gameBar.getPausaRect(), gameBar.getWidth() * 2/9, gameBar.getHeight() * 1/4, paint);
                 canvas.drawText("PAUSA",missioni.getWidth()*3, missioni.getHeight() * 11/2, paint);
-                canvas.drawBitmap(gameBar.getMusicIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 16, paint);
+                if(gameBar.isMusicClicked() && GiocatoreSingoloActivity.b == true){
+                    canvas.drawBitmap(gameBar.getMusicIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 16, paint);
+                }
+                else {
+                    canvas.drawBitmap(gameBar.getMusicIconRed(), gameBar.getWidth() * 8, gameBar.getHeight() * 16, paint);
+                    gameBar.setMusicClicked(false);
+                }
                 canvas.drawText("MUSICA",missioni.getWidth()* 9/2, missioni.getHeight() * 13/2, otherTextInfoPaint);
-                canvas.drawBitmap(gameBar.getAudioIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 20, paint);
+                if(gameBar.isAudioClicked() && GiocatoreSingoloActivity.b1 == true){
+                    canvas.drawBitmap(gameBar.getAudioIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 20, paint);
+                }
+                else{
+                    canvas.drawBitmap(gameBar.getAudioIconRed(), gameBar.getWidth() * 8, gameBar.getHeight() * 20, paint);
+                    gameBar.setAudioClicked(false);
+                }
                 canvas.drawText("EFFETTI",missioni.getWidth()* 9/2, missioni.getHeight() * 16/2, otherTextInfoPaint);
-                canvas.drawBitmap(gameBar.getSaveIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 24, paint);
-                canvas.drawText("SALVA",missioni.getWidth()* 9/2, missioni.getHeight() * 19/2, otherTextInfoPaint);
-                canvas.drawBitmap(gameBar.getExitIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 28, paint);
+                canvas.drawBitmap(gameOver.getImageBitmap2(), gameBar.getWidth() * 8, gameBar.getHeight() * 24, paint);
+                canvas.drawText("RICOMINCIA",missioni.getWidth()* 9/2, missioni.getHeight() * 19/2, otherTextInfoPaint);
+                canvas.drawBitmap(gameOver.getImageBitmap3(), gameBar.getWidth() * 8, gameBar.getHeight() * 28, paint);
                 canvas.drawText("ESCI",missioni.getWidth()* 9/2, missioni.getHeight() * 11, otherTextInfoPaint);
             }
 
@@ -941,8 +954,8 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
         Plastic.resetValues();
         HazarWaste.resetValues();
         PowerUp.resetTasso();
-        SlowDown.resetDuration();
-        SpeedUp.resetDuration();
+        SlowDown.resetValues();
+        SpeedUp.resetValues();
 
         //termina la partita e ricomincia dalla schermata di caricamento
         powerUpGameActivity.finish();
@@ -950,6 +963,7 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
     }
 
 
+    //metodo per uscire dal gioco e tornare nel menù
     public void exit() {
 
         if (MusicPlayer.isPlayingEffect){ //se ci sono gli effetti delle unità di riciclo
@@ -967,13 +981,15 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
         Plastic.resetValues();
         HazarWaste.resetValues();
         PowerUp.resetTasso();
-        SlowDown.resetDuration();
-        SpeedUp.resetDuration();
+        SlowDown.resetValues();
+        SpeedUp.resetValues();
 
         //termina la partita, interrompi l'audio di gioco e ritorna all'activity per scegliere la modalità di gioco
         powerUpGameActivity.finish();
         powerUpGameActivity.startActivity(new Intent(powerUpGameActivity, GiocatoreSingoloActivity.class));
-        stopMusic();
+        if(MusicPlayer.isPlayingMusic){
+            MusicPlayer.stopMusic();
+        }
     }
 
     //Cattura i movimenti e le posizioni dei blocchi e dei pulsanti
@@ -986,9 +1002,13 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
             int touchX = (int)event.getX();
             int touchY = (int)event.getY();
 
-            //variabili booleane utilizzate per verificare che l'utente abbia toccato l'icona di pausa o delle missioni
+            //variabili booleane utilizzate per verificare che l'utente abbia toccato l'icona di pausa, delle missioni, della musica, ecc.
             boolean isTouchingPause = touchX >= pause.getX() * 32 && touchY >= pause.getY() && touchX < pause.getX() * 32 + pause.getWidth() && touchY < pause.getY() + pause.getHeight();
             boolean isTouchingMission = touchX >= missioni.getX() * 34/2 && touchY >= missioni.getY()-10 && touchX < missioni.getX() * 34/2 + missioni.getWidth() && touchY < missioni.getY()-10 + missioni.getHeight();
+            boolean isTouchingMusic = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 16 && touchX < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && touchY < gameBar.getHeight() * 16 + gameBar.getHeight()*3;
+            boolean isTouchingAudio = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 20 && touchX < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && touchY < gameBar.getHeight() * 20 + gameBar.getHeight()*3;
+            boolean isTouchingRestart = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 24 && touchX < gameBar.getWidth() * 8 + gameOver.getWidth() && touchY < gameBar.getHeight() * 24 + gameOver.getHeight();
+            boolean isTouchingPauseExit = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 28 && touchX < gameBar.getWidth() * 8 + gameOver.getWidth() && touchY < gameBar.getHeight() * 28 + gameOver.getHeight();
             nJunk = -1; //variabile definita per controllare il rifiuto da manipolare
 
             //se l'utente sta toccando l'icona di pausa
@@ -1011,6 +1031,49 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
                     missioni.setClicked(false); //l'icona non è più considerata cliccata
                     resume(); //riprendi la partita
                 }
+
+            } else if (pause.isClicked()) { //se la pausa è stata cliccata
+
+                //se l'utente sta toccando l'icona della musica
+                if (isTouchingMusic) {
+
+                    if(gameBar.isMusicClicked() && GiocatoreSingoloActivity.b == false) {
+                        gameBar.setMusicClicked(false); //l'icona non è considerata cliccata
+                    }
+                    else {
+                        gameBar.setMusicClicked(true); //l'icona è ora considerata cliccata
+                    }
+
+                } else if (isTouchingAudio) { //se l'utente sta toccando l'icona degli effetti
+                    if(gameBar.isAudioClicked() && GiocatoreSingoloActivity.b1 == false){
+                        gameBar.setAudioClicked(false); //l'icona non è considerata cliccata
+                    }
+                    else{
+                        gameBar.setAudioClicked(true);//l'icona è ora considerata cliccata
+                    }
+
+                } else if (isTouchingRestart) { //se è stato toccato il tasto per ricominciare
+                    restart(); //ricomincia la partita
+
+                } else if (isTouchingPauseExit) { //se è stato toccato il tasto per uscire
+                    exit(); //esci dal gioco
+                    exit();
+                }
+
+            } else if (isGameOver) { //se è apparso il pop-up di fine partita
+
+                //definisci le variabili booleane per verificare che venga toccato il tasto per ricominciare la partita o il tasto per uscire dal gioco
+                boolean isTouchingRedo = (touchX >= gameOver.getX() + (int)(170*screenRatioX) && touchY >= gameOver.getY() + (int)(350*screenRatioY) && touchX < gameOver.getX() + (int)(170*screenRatioX) + gameOver.getWidth() && touchY < gameOver.getY() + (int)(350*screenRatioY) + gameOver.getHeight());
+                boolean isTouchingGameOverExit = (touchX >= gameOver.getX() + (int)(170*screenRatioX) && touchY >= gameOver.getY() + (int)(500*screenRatioY) && touchX < gameOver.getX() + (int)(170*screenRatioX) + gameOver.getWidth() && touchY < gameOver.getY() + (int)(500*screenRatioY) + gameOver.getHeight());
+
+                //se è stato toccato il tasto di ricomincia
+                if (isTouchingRedo) {
+                    restart(); //ricomincia la partita
+
+                } else if (isTouchingGameOverExit) { //se è stato toccato il tasto per uscire
+                    exit(); //esci dal gioco
+                    exit();
+                }
             }
 
             //per ciascun rifiuto presente sullo schermo
@@ -1022,8 +1085,53 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
                 if (isTouching && !(junk instanceof PowerUp)) {
                     nJunk = i; //imposta la variabile nJunk
                 } else if (isTouching && junk instanceof PowerUp) {
-                    ((PowerUp) junk).applyPowerUp();
-                    junkList.remove(i);
+                    ((PowerUp) junk).applyPowerUp(); //applica il power up
+                    junkList.remove(i); //rimuovi il power up dallo schermo
+
+                    if (junk instanceof SunnyPow) { //se si tratta del power up dei sunnyPoints
+                        sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints()+2); //aumenta il numero dei sunnyPoints di due
+
+                    } else if (junk instanceof ClearJunk) { //se si tratta del power up ClearJunk
+                        Random random = new Random();
+                        int size = junkList.size();
+                        int firstJunk = random.nextInt(size);
+                        int secondJunk = random.nextInt(size);
+                        int amountOfPowerUps = 0;
+
+                        for (int x = 0; x < junkList.size(); x++) {
+
+                            if (junkList.get(x) instanceof PowerUp) {
+                                amountOfPowerUps++;
+                            }
+                        }
+
+                        if (size - amountOfPowerUps >= 2) { //se si hanno almeno due rifiuti sullo schermo
+
+                            // finché le variabili firstJunk e secondJunk sono uguali o sono tali da trovare solo potenziamenti
+                            while (junkList.get(firstJunk) instanceof PowerUp || junkList.get(secondJunk) instanceof PowerUp || firstJunk == secondJunk) {
+                                firstJunk = random.nextInt(size); //ricalcolale randomicamente
+                                secondJunk = random.nextInt(size);
+                            }
+
+                            if (firstJunk > secondJunk) { //se firstJunk è maggiore di secondJunk
+                                junkList.remove(firstJunk); //rimuovi i rifiuti all'indice firstJunk
+                                junkList.remove(secondJunk); //e secondJunk
+
+                            } else { //altrimenti
+                                junkList.remove(secondJunk); //rimuovi i rifiuti all'indice secondJunk
+                                junkList.remove(firstJunk); //e firstJunk
+                            }
+
+                        } else if (size - amountOfPowerUps == 1) { //se si ha un solo rifiuto sullo schermo
+
+                            // finché l'oggetto all'indice firstJunk è un power up
+                            while (junkList.get(firstJunk) instanceof PowerUp) {
+                                firstJunk = random.nextInt(size); //ricalcola la variabile firstJunk
+                            }
+
+                            junkList.remove(firstJunk); //rimuovi il rifiuto all'indice firstJunk
+                        }
+                    }
                 }
             }
 
@@ -1069,19 +1177,6 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
                         resume(); //riprendi la partita
                     }
 
-                } else if (isGameOver) { //se è apparso il pop-up di fine partita
-
-                    //definisci le variabili booleane per verificare che venga toccato il tasto per ricominciare la partita o il tasto per uscire dal gioco
-                    boolean isTouchingRedo = (touchX >= gameOver.getX() + (int)(170*screenRatioX) && touchY >= gameOver.getY() + (int)(350*screenRatioY) && touchX < gameOver.getX() + (int)(170*screenRatioX) + gameOver.getWidth() && touchY < gameOver.getY() + (int)(350*screenRatioY) + gameOver.getHeight());
-                    boolean isTouchingExit = (touchX >= gameOver.getX() + (int)(170*screenRatioX) && touchY >= gameOver.getY() + (int)(500*screenRatioY) && touchX < gameOver.getX() + (int)(170*screenRatioX) + gameOver.getWidth() && touchY < gameOver.getY() + (int)(500*screenRatioY) + gameOver.getHeight());
-
-                    //se è stato toccato il tasto di ricomincia
-                    if (isTouchingRedo) {
-                        restart(); //ricomincia la partita
-
-                    } else if (isTouchingExit) { //se è stato toccato il tasto per uscire
-                        exit(); //esci dal gioco
-                    }
                 }
 
                 //se si stanno visualizzando le informazioni di un'unità di riciclo
@@ -1187,6 +1282,26 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
             //definsci le coordinate dell'evento (punto in cui è stato sollevato il dito)
             int x = (int)event.getX();
             int y = (int)event.getY();
+
+            if(x >= gameBar.getWidth() * 8 && y >= gameBar.getHeight() * 16 && x < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 16 + gameBar.getHeight()*3 && pause.isClicked()){
+                if(gameBar.isMusicClicked() && GiocatoreSingoloActivity.b == false) {
+                    MusicPlayer.playMusic(this.powerUpGameActivity, R.raw.game_music);
+                    this.powerUpGameActivity.changeMusic(1);
+                }
+                else {
+                    stopMusic();
+                    this.powerUpGameActivity.changeMusic(0);
+                }
+            }
+
+            if(x >= gameBar.getWidth() * 8 && y >= gameBar.getHeight() * 20 && x < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 20 + gameBar.getHeight()*3 && pause.isClicked()){
+                if(gameBar.isAudioClicked() && GiocatoreSingoloActivity.b1 == false) {
+                    this.powerUpGameActivity.changeAudio(1);
+                }
+                else{
+                    this.powerUpGameActivity.changeAudio(0);
+                }
+            }
 
             //se è stato trascinato un rifiuto
             if ((nJunk != -1 && isPlaying)) {
@@ -1295,3 +1410,4 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
         return true;
     }
 }
+

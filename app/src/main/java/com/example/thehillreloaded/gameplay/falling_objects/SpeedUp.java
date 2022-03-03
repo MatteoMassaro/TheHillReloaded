@@ -34,7 +34,7 @@ public class SpeedUp extends PowerUp {
         isPoweredUp = true;
     }
 
-    public static void checkPowerIsUp() {
+    public static void checkIfPowerIsUp() {
         increaseCurrentDuration();
         powerUpHasEnded();
     }
@@ -48,17 +48,19 @@ public class SpeedUp extends PowerUp {
     private static void powerUpHasEnded() {
         if (currentDuration >= duration) {
             isPoweredUp = false;
-            resetValues();
+            adjustValues();
         }
     }
 
-    private static void resetValues() {
+    private static void adjustValues() {
         currentDuration = 0;
         RecUnit.setRecyclingSpeed(RecUnit.getRecyclingSpeed()/2);
     }
 
-    public static void resetDuration() {
+    public static void resetValues() {
         duration = 1500;
+        currentDuration = 0;
+        isPoweredUp = false;
     }
 
     public static int getDuration() {
