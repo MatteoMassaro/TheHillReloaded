@@ -61,6 +61,8 @@ import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.SchermataCaricamentoActivity;
 import com.example.thehillreloaded.menu.VolumeActivity;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -68,6 +70,10 @@ import java.util.Random;
 public class GameView extends SurfaceView implements Runnable {
 
     //Variabili, liste e oggetti
+
+    FirebaseDatabase database;
+    DatabaseReference myRef;
+
     private Thread thread;
     private boolean isPlaying;
     private static int nJunk;
@@ -103,6 +109,10 @@ public class GameView extends SurfaceView implements Runnable {
     //Setta le view adattandole in base allo schermo
     public GameView(Context context, int screenX, int screenY, float density) {
         super(context);
+
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("scores");
+
         gameActivity = (GameActivity) context;
         this.screenX = screenX;
         this.screenY = screenY;
@@ -933,6 +943,8 @@ public class GameView extends SurfaceView implements Runnable {
             if (MusicPlayer.isPlayingEffect){ //se ci sono gli effetti delle unità di riciclo
                 MusicPlayer.stopEffetti(); //ferma gli effetti
             }
+
+            //myRef.child("discovery").child("score").setValue(gameBar.getScore());
 
             //ripristina tutti gli attributi statici ai valori originali
             RecUnit.resetRecyclingSpeed();
