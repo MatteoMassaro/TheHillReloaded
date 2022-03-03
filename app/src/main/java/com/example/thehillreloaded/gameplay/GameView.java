@@ -1195,6 +1195,8 @@ public class GameView extends SurfaceView implements Runnable {
                 //definsci le coordinate dell'evento (punto in cui è stato sollevato il dito)
                 int x = (int)event.getX();
                 int y = (int)event.getY();
+                boolean isTouchingRedoPause = x >= gameBar.getWidth() * 8 && y >= gameBar.getHeight() * 24 && x < gameBar.getWidth() * 8 + gameOver.getWidth() && y < gameBar.getHeight() * 24 + gameOver.getHeight();
+                boolean isTouchingExitPause = x >= gameBar.getWidth() * 8 && y >= gameBar.getHeight() * 28 && x < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 28 + gameBar.getHeight()*3;
 
                 if(x >= gameBar.getWidth() * 8 && y >= gameBar.getHeight() * 16 && x < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 16 + gameBar.getHeight()*3 && pause.isClicked()){
                     if(gameBar.isMusicClicked() && GiocatoreSingoloActivity.b == false) {
@@ -1215,6 +1217,7 @@ public class GameView extends SurfaceView implements Runnable {
                         this.gameActivity.changeAudio(0);
                     }
                 }
+
 
                 //se è stato trascinato un rifiuto
                 if ((nJunk != -1 && isPlaying)) {
