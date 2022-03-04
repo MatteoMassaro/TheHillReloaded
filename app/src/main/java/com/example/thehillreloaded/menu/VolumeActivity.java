@@ -113,14 +113,12 @@ public class VolumeActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = getSharedPreferences("salva1",MODE_PRIVATE).edit();
                     editor.putBoolean("musica",true);
                     editor.apply();
-                    switchMusica.setChecked(true);
                     flagMusic = 1;
                     MusicPlayer.playMusic(VolumeActivity.this,R.raw.menu_music);
                 }else {
                     SharedPreferences.Editor editor = getSharedPreferences("salva1",MODE_PRIVATE).edit();
                     editor.putBoolean("musica",false);
                     editor.apply();
-                    switchMusica.setChecked(false);
                     flagMusic = 0;
                     MusicPlayer.stopMusic();
                 }
@@ -135,10 +133,12 @@ public class VolumeActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = getSharedPreferences("salva2",MODE_PRIVATE).edit();
                     editor.putBoolean("effetti",true);
                     editor.apply();
+                    flagAudio = 1;
                 }else {
                     SharedPreferences.Editor editor = getSharedPreferences("salva2",MODE_PRIVATE).edit();
                     editor.putBoolean("effetti",false);
                     editor.apply();
+                    flagAudio = 0;
                 }
             }
         });

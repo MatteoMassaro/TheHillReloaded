@@ -4,6 +4,7 @@ import static com.example.thehillreloaded.menu.DifficoltaActivity.tassoDifficolt
 import static com.example.thehillreloaded.menu.MenuActivity.densityRatio;
 import static com.example.thehillreloaded.menu.MenuActivity.screenRatioX;
 import static com.example.thehillreloaded.menu.MenuActivity.screenRatioY;
+import static com.example.thehillreloaded.menu.MusicPlayer.isPlayingEffect;
 import static com.example.thehillreloaded.menu.MusicPlayer.stopMusic;
 
 import android.content.Context;
@@ -13,7 +14,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.nfc.NfcAdapter;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
@@ -64,6 +64,7 @@ import com.example.thehillreloaded.gameplay.recycle.RecUnit;
 import com.example.thehillreloaded.gameplay.recycle.SteelUnit;
 import com.example.thehillreloaded.menu.DifficoltaActivity;
 import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
+import com.example.thehillreloaded.menu.MenuActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.SchermataCaricamentoActivity;
 import com.example.thehillreloaded.menu.VolumeActivity;
@@ -406,9 +407,9 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
             RecUnit recUnit = recUnitList.get(x);
 
             //se l'unità di riciclo sta riciclando
-            if (recUnit.getIsRecycling()) {
+            if (recUnit.getIsRecycling() && isPlaying) {
 
-                if (!MusicPlayer.isPlayingEffect) {
+                if (!MusicPlayer.isPlayingEffect && VolumeActivity.flagAudio != 1) {
                     MusicPlayer.playEffetti(getContext(), R.raw.incinerator_sound);
                     MusicPlayer.loopEffetti();
                 }
@@ -796,7 +797,7 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(background.greenRect, background.getX(), background.getY(), paint);
             canvas.drawBitmap(Bitmap.createScaledBitmap(sunnyPoints.getImageBitmap(), (int)(sunnyPoints.getWidth()*1.5), (int)(sunnyPoints.getHeight()*1.5), true), sunnyPoints.getX(), sunnyPoints.getY(), paint);
             canvas.drawText(String.valueOf(sunnyPoints.getSunnyPoints()), sunnyPoints.getX() + sunnyPoints.getWidth() * 2, sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, paint);
-            canvas.drawText("Punti: " + String.valueOf(gameBar.getScore()), sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 10), sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, otherTextInfoPaint);
+            canvas.drawText("Punti: " + (gameBar.getScore()), sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 10), sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, otherTextInfoPaint);
             canvas.drawBitmap(missioni.getImageBitmap(), missioni.getX() * 33/2, missioni.getY() - (float)(10 * screenRatioY) , paint);
             canvas.drawText("Difficoltà:", sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 0.8), textInfoPaint);
             canvas.drawText(DifficoltaActivity.difficoltà, sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 1.4), textInfoPaint);
@@ -861,8 +862,11 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
             //se il bottone della pausa è stato cliccato
             if (pause.isClicked()){
                 isPlaying = false; //non verrà più rieseguito il corpo del metodo run() (simile a pause())
-
                 powerUpGameActivity.preferences();
+
+                if(isPlayingEffect){
+                    MusicPlayer.stopEffetti();
+                }
 
                 //visualizza i testi e le icone della pausa
                 canvas.drawBitmap(pause.getImageBitmap2(), pause.getX() * 31 , pause.getY(), paint);
@@ -986,7 +990,7 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
 
         //termina la partita, interrompi l'audio di gioco e ritorna all'activity per scegliere la modalità di gioco
         powerUpGameActivity.finish();
-        powerUpGameActivity.startActivity(new Intent(powerUpGameActivity, GiocatoreSingoloActivity.class));
+        powerUpGameActivity.startActivity(new Intent(powerUpGameActivity, MenuActivity.class));
         if(MusicPlayer.isPlayingMusic){
             MusicPlayer.stopMusic();
         }
@@ -1286,20 +1290,20 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
             if(x >= gameBar.getWidth() * 8 && y >= gameBar.getHeight() * 16 && x < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 16 + gameBar.getHeight()*3 && pause.isClicked()){
                 if(gameBar.isMusicClicked() && GiocatoreSingoloActivity.b == false) {
                     MusicPlayer.playMusic(this.powerUpGameActivity, R.raw.game_music);
-                    this.powerUpGameActivity.changeMusic(1);
+                    this.powerUpGameActivity.changeMusic(0);
                 }
                 else {
                     stopMusic();
-                    this.powerUpGameActivity.changeMusic(0);
+                    this.powerUpGameActivity.changeMusic(1);
                 }
             }
 
             if(x >= gameBar.getWidth() * 8 && y >= gameBar.getHeight() * 20 && x < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 20 + gameBar.getHeight()*3 && pause.isClicked()){
                 if(gameBar.isAudioClicked() && GiocatoreSingoloActivity.b1 == false) {
-                    this.powerUpGameActivity.changeAudio(1);
+                    this.powerUpGameActivity.changeAudio(0);
                 }
                 else{
-                    this.powerUpGameActivity.changeAudio(0);
+                    this.powerUpGameActivity.changeAudio(1);
                 }
             }
 

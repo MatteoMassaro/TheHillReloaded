@@ -4,6 +4,7 @@ import static com.example.thehillreloaded.menu.DifficoltaActivity.tassoDifficolt
 import static com.example.thehillreloaded.menu.MenuActivity.densityRatio;
 import static com.example.thehillreloaded.menu.MenuActivity.screenRatioX;
 import static com.example.thehillreloaded.menu.MenuActivity.screenRatioY;
+import static com.example.thehillreloaded.menu.MusicPlayer.isPlayingEffect;
 import static com.example.thehillreloaded.menu.MusicPlayer.stopMusic;
 
 import android.content.Context;
@@ -56,8 +57,8 @@ import com.example.thehillreloaded.gameplay.recycle.PaperUnit;
 import com.example.thehillreloaded.gameplay.recycle.PlasticUnit;
 import com.example.thehillreloaded.gameplay.recycle.RecUnit;
 import com.example.thehillreloaded.gameplay.recycle.SteelUnit;
-import com.example.thehillreloaded.menu.DifficoltaActivity;
 import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
+import com.example.thehillreloaded.menu.MenuActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.SchermataCaricamentoActivity;
 import com.example.thehillreloaded.menu.VolumeActivity;
@@ -273,8 +274,8 @@ public class GameView extends SurfaceView implements Runnable {
         recUnitList.get(5).unitPointsPlus();
         recUnitList.get(5).unitPointsPlus();
         recUnitList.get(5).unitPointsPlus();
-        recUnitList.get(5).unitPointsPlus();*/
-        sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints()+50);
+        recUnitList.get(5).unitPointsPlus();
+        sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints()+50);*/
 
 
         //definisci tutti i paint
@@ -388,9 +389,9 @@ public class GameView extends SurfaceView implements Runnable {
             RecUnit recUnit = recUnitList.get(x);
 
             //se l'unità di riciclo sta riciclando
-            if (recUnit.getIsRecycling()) {
+            if (recUnit.getIsRecycling() && isPlaying) {
 
-                if (!MusicPlayer.isPlayingEffect && VolumeActivity.flagAudio != 0) {
+                if (!MusicPlayer.isPlayingEffect && VolumeActivity.flagAudio != 1) {
                     MusicPlayer.playEffetti(getContext(), R.raw.incinerator_sound);
                     MusicPlayer.loopEffetti();
                 }
@@ -774,7 +775,7 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas.drawBitmap(background.greenRect, background.getX(), background.getY(), paint);
                 canvas.drawBitmap(Bitmap.createScaledBitmap(sunnyPoints.getImageBitmap(), (int)(sunnyPoints.getWidth()*1.5), (int)(sunnyPoints.getHeight()*1.5), true), sunnyPoints.getX(), sunnyPoints.getY(), paint);
                 canvas.drawText(String.valueOf(sunnyPoints.getSunnyPoints()), sunnyPoints.getX() + sunnyPoints.getWidth() * 2, sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, paint);
-                canvas.drawText("Punti: " + String.valueOf(gameBar.getScore()), sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 10), sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, otherTextInfoPaint);
+                canvas.drawText("Punti: " + (gameBar.getScore()), sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 10), sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, otherTextInfoPaint);
                 canvas.drawBitmap(missioni.getImageBitmap(), missioni.getX() * 33/2, missioni.getY() - (float)(10 * screenRatioY) , paint);
                 canvas.drawText("Difficoltà:", sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 0.8), textInfoPaint);
                 canvas.drawText("facile", sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 1.4), textInfoPaint);
@@ -841,6 +842,10 @@ public class GameView extends SurfaceView implements Runnable {
                     isPlaying = false; //non verrà più rieseguito il corpo del metodo run() (simile a pause())
 
                     gameActivity.preferences();
+
+                    if(isPlayingEffect){
+                        MusicPlayer.stopEffetti();
+                    }
 
                     //visualizza i testi e le icone della pausa
                     canvas.drawBitmap(pause.getImageBitmap2(), pause.getX() * 31 , pause.getY(), paint);
@@ -959,7 +964,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             //termina la partita, interrompi l'audio di gioco e ritorna all'activity per scegliere la modalità di gioco
             gameActivity.finish();
-            gameActivity.startActivity(new Intent(gameActivity, GiocatoreSingoloActivity.class));
+            gameActivity.startActivity(new Intent(gameActivity, MenuActivity.class));
             if(MusicPlayer.isPlayingMusic){
                 MusicPlayer.stopMusic();
             }
@@ -1213,20 +1218,20 @@ public class GameView extends SurfaceView implements Runnable {
                 if(x >= gameBar.getWidth() * 8 && y >= gameBar.getHeight() * 16 && x < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 16 + gameBar.getHeight()*3 && pause.isClicked()){
                     if(gameBar.isMusicClicked() && GiocatoreSingoloActivity.b == false) {
                         MusicPlayer.playMusic(this.gameActivity, R.raw.game_music);
-                        this.gameActivity.changeMusic(1);
+                        this.gameActivity.changeMusic(0);
                     }
                     else {
                         stopMusic();
-                        this.gameActivity.changeMusic(0);
+                        this.gameActivity.changeMusic(1);
                     }
                 }
 
                 if(x >= gameBar.getWidth() * 8 && y >= gameBar.getHeight() * 20 && x < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 20 + gameBar.getHeight()*3 && pause.isClicked()){
                     if(gameBar.isAudioClicked() && GiocatoreSingoloActivity.b1 == false) {
-                        this.gameActivity.changeAudio(1);
+                        this.gameActivity.changeAudio(0);
                     }
                     else{
-                        this.gameActivity.changeAudio(0);
+                        this.gameActivity.changeAudio(1);
                     }
                 }
 

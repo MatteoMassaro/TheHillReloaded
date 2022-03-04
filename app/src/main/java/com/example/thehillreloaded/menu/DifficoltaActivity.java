@@ -99,7 +99,7 @@ public class DifficoltaActivity extends Animazioni implements View.OnClickListen
                     finish();
                     break;
                 case R.id.indietro:
-                    i = new Intent(this, MenuActivity.class);
+                    i = new Intent(this, GiocatoreSingoloActivity.class);
                     Bundle b2 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                     startActivity(i, b2);
                     finish();

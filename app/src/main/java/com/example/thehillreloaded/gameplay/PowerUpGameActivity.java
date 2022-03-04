@@ -26,13 +26,13 @@ public class PowerUpGameActivity extends AppCompatActivity {
             case 0:
                 VolumeActivity.flagAudio = audioFlag;
                 editor = getSharedPreferences("salva2",MODE_PRIVATE).edit();
-                editor.putBoolean("effetti",false);
+                editor.putBoolean("effetti",true);
                 editor.apply();
                 break;
             case 1:
                 VolumeActivity.flagAudio = audioFlag;
                 editor = getSharedPreferences("salva2",MODE_PRIVATE).edit();
-                editor.putBoolean("effetti",true);
+                editor.putBoolean("effetti",false);
                 editor.apply();
                 break;
         }
@@ -44,13 +44,13 @@ public class PowerUpGameActivity extends AppCompatActivity {
             case 0:
                 VolumeActivity.flagMusic = musicFlag;
                 editor = getSharedPreferences("salva1",MODE_PRIVATE).edit();
-                editor.putBoolean("musica",false);
+                editor.putBoolean("musica",true);
                 editor.apply();
                 break;
             case 1:
                 VolumeActivity.flagMusic = musicFlag;
                 editor = getSharedPreferences("salva1",MODE_PRIVATE).edit();
-                editor.putBoolean("musica",true);
+                editor.putBoolean("musica",false);
                 editor.apply();
                 break;
         }
@@ -80,6 +80,8 @@ public class PowerUpGameActivity extends AppCompatActivity {
         SharedPreferences preferenze1 = getSharedPreferences("salva2", MODE_PRIVATE);
         b1 = preferenze1.getBoolean("effetti", true);
         if (b1){
+            changeAudio(0);
+        }else {
             changeAudio(1);
         }
         preferences();
