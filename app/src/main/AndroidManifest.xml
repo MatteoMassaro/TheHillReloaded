@@ -35,6 +35,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHillReloaded">
         <activity
+            android:name=".menu.InfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".gameplay.GameActivity"
             android:exported="false" />
         <activity

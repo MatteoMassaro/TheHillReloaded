@@ -9,6 +9,7 @@ import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 import com.example.thehillreloaded.R;
+import com.example.thehillreloaded.menu.BluetoothActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.VolumeActivity;
 

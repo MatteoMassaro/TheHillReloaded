@@ -18,7 +18,7 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
 
     //Variabili
     public CardView modalitaClassica, modalitaPowerUp;
-    public ImageView indietro;
+    public ImageView indietro, info;
     public static boolean classica, powerUp = false;
 
     //Chiama l'animazione all'avvio dell'activity
@@ -50,16 +50,19 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
         modalitaClassica = findViewById(R.id.modalitaClassica);
         modalitaPowerUp = findViewById(R.id.modalitaPowerUp);
         indietro = findViewById(R.id.indietro);
+        info = findViewById(R.id.info);
 
         //Imposta metodo di callback quando la view viene cliccata
         modalitaClassica.setOnClickListener(this);
         modalitaPowerUp.setOnClickListener(this);
         indietro.setOnClickListener(this);
+        info.setOnClickListener(this);
 
         //Animazione pulsanti
         clickButtonAnimation(modalitaClassica);
         clickButtonAnimation(modalitaPowerUp);
         clickButtonAnimation(indietro);
+        clickButtonAnimation(info);
     }
 
     //Crea l'intent per passare all'activity successiva dopo la pressione di un pulsante
@@ -86,6 +89,12 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
                 i = new Intent(this, MenuActivity.class);
                 Bundle b2 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i, b2);
+                finish();
+                break;
+            case R.id.info:
+                i = new Intent(this, InfoActivity.class);
+                Bundle b3 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+                startActivity(i, b3);
                 finish();
                 break;
 

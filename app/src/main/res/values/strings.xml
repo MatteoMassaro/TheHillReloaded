@@ -11,6 +11,7 @@
     <string name="login">LOGIN</string>
     <string name="registrati">REGISTRATI</string>
     <string name="giocatore_singolo">GIOCATORE SINGOLO</string>
+    <string name="tutorial">TUTORIAL</string>
     <string name="difficoltà">DIFFICOLTÀ</string>
     <string name="facile">FACILE</string>
     <string name="media">MEDIA</string>
@@ -56,4 +57,7 @@
     <string name="info_caricamento1">Caricando i rifiuti...</string>
     <string name="info_caricamento2">Caricando le unità di riciclo...</string>
     <string name="info_caricamento3">Preparando l\'inceneritore...</string>
+    <string name="sunnyPoints">I SUNNYPOINTS SONO UTILI PER COMPRARE NUOVE UNITÀ DI RICICLO E PER USARE L\'INCENERITORE. SI OTTENGONO PRODUCENDO MATERIALI NELLE UNITÀ DI RICICLO.</string>
+    <string name="unitPoints">GLI UNITPOINTS SI OTTENGONO RICICLANDO I RIFIUTI. SONO UTILI PER ESSERE SCAMBIATI IN SUNNYPOINTS, MA ANCHE PER FARE L\'UPGRADE DELLE UNITÀ DI RICICLO.</string>
+    <string name="sunnyPointsPowerUp">OLTRE ALLE FUNZIONALITÀ CLASSICHE, RAPPRESENTA UN POWER-UP CHE CONSENTE DI OTTENERE UN SUNNYPOINT.</string>
 </resources>
