@@ -12,6 +12,12 @@
     <string name="registrati">REGISTER</string>
     <string name="giocatore_singolo">SINGLE PLAYER</string>
     <string name="tutorial">TUTORIAL</string>
+    <string name="sunnyPoints">SUNNYPOINTS ARE USEFUL TO BUY NEW RECYCLING UNITS AND TO USE THE INCINERATOR. THEY CAN BE OBTAINED PRODUCING MATERIALS IN THE RECYCLING UNITS.</string>
+    <string name="unitPoints">UNITPOINTS ARE OBTAINED BY RECYCLYING WASTE. THEY ARE USEFUL TO BE EXCHANGED WITH SUNNYPOINTS, BUT ALSO TO UPGRADE THE RECYCLING UNITS.</string>
+    <string name="sunnyPointsPowerUp">THIS POWER-UP ALLOWS TO OBTAIN TWO SUNNYPOINTS INSTANTLY.</string>
+    <string name="rallentaSpawn">THIS POWER-UP ALLOWS TO SLOW DOWN THE SPEED OF WASTE SPAWN FOR A PERIOD OF TIME.</string>
+    <string name="rimuoviRifiuti">THIS POWER-UP ALLOWS TO REMOVE TWO WASTE INSTANTLY FROM THE SPAWN ZONE.</string>
+    <string name="accceleraRiciclo">THIS POWER-UP ALLOWS TO SPEED UP THE WASTE RECYCLING PROCESS FOR A PERIOD OF TIME.</string>
     <string name="difficoltà">DIFFICULTY</string>
     <string name="facile">EASY</string>
     <string name="media">MEDIUM</string>
@@ -57,8 +63,5 @@
     <string name="info_caricamento1">Loading the garbage...</string>
     <string name="info_caricamento2">Loading the recycle unit...</string>
     <string name="info_caricamento3">Preparing the incinerator...</string>
-    <string name="sunnyPoints">SUNNYPOINTS ARE USEFUL TO BUY NEW RECYCLING UNITS AND TO USE THE INCINERATOR. THEY CAN BE OBTAINED PRODUCING MATERIALS IN THE RECYCLING UNITS.</string>
-    <string name="unitPoints">UNITPOINTS ARE OBTAINED BY RECYCLYING WASTE. THEY ARE USEFUL TO BE EXCHANGED WITH SUNNYPOINTS, BUT ALSO TO UPGRADE THE RECYCLING UNITS.</string>
-    <string name="sunnyPointsPowerUp">OLTRE ALLE FUNZIONALITÀ CLASSICHE, RAPPRESENTA UN POWER-UP CHE CONSENTE DI OTTENERE UN SUNNYPOINT.</string>
 
 </resources>

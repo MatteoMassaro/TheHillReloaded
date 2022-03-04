@@ -13,7 +13,7 @@ import com.example.thehillreloaded.R;
 
 public class RecUnit {
 
-    private static double recyclingSpeed = 10 / tassoDifficolta;
+    private static double recyclingSpeed = 10;
     private int recTotal = 0, recTotalUpgraded = 0, maxRecTotal = 900;
     private int unitPoints = 0, unitPrice;
     private int upgradePrice = 5;
@@ -35,7 +35,7 @@ public class RecUnit {
         this.y = y;
     }
 
-    public static void setRecyclingSpeed(int newSpeed) {
+    public static void setRecyclingSpeed(double newSpeed) {
         recyclingSpeed = newSpeed;
     }
 
@@ -44,7 +44,7 @@ public class RecUnit {
     }
 
     public static void resetRecyclingSpeed() {
-        recyclingSpeed = recyclingSpeed = 10 / tassoDifficolta;
+        recyclingSpeed = 10;
     }
 
     public void increaseRecTotal() {

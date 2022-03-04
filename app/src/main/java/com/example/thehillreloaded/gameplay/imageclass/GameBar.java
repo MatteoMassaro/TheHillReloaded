@@ -1,8 +1,8 @@
 package com.example.thehillreloaded.gameplay.imageclass;
 
-import static com.example.thehillreloaded.gameplay.GameView.densityRatio;
-import static com.example.thehillreloaded.gameplay.GameView.screenRatioX;
-import static com.example.thehillreloaded.gameplay.GameView.screenRatioY;
+import static com.example.thehillreloaded.menu.MenuActivity.densityRatio;
+import static com.example.thehillreloaded.menu.MenuActivity.screenRatioX;
+import static com.example.thehillreloaded.menu.MenuActivity.screenRatioY;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -30,19 +30,6 @@ public class GameBar {
         setExitIcon(BitmapFactory.decodeResource(res, R.drawable.exit));
         setAudioIconRed(BitmapFactory.decodeResource(res, R.drawable.audiored));
         setMusicIconRed(BitmapFactory.decodeResource(res, R.drawable.musicred));
-
-        this.setWidth((int)(getPausaRect().getWidth() * screenRatioX * densityRatio /30));
-        this.setHeight((int)(getPausaRect().getHeight() * screenRatioY * densityRatio /30));
-        this.setWidth((int)(getAudioIcon().getWidth() * screenRatioX * densityRatio /30));
-        this.setHeight((int)(getAudioIcon().getHeight() * screenRatioY * densityRatio /30));
-        this.setWidth((int)(getMusicIcon().getWidth() * screenRatioX * densityRatio /30));
-        this.setHeight((int)(getMusicIcon().getHeight() * screenRatioY * densityRatio /30));
-        this.setWidth((int)(getSaveIcon().getWidth() * screenRatioX * densityRatio /30));
-        this.setHeight((int)(getSaveIcon().getHeight() * screenRatioY * densityRatio /30));
-        this.setWidth((int)(getExitIcon().getWidth() * screenRatioX * densityRatio /30));
-        this.setHeight((int)(getExitIcon().getHeight() * screenRatioY * densityRatio /30));
-        this.setWidth((int)(getAudioIconRed().getWidth() * screenRatioX * densityRatio /30));
-        this.setHeight((int)(getAudioIconRed().getHeight() * screenRatioY * densityRatio /30));
         this.setWidth((int)(getMusicIconRed().getWidth() * screenRatioX * densityRatio /30));
         this.setHeight((int)(getMusicIconRed().getHeight() * screenRatioY * densityRatio /30));
         setPausaRect(Bitmap.createScaledBitmap(getPausaRect(), screenX, screenY*4/5, true));

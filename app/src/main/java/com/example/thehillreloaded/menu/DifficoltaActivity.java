@@ -91,7 +91,7 @@ public class DifficoltaActivity extends Animazioni implements View.OnClickListen
                     finish();
                     break;
                 case R.id.difficile:
-                    tassoDifficolta = 1.2;
+                    tassoDifficolta = 1.25;
                     difficoltà = "Difficile";
                     i = new Intent(this, SchermataCaricamentoActivity.class);
                     b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();

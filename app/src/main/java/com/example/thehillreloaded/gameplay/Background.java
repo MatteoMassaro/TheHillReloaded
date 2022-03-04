@@ -9,9 +9,7 @@ import com.example.thehillreloaded.R;
 public class Background {
 
     private int x = 0, y = 0;
-    Bitmap background;
-    Bitmap spawnZone;
-    Bitmap greenRect;
+    Bitmap background, spawnZone, greenRect;
 
     //Crea il background di gioco e la zona di spawn
     public Background(int screenX, int screenY, Resources res) {

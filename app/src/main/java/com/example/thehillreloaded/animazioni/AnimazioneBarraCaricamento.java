@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.thehillreloaded.gameplay.GameActivity;
+import com.example.thehillreloaded.gameplay.PowerUpGameActivity;
 import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
 
 
@@ -42,12 +43,9 @@ public class AnimazioneBarraCaricamento extends Animation{
         if (value == da && GiocatoreSingoloActivity.classica){
             contesto.startActivity(new Intent(contesto, GameActivity.class));
 
-        } else if(value == da && GiocatoreSingoloActivity.powerUp){
+        } else if (value == da && GiocatoreSingoloActivity.powerUp){
             //game activity per modalità power-up
-            contesto.startActivity(new Intent(contesto, GameActivity.class));
-        } else if(value == a) {
-            contesto.startActivity(new Intent(contesto, GameActivity.class));
+            contesto.startActivity(new Intent(contesto, PowerUpGameActivity.class));
         }
-
     }
 }

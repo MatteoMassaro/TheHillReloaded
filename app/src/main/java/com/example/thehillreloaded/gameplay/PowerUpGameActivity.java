@@ -12,14 +12,13 @@ import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 import com.example.thehillreloaded.R;
-import com.example.thehillreloaded.menu.BluetoothActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.VolumeActivity;
 
-public class GameActivity extends AppCompatActivity {
+public class PowerUpGameActivity extends AppCompatActivity {
 
     //Variabili
-    private GameView gameView;
+    private PowerUpGameView gameView;
 
     public void changeAudio(int audioFlag){
         SharedPreferences.Editor editor;
@@ -70,7 +69,7 @@ public class GameActivity extends AppCompatActivity {
         //Imposta l'orientamento portrait come obbligatorio
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        gameView = new GameView(this, point.x, point.y, density);
+        gameView = new PowerUpGameView(this, point.x, point.y, density);
         setContentView(gameView);
         SharedPreferences preferenze = getSharedPreferences("salva1", MODE_PRIVATE);
         b = preferenze.getBoolean("musica", true);

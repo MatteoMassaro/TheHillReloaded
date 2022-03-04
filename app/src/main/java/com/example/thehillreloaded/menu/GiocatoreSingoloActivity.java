@@ -20,6 +20,7 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
     public CardView modalitaClassica, modalitaPowerUp;
     public ImageView indietro, info;
     public static boolean classica, powerUp = false;
+    public static boolean b, b1;
 
     //Chiama l'animazione all'avvio dell'activity
     @Override
@@ -73,6 +74,7 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
         switch (view.getId()){
             case R.id.modalitaClassica:
                 classica = true;
+                powerUp = false;
                 i = new Intent(this, DifficoltaActivity.class);
                 Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i, b);
@@ -80,6 +82,7 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
                 break;
             case R.id.modalitaPowerUp:
                 powerUp = true;
+                classica = false;
                 i = new Intent(this, DifficoltaActivity.class);
                 Bundle b1 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i, b1);
