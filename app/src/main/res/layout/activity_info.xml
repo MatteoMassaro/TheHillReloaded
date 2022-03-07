@@ -82,8 +82,12 @@
                     android:layout_gravity="center"
                     android:text="@string/sunnyPoints"
                     android:textSize="12dp"
+                    android:shadowColor="#000000"
+                    android:shadowDx="5"
+                    android:shadowDy="5"
+                    android:shadowRadius="3"
                     android:fontFamily="@font/bowlby_one_sc"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/white"/>
             </LinearLayout>
 
             <LinearLayout
@@ -109,8 +113,12 @@
                     android:layout_gravity="center"
                     android:text="@string/unitPoints"
                     android:textSize="12dp"
+                    android:shadowColor="#000000"
+                    android:shadowDx="5"
+                    android:shadowDy="5"
+                    android:shadowRadius="3"
                     android:fontFamily="@font/bowlby_one_sc"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/white"/>
             </LinearLayout>
 
             <TextView
@@ -146,12 +154,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
                     android:layout_gravity="center"
-                    android:text="@string/sunnyPointsPowerUp"
-                    android:textSize="12dp"
+                    android:layout_marginStart="15dp"
                     android:fontFamily="@font/bowlby_one_sc"
-                    android:textColor="@color/black"/>
+                    android:shadowColor="#000000"
+                    android:shadowDx="5"
+                    android:shadowDy="5"
+                    android:shadowRadius="3"
+                    android:text="@string/sunnyPointsPowerUp"
+                    android:textColor="@color/white"
+                    android:textSize="12dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -177,8 +189,12 @@
                     android:layout_gravity="center"
                     android:text="@string/rimuoviRifiuti"
                     android:textSize="12dp"
+                    android:shadowColor="#000000"
+                    android:shadowDx="5"
+                    android:shadowDy="5"
+                    android:shadowRadius="3"
                     android:fontFamily="@font/bowlby_one_sc"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/white"/>
             </LinearLayout>
 
             <LinearLayout
@@ -203,8 +219,12 @@
                     android:layout_gravity="center"
                     android:text="@string/rallentaSpawn"
                     android:textSize="12dp"
+                    android:shadowColor="#000000"
+                    android:shadowDx="5"
+                    android:shadowDy="5"
+                    android:shadowRadius="3"
                     android:fontFamily="@font/bowlby_one_sc"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/white"/>
             </LinearLayout>
 
             <LinearLayout
@@ -229,8 +249,12 @@
                     android:layout_gravity="center"
                     android:text="@string/accceleraRiciclo"
                     android:textSize="12dp"
+                    android:shadowColor="#000000"
+                    android:shadowDx="5"
+                    android:shadowDy="5"
+                    android:shadowRadius="3"
                     android:fontFamily="@font/bowlby_one_sc"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/white"/>
             </LinearLayout>
 
         </LinearLayout>

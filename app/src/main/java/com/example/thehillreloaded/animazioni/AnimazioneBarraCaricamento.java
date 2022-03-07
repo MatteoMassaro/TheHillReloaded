@@ -8,7 +8,7 @@ import android.view.animation.Transformation;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.thehillreloaded.gameplay.GameActivity;
+import com.example.thehillreloaded.gameplay.NormalGameActivity;
 import com.example.thehillreloaded.gameplay.PowerUpGameActivity;
 import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
 
@@ -41,7 +41,7 @@ public class AnimazioneBarraCaricamento extends Animation{
         percentuale.setText((int)value + " %");
 
         if (value == da && GiocatoreSingoloActivity.classica){
-            contesto.startActivity(new Intent(contesto, GameActivity.class));
+            contesto.startActivity(new Intent(contesto, NormalGameActivity.class));
 
         } else if (value == da && GiocatoreSingoloActivity.powerUp){
             //game activity per modalità power-up
