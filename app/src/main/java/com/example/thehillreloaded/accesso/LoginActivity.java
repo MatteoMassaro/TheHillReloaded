@@ -1,6 +1,7 @@
 package com.example.thehillreloaded.accesso;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -37,6 +38,8 @@ public class LoginActivity extends Animazioni {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //Imposta l'orientamento portrait come obbligatorio
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         loginEmail = findViewById(R.id.email);
         loginPassword = findViewById(R.id.password);

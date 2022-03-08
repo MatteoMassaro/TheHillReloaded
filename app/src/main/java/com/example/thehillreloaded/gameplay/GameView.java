@@ -57,6 +57,7 @@ import com.example.thehillreloaded.gameplay.recycle.PaperUnit;
 import com.example.thehillreloaded.gameplay.recycle.PlasticUnit;
 import com.example.thehillreloaded.gameplay.recycle.RecUnit;
 import com.example.thehillreloaded.gameplay.recycle.SteelUnit;
+import com.example.thehillreloaded.menu.DifficoltaActivity;
 import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
 import com.example.thehillreloaded.menu.MenuActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
@@ -771,6 +772,7 @@ public class GameView extends SurfaceView implements Runnable {
                     }
                 }
 
+
                 //disegna a schermo la barra di sopra (con l'icona dei sunnyPoints, delle missioni, ecc.)
                 canvas.drawBitmap(background.greenRect, background.getX(), background.getY(), paint);
                 canvas.drawBitmap(Bitmap.createScaledBitmap(sunnyPoints.getImageBitmap(), (int)(sunnyPoints.getWidth()*1.5), (int)(sunnyPoints.getHeight()*1.5), true), sunnyPoints.getX(), sunnyPoints.getY(), paint);
@@ -778,7 +780,7 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas.drawText("Punti: " + (gameBar.getScore()), sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 10), sunnyPoints.getY() + sunnyPoints.getHeight() * 6/5, otherTextInfoPaint);
                 canvas.drawBitmap(missioni.getImageBitmap(), missioni.getX() * 33/2, missioni.getY() - (float)(10 * screenRatioY) , paint);
                 canvas.drawText("Difficoltà:", sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 0.8), textInfoPaint);
-                canvas.drawText("facile", sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 1.4), textInfoPaint);
+                canvas.drawText(DifficoltaActivity.difficoltà, sunnyPoints.getX() + (int)(sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 1.4), textInfoPaint);
 
 
                 //se l'icona delle missioni è stata cliccata
@@ -949,7 +951,7 @@ public class GameView extends SurfaceView implements Runnable {
                 MusicPlayer.stopEffetti(); //ferma gli effetti
             }
 
-            //myRef.child("discovery").child("score").setValue(gameBar.getScore());
+            myRef.child("discovery").child("score").setValue(gameBar.getScore());
 
             //ripristina tutti gli attributi statici ai valori originali
             RecUnit.resetRecyclingSpeed();

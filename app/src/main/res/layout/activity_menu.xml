@@ -148,6 +148,19 @@
                     android:src="@drawable/settings"
                     android:onClick="onClick"
                     android:background="@drawable/nav_button_background"/>
+
+                <ImageView
+                    android:id="@+id/punteggi"
+                    android:contentDescription="@string/punteggi"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/stats"
+                    android:onClick="onClick"
+                    android:background="@drawable/nav_button_background"/>
     </LinearLayout>
 
 </LinearLayout>

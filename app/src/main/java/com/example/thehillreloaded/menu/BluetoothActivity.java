@@ -64,6 +64,7 @@ public class BluetoothActivity extends Animazioni {
         //Animazione pulsanti
         clickButtonAnimation(cerca);
         clickButtonAnimation(gioca);
+        clickButtonAnimation(indietro);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 

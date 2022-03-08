@@ -18,7 +18,7 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
 
     //Variabili
     public CardView giocatoreSingolo, multigiocatore;
-    public ImageView logout, impostazioni;
+    public ImageView logout, impostazioni, punteggi;
     public static double screenRatioX, screenRatioY, densityRatio;
 
     //Chiama l'animazione all'avvio dell'activity
@@ -60,18 +60,21 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
         multigiocatore = findViewById(R.id.multigiocatore);
         logout = findViewById(R.id.logout);
         impostazioni = findViewById(R.id.impostazioni);
+        punteggi = findViewById(R.id.punteggi);
 
         //Imposta metodo di callback quando la view viene cliccata
         multigiocatore.setOnClickListener(this);
         giocatoreSingolo.setOnClickListener(this);
         logout.setOnClickListener(this);
         impostazioni.setOnClickListener(this);
+        punteggi.setOnClickListener(this);
 
         //Animazione pulsanti
         clickButtonAnimation(giocatoreSingolo);
         clickButtonAnimation(multigiocatore);
         clickButtonAnimation(logout);
         clickButtonAnimation(impostazioni);
+        clickButtonAnimation(punteggi);
     }
 
     //Crea l'intent per passare all'activity successiva dopo la pressione di un pulsante
@@ -100,6 +103,11 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
                 i = new Intent(this, ImpostazioniActivity.class);
                 Bundle b3 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i,b3);
+                break;
+            case R.id.punteggi:
+                i = new Intent(this, PunteggiActivity.class);
+                Bundle b4 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+                startActivity(i,b4);
                 break;
 
         }

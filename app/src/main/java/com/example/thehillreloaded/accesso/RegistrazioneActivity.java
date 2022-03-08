@@ -1,6 +1,7 @@
 package com.example.thehillreloaded.accesso;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,8 +13,6 @@ import androidx.annotation.NonNull;
 
 import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.animazioni.Animazioni;
-import com.example.thehillreloaded.menu.ImpostazioniActivity;
-import com.example.thehillreloaded.menu.LinguaActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -35,6 +34,9 @@ public class RegistrazioneActivity extends Animazioni {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrazione);
+
+        //Imposta l'orientamento portrait come obbligatorio
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         regUsername = findViewById(R.id.username);
         regEmail = findViewById(R.id.email);

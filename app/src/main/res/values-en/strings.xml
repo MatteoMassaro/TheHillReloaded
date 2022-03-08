@@ -42,6 +42,7 @@
     <string name="caricamento">LOADING</string>
     <string name="percentuale">0%</string>
     <string name="impostazioni">SETTINGS</string>
+    <string name="punteggi">MATCH SCORES</string>
     <string name="lingua">LANGUAGE</string>
     <string name="italiano">ITALIAN</string>
     <string name="inglese">ENGLISH</string>

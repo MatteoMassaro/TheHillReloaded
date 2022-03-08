@@ -12,7 +12,6 @@ import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 import com.example.thehillreloaded.R;
-import com.example.thehillreloaded.menu.BluetoothActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.VolumeActivity;
 
@@ -60,6 +59,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         Point point = new Point();
