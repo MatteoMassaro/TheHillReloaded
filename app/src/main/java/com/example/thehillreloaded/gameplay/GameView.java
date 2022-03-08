@@ -25,6 +25,8 @@ import com.example.thehillreloaded.gameplay.falling_objects.HazarWaste;
 import com.example.thehillreloaded.gameplay.falling_objects.Junk;
 import com.example.thehillreloaded.gameplay.falling_objects.Paper;
 import com.example.thehillreloaded.gameplay.falling_objects.Plastic;
+import com.example.thehillreloaded.gameplay.falling_objects.SlowDown;
+import com.example.thehillreloaded.gameplay.falling_objects.SpeedUp;
 import com.example.thehillreloaded.gameplay.falling_objects.Steel;
 import com.example.thehillreloaded.gameplay.imageclass.AboutToExpire;
 import com.example.thehillreloaded.gameplay.imageclass.AluminumInfo;
@@ -74,12 +76,13 @@ public class GameView extends SurfaceView implements Runnable {
 
     private Thread thread;
     private boolean isPlaying;
-    private static int nJunk;
+    protected static int nJunk;
     private final double designX = 1080f, designY = 2072f, designDensity = 2.75;
-    private int screenX, screenY, spawnBoundX, spawnY;
+    private int screenX, screenY;
+    protected int spawnBoundX, spawnY;
     private Background background;
     private Paint paint, transparentPaint, redPaint, strokePaint, textInfoPaint, otherTextInfoPaint;
-    private ArrayList<Junk> junkList = new ArrayList<>();
+    protected ArrayList<Junk> junkList = new ArrayList<>();
     private ArrayList<Rect> rectList = new ArrayList<>();
     private ArrayList<RecUnit> recUnitList = new ArrayList<>();
     private ArrayList<RecImages> unitPointsRecImageList = new ArrayList<>();
@@ -95,14 +98,16 @@ public class GameView extends SurfaceView implements Runnable {
     private UnitInfo unitInfo;
     private Upgrade upgrade;
     private UnitPoints unitPoints;
-    private SunnyPoints sunnyPoints;
+    protected SunnyPoints sunnyPoints;
     private MaterialInfo materialInfo;
-    private RecImages missioni, pause;
-    private GameBar gameBar;
+    private RecImages missioni;
+    protected RecImages pause;
+    protected GameBar gameBar;
     private int GoalJunkk, GoalRecUpgr, GoalSunnyAcc, GoalUnitPointsUsed;
     private Missioni goals;
     private VolumeActivity volumeActivity;
-    boolean pauseFlag;
+    private boolean pauseFlag;
+    private GameActivity gameActivity;
 
     public GameView(Context context, int screenX, int screenY, float density) {
         super(context);
@@ -437,7 +442,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     //metodi da incapsulare in update()
 
-    private void spawnJunk(ArrayList<Junk> junkArrayList) {
+    protected void spawnJunk(ArrayList<Junk> junkArrayList) {
 
         //se la distanza percorsa dagli oggetti Junk è sufficiente
         if (Junk.distanceIsEnough()) {
@@ -631,7 +636,7 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    private void updateJunkValues() {
+    protected void updateJunkValues() {
 
         //rinnova i tassi di apparizione degli oggetti
         Glass.rinnovaTasso();
@@ -1139,7 +1144,6 @@ public class GameView extends SurfaceView implements Runnable {
     public void drawPause(Canvas canvas) {
         drawPauseMenu(canvas);
         drawPauseIcon(canvas);
-
     }
 
     public void drawPauseMenu(Canvas canvas) {
@@ -1147,6 +1151,7 @@ public class GameView extends SurfaceView implements Runnable {
         if (pause.isClicked()){
             isPlaying = false; //non verrà più rieseguito il corpo del metodo run() (simile a pause())
             stopEffects();
+            usePreferences();
 
             //visualizza i testi e le icone della pausa
             canvas.drawBitmap(pause.getImageBitmap2(), pause.getX() * 31 , pause.getY(), paint);
@@ -1176,6 +1181,10 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(gameOver.getImageBitmap3(), gameBar.getWidth() * 8, gameBar.getHeight() * 28, paint);
             canvas.drawText("ESCI",missioni.getWidth()* 9/2, missioni.getHeight() * 11, otherTextInfoPaint);
         }
+    }
+
+    protected void usePreferences() {
+
     }
 
     public void drawPauseIcon(Canvas canvas) {
@@ -1321,7 +1330,7 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    private void junkIsTouched(int touchX, int touchY) {
+    protected void junkIsTouched(int touchX, int touchY) {
 
         //per ciascun rifiuto presente sullo schermo
         for (int i = 0; i < junkList.size(); i++) {
@@ -1341,22 +1350,22 @@ public class GameView extends SurfaceView implements Runnable {
             RecUnit recUnit = recUnitList.get(i);
             InfoImages infoImages = infoImagesList.get(i);
 
-            recUnitIsTouched(recUnit, touchX, touchY);
+            recUnitIsTouched(recUnit, infoImages, touchX, touchY);
             recUnitInfoIsNotTouched(recUnit, touchX, touchY);
             recUnitIsGettingUnlocked(recUnit, touchX, touchY);
+            materialHasBeenTouched(infoImages, i, touchX, touchY);
             recUnitHasBeenTouched(recUnit, infoImages, i, touchX, touchY);
             incineratorHasBeenTouched(recUnit, infoImages, i, touchX, touchY);
-            materialHasBeenTouched(infoImages, i, touchX, touchY);
         }
     }
 
-    private void recUnitIsTouched(RecUnit recUnit, int touchX, int touchY) {
+    private void recUnitIsTouched(RecUnit recUnit, InfoImages infoImages, int touchX, int touchY) {
         //variabili booleane utilizzate per verificare che l'utente abbia toccato l'unità di riciclo e la barra di gioco di sopra
         boolean isTouchingRecUnit = (touchX >= recUnit.getX() && touchY >= recUnit.getY() && touchX < recUnit.getX() + recUnit.getWidth() && touchY < recUnit.getY() + recUnit.getHeight());
         boolean isTouchingGameBar = touchY < screenY * 0.06;
 
         //se l'utente ha toccato l'unità di riciclo
-        if (isTouchingRecUnit && !isTouchingGameBar && !isGameOver) {
+        if (isTouchingRecUnit && !isTouchingGameBar && !isGameOver && isPlaying) {
 
             //se l'unità di riciclo è sbloccata
             if (recUnit.getIsUnlocked()) {
@@ -1556,8 +1565,16 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     public void pauseMotionUp(int x, int y) {
-        //changeMusic(x, y);
-        //changeAudio(x, y);
+        changeMusic(x, y);
+        changeAudio(x, y);
+    }
+
+    protected void changeMusic(int x, int y) {
+
+    }
+
+    protected void changeAudio(int x, int y) {
+
     }
 
     private void junkIsBeingReleased(int x, int y) {

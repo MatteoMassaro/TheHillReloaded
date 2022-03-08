@@ -9,9 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.thehillreloaded.R;
-import com.example.thehillreloaded.gameplay.PowerUpGameView;
-
-import java.util.Random;
 
 public class ClearJunk extends PowerUp {
 
