@@ -13,11 +13,6 @@ public class PowerUpGameActivity extends GameActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Point point = new Point();
-        getWindowManager().getDefaultDisplay().getSize(point);
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        float density = displayMetrics.density;
-
         gameView = new PowerUpGameView(this, point.x, point.y, density);
         setContentView(gameView);
     }

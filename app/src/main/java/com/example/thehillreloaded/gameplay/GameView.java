@@ -223,62 +223,6 @@ public class GameView extends SurfaceView implements Runnable {
         Junk.setSpeedIncrease(Junk.getSpeedIncrease() * tassoDifficolta);
         RecUnit.setRecyclingSpeed(RecUnit.getRecyclingSpeed() / tassoDifficolta);
 
-        recUnitList.get(1).setIsUnlockedToTrue();
-        recUnitList.get(2).setIsUnlockedToTrue();
-        recUnitList.get(3).setIsUnlockedToTrue();
-        recUnitList.get(4).setIsUnlockedToTrue();
-        recUnitList.get(5).setIsUnlockedToTrue();
-        //recUnitList.get(0).setIsUpgraded(true);
-        recUnitList.get(1).setIsUpgraded(true);
-        //recUnitList.get(2).setIsUpgraded(true);
-        recUnitList.get(3).setIsUpgraded(true);
-        //recUnitList.get(4).setIsUpgraded(true);
-        recUnitList.get(5).setIsUpgraded(true);
-        recUnitList.get(0).unitPointsPlus();
-        recUnitList.get(0).unitPointsPlus();
-        recUnitList.get(0).unitPointsPlus();
-        recUnitList.get(0).unitPointsPlus();
-        recUnitList.get(0).unitPointsPlus();
-        recUnitList.get(0).unitPointsPlus();
-        recUnitList.get(0).unitPointsPlus();
-        recUnitList.get(1).unitPointsPlus();
-        recUnitList.get(1).unitPointsPlus();
-        recUnitList.get(1).unitPointsPlus();
-        recUnitList.get(1).unitPointsPlus();
-        recUnitList.get(1).unitPointsPlus();
-        recUnitList.get(1).unitPointsPlus();
-        recUnitList.get(1).unitPointsPlus();
-        recUnitList.get(2).unitPointsPlus();
-        recUnitList.get(2).unitPointsPlus();
-        recUnitList.get(2).unitPointsPlus();
-        recUnitList.get(2).unitPointsPlus();
-        recUnitList.get(2).unitPointsPlus();
-        recUnitList.get(2).unitPointsPlus();
-        recUnitList.get(2).unitPointsPlus();
-        recUnitList.get(3).unitPointsPlus();
-        recUnitList.get(3).unitPointsPlus();
-        recUnitList.get(3).unitPointsPlus();
-        recUnitList.get(3).unitPointsPlus();
-        recUnitList.get(3).unitPointsPlus();
-        recUnitList.get(3).unitPointsPlus();
-        recUnitList.get(3).unitPointsPlus();
-        recUnitList.get(4).unitPointsPlus();
-        recUnitList.get(4).unitPointsPlus();
-        recUnitList.get(4).unitPointsPlus();
-        recUnitList.get(4).unitPointsPlus();
-        recUnitList.get(4).unitPointsPlus();
-        recUnitList.get(4).unitPointsPlus();
-        recUnitList.get(4).unitPointsPlus();
-        recUnitList.get(5).unitPointsPlus();
-        recUnitList.get(5).unitPointsPlus();
-        recUnitList.get(5).unitPointsPlus();
-        recUnitList.get(5).unitPointsPlus();
-        recUnitList.get(5).unitPointsPlus();
-        recUnitList.get(5).unitPointsPlus();
-        recUnitList.get(5).unitPointsPlus();
-        sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints()+150);
-
-
         //definisci tutti i paint
         paint = new Paint(); //uno generico
         paint.setTextSize(64 * (float) (screenRatioX * screenRatioY * densityRatio));
@@ -360,7 +304,7 @@ public class GameView extends SurfaceView implements Runnable {
     public void exit() {
 
         stopEffects();
-        this.stopMusic();
+        stopMusic();
 
         //ripristina tutti gli attributi statici ai valori originali
         RecUnit.resetRecyclingSpeed();
@@ -390,13 +334,13 @@ public class GameView extends SurfaceView implements Runnable {
             pauseFlag = false; //flag utilizzato per mettere in pausa il gioco
             Canvas canvas = getHolder().lockCanvas(); //canvas su cui verranno disegnate le bitmap, i testi, ecc.
 
-            drawBackground(canvas);
-            drawRecUnit(recUnitList, canvas);
-            drawJunk(junkList, canvas);
-            drawRecUnitPopups(recUnitList, infoImagesList, canvas);
-            drawGameBar(canvas);
-            drawMissions(listaMissioni, canvas);
-            drawPause(canvas);
+            drawBackground(canvas); //disegna a schermo il background e il rettangolo in cui spawneranno gli oggetti
+            drawRecUnit(recUnitList, canvas); //disegna a schermo le unità di riciclo e le loro animazioni
+            drawJunk(junkList, canvas); //disegna a schermo i rifiuti
+            drawRecUnitPopups(recUnitList, infoImagesList, canvas); //disegna a schermo i pop-up e le immagini che fanno riferimento alle unità di riciclo
+            drawGameBar(canvas); //disegna a schermo la barra di sopra
+            drawMissions(listaMissioni, canvas); //disegna a schermo il pop-up delle missioni
+            drawPause(canvas); //disegna a schermo il menù di pausa
 
             getHolder().unlockCanvasAndPost(canvas); //mostra tutti i contenuti del canvas a schermo
 
@@ -412,23 +356,25 @@ public class GameView extends SurfaceView implements Runnable {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-        actionDownEvent(event);
-        actionMoveEvent(event);
-        actionUpEvent(event);
+        actionDownEvent(event); //effettua controlli nel caso in cui l'utente tocca lo schermo
+        actionMoveEvent(event); //effettua controlli nel caso in cui l'utente muove il dito (mentre tocca lo schermo)
+        actionUpEvent(event); //effettua controlli nel caso in cui l'utente solleva il dito dallo schermo
 
         return true;
     }
 
     private void playEffects() {
+        //se non ci sono gli effetti e questi non sono disattivati nell'app
         if (!MusicPlayer.isPlayingEffect && VolumeActivity.flagAudio != 1) {
-            MusicPlayer.playEffetti(getContext(), R.raw.incinerator_sound);
-            MusicPlayer.loopEffetti();
+            MusicPlayer.playEffetti(getContext(), R.raw.incinerator_sound); //esegui gli effetti
+            MusicPlayer.loopEffetti(); //continua ad eseguire gli effetti una volta che questi sono terminati
         }
     }
 
     private void stopMusic() {
-        if(MusicPlayer.isPlayingMusic){
-            MusicPlayer.stopMusic();
+        //se la musica è in esecuzione
+        if(MusicPlayer.isPlayingMusic) {
+            MusicPlayer.stopMusic(); //ferma la musica
         }
     }
 
@@ -677,8 +623,8 @@ public class GameView extends SurfaceView implements Runnable {
         for (int x = 0; x < recUnitArrayList.size(); x++) {
             RecUnit recUnit = recUnitArrayList.get(x);
 
-            drawLockedRecUnit(recUnit, x, canvas);
-            drawUnlockedRecUnit(recUnit, x, canvas);
+            drawLockedRecUnit(recUnit, x, canvas); //disegna a schermo l'unità di riciclo non sbloccata
+            drawUnlockedRecUnit(recUnit, x, canvas); //disegna a schermo l'unità di riciclo sbloccata, con tanto di animazioni
         }
     }
 
@@ -697,10 +643,10 @@ public class GameView extends SurfaceView implements Runnable {
 
         //se l'unità di riciclo è sbloccata
         if (recUnit.getIsUnlocked()) {
-            drawRect(recUnitIndex, canvas);
-            drawUnitPoints(recUnit, recUnitIndex, canvas);
-            drawNormalRecUnit(recUnit, recUnitIndex, canvas);
-            drawUpgradedRecUnit(recUnit, recUnitIndex, canvas);
+            drawRect(recUnitIndex, canvas); //disegna il rettangolo che rappresenta il processo di riciclo dei rifiuti
+            drawUnitPoints(recUnit, recUnitIndex, canvas); //disegna l'icona degli unitPoints
+            drawNormalRecUnit(recUnit, recUnitIndex, canvas); //disegna l'unità di riciclo di livello 1, con tanto di animazioni
+            drawUpgradedRecUnit(recUnit, recUnitIndex, canvas); //disegna l'unità di riciclo di livello 2, assieme alle animazioni
         }
     }
 
@@ -721,8 +667,8 @@ public class GameView extends SurfaceView implements Runnable {
     private void drawNormalRecUnit(RecUnit recUnit, int recUnitIndex, Canvas canvas) {
         //se l'unità non è aggiornata
         if (!recUnit.getIsUpgraded()) {
-            drawNormalRecyclingRecUnit(recUnit, recUnitIndex, canvas);
-            drawNonRecyclingRecUnit(recUnit, canvas);
+            drawNormalRecyclingRecUnit(recUnit, recUnitIndex, canvas); //mostra a schermo l'animazione dell'unità di riciclo e la barra rappresentante il progresso del processo di riciclo
+            drawNonRecyclingRecUnit(recUnit, canvas); //mostra a schermo l'immagine di base dell'unità di riciclo
         }
     }
 
@@ -730,8 +676,8 @@ public class GameView extends SurfaceView implements Runnable {
 
         //se l'unità sta riciclando
         if (recUnit.getIsRecycling()) {
-            drawProgressRect(recUnit, recUnitIndex, canvas);
-            drawRecUnitStates(recUnit, canvas);
+            drawProgressRect(recUnit, recUnitIndex, canvas); //mostra a schermo l'andamento del processo di riciclo
+            drawRecUnitStates(recUnit, canvas); //mostra a schermo l'animazione dell'unità di riciclo
         }
     }
 
@@ -758,18 +704,20 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void drawNonRecyclingRecUnit(RecUnit recUnit, Canvas canvas) {
 
-        if (!recUnit.getIsRecycling()) { //se l'unità non sta riciclando
+        //se l'unità non sta riciclando
+        if (!recUnit.getIsRecycling()) {
             canvas.drawBitmap(recUnit.getRecUnit(), recUnit.getX(), recUnit.getY(), paint); //disegna l'unità di riciclo di base
         }
     }
 
     private void drawUpgradedRecUnit(RecUnit recUnit, int recUnitIndex, Canvas canvas) {
 
+        //se l'unità è aggiornata
         if (recUnit.getIsUpgraded()) {
-            drawUpgradedRect(recUnitIndex, canvas);
-            drawWarning(recUnit, recUnitIndex, canvas);
-            drawUpgradedRecyclingRecUnit(recUnit, recUnitIndex, canvas);
-            drawUpgradedNonRecyclingRecUnit(recUnit, canvas);
+            drawUpgradedRect(recUnitIndex, canvas); //mostra a schermo la barra extra delle unità aggiornate
+            drawWarning(recUnit, recUnitIndex, canvas); //mostra a schermo l'icona di warning
+            drawUpgradedRecyclingRecUnit(recUnit, recUnitIndex, canvas); //mostra a schermo l'animazione dell'unità di riciclo aggiornata, assieme al progresso della barra extra
+            drawUpgradedNonRecyclingRecUnit(recUnit, canvas); //mostra a schermo l'immagine di base dell'unità di riciclo aggiornata
         }
     }
 
@@ -790,9 +738,9 @@ public class GameView extends SurfaceView implements Runnable {
 
         //se l'unità sta riciclando
         if (recUnit.getIsRecycling()) {
-            drawProgressRect(recUnit, recUnitIndex, canvas);
-            drawUpgradedProgressRect(recUnit, recUnitIndex, canvas);
-            drawUpgradedRecUnitStates(recUnit, canvas);
+            drawProgressRect(recUnit, recUnitIndex, canvas); //disegna a schermo il rettangolo rosso che rappresenta il progresso del primo processo di riciclo
+            drawUpgradedProgressRect(recUnit, recUnitIndex, canvas); //disegna a schermo il rettangolo rosso che rappresenta il progresso del secondo processo di riciclo
+            drawUpgradedRecUnitStates(recUnit, canvas); //disegna a schermo l'animazione dell'unità di riciclo aggiornata
         }
     }
 
@@ -827,9 +775,9 @@ public class GameView extends SurfaceView implements Runnable {
         for (int x = 0; x < junkArrayList.size(); x++) {
             Junk junk = junkArrayList.get(x);
 
-            drawDraggedJunk(junk, canvas);
-            drawFallingJunk(junk, canvas);
-            drawGameOverPopup(junk, canvas);
+            drawDraggedJunk(junk, canvas); //disegna il rifiuto che viene trascinato (l'ombra opaca, il rifiuto nella sua posizione originale trasparente)
+            drawFallingJunk(junk, canvas); //disegna i rifiuti
+            drawGameOverPopup(junk, canvas); //disegna il pop-up di fine partita
         }
     }
 
@@ -877,8 +825,8 @@ public class GameView extends SurfaceView implements Runnable {
             RecUnit recUnit = recUnitArrayList.get(x);
             InfoImages infoImages = infoImagesArrayList.get(x);
 
-            drawLockedRecUnitPopup(recUnit, canvas);
-            drawUnlockedRecUnitPopup(recUnit, infoImages, x, canvas);
+            drawLockedRecUnitPopup(recUnit, canvas); //disegna i pop-up delle unità non sbloccate
+            drawUnlockedRecUnitPopup(recUnit, infoImages, x, canvas); //disegna i pop-up delle unità sbloccate
         }
     }
 
@@ -889,7 +837,7 @@ public class GameView extends SurfaceView implements Runnable {
             //e se l'unità sta per essere sbloccata (è stata toccata l'unità di riciclo con sufficienti sunnyPoints)
             if (recUnit.getIsUnlocking()) {
 
-                //disegna a schermo il popup per sbloccare l'unità
+                //disegna a schermo il pop-up per sbloccare l'unità
                 canvas.drawBitmap(confirmBuilding.getImageBitmap(), confirmBuilding.getX(), confirmBuilding.getY(), paint);
                 confirmBuilding.drawConfirmBuildingText(confirmBuilding.getX() + (int)(200*screenRatioX), confirmBuilding.getY() + (int)(250*screenRatioY), otherTextInfoPaint, canvas);
                 canvas.drawBitmap(confirmBuilding.getImageBitmap2(), confirmBuilding.getX() + (int)(180*screenRatioX), confirmBuilding.getY() + (int)(350*screenRatioY), paint);
@@ -903,25 +851,25 @@ public class GameView extends SurfaceView implements Runnable {
     private void drawUnlockedRecUnitPopup(RecUnit recUnit, InfoImages infoImages, int recUnitIndex, Canvas canvas) {
         //se l'unità è sbloccata
         if (recUnit.getIsUnlocked()) {
-            drawUnlockedRecUnitInfo(recUnit, infoImages, recUnitIndex, canvas);
-            drawIncineratorInfo(recUnit, infoImages, recUnitIndex, canvas);
-            drawLvl1MaterialInfo(infoImages, canvas);
-            drawLvl2MaterialInfo(infoImages, canvas);
-            drawLvl3MaterialInfo(infoImages, canvas);
+            drawUnlockedRecUnitInfo(recUnit, infoImages, recUnitIndex, canvas); //mostra le informazioni riguardanti le unità di riciclo (escluso l'inceneritore)
+            drawIncineratorInfo(recUnit, infoImages, recUnitIndex, canvas); //mostra le informazioni riguardanti l'inceneritore
+            drawLvl1MaterialInfo(infoImages, canvas); //mostra le informazioni riguardanti i materiali di grado 1
+            drawLvl2MaterialInfo(infoImages, canvas); //mostra le informazioni riguardanti i materiali di grado 2
+            drawLvl3MaterialInfo(infoImages, canvas); //mostra le informazioni riguardanti i materiali di grado 3
         }
     }
 
     private void drawUnlockedRecUnitInfo(RecUnit recUnit, InfoImages infoImages, int recUnitIndex, Canvas canvas) {
         //se si vogliono consultare le informazioni di un'unità tranne che l'inceneritore (si è cliccato sull'unità)
         if (recUnit.getIsCheckingInfo() && recUnitIndex != recUnitList.size() - 1) {
-            stopEffects();
+            stopEffects(); //ferma gli effetti di gioco
             pauseFlag = true; //il gioco verrà messo in pausa
-            drawRecUnitInfoBackground(canvas);
-            drawRecUnitInfoText(recUnit, canvas);
-            drawMaterialRect(infoImages, canvas);
-            drawNonUpgradedRecUnitInfo(recUnit, infoImages, canvas);
-            drawUpgradedRecUnitInfo(recUnit, infoImages, canvas);
-            drawUnitSunnyPointsInfo(recUnit, infoImages, canvas);
+            drawRecUnitInfoBackground(canvas); //mostra il background delle informazioni delle unità di riciclo
+            drawRecUnitInfoText(recUnit, canvas); //mostra il testo delle informazioni delle unità di riciclo
+            drawMaterialRect(infoImages, canvas); //mostra il rettangolo e il materiale di grado 1
+            drawNonUpgradedRecUnitInfo(recUnit, infoImages, canvas); //mostra le informazioni delle unità di riciclo non aggiornate
+            drawUpgradedRecUnitInfo(recUnit, infoImages, canvas); //mostra le informazioni delle unità di riciclo aggiornate
+            drawUnitSunnyPointsInfo(recUnit, infoImages, canvas); //mostra le icone e gli unitPoints necessari per ottenere n sunnyPoints
         }
     }
 
@@ -934,14 +882,12 @@ public class GameView extends SurfaceView implements Runnable {
         canvas.drawText("Tipo unità: " + recUnit.getUnitType(), unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(290*screenRatioY), textInfoPaint);
         canvas.drawText("Livello usura: " + recUnit.getRecycledUnitUpgraded() + "/" + recUnit.getMaxRecycledUnitUpgraded(), unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(370*screenRatioY), textInfoPaint);
         canvas.drawText("Totale riciclati: " + recUnit.getRecycledUnit() , unitInfo.getX() + (int)(490*screenRatioX), unitInfo.getY() + (int)(410*screenRatioY), textInfoPaint);
-
     }
 
     private void drawMaterialRect(InfoImages infoImages, Canvas canvas) {
         //disegna a schermo il primo materiale di ciascuna unità di riciclo
         canvas.drawRect(unitInfo.getX() + (int)(209.31*screenRatioX), unitInfo.getY() + (int)(529*screenRatioY), unitInfo.getX() + (int)(407*screenRatioX), unitInfo.getY() + (int)(691*screenRatioY), strokePaint);
         canvas.drawBitmap(infoImages.getMaterial_lvl1(), unitInfo.getX() + (int)(218*screenRatioX), unitInfo.getY() + (int)(536*screenRatioY), paint);
-
     }
 
     private void drawNonUpgradedRecUnitInfo(RecUnit recUnit, InfoImages infoImages, Canvas canvas) {
@@ -972,7 +918,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void drawUnitSunnyPointsInfo(RecUnit recUnit, InfoImages infoImages, Canvas canvas) {
         //per ciascun elemento della lista unitPointsInfoList
         for (int i = 0; i < unitPointsInfoList.size(); i++) {
-            drawUnitSunnyPoints(recUnit, infoImages, i, canvas);
+            drawUnitSunnyPoints(recUnit, infoImages, i, canvas); //disegna l'icona degli unitPoints e dei sunnyPoints, assieme al numero di unitPoints necessari per ottenere n sunnyPoints
         }
     }
 
@@ -981,9 +927,9 @@ public class GameView extends SurfaceView implements Runnable {
         if (unitPointsIndex == 0 || unitPointsIndex > 0 && recUnit.getIsUpgraded()) {
             RecImages unitPoints = unitPointsInfoList.get(unitPointsIndex);
             RecImages sunnyPoints = sunnyPointsInfoList.get(unitPointsIndex);
-            drawUnitSunnyPoints(unitPoints, sunnyPoints, canvas);
-            drawRedUnitSunnyPointsText(recUnit, infoImages, unitPoints, sunnyPoints, unitPointsIndex, canvas);
-            drawBlackUnitSunnyPointsText(recUnit, infoImages, unitPoints, sunnyPoints, unitPointsIndex, canvas);
+            drawUnitSunnyPoints(unitPoints, sunnyPoints, canvas); //disegna a schermo gli unitPoints e i sunnyPoints nella posizione predefinita
+            drawRedUnitSunnyPointsText(recUnit, infoImages, unitPoints, sunnyPoints, unitPointsIndex, canvas); //disegna il numero di unitPoints e di sunnyPoints di colore rosso se si hanno unitPoints sufficienti
+            drawBlackUnitSunnyPointsText(recUnit, infoImages, unitPoints, sunnyPoints, unitPointsIndex, canvas); //oppure disegnali di colore nero
         }
     }
 
@@ -1015,9 +961,9 @@ public class GameView extends SurfaceView implements Runnable {
     private void drawIncineratorInfo(RecUnit recUnit, InfoImages infoImages, int recUnitIndex, Canvas canvas) {
         //se si vogliono consultare le informazioni dell'inceneritore
         if (recUnit.getIsCheckingInfo() && recUnitIndex == recUnitList.size() - 1) {
-            stopEffects();
+            stopEffects(); //ferma gli effetti
             pauseFlag = true; //il gioco verrà messo in pausa
-            drawIncineratorInfo(recUnit, infoImages, canvas);
+            drawIncineratorInfo(recUnit, infoImages, canvas); //disegna le info riguardanti l'inceneritore
         }
     }
 
@@ -1078,8 +1024,8 @@ public class GameView extends SurfaceView implements Runnable {
         //se l'icona delle missioni è stata cliccata
         if (missioni.isClicked()){
             pauseFlag = true; //il gioco verrà messo in pausa
-            drawMissionsBackground(canvas);
-            drawMissionsInfo(missionsArrayList, canvas);
+            drawMissionsBackground(canvas); //disegna il background delle missioni
+            drawMissionsInfo(missionsArrayList, canvas); //disegna il testo delle missioni
         }
     }
 
@@ -1142,16 +1088,16 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     public void drawPause(Canvas canvas) {
-        drawPauseMenu(canvas);
-        drawPauseIcon(canvas);
+        drawPauseMenu(canvas); //disegna il menù di pausa
+        drawPauseIcon(canvas); //disegna l'icona di pausa di base
     }
 
     public void drawPauseMenu(Canvas canvas) {
         //se il bottone della pausa è stato cliccato
         if (pause.isClicked()){
             isPlaying = false; //non verrà più rieseguito il corpo del metodo run() (simile a pause())
-            stopEffects();
-            usePreferences();
+            stopEffects(); //ferma gli effetti
+            usePreferences(); //imposta l'audio e gli effetti (assieme alle icone relative) in base a ciò che è stato fatto precedentemente (disattivazione della musica e/o audio nel menù principale)
 
             //visualizza i testi e le icone della pausa
             canvas.drawBitmap(pause.getImageBitmap2(), pause.getX() * 31 , pause.getY(), paint);
@@ -1184,7 +1130,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     protected void usePreferences() {
-
+        //questo metodo verrà sovrascritto nelle sottoclassi
     }
 
     public void drawPauseIcon(Canvas canvas) {
@@ -1207,12 +1153,12 @@ public class GameView extends SurfaceView implements Runnable {
             int touchY = (int)event.getY();
             nJunk = -1; //variabile definita per controllare il rifiuto da manipolare
 
-            pauseIsTouched(touchX, touchY);
-            missionIsTouched(touchX, touchY);
-            pauseHasBeenClicked(touchX, touchY);
-            gameOverPopupIsShowing(touchX, touchY);
-            junkIsTouched(touchX, touchY);
-            recUnitControl(touchX, touchY);
+            pauseIsTouched(touchX, touchY); //effettua un controllo sull'icona della pausa
+            missionIsTouched(touchX, touchY); //effettua un controllo sull'icona delle missioni
+            pauseHasBeenClicked(touchX, touchY); //effettua un controllo sul menù di pausa
+            gameOverPopupIsShowing(touchX, touchY); //effettua un controllo sul pop-up di fine partita
+            junkIsTouched(touchX, touchY); //effettua un controllo sui rifiuti
+            recUnitControl(touchX, touchY); //effettua un controllo sulle unità di riciclo, assieme ai relativi pop-up
         }
     }
 
@@ -1250,10 +1196,10 @@ public class GameView extends SurfaceView implements Runnable {
     private void pauseHasBeenClicked(int touchX, int touchY) {
         //se la pausa è stata cliccata
         if (pause.isClicked()) {
-            musicIsTouched(touchX, touchY);
-            audioIsTouched(touchX, touchY);
-            restartIsTouched(touchX, touchY);
-            pauseExitIsTouched(touchX, touchY);
+            musicIsTouched(touchX, touchY); //disattiva o attiva la musica nel caso in cui l'icona venga toccata
+            audioIsTouched(touchX, touchY); //disattiva o attiva gli effetti nel caso in cui l'icona venga toccata
+            restartIsTouched(touchX, touchY); //ricomincia la partita se viene toccata l'icona relativa
+            pauseExitIsTouched(touchX, touchY); //esci dal gioco se viene toccata l'icona relativa
         }
     }
 
@@ -1307,8 +1253,8 @@ public class GameView extends SurfaceView implements Runnable {
     private void gameOverPopupIsShowing(int touchX, int touchY) {
         //se è apparso il pop-up di fine partita
         if (isGameOver) {
-            redoIsTouched(touchX, touchY);
-            gameOverExitIsTouched(touchX, touchY);
+            redoIsTouched(touchX, touchY); //se viene toccata l'icona "Ricomincia", ricomincia la partita
+            gameOverExitIsTouched(touchX, touchY); //se viene toccata l'icona di "Esci", esci dal gioco
         }
     }
 
@@ -1350,12 +1296,12 @@ public class GameView extends SurfaceView implements Runnable {
             RecUnit recUnit = recUnitList.get(i);
             InfoImages infoImages = infoImagesList.get(i);
 
-            recUnitIsTouched(recUnit, infoImages, touchX, touchY);
-            recUnitInfoIsNotTouched(recUnit, touchX, touchY);
-            recUnitIsGettingUnlocked(recUnit, touchX, touchY);
-            materialHasBeenTouched(infoImages, i, touchX, touchY);
-            recUnitHasBeenTouched(recUnit, infoImages, i, touchX, touchY);
-            incineratorHasBeenTouched(recUnit, infoImages, i, touchX, touchY);
+            recUnitIsTouched(recUnit, infoImages, touchX, touchY); //effettua controlli nel caso in cui l'unità di riciclo venga toccata
+            recUnitInfoIsNotTouched(recUnit, touchX, touchY); //effettua controlli nel caso in cui l'utente clicca al di sopra del background delle informazioni
+            recUnitIsGettingUnlocked(recUnit, touchX, touchY); //effettua controlli nel caso in cui venga mostrato il pop-up per sbloccare le unità di riciclo
+            materialHasBeenTouched(infoImages, i, touchX, touchY); //effettua controlli nel caso in cui vengano mostrate le informazioni dei materiali costruiti
+            recUnitHasBeenTouched(recUnit, infoImages, i, touchX, touchY); //effettua controlli nel caso in cui venga mostrato il pop-up delle informazioni delle unità di riciclo
+            incineratorHasBeenTouched(recUnit, infoImages, i, touchX, touchY); //effettua controlli nel caso in cui venga mostrato il pop-up delle informazioni dell'inceneritore
         }
     }
 
@@ -1392,8 +1338,8 @@ public class GameView extends SurfaceView implements Runnable {
 
         //se l'utente sta visualizzando il pop-up per sbloccare un'unità di riciclo
         if (recUnit.getIsUnlocking() && !isTouchingGameBar && !isGameOver) {
-            yesButtonIsTouched(recUnit, touchX, touchY);
-            noButtonIsTouched(recUnit, touchX, touchY);
+            yesButtonIsTouched(recUnit, touchX, touchY); //sblocca l'unità se il tasto "YES" viene cliccato
+            noButtonIsTouched(recUnit, touchX, touchY); //non mostrare più il popup se viene cliccato il pulsante "NO"
         }
     }
 
@@ -1419,14 +1365,31 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
+    private void materialHasBeenTouched(InfoImages infoImages, int recUnitIndex, int touchX, int touchY) {
+        //se si stanno visualizzando le informazioni riguardanti uno dei materiali
+        if ((infoImages.getIsCheckingMaterialLvl1Info() || infoImages.getIsCheckingMaterialLvl2Info() || infoImages.getIsCheckingMaterialLvl3Info()) && recUnitIndex != recUnitList.size() - 1) {
+
+            //definisci la variabile booleane per verificare che venga toccato il background delle informazioni
+            boolean isTouchingMaterialInfo = (touchX >= materialInfo.getX() && touchY >= materialInfo.getY() && touchX < materialInfo.getX() + materialInfo.getWidth() && touchY < materialInfo.getY() + materialInfo.getHeight());
+
+            if (!isTouchingMaterialInfo) { //se non è stato toccato il background
+                //le informazioni riguardanti i materiali non saranno più visualizzate
+                infoImages.setIsCheckingMaterialLvl1Info(false);
+                infoImages.setIsCheckingMaterialLvl2Info(false);
+                infoImages.setIsCheckingMaterialLvl3Info(false);
+                resume(); //riprendi la partita
+            }
+        }
+    }
+
     private void recUnitHasBeenTouched(RecUnit recUnit, InfoImages infoImages, int recUnitIndex, int touchX, int touchY) {
         //se si stanno visualizzando le informazioni di un'unità di riciclo
         if (recUnit.getIsCheckingInfo() && recUnitIndex != recUnitList.size() - 1) {
 
-            upgradeIsTouched(recUnit, touchX, touchY);
-            lvl1MaterialIsTouched(recUnit, infoImages, touchX, touchY);
-            lvl2MaterialIsTouched(recUnit, infoImages, touchX, touchY);
-            lvl3MaterialIsTouched(recUnit, infoImages, touchX, touchY);
+            upgradeIsTouched(recUnit, touchX, touchY); //aggiorna l'unità se il pulsante relativo viene toccato
+            lvl1MaterialIsTouched(recUnit, infoImages, touchX, touchY); //scambia gli unitPoints per i sunnyPoints e mostra le informazioni del materiale di primo grado
+            lvl2MaterialIsTouched(recUnit, infoImages, touchX, touchY); //scambia gli unitPoints per i sunnyPoints e mostra le informazioni del materiale di secondo grado
+            lvl3MaterialIsTouched(recUnit, infoImages, touchX, touchY); //scambia gli unitPoints per i sunnyPoints e mostra le informazioni del materiale di terzo grado
         }
     }
 
@@ -1495,24 +1458,6 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    private void materialHasBeenTouched(InfoImages infoImages, int recUnitIndex, int touchX, int touchY) {
-        //se si stanno visualizzando le informazioni riguardanti uno dei materiali
-        if ((infoImages.getIsCheckingMaterialLvl1Info() || infoImages.getIsCheckingMaterialLvl2Info() || infoImages.getIsCheckingMaterialLvl3Info()) && recUnitIndex != recUnitList.size() - 1) {
-
-            //definisci la variabile booleane per verificare che venga toccato il background delle informazioni
-            boolean isTouchingMaterialInfo = (touchX >= materialInfo.getX() && touchY >= materialInfo.getY() && touchX < materialInfo.getX() + materialInfo.getWidth() && touchY < materialInfo.getY() + materialInfo.getHeight());
-
-            if (!isTouchingMaterialInfo) { //se non è stato toccato il background
-                //le informazioni riguardanti i materiali non saranno più visualizzate
-                infoImages.setIsCheckingMaterialLvl1Info(false);
-                infoImages.setIsCheckingMaterialLvl2Info(false);
-                infoImages.setIsCheckingMaterialLvl3Info(false);
-                resume(); //riprendi la partita
-            }
-
-        }
-    }
-
     private void incineratorHasBeenTouched(RecUnit recUnit, InfoImages infoImages, int recUnitIndex, int touchX, int touchY) {
         //se si stanno visualizzando le informazioni dell'inceneritore
         if (recUnit.getIsCheckingInfo() && recUnitIndex == recUnitList.size() - 1) {
@@ -1537,7 +1482,7 @@ public class GameView extends SurfaceView implements Runnable {
             int x = (int)event.getX();
             int y = (int)event.getY();
 
-            junkHasBeenTouched(x, y);
+            junkHasBeenTouched(x, y); //sposta l'ombra del rifiuto in base alla posizione del dito
         }
     }
 
@@ -1559,8 +1504,8 @@ public class GameView extends SurfaceView implements Runnable {
             int x = (int)event.getX();
             int y = (int)event.getY();
 
-            pauseMotionUp(x, y);
-            junkIsBeingReleased(x, y);
+            pauseMotionUp(x, y); //cambia le impostazioni di audio e musica
+            junkIsBeingReleased(x, y); //rimuovi il rifiuto se viene trascinato su di un'unità di riciclo compatibile
         }
     }
 
@@ -1583,18 +1528,18 @@ public class GameView extends SurfaceView implements Runnable {
             Junk junk = junkList.get(nJunk);
             junk.setBeingDragged(false); //il rifiuto non viene più trascinato
 
-            startRecycleProcess(junk, x, y);
+            startRecycleProcess(junk, x, y); //inizia il processo di riciclo se un rifiuto viene trascinato su di un'unità di riciclo compatibile
         }
     }
 
     private void startRecycleProcess(Junk junk, int x, int y) {
-        recycleGlass(junk, x, y);
-        recyclePaper(junk, x, y);
-        recycleAluminum(junk, x, y);
-        recycleSteel(junk, x, y);
-        recyclePlastic(junk, x, y);
-        recycleEWaste(junk, x, y);
-        recycleAll(junk, x, y);
+        recycleGlass(junk, x, y); //rimuovi il rifiuto di vetro se viene trascinato sull'unità di riciclo del vetro
+        recyclePaper(junk, x, y); //stessa funzionalità, ma per la carta
+        recycleAluminum(junk, x, y); //per l'alluminio
+        recycleSteel(junk, x, y); //per l'acciaio
+        recyclePlastic(junk, x, y); //per la plastica
+        recycleEWaste(junk, x, y); //per i rifiuti tecnologici
+        recycleAll(junk, x, y); //rimuovi il rifiuto se viene trascinato sull'inceneritore (bisogna avere sunnyPoints sufficienti)
     }
 
     private void recycleGlass(Junk junk, int x, int y) {

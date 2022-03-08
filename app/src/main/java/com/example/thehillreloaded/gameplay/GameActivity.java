@@ -5,7 +5,9 @@ import static com.example.thehillreloaded.menu.GiocatoreSingoloActivity.b1;
 
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +17,9 @@ import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.VolumeActivity;
 
 public class GameActivity extends AppCompatActivity {
+
+    protected Point point;
+    protected float density;
 
     public void changeAudio(int audioFlag){
         SharedPreferences.Editor editor;
@@ -59,6 +64,11 @@ public class GameActivity extends AppCompatActivity {
 
         //Imposta l'orientamento portrait come obbligatorio
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        point = new Point();
+        getWindowManager().getDefaultDisplay().getSize(point);
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        density = displayMetrics.density;
 
         SharedPreferences preferenze = getSharedPreferences("salva1", MODE_PRIVATE);
         b = preferenze.getBoolean("musica", true);
