@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.thehillreloaded.gameplay.NormalGameActivity;
 import com.example.thehillreloaded.gameplay.PowerUpGameActivity;
 import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
+import com.example.thehillreloaded.menu.MultigiocatoreActivity;
 
 
 public class AnimazioneBarraCaricamento extends Animation{
@@ -40,11 +41,9 @@ public class AnimazioneBarraCaricamento extends Animation{
         barraCaricamento.setProgress((int)value);
         percentuale.setText((int)value + " %");
 
-        if (value == da && GiocatoreSingoloActivity.classica){
+        if (value == da && (GiocatoreSingoloActivity.classica || MultigiocatoreActivity.multigiocatore)){
             contesto.startActivity(new Intent(contesto, NormalGameActivity.class));
-
         } else if (value == da && GiocatoreSingoloActivity.powerUp){
-            //game activity per modalità power-up
             contesto.startActivity(new Intent(contesto, PowerUpGameActivity.class));
         }
     }

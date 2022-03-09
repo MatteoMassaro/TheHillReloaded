@@ -17,6 +17,7 @@ public class MultigiocatoreActivity extends Animazioni implements View.OnClickLi
     //Variabili
     public CardView unoControUno, cooperativo;
     public ImageView indietro;
+    public static boolean multigiocatore = false;
 
     //Chiama l'animazione all'avvio dell'activity
     @Override
@@ -67,6 +68,7 @@ public class MultigiocatoreActivity extends Animazioni implements View.OnClickLi
         switch (view.getId()){
             case R.id.uno_contro_uno:
             case R.id.cooperativo:
+                multigiocatore = true;
                 i = new Intent(this, BluetoothActivity.class);
                 Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i, b);
