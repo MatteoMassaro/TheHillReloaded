@@ -537,10 +537,6 @@ public class PowerUpGameView extends SurfaceView implements Runnable {
             Canvas canvas = getHolder().lockCanvas(); //canvas su cui verranno disegnate le bitmap, i testi, ecc.
             canvas.drawBitmap(background.background, background.getX(), background.getY(), paint); //disegna il background
             canvas.drawBitmap(background.spawnZone, background.getX(), this.screenY * 6 / 11, paint); //disegna la zona di spawn (rettangolo celeste)
-            canvas.drawText(String.valueOf(Junk.getSpeed()), 400, 200, paint);
-            canvas.drawText(String.valueOf(Junk.getSpeedIncrease()), 400, 240, paint);
-            canvas.drawText(String.valueOf(Junk.getDistance()), 400, 280, paint);
-            canvas.drawText(String.valueOf(RecUnit.getRecyclingSpeed()), 400, 320, paint);
 
             //per ogni unità di riciclo
             for (int x = 0; x < recUnitList.size(); x++) {

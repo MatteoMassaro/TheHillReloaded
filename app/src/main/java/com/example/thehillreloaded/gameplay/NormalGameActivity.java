@@ -15,10 +15,10 @@ import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.VolumeActivity;
 
-public class GameActivity extends AppCompatActivity {
+public class NormalGameActivity extends AppCompatActivity {
 
     //Variabili
-    private GameView gameView;
+    private NormalGameViewTry normalGameViewTry;
 
     public void changeAudio(int audioFlag){
         SharedPreferences.Editor editor;
@@ -70,8 +70,8 @@ public class GameActivity extends AppCompatActivity {
         //Imposta l'orientamento portrait come obbligatorio
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        gameView = new GameView(this, point.x, point.y, density);
-        setContentView(gameView);
+        normalGameViewTry = new NormalGameViewTry(this, point.x, point.y, density);
+        setContentView(normalGameViewTry);
         SharedPreferences preferenze = getSharedPreferences("salva1", MODE_PRIVATE);
         b = preferenze.getBoolean("musica", true);
         if (b) {
@@ -100,18 +100,18 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        gameView.pause();
+        normalGameViewTry.pause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        gameView.resume();
+        normalGameViewTry.resume();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        gameView.restart();
+        normalGameViewTry.restart();
     }
 }

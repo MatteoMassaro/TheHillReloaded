@@ -41,7 +41,7 @@
             android:name=".menu.InfoActivity"
             android:exported="false" />
         <activity
-            android:name=".gameplay.GameActivity"
+            android:name=".gameplay.NormalGameActivity"
             android:exported="false" />
         <activity
             android:name=".gameplay.PowerUpGameActivity"
