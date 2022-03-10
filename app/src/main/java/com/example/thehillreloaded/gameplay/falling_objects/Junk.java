@@ -17,6 +17,7 @@ public class Junk {
     private int dragX, dragY;
     private boolean doesIntersect = false;
     private boolean isBeingDragged = false;
+    private String junkType;
     private Resources res;
 
     public Junk(int x, int y) {
@@ -65,6 +66,10 @@ public class Junk {
 
     public static int getDistance() {
         return distance;
+    }
+
+    public static void setDistance(int new_distance) {
+        distance = new_distance;
     }
 
     public int getX() {
@@ -133,6 +138,14 @@ public class Junk {
 
     public boolean getBeingDragged() {
         return isBeingDragged;
+    }
+
+    public String getJunkType() {
+        return junkType;
+    }
+
+    public void setJunkType(String type) {
+        junkType = type;
     }
 
     public Bitmap getFallingObject() {

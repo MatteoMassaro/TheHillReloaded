@@ -19,6 +19,7 @@ public class Glass extends Junk {
 
     public Glass(int x, int y, Resources res) {
         super(x, y);
+        setJunkType("glass");
 
         glass = BitmapFactory.decodeResource(res, R.drawable.glass);
 
@@ -36,6 +37,10 @@ public class Glass extends Junk {
 
     public static double getTasso() {
         return tasso;
+    }
+
+    public static void setTasso(double new_tasso) {
+        tasso = new_tasso;
     }
 
     public static void resetValues() {

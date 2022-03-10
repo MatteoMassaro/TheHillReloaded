@@ -19,6 +19,7 @@ public class Steel extends Junk {
 
     public Steel(int x, int y, Resources res) {
         super(x, y);
+        setJunkType("steel");
 
         steel = BitmapFactory.decodeResource(res, R.drawable.steel);
 
@@ -44,8 +45,20 @@ public class Steel extends Junk {
         }
     }
 
+    public static boolean isTassoMassimoRaggiunto() {
+        return tassoMassimoRaggiunto;
+    }
+
+    public static void setTassoMassimoRaggiunto(boolean new_tassoMassimoRaggiunto) {
+        tassoMassimoRaggiunto = new_tassoMassimoRaggiunto;
+    }
+
     public static double getTasso() {
         return tasso;
+    }
+
+    public static void setTasso(double new_tasso) {
+        tasso = new_tasso;
     }
 
     public static void resetValues() {

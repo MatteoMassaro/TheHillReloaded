@@ -13,7 +13,6 @@ import com.example.thehillreloaded.R;
 public class Missioni extends  RecImages{
 
     private String descrizione;
-    private boolean completed;
     private int totJunkRec = 0, totRecUpgr = 0, totSunnyAccum = 0, totUnitPointsUsed = 0;
     private int goalJunkRec = 50, goalRecUpgr = 5, goalSunnyAccum = 60, goalUnitPointsUsed = 30;
     private int missionType;
@@ -32,14 +31,6 @@ public class Missioni extends  RecImages{
         super(x, y);
         setMissionType(type);
         setDescrizione(descr);
-    }
-
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
     }
 
     public void setDescrizione(String descrizione) {
@@ -94,31 +85,15 @@ public class Missioni extends  RecImages{
         return goalJunkRec;
     }
 
-    public void setGoalJunkRec(int goalJunkRec) {
-        this.goalJunkRec = goalJunkRec;
-    }
-
     public int getGoalRecUpgr() {
         return goalRecUpgr;
-    }
-
-    public void setGoalRecUpgr(int goalRecUpgr) {
-        this.goalRecUpgr = goalRecUpgr;
     }
 
     public int getGoalSunnyAccum() {
         return goalSunnyAccum;
     }
 
-    public void setGoalSunnyAccum(int goalSunnyAccum) {
-        this.goalSunnyAccum = goalSunnyAccum;
-    }
-
     public int getGoalUnitPointsUsed() {
         return goalUnitPointsUsed;
-    }
-
-    public void setGoalUnitPointsUsed(int goalTotUnitPointsUsed) {
-        this.goalUnitPointsUsed = goalTotUnitPointsUsed;
     }
 }

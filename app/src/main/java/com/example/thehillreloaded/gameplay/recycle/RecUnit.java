@@ -63,6 +63,14 @@ public class RecUnit {
         return recTotalUpgraded;
     }
 
+    public void setRecTotal(int recTot) {
+        this.recTotal = recTot;
+    }
+
+    public void setRecTotalUpgraded(int recTotUpgraded) {
+        this.recTotalUpgraded = recTotUpgraded;
+    }
+
     public void resetRecTotal() {
         recTotal = 0;
     }
@@ -173,6 +181,10 @@ public class RecUnit {
         return recycledUnit;
     }
 
+    public void setRecycledUnit(int recycledUnit) {
+        this.recycledUnit = recycledUnit;
+    }
+
     public void recycledUnitUpgradedPlus() {
         recycledUnitUpgraded++;
     }
@@ -183,6 +195,10 @@ public class RecUnit {
 
     public int getRecycledUnitUpgraded() {
         return recycledUnitUpgraded;
+    }
+
+    public void setRecycledUnitUpgraded(int recycledUnitUpgraded) {
+        this.recycledUnitUpgraded = recycledUnitUpgraded;
     }
 
     public int getMaxRecycledUnitUpgraded() {
@@ -217,6 +233,10 @@ public class RecUnit {
         junkBeingRecycled--;
     }
 
+    public void setJunkBeingRecycled(int junkBeingRecycled) {
+        this.junkBeingRecycled = junkBeingRecycled;
+    }
+
     public boolean getIsCheckingInfo() {
         return isCheckingInfo;
     }
@@ -245,6 +265,10 @@ public class RecUnit {
         unitPoints -= reduction;
     }
 
+    public void setUnitPoints(int unitPoints) {
+        this.unitPoints = unitPoints;
+    }
+
     public int getState() {
         return state;
     }
@@ -255,6 +279,10 @@ public class RecUnit {
 
     public void resetState() {
         state = 0;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     public Bitmap getRecUnit() {

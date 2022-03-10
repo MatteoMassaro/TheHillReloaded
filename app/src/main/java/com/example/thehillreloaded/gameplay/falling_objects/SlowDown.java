@@ -18,6 +18,7 @@ public class SlowDown extends PowerUp {
 
     public SlowDown(int x, int y, Resources res) {
         super(x,y);
+        setJunkType("slow_down");
 
         slowDown = BitmapFactory.decodeResource(res, R.drawable.slowdown);
 
@@ -62,6 +63,22 @@ public class SlowDown extends PowerUp {
         duration = 1500;
         currentDuration = 0;
         isPoweredUp = false;
+    }
+
+    public static int getCurrentDuration() {
+        return currentDuration;
+    }
+
+    public static void setCurrentDuration(int new_currentDuration) {
+        currentDuration = new_currentDuration;
+    }
+
+    public static boolean getIsPoweredUp() {
+        return isPoweredUp;
+    }
+
+    public static void setIsPoweredUp(boolean new_isPoweredUp) {
+        isPoweredUp = new_isPoweredUp;
     }
 
     public static int getDuration() {

@@ -20,6 +20,7 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
     public CardView giocatoreSingolo, multigiocatore;
     public ImageView logout, impostazioni, punteggi;
     public static double screenRatioX, screenRatioY, densityRatio;
+    public static String email = null;
 
     //Chiama l'animazione all'avvio dell'activity
     @Override

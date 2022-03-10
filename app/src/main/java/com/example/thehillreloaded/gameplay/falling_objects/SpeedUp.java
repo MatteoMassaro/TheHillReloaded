@@ -19,6 +19,7 @@ public class SpeedUp extends PowerUp {
 
     public SpeedUp(int x, int y, Resources res) {
         super(x,y);
+        setJunkType("speed_up");
 
         speedUp = BitmapFactory.decodeResource(res, R.drawable.speedup);
 
@@ -61,6 +62,22 @@ public class SpeedUp extends PowerUp {
         duration = 1500;
         currentDuration = 0;
         isPoweredUp = false;
+    }
+
+    public static int getCurrentDuration() {
+        return currentDuration;
+    }
+
+    public static void setCurrentDuration(int new_currentDuration) {
+        currentDuration = new_currentDuration;
+    }
+
+    public static boolean getIsPoweredUp() {
+        return isPoweredUp;
+    }
+
+    public static void setIsPoweredUp(boolean new_isPoweredUp) {
+        isPoweredUp = new_isPoweredUp;
     }
 
     public static int getDuration() {

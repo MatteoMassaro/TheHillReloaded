@@ -19,6 +19,7 @@ public class HazarWaste extends Junk {
 
     public HazarWaste(int x, int y, Resources res) {
         super(x, y);
+        setJunkType("hazar_waste");
 
         hazarWaste = BitmapFactory.decodeResource(res, R.drawable.radioactive);
 

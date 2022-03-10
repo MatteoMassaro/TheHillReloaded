@@ -32,7 +32,7 @@ public class GameBar {
         setMusicIconRed(BitmapFactory.decodeResource(res, R.drawable.musicred));
         this.setWidth((int)(getMusicIconRed().getWidth() * screenRatioX * densityRatio /30));
         this.setHeight((int)(getMusicIconRed().getHeight() * screenRatioY * densityRatio /30));
-        setPausaRect(Bitmap.createScaledBitmap(getPausaRect(), screenX, screenY*4/5, true));
+        setPausaRect(Bitmap.createScaledBitmap(getPausaRect(), screenX, (int)(screenY*0.87), true));
         setMissioniRect(Bitmap.createScaledBitmap(getMissioniRect(), screenX, screenY*4/5, true));
         setAudioIcon(Bitmap.createScaledBitmap(getAudioIcon(), getWidth() *3, getHeight()*3, true));
         setMusicIcon(Bitmap.createScaledBitmap(getMusicIcon(), getWidth() *3, getHeight()*3, true));
@@ -131,6 +131,10 @@ public class GameBar {
 
     public int getScore() {
         return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public boolean isMusicClicked() {

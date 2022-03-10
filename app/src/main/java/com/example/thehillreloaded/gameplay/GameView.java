@@ -70,7 +70,7 @@ public class GameView extends SurfaceView implements Runnable {
     //Variabili, liste e oggetti
 
     FirebaseDatabase database;
-    DatabaseReference myRef;
+    DatabaseReference ref;
 
     private Thread thread;
     private boolean isPlaying;
@@ -111,7 +111,6 @@ public class GameView extends SurfaceView implements Runnable {
         super(context);
 
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("scores");
 
         this.screenX = screenX;
         this.screenY = screenY;
@@ -122,6 +121,8 @@ public class GameView extends SurfaceView implements Runnable {
         spawnY = screenY * 6 / 11;
         isGameOver = false;
         pauseFlag = false;
+
+        //gameBar.increaseScore(myRef.child("discovery").child("score").);
 
         //definisci oggetti per la visualizzazione e la manipolazione di dati inerenti il background, il rettangolo di spawn, la barra di sopra, ecc.
         background = new Background(screenX, screenY, getResources());
@@ -295,6 +296,15 @@ public class GameView extends SurfaceView implements Runnable {
         Steel.resetValues();
         Plastic.resetValues();
         HazarWaste.resetValues();
+    }
+
+    //metodo per salvare la partita
+    public void save() {
+        saveGeneralData();
+        saveRecUnitData();
+        saveJunkData();
+
+        exit();
     }
 
 
@@ -1102,30 +1112,32 @@ public class GameView extends SurfaceView implements Runnable {
             //visualizza i testi e le icone della pausa
             canvas.drawBitmap(pause.getImageBitmap2(), pause.getX() * 31 , pause.getY(), paint);
             canvas.drawBitmap(gameBar.getPausaRect(), gameBar.getWidth() * 2/9, gameBar.getHeight() * 1/4, paint);
-            canvas.drawText("PAUSA",missioni.getWidth()*3, missioni.getHeight() * 11/2, paint);
+            canvas.drawText("PAUSA",missioni.getWidth()*3, (int)(missioni.getHeight() * 5.8), paint);
 
             if (gameBar.isMusicClicked() && GiocatoreSingoloActivity.b == true) {
-                canvas.drawBitmap(gameBar.getMusicIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 16, paint);
+                canvas.drawBitmap(gameBar.getMusicIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 17, paint);
 
             } else {
-                canvas.drawBitmap(gameBar.getMusicIconRed(), gameBar.getWidth() * 8, gameBar.getHeight() * 16, paint);
+                canvas.drawBitmap(gameBar.getMusicIconRed(), gameBar.getWidth() * 8, gameBar.getHeight() * 17, paint);
                 gameBar.setMusicClicked(false);
             }
-            canvas.drawText("MUSICA",missioni.getWidth()* 9/2, missioni.getHeight() * 13/2, otherTextInfoPaint);
+            canvas.drawText("MUSICA",missioni.getWidth()* 9/2, missioni.getHeight() * 14/2, otherTextInfoPaint);
 
             if (gameBar.isAudioClicked() && GiocatoreSingoloActivity.b1 == true) {
-                canvas.drawBitmap(gameBar.getAudioIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 20, paint);
+                canvas.drawBitmap(gameBar.getAudioIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 21, paint);
 
             } else {
-                canvas.drawBitmap(gameBar.getAudioIconRed(), gameBar.getWidth() * 8, gameBar.getHeight() * 20, paint);
+                canvas.drawBitmap(gameBar.getAudioIconRed(), gameBar.getWidth() * 8, gameBar.getHeight() * 21, paint);
                 gameBar.setAudioClicked(false);
             }
 
-            canvas.drawText("EFFETTI",missioni.getWidth()* 9/2, missioni.getHeight() * 16/2, otherTextInfoPaint);
-            canvas.drawBitmap(gameOver.getImageBitmap2(), gameBar.getWidth() * 8, gameBar.getHeight() * 24, paint);
-            canvas.drawText("RICOMINCIA",missioni.getWidth()* 9/2, missioni.getHeight() * 19/2, otherTextInfoPaint);
-            canvas.drawBitmap(gameOver.getImageBitmap3(), gameBar.getWidth() * 8, gameBar.getHeight() * 28, paint);
-            canvas.drawText("ESCI",missioni.getWidth()* 9/2, missioni.getHeight() * 11, otherTextInfoPaint);
+            canvas.drawText("EFFETTI",missioni.getWidth()* 9/2, missioni.getHeight() * 17/2, otherTextInfoPaint);
+            canvas.drawBitmap(gameOver.getImageBitmap2(), gameBar.getWidth() * 8, gameBar.getHeight() * 25, paint);
+            canvas.drawText("RICOMINCIA",missioni.getWidth()* 9/2, (int)(missioni.getHeight() * 9.83), otherTextInfoPaint);
+            canvas.drawBitmap(gameBar.getSaveIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 29, paint);
+            canvas.drawText("SALVA",missioni.getWidth()* 9/2, (int)(missioni.getHeight() * 11.35), otherTextInfoPaint);
+            canvas.drawBitmap(gameOver.getImageBitmap3(), gameBar.getWidth() * 8, gameBar.getHeight() * 33, paint);
+            canvas.drawText("ESCI",missioni.getWidth()* 9/2, (int)(missioni.getHeight() * 12.73), otherTextInfoPaint);
         }
     }
 
@@ -1199,12 +1211,13 @@ public class GameView extends SurfaceView implements Runnable {
             musicIsTouched(touchX, touchY); //disattiva o attiva la musica nel caso in cui l'icona venga toccata
             audioIsTouched(touchX, touchY); //disattiva o attiva gli effetti nel caso in cui l'icona venga toccata
             restartIsTouched(touchX, touchY); //ricomincia la partita se viene toccata l'icona relativa
+            saveIsTouched(touchX, touchY); //salva la partita se viene toccata l'icona relativa
             pauseExitIsTouched(touchX, touchY); //esci dal gioco se viene toccata l'icona relativa
         }
     }
 
     private void musicIsTouched(int touchX, int touchY) {
-        boolean isTouchingMusic = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 16 && touchX < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && touchY < gameBar.getHeight() * 16 + gameBar.getHeight()*3;
+        boolean isTouchingMusic = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 17 && touchX < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && touchY < gameBar.getHeight() * 17 + gameBar.getHeight()*3;
 
         //se l'utente sta toccando l'icona della musica
         if (isTouchingMusic) {
@@ -1220,7 +1233,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void audioIsTouched(int touchX, int touchY) {
-        boolean isTouchingAudio = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 20 && touchX < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && touchY < gameBar.getHeight() * 20 + gameBar.getHeight()*3;
+        boolean isTouchingAudio = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 21 && touchX < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && touchY < gameBar.getHeight() * 21 + gameBar.getHeight()*3;
 
         if (isTouchingAudio) { //se l'utente sta toccando l'icona degli effetti
             if (gameBar.isAudioClicked() && GiocatoreSingoloActivity.b1 == false){
@@ -1234,15 +1247,23 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void restartIsTouched(int touchX, int touchY) {
-        boolean isTouchingRestart = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 24 && touchX < gameBar.getWidth() * 8 + gameOver.getWidth() && touchY < gameBar.getHeight() * 24 + gameOver.getHeight();
+        boolean isTouchingRestart = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 25 && touchX < gameBar.getWidth() * 8 + gameOver.getWidth() && touchY < gameBar.getHeight() * 25 + gameOver.getHeight();
 
         if (isTouchingRestart) { //se è stato toccato il tasto per ricominciare
             restart(); //ricomincia la partita
         }
     }
 
+    private void saveIsTouched(int touchX, int touchY) {
+        boolean isTouchingSave = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 29 && touchX < gameBar.getWidth() * 8 + gameOver.getWidth() && touchY < gameBar.getHeight() * 29 + gameOver.getHeight();
+
+        if (isTouchingSave) { //se è stato toccato il tasto per salvare
+            save(); //salva la partita
+        }
+    }
+
     private void pauseExitIsTouched(int touchX, int touchY) {
-        boolean isTouchingPauseExit = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 28 && touchX < gameBar.getWidth() * 8 + gameOver.getWidth() && touchY < gameBar.getHeight() * 28 + gameOver.getHeight();
+        boolean isTouchingPauseExit = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 33 && touchX < gameBar.getWidth() * 8 + gameOver.getWidth() && touchY < gameBar.getHeight() * 33 + gameOver.getHeight();
 
         if (isTouchingPauseExit) { //se è stato toccato il tasto per uscire
             exit(); //esci dal gioco
@@ -1672,4 +1693,164 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
+    private void saveGeneralData() {
+        ref = database.getReference("general_data");
+        ref.child("difficoltà").setValue(DifficoltaActivity.difficoltà);
+        ref.child("modalità").setValue(GiocatoreSingoloActivity.modalità);
+        saveMissionData(ref);
+        ref.child("score").setValue(gameBar.getScore());
+        ref.child("sunny_points").setValue(sunnyPoints.getSunnyPoints());
+
+    }
+
+    private void saveMissionData(DatabaseReference ref) {
+        Missioni mission = listaMissioni.get(0);
+        ref.child("missioni").child("tot_junk_rec").setValue(mission.getTotJunkRec());
+        mission = listaMissioni.get(1);
+        ref.child("missioni").child("tot_rec_upgr").setValue(mission.getTotRecUpgr());
+        mission = listaMissioni.get(2);
+        ref.child("missioni").child("tot_sunny_accum").setValue(mission.getTotSunnyAccum());
+        mission = listaMissioni.get(3);
+        ref.child("missioni").child("tot_unit_points_used").setValue(mission.getTotUnitPointsUsed());
+    }
+
+    private void saveRecUnitData() {
+        ref = database.getReference("rec_unit");
+        ref.child("recycling_speed").setValue(RecUnit.getRecyclingSpeed());
+        saveGlassUnitData(ref);
+        savePaperUnitData(ref);
+        saveAluminumUnitData(ref);
+        saveSteelUnitData(ref);
+        savePlasticUnitData(ref);
+        saveEWasteUnitData(ref);
+        saveIncineratorData(ref);
+    }
+
+    private void saveRecUnit(DatabaseReference ref, RecUnit recUnit) {
+        ref.child("is_recycling").setValue(recUnit.getIsRecycling());
+        ref.child("is_unlocked").setValue(recUnit.getIsUnlocked());
+        ref.child("is_upgraded").setValue(recUnit.getIsUpgraded());
+        ref.child("junk_being_recycled").setValue(recUnit.getJunkBeingRecycled());
+        ref.child("rec_total").setValue(recUnit.getRecTotal());
+        ref.child("rec_total_upgraded").setValue(recUnit.getRecTotalUpgraded());
+        ref.child("recycled_unit").setValue(recUnit.getRecycledUnit());
+        ref.child("recycled_unit_upgraded").setValue(recUnit.getRecycledUnitUpgraded());
+        ref.child("state").setValue(recUnit.getState());
+        ref.child("unit_points").setValue(recUnit.getUnitPoints());
+    }
+
+    private void saveGlassUnitData(DatabaseReference ref) {
+        RecUnit glassUnit = recUnitList.get(0);
+        ref = ref.child("glass_unit");
+        saveRecUnit(ref, glassUnit);
+    }
+
+    private void savePaperUnitData(DatabaseReference ref) {
+        RecUnit paperUnit = recUnitList.get(1);
+        ref = ref.child("paper_unit");
+        saveRecUnit(ref, paperUnit);
+    }
+
+    private void saveAluminumUnitData(DatabaseReference ref) {
+        RecUnit aluminumUnit = recUnitList.get(2);
+        ref = ref.child("aluminum_unit");
+        saveRecUnit(ref, aluminumUnit);
+    }
+
+    private void saveSteelUnitData(DatabaseReference ref) {
+        RecUnit steelUnit = recUnitList.get(3);
+        ref = ref.child("steel_unit");
+        saveRecUnit(ref, steelUnit);
+    }
+
+    private void savePlasticUnitData(DatabaseReference ref) {
+        RecUnit plasticUnit = recUnitList.get(4);
+        ref = ref.child("plastic_unit");
+        saveRecUnit(ref, plasticUnit);
+    }
+
+    private void saveEWasteUnitData(DatabaseReference ref) {
+        RecUnit eWasteUnit = recUnitList.get(5);
+        ref = ref.child("ewaste_unit");
+        saveRecUnit(ref, eWasteUnit);
+    }
+
+    private void saveIncineratorData(DatabaseReference ref) {
+        RecUnit incinerator = recUnitList.get(6);
+        ref = ref.child("incinerator");
+        saveRecUnit(ref, incinerator);
+    }
+
+    protected void saveJunkData() {
+        ref = database.getReference("junk");
+        ref.child("distance").setValue(Junk.getDistance());
+        ref.child("speed").setValue(Junk.getSpeed());
+        ref.child("speed_increase").setValue(Junk.getSpeedIncrease());
+        saveGlassData(ref);
+        savePaperData(ref);
+        saveAluminumData(ref);
+        saveSteelData(ref);
+        savePlasticData(ref);
+        saveEWasteData(ref);
+        saveHazarWasteData(ref);
+        saveAllJunk(ref);
+    }
+
+    private void saveGlassData(DatabaseReference ref) {
+        ref = ref.child("glass");
+        ref.child("tasso").setValue(Glass.getTasso());
+    }
+
+    private void savePaperData(DatabaseReference ref) {
+        ref = ref.child("paper");
+        ref.child("tasso").setValue(Paper.getTasso());
+        ref.child("tasso_massimo_raggiunto").setValue(Paper.isTassoMassimoRaggiunto());
+    }
+
+    private void saveAluminumData(DatabaseReference ref) {
+        ref = ref.child("aluminum");
+        ref.child("tasso").setValue(Aluminum.getTasso());
+        ref.child("tasso_massimo_raggiunto").setValue(Aluminum.isTassoMassimoRaggiunto());
+    }
+
+    private void saveSteelData(DatabaseReference ref) {
+        ref = ref.child("steel");
+        ref.child("tasso").setValue(Steel.getTasso());
+        ref.child("tasso_massimo_raggiunto").setValue(Steel.isTassoMassimoRaggiunto());
+    }
+
+    private void savePlasticData(DatabaseReference ref) {
+        ref = ref.child("plastic");
+        ref.child("tasso").setValue(Plastic.getTasso());
+        ref.child("tasso_massimo_raggiunto").setValue(Plastic.isTassoMassimoRaggiunto());
+    }
+
+    private void saveEWasteData(DatabaseReference ref) {
+        ref = ref.child("ewaste");
+        ref.child("tasso").setValue(EWaste.getTasso());
+        ref.child("tasso_massimo_raggiunto").setValue(EWaste.isTassoMassimoRaggiunto());
+    }
+
+    private void saveHazarWasteData(DatabaseReference ref) {
+        ref = ref.child("hazar_waste");
+        ref.child("tasso").setValue(HazarWaste.getTasso());
+        ref.child("tasso_massimo_raggiunto").setValue(HazarWaste.isTassoMassimoRaggiunto());
+    }
+
+    private void saveAllJunk(DatabaseReference ref) {
+        int num_junk = 0;
+
+        for (int x = 0; x < junkList.size(); x++) {
+            Junk junk = junkList.get(x);
+
+            ref = ref.child("junk" + x);
+            ref.child("x").setValue(junk.getX());
+            ref.child("y").setValue(junk.getY());
+            ref.child("does_intersect").setValue(junk.getIntersection());
+            ref = ref.getParent();
+            num_junk++;
+        }
+
+        ref.child("num_junk").setValue(num_junk);
+    }
 }

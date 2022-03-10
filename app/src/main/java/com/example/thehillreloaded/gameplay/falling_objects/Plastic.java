@@ -20,6 +20,7 @@ public class Plastic extends Junk {
 
     public Plastic(int x, int y, Resources res) {
         super(x, y);
+        setJunkType("plastic");
 
         plastic = BitmapFactory.decodeResource(res, R.drawable.plastic);
 
@@ -49,8 +50,16 @@ public class Plastic extends Junk {
         return tassoMassimoRaggiunto;
     }
 
+    public static void setTassoMassimoRaggiunto(boolean new_tassoMassimoRaggiunto) {
+        tassoMassimoRaggiunto = new_tassoMassimoRaggiunto;
+    }
+
     public static double getTasso() {
         return tasso;
+    }
+
+    public static void setTasso(double new_tasso) {
+        tasso = new_tasso;
     }
 
     public static void resetValues() {

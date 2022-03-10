@@ -25,6 +25,7 @@ import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
 import com.example.thehillreloaded.menu.MenuActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.SchermataCaricamentoActivity;
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -234,5 +235,25 @@ public class PowerUpGameView extends GameView {
     @Override
     protected void usePreferences() {
         powerUpGameActivity.preferences();
+    }
+
+    @Override
+    protected void saveJunkData() {
+        super.saveJunkData();
+        ref = database.getReference("junk");
+        saveSlowDownData(ref);
+        saveSpeedUpData(ref);
+    }
+
+    private void saveSlowDownData(DatabaseReference ref) {
+        ref = ref.child("slow_down");
+        ref.child("current_duration").setValue(SlowDown.getCurrentDuration());
+        ref.child("is_powered_up").setValue(SlowDown.getIsPoweredUp());
+    }
+
+    private void saveSpeedUpData(DatabaseReference ref) {
+        ref = ref.child("speed_up");
+        ref.child("current_duration").setValue(SpeedUp.getCurrentDuration());
+        ref.child("is_powered_up").setValue(SpeedUp.getIsPoweredUp());
     }
 }
