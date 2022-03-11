@@ -70,19 +70,11 @@ public class PartitaSalvataActivity extends Animazioni implements View.OnClickLi
         Intent i;
         switch (view.getId()) {
             case R.id.partitaSalvata:
-                if(GiocatoreSingoloActivity.modalità == "classica") {
-                    i = new Intent(this, NormalGameActivity.class);
-                    Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
-                    startActivity(i, b);
-                    finish();
-                    break;
-                } else if (GiocatoreSingoloActivity.modalità == "power_up") {
-                    i = new Intent(this, PowerUpGameActivity.class);
-                    Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
-                    startActivity(i, b);
-                    finish();
-                    break;
-                }
+                i = new Intent(this, SchermataCaricamentoActivity.class);
+                Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+                startActivity(i, b);
+                finish();
+                break;
             case R.id.nuovaPartita:
                 i = new Intent(this, DifficoltaActivity.class);
                 Bundle b1 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();

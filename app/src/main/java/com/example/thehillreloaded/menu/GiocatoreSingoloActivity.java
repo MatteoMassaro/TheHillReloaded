@@ -7,14 +7,13 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import androidx.cardview.widget.CardView;
 
-import android.provider.Telephony;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.animazioni.Animazioni;
-import com.example.thehillreloaded.gameplay.GameActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -99,6 +98,7 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
         Intent i;
         switch (view.getId()){
             case R.id.modalitaClassica:
+                MenuActivity.modalità = "Classica";
                 classica = true;
                 powerUp = false;
                 modalità = "classica";
@@ -116,6 +116,7 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
                 break;
 
             case R.id.modalitaPowerUp:
+                MenuActivity.modalità = "Power-up";
                 powerUp = true;
                 classica = false;
                 modalità = "power_up";
