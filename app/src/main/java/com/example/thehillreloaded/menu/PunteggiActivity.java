@@ -2,7 +2,6 @@ package com.example.thehillreloaded.menu;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +27,7 @@ public class PunteggiActivity extends Animazioni {
     ListView listaPunteggi;
     FirebaseDatabase database;
     DatabaseReference myRef;
+    public static boolean accesso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +57,31 @@ public class PunteggiActivity extends Animazioni {
         });
 
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("score");
+        myRef = database.getReference("account");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                accesso = dataSnapshot.child("accesso").getValue(Boolean.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("", "Failed to read value.", error.toException());
+            }
+        });
+
+        myRef = null;
+
+        if(accesso) {
+            myRef = database.getReference("account").child("score");
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     dataSnapshot.getChildren();
                     long index = dataSnapshot.getChildrenCount();
                     String[] value = new String[(int) index];
-                    for(int x = 0; x < index; x++) {
+                    for (int x = 0; x < index; x++) {
                         value[x] = dataSnapshot.child("score" + x).getValue(String.class);
                         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, value);
                         listaPunteggi.setAdapter(arrayAdapter);
@@ -79,3 +96,4 @@ public class PunteggiActivity extends Animazioni {
             });
         }
     }
+}

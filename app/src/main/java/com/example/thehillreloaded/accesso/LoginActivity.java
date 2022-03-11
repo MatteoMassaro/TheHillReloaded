@@ -19,6 +19,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
 
@@ -30,7 +32,8 @@ public class LoginActivity extends Animazioni {
     TextInputEditText loginPassword;
     Button login, creaAccount;
     ImageView indietro;
-
+    FirebaseDatabase database;
+    DatabaseReference ref;
     FirebaseAuth mAuth;
 
     @Override
@@ -41,13 +44,16 @@ public class LoginActivity extends Animazioni {
         //Imposta l'orientamento portrait come obbligatorio
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        //Trova le view tramite l'id e le assegna alle variabili
         loginEmail = findViewById(R.id.email);
         loginPassword = findViewById(R.id.password);
         creaAccount = findViewById(R.id.creaAccount);
         login = findViewById(R.id.login);
         indietro = findViewById(R.id.indietro);
-
         mAuth = FirebaseAuth.getInstance();
+
+        database = FirebaseDatabase.getInstance();
+        ref = database.getReference("account").child("accesso");
 
         login.setOnClickListener(view -> {
             loginUser();
@@ -88,6 +94,7 @@ public class LoginActivity extends Animazioni {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
+                        ref.setValue(true);
                         Toast.makeText(LoginActivity.this, R.string.accesso_effettuato, Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(LoginActivity.this, MenuActivity.class));
                         finish();

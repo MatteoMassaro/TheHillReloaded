@@ -8,7 +8,6 @@ import android.os.Bundle;
 import androidx.cardview.widget.CardView;
 
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -25,7 +24,7 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
     //Variabili
     public CardView modalitaClassica, modalitaPowerUp;
     public ImageView indietro, info;
-    public static boolean classica, powerUp, partitaSalvata = false;
+    public static boolean classica, powerUp, partitaSalvata, accesso = false;
     public static boolean b, b1;
     public static String modalità, modalitàSalvata;
     FirebaseDatabase database;
@@ -75,7 +74,7 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
         clickButtonAnimation(info);
 
         database = FirebaseDatabase.getInstance();
-        ref = database.getReference("general_data");
+        ref = database.getReference("account").child("general_data");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -89,6 +88,22 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
                 Log.w("", "Failed to read value.", error.toException());
             }
         });
+
+        ref = null;
+        ref = database.getReference("account");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                accesso = dataSnapshot.child("accesso").getValue(Boolean.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("", "Failed to read value.", error.toException());
+            }
+        });
+
     }
 
     //Crea l'intent per passare all'activity successiva dopo la pressione di un pulsante
@@ -102,7 +117,7 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
                 classica = true;
                 powerUp = false;
                 modalità = "classica";
-                if(partitaSalvata && modalitàSalvata.equals(modalità)){
+                if(accesso && partitaSalvata && modalitàSalvata.equals(modalità)){
                     i = new Intent(this, PartitaSalvataActivity.class);
                     Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                     startActivity(i, b);
@@ -120,7 +135,7 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
                 powerUp = true;
                 classica = false;
                 modalità = "power_up";
-                if(partitaSalvata && modalitàSalvata.equals(modalità)){
+                if(accesso && partitaSalvata && modalitàSalvata.equals(modalità)){
                     i = new Intent(this, PartitaSalvataActivity.class);
                     Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                     startActivity(i, b);

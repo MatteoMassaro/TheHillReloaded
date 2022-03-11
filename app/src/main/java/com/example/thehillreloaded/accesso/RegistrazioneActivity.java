@@ -1,6 +1,7 @@
 package com.example.thehillreloaded.accesso;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,6 +19,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class RegistrazioneActivity extends Animazioni {
@@ -27,7 +30,8 @@ public class RegistrazioneActivity extends Animazioni {
     TextInputEditText regPassword;
     Button registrati, accountCreato;
     ImageView indietro;
-
+    FirebaseDatabase database;
+    DatabaseReference ref;
     FirebaseAuth mAuth;
 
     @Override
@@ -38,6 +42,7 @@ public class RegistrazioneActivity extends Animazioni {
         //Imposta l'orientamento portrait come obbligatorio
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        //Trova le view tramite l'id e le assegna alle variabili
         regUsername = findViewById(R.id.username);
         regEmail = findViewById(R.id.email);
         regPassword = findViewById(R.id.password);
@@ -46,6 +51,9 @@ public class RegistrazioneActivity extends Animazioni {
         indietro = findViewById(R.id.indietro);
 
         mAuth = FirebaseAuth.getInstance();
+
+        database = FirebaseDatabase.getInstance();
+        ref = database.getReference("account").child("accesso");
 
         registrati.setOnClickListener(view ->{
             createUser();
@@ -77,6 +85,10 @@ public class RegistrazioneActivity extends Animazioni {
         String email = regEmail.getText().toString();
         String password = regPassword.getText().toString();
 
+        SharedPreferences.Editor editor = getSharedPreferences("accesso",MODE_PRIVATE).edit();
+        editor.putString("username",username);
+        editor.apply();
+
         if(TextUtils.isEmpty(username)){
             regUsername.setError("L'username non può essere vuoto");
             regUsername.requestFocus();
@@ -92,6 +104,7 @@ public class RegistrazioneActivity extends Animazioni {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
+                        ref.setValue(true);
                         Toast.makeText(RegistrazioneActivity.this, R.string.registrazione_effettuata, Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(RegistrazioneActivity.this, LoginActivity.class));
                         finish();

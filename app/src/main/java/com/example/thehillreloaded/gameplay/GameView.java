@@ -113,7 +113,8 @@ public class GameView extends SurfaceView implements Runnable {
     private VolumeActivity volumeActivity;
     private boolean pauseFlag;
     private GameActivity gameActivity;
-    private long value, index;
+    private long value;
+    private static long index;
 
     public GameView(Context context, int screenX, int screenY, float density) {
         super(context);
@@ -230,8 +231,21 @@ public class GameView extends SurfaceView implements Runnable {
         Junk.setSpeedIncrease(Junk.getSpeedIncrease() * tassoDifficolta);
         RecUnit.setRecyclingSpeed(RecUnit.getRecyclingSpeed() / tassoDifficolta);
 
-        ref = database.getReference("junk");
+        ref = database.getReference("account").child("score");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                index = dataSnapshot.getChildrenCount();
+            }
 
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("", "Failed to read value.", error.toException());
+            }
+        });
+
+        ref = database.getReference("account").child("junk");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -346,14 +360,6 @@ public class GameView extends SurfaceView implements Runnable {
         Steel.resetValues();
         Plastic.resetValues();
         HazarWaste.resetValues();
-
-        saveBestScores();
-
-        if(!MenuActivity.modalità.equals("Multigiocatore")) {
-            ref.child("score" + index).setValue("Modalità: " + MenuActivity.modalità + "\n" + "Difficoltà: " + DifficoltaActivity.difficoltà + "\n" + "Punteggio: " + gameBar.getScore());
-        }else{
-            ref.child("score" + index).setValue("Modalità: " + MenuActivity.modalità + "\n" + "Punteggio: " + gameBar.getScore());
-        }
     }
 
     //Aggiorna i valori numerici inerenti alle unità di riciclo e ai rifiuti
@@ -852,6 +858,7 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas.drawText("RICOMINCIA", gameOver.getX() + gameOver.getWidth() + (int)(200*screenRatioX), gameOver.getY() + (int)(450*screenRatioY), paint);
                 canvas.drawText("ESCI", gameOver.getX() + gameOver.getWidth() + (int)(200*screenRatioX), gameOver.getY() + (int)(600*screenRatioY), paint);
                 isPlaying = false; //non verrà più rieseguito il corpo del metodo run() (simile a pause())
+                setScore();
             }
 
             isGameOver = true; //variabile che consente di interagire col pop-up di fine partita (assegnare true alla fine di questo corpo consente di ottenere una buona animazione)
@@ -1165,8 +1172,10 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawText("EFFETTI",missioni.getWidth()* 9/2, missioni.getHeight() * 17/2, otherTextInfoPaint);
             canvas.drawBitmap(gameOver.getImageBitmap2(), gameBar.getWidth() * 8, gameBar.getHeight() * 25, paint);
             canvas.drawText("RICOMINCIA",missioni.getWidth()* 9/2, (int)(missioni.getHeight() * 9.83), otherTextInfoPaint);
-            canvas.drawBitmap(gameBar.getSaveIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 29, paint);
-            canvas.drawText("SALVA",missioni.getWidth()* 9/2, (int)(missioni.getHeight() * 11.35), otherTextInfoPaint);
+            if(GiocatoreSingoloActivity.accesso) {
+                canvas.drawBitmap(gameBar.getSaveIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 29, paint);
+                canvas.drawText("SALVA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 11.35), otherTextInfoPaint);
+            }
             canvas.drawBitmap(gameOver.getImageBitmap3(), gameBar.getWidth() * 8, gameBar.getHeight() * 33, paint);
             canvas.drawText("ESCI",missioni.getWidth()* 9/2, (int)(missioni.getHeight() * 12.73), otherTextInfoPaint);
         }
@@ -1725,7 +1734,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void saveGeneralData() {
-        ref = database.getReference("general_data");
+        ref = database.getReference("account").child("general_data");
         ref.child("difficoltà").setValue(DifficoltaActivity.difficoltà);
         ref.child("modalità").setValue(GiocatoreSingoloActivity.modalità);
         saveMissionData(ref);
@@ -1746,7 +1755,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void saveRecUnitData() {
-        ref = database.getReference("rec_unit");
+        ref = database.getReference("account").child("rec_unit");
         ref.child("recycling_speed").setValue(RecUnit.getRecyclingSpeed());
         saveGlassUnitData(ref);
         savePaperUnitData(ref);
@@ -1813,7 +1822,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     protected void saveJunkData() {
-        ref = database.getReference("junk");
+        ref = database.getReference("account").child("junk");
         ref.child("distance").setValue(Junk.getDistance());
         ref.child("speed").setValue(Junk.getSpeed());
         ref.child("speed_increase").setValue(Junk.getSpeedIncrease());
@@ -1886,23 +1895,13 @@ public class GameView extends SurfaceView implements Runnable {
         ref.child("num_junk").setValue(num_junk);
     }
 
-    private void saveBestScores() {
-        ref = database.getReference("score");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                dataSnapshot.getChildren();
-                index = dataSnapshot.getChildrenCount();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("", "Failed to read value.", error.toException());
-            }
-        });
-
-        ref.child("score" + index ).setValue("Punteggio: "+ gameBar.getScore());
+    private void setScore(){
+        ref = database.getReference("account").child("score");
+        if(!MultigiocatoreActivity.multigiocatore) {
+            ref.child("score" + index).setValue("Modalità: " + MenuActivity.modalità + "\n" + "Difficoltà: " + DifficoltaActivity.difficoltà + "\n" + "Punteggio: " + gameBar.getScore());
+        }else {
+            ref.child("score" + index).setValue("Modalità: " + MenuActivity.modalità + "\n" + "Punteggio: " + gameBar.getScore());
+        }
     }
 
     private void retrieveData() {
