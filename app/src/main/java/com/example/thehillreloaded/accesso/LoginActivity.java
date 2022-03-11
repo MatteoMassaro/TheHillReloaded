@@ -90,17 +90,14 @@ public class LoginActivity extends Animazioni {
             loginPassword.setError("La password non può essere vuota");
             loginPassword.requestFocus();
         }else{
-            mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()){
-                        ref.setValue(true);
-                        Toast.makeText(LoginActivity.this, R.string.accesso_effettuato, Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LoginActivity.this, MenuActivity.class));
-                        finish();
-                    }else{
-                        Toast.makeText(LoginActivity.this, R.string.errore + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+            mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
+                    ref.setValue(true);
+                    Toast.makeText(LoginActivity.this, R.string.accesso_effettuato, Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(LoginActivity.this, MenuActivity.class));
+                    finish();
+                }else{
+                    Toast.makeText(LoginActivity.this, R.string.errore + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
