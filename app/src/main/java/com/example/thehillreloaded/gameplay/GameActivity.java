@@ -9,18 +9,26 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.VolumeActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class GameActivity extends AppCompatActivity {
 
     protected Point point;
     protected float density;
+    public static int i;
 
     public void changeAudio(int audioFlag){
         SharedPreferences.Editor editor;
@@ -79,6 +87,7 @@ public class GameActivity extends AppCompatActivity {
                 MusicPlayer.playMusic(this, R.raw.game_music);
             },2000);
         }
+
         VolumeActivity.flagMusic = 0;
         SharedPreferences preferenze1 = getSharedPreferences("salva2", MODE_PRIVATE);
         b1 = preferenze1.getBoolean("effetti", true);

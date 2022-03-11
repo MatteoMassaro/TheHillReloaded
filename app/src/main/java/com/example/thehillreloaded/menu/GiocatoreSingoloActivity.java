@@ -3,25 +3,34 @@ package com.example.thehillreloaded.menu;
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import androidx.cardview.widget.CardView;
+
+import android.provider.Telephony;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.example.thehillreloaded.R;
-import com.example.thehillreloaded.accesso.ModalitaAccessoActivity;
 import com.example.thehillreloaded.animazioni.Animazioni;
+import com.example.thehillreloaded.gameplay.GameActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class GiocatoreSingoloActivity extends Animazioni implements View.OnClickListener{
 
     //Variabili
     public CardView modalitaClassica, modalitaPowerUp;
     public ImageView indietro, info;
-    public static boolean classica, powerUp = false;
+    public static boolean classica, powerUp, partitaSalvata = false;
     public static boolean b, b1;
-    public static String modalità;
+    public static String modalità, modalitàSalvata;
+    FirebaseDatabase database;
+    DatabaseReference ref;
 
     //Chiama l'animazione all'avvio dell'activity
     @Override
@@ -65,6 +74,22 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
         clickButtonAnimation(modalitaPowerUp);
         clickButtonAnimation(indietro);
         clickButtonAnimation(info);
+
+        database = FirebaseDatabase.getInstance();
+        ref = database.getReference("general_data");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                partitaSalvata = dataSnapshot.child("is_saved").getValue(Boolean.class);
+                modalitàSalvata = dataSnapshot.child("modalità").getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("", "Failed to read value.", error.toException());
+            }
+        });
     }
 
     //Crea l'intent per passare all'activity successiva dopo la pressione di un pulsante
@@ -77,26 +102,43 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
                 classica = true;
                 powerUp = false;
                 modalità = "classica";
-                i = new Intent(this, DifficoltaActivity.class);
-                Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
-                startActivity(i, b);
-                finish();
+                if(partitaSalvata && modalitàSalvata.equals(modalità)){
+                    i = new Intent(this, PartitaSalvataActivity.class);
+                    Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+                    startActivity(i, b);
+                    finish();
+                }else {
+                    i = new Intent(this, DifficoltaActivity.class);
+                    Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+                    startActivity(i, b);
+                    finish();
+                }
                 break;
+
             case R.id.modalitaPowerUp:
                 powerUp = true;
                 classica = false;
                 modalità = "power_up";
-                i = new Intent(this, DifficoltaActivity.class);
-                Bundle b1 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
-                startActivity(i, b1);
-                finish();
+                if(partitaSalvata && modalitàSalvata.equals(modalità)){
+                    i = new Intent(this, PartitaSalvataActivity.class);
+                    Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+                    startActivity(i, b);
+                    finish();
+                }else {
+                    i = new Intent(this, DifficoltaActivity.class);
+                    Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+                    startActivity(i, b);
+                    finish();
+                }
                 break;
+
             case R.id.indietro:
                 i = new Intent(this, MenuActivity.class);
                 Bundle b2 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i, b2);
                 finish();
                 break;
+
             case R.id.info:
                 i = new Intent(this, InfoActivity.class);
                 Bundle b3 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();

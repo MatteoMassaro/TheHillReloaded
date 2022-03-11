@@ -25,6 +25,9 @@
     <string name="multigiocatore">MULTIGIOCATORE</string>
     <string name="modalità_classica">MODALITÀ CLASSICA</string>
     <string name="modalità_powerup">MODALITÀ POWER-UP</string>
+    <string name="scegli_partita">SCEGLI PARTITA</string>
+    <string name="partita_salvata">PARTITA SALVATA</string>
+    <string name="nuova_partita">NUOVA PARTITA</string>
     <string name="uno_contro_uno">1 VS 1</string>
     <string name="seleziona_giocatore">SELEZIONA UN GIOCATORE</string>
     <string name="stato">STATO</string>
