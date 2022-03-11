@@ -88,16 +88,13 @@ public class RegistrazioneActivity extends Animazioni {
             regPassword.setError("La password non può essere vuota");
             regPassword.requestFocus();
         }else{
-            mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()){
-                        Toast.makeText(RegistrazioneActivity.this, R.string.registrazione_effettuata, Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(RegistrazioneActivity.this, LoginActivity.class));
-                        finish();
-                    }else{
-                        Toast.makeText(RegistrazioneActivity.this, R.string.errore + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+            mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
+                    Toast.makeText(RegistrazioneActivity.this, R.string.registrazione_effettuata, Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(RegistrazioneActivity.this, LoginActivity.class));
+                    finish();
+                }else{
+                    Toast.makeText(RegistrazioneActivity.this, R.string.errore + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
