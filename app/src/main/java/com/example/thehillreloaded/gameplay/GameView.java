@@ -14,6 +14,7 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.example.thehillreloaded.R;
@@ -59,8 +60,12 @@ import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
 import com.example.thehillreloaded.menu.MultigiocatoreActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.VolumeActivity;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -106,6 +111,7 @@ public class GameView extends SurfaceView implements Runnable {
     private VolumeActivity volumeActivity;
     private boolean pauseFlag;
     private GameActivity gameActivity;
+    private long value;
 
     public GameView(Context context, int screenX, int screenY, float density) {
         super(context);
@@ -221,6 +227,20 @@ public class GameView extends SurfaceView implements Runnable {
         Junk.setSpeed(Junk.getSpeed() * tassoDifficolta);
         Junk.setSpeedIncrease(Junk.getSpeedIncrease() * tassoDifficolta);
         RecUnit.setRecyclingSpeed(RecUnit.getRecyclingSpeed() / tassoDifficolta);
+
+        ref = database.getReference("junk");
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                value = (long)snapshot.child("num_junk").getValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         //definisci tutti i paint
         paint = new Paint(); //uno generico
@@ -623,6 +643,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void drawBackground(Canvas canvas) {
         canvas.drawBitmap(background.background, background.getX(), background.getY(), paint); //disegna il background
         canvas.drawBitmap(background.spawnZone, background.getX(), this.screenY * 6 / 11, paint); //disegna la zona di spawn (rettangolo celeste)
+        canvas.drawText(String.valueOf(value), 200, 80, paint);
     }
 
     private void drawRecUnit(ArrayList<RecUnit> recUnitArrayList, Canvas canvas) {
@@ -1847,10 +1868,15 @@ public class GameView extends SurfaceView implements Runnable {
             ref.child("x").setValue(junk.getX());
             ref.child("y").setValue(junk.getY());
             ref.child("does_intersect").setValue(junk.getIntersection());
+            ref.child("type").setValue(junk.getJunkType());
             ref = ref.getParent();
             num_junk++;
         }
 
         ref.child("num_junk").setValue(num_junk);
+    }
+
+    private void retrieveData() {
+
     }
 }
