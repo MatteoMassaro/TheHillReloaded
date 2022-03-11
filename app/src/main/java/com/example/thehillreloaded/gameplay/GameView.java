@@ -11,8 +11,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
+import android.widget.ArrayAdapter;
 
 import androidx.core.content.res.ResourcesCompat;
 
@@ -59,8 +61,11 @@ import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
 import com.example.thehillreloaded.menu.MultigiocatoreActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.VolumeActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -106,12 +111,26 @@ public class GameView extends SurfaceView implements Runnable {
     private VolumeActivity volumeActivity;
     private boolean pauseFlag;
     private GameActivity gameActivity;
+    private long index;
 
     public GameView(Context context, int screenX, int screenY, float density) {
         super(context);
 
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("scores");
+        myRef = database.getReference("score");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                dataSnapshot.getChildren();
+                index = dataSnapshot.getChildrenCount();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("", "Failed to read value.", error.toException());
+            }
+        });
 
         this.screenX = screenX;
         this.screenY = screenY;
@@ -314,6 +333,8 @@ public class GameView extends SurfaceView implements Runnable {
         Steel.resetValues();
         Plastic.resetValues();
         HazarWaste.resetValues();
+
+        myRef.child("score" + index ).setValue("Punteggio: "+ gameBar.getScore());
     }
 
     //Aggiorna i valori numerici inerenti alle unità di riciclo e ai rifiuti

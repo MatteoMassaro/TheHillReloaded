@@ -35,6 +35,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHillReloaded">
         <activity
+            android:name=".menu.PartitaSalvataActivity"
+            android:exported="false" />
+        <activity
             android:name=".menu.PunteggiActivity"
             android:exported="false" />
         <activity
