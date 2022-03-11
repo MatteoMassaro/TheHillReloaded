@@ -27,7 +27,6 @@ public class PunteggiActivity extends Animazioni {
     ListView listaPunteggi;
     FirebaseDatabase database;
     DatabaseReference myRef;
-    public static boolean accesso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,24 +55,8 @@ public class PunteggiActivity extends Animazioni {
             }
         });
 
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("account");
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                accesso = dataSnapshot.child("accesso").getValue(Boolean.class);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("", "Failed to read value.", error.toException());
-            }
-        });
-
-        myRef = null;
-
-        if(accesso) {
+        if(MenuActivity.accesso) {
+            database = FirebaseDatabase.getInstance();
             myRef = database.getReference("account").child("score");
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
