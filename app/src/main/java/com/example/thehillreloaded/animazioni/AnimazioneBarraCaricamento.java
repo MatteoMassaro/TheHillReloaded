@@ -3,6 +3,7 @@ package com.example.thehillreloaded.animazioni;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.ProgressBar;
@@ -12,6 +13,11 @@ import com.example.thehillreloaded.gameplay.NormalGameActivity;
 import com.example.thehillreloaded.gameplay.PowerUpGameActivity;
 import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
 import com.example.thehillreloaded.menu.MultigiocatoreActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class AnimazioneBarraCaricamento extends Animation{

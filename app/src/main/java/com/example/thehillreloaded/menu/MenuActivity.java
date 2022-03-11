@@ -20,6 +20,7 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
     public CardView giocatoreSingolo, multigiocatore;
     public ImageView logout, impostazioni, punteggi;
     public static double screenRatioX, screenRatioY, densityRatio;
+    public static String modalità;
 
     //Chiama l'animazione all'avvio dell'activity
     @Override
@@ -89,6 +90,7 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
                 startActivity(i, b);
                 break;
             case R.id.multigiocatore:
+                modalità = "Multigiocatore";
                 i = new Intent(this, MultigiocatoreActivity.class);
                 Bundle b1 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i,b1);

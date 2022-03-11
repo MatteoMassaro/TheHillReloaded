@@ -67,7 +67,7 @@ public class PartitaSalvataActivity extends Animazioni implements View.OnClickLi
         Intent i;
         switch (view.getId()) {
             case R.id.partitaSalvata:
-                i = new Intent(this, GameActivity.class);
+                i = new Intent(this, SchermataCaricamentoActivity.class);
                 Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i, b);
                 finish();

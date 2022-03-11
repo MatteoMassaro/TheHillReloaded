@@ -58,6 +58,7 @@ import com.example.thehillreloaded.gameplay.recycle.RecUnit;
 import com.example.thehillreloaded.gameplay.recycle.SteelUnit;
 import com.example.thehillreloaded.menu.DifficoltaActivity;
 import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
+import com.example.thehillreloaded.menu.MenuActivity;
 import com.example.thehillreloaded.menu.MultigiocatoreActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.VolumeActivity;
@@ -334,7 +335,11 @@ public class GameView extends SurfaceView implements Runnable {
         Plastic.resetValues();
         HazarWaste.resetValues();
 
-        myRef.child("score" + index ).setValue("Punteggio: "+ gameBar.getScore());
+        if(!MenuActivity.modalità.equals("Multigiocatore")) {
+            myRef.child("score" + index).setValue("Modalità: " + MenuActivity.modalità + "\n" + "Difficoltà: " + DifficoltaActivity.difficoltà + "\n" + "Punteggio: " + gameBar.getScore());
+        }else{
+            myRef.child("score" + index).setValue("Modalità: " + MenuActivity.modalità + "\n" + "Punteggio: " + gameBar.getScore());
+        }
     }
 
     //Aggiorna i valori numerici inerenti alle unità di riciclo e ai rifiuti
