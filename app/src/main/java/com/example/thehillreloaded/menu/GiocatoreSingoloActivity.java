@@ -8,11 +8,11 @@ import android.os.Bundle;
 import androidx.cardview.widget.CardView;
 
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.example.thehillreloaded.R;
+import com.example.thehillreloaded.accesso.LoginActivity;
 import com.example.thehillreloaded.animazioni.Animazioni;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -74,21 +74,23 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
         clickButtonAnimation(indietro);
         clickButtonAnimation(info);
 
-        database = FirebaseDatabase.getInstance();
-        ref = database.getReference("general_data");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                partitaSalvata = dataSnapshot.child("is_saved").getValue(Boolean.class);
-                modalitàSalvata = dataSnapshot.child("modalità").getValue(String.class);
-            }
+        if(LoginActivity.currentUser != null) {
+            database = FirebaseDatabase.getInstance();
+            ref = database.getReference(LoginActivity.currentUser).child("general_data");
+            ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    partitaSalvata = dataSnapshot.child("is_saved").getValue(Boolean.class);
+                    modalitàSalvata = dataSnapshot.child("modalità").getValue(String.class);
+                }
 
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("", "Failed to read value.", error.toException());
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w("", "Failed to read value.", error.toException());
+                }
+            });
+        }
     }
 
     //Crea l'intent per passare all'activity successiva dopo la pressione di un pulsante
@@ -101,7 +103,7 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
                 MenuActivity.modalità = "Classica";
                 classica = true;
                 powerUp = false;
-                modalità = "classica";
+                modalità = "Classica";
                 if(partitaSalvata && modalitàSalvata.equals(modalità)){
                     i = new Intent(this, PartitaSalvataActivity.class);
                     Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
@@ -119,7 +121,7 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
                 MenuActivity.modalità = "Power-up";
                 powerUp = true;
                 classica = false;
-                modalità = "power_up";
+                modalità = "Power_up";
                 if(partitaSalvata && modalitàSalvata.equals(modalità)){
                     i = new Intent(this, PartitaSalvataActivity.class);
                     Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();

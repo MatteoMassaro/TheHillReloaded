@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.thehillreloaded.R;
+import com.example.thehillreloaded.accesso.LoginActivity;
 import com.example.thehillreloaded.accesso.ModalitaAccessoActivity;
 import com.example.thehillreloaded.animazioni.Animazioni;
 
@@ -20,7 +21,6 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
     public CardView giocatoreSingolo, multigiocatore;
     public ImageView logout, impostazioni, punteggi;
     public static double screenRatioX, screenRatioY, densityRatio;
-    public static String email = null;
     public static String modalità;
 
     //Chiama l'animazione all'avvio dell'activity
@@ -97,6 +97,7 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
                 startActivity(i,b1);
                 break;
             case R.id.logout:
+                LoginActivity.currentUser = null;
                 i = new Intent(this, ModalitaAccessoActivity.class);
                 Bundle b2 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i,b2);

@@ -14,12 +14,12 @@ import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.example.thehillreloaded.R;
+import com.example.thehillreloaded.accesso.LoginActivity;
 import com.example.thehillreloaded.gameplay.falling_objects.Aluminum;
 import com.example.thehillreloaded.gameplay.falling_objects.EWaste;
 import com.example.thehillreloaded.gameplay.falling_objects.Glass;
@@ -77,7 +77,7 @@ public class GameView extends SurfaceView implements Runnable {
     //Variabili, liste e oggetti
 
     FirebaseDatabase database;
-    DatabaseReference ref;
+    DatabaseReference mainRef, ref;
 
     private Thread thread;
     private boolean isPlaying;
@@ -119,6 +119,9 @@ public class GameView extends SurfaceView implements Runnable {
         super(context);
 
         database = FirebaseDatabase.getInstance();
+        if (LoginActivity.currentUser != null)
+            mainRef = database.getReference(LoginActivity.currentUser);
+
 
         this.screenX = screenX;
         this.screenY = screenY;
@@ -129,8 +132,6 @@ public class GameView extends SurfaceView implements Runnable {
         spawnY = screenY * 6 / 11;
         isGameOver = false;
         pauseFlag = false;
-
-        //gameBar.increaseScore(myRef.child("discovery").child("score").);
 
         //definisci oggetti per la visualizzazione e la manipolazione di dati inerenti il background, il rettangolo di spawn, la barra di sopra, ecc.
         background = new Background(screenX, screenY, getResources());
@@ -230,19 +231,20 @@ public class GameView extends SurfaceView implements Runnable {
         Junk.setSpeedIncrease(Junk.getSpeedIncrease() * tassoDifficolta);
         RecUnit.setRecyclingSpeed(RecUnit.getRecyclingSpeed() / tassoDifficolta);
 
-        ref = database.getReference("junk");
+        if (LoginActivity.currentUser != null && GiocatoreSingoloActivity.partitaSalvata) {
+            ref = mainRef.child("junk");
+            ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    value = (long)snapshot.child("num_junk").getValue();
+                }
 
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                value = (long)snapshot.child("num_junk").getValue();
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+                }
+            });
+        }
 
         //definisci tutti i paint
         paint = new Paint(); //uno generico
@@ -653,7 +655,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void drawBackground(Canvas canvas) {
         canvas.drawBitmap(background.background, background.getX(), background.getY(), paint); //disegna il background
         canvas.drawBitmap(background.spawnZone, background.getX(), this.screenY * 6 / 11, paint); //disegna la zona di spawn (rettangolo celeste)
-        canvas.drawText(String.valueOf(GiocatoreSingoloActivity.modalitàSalvata), 200, 80, paint);
+        //canvas.drawText(String.valueOf(GiocatoreSingoloActivity.modalitàSalvata), 200, 80, paint);
     }
 
     private void drawRecUnit(ArrayList<RecUnit> recUnitArrayList, Canvas canvas) {
@@ -1725,7 +1727,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void saveGeneralData() {
-        ref = database.getReference("general_data");
+        ref = mainRef.child("general_data");
         ref.child("difficoltà").setValue(DifficoltaActivity.difficoltà);
         ref.child("modalità").setValue(GiocatoreSingoloActivity.modalità);
         saveMissionData(ref);
@@ -1746,7 +1748,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void saveRecUnitData() {
-        ref = database.getReference("rec_unit");
+        ref = mainRef.child("rec_unit");
         ref.child("recycling_speed").setValue(RecUnit.getRecyclingSpeed());
         saveGlassUnitData(ref);
         savePaperUnitData(ref);
@@ -1813,7 +1815,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     protected void saveJunkData() {
-        ref = database.getReference("junk");
+        ref = mainRef.child("junk");
         ref.child("distance").setValue(Junk.getDistance());
         ref.child("speed").setValue(Junk.getSpeed());
         ref.child("speed_increase").setValue(Junk.getSpeedIncrease());
@@ -1887,12 +1889,13 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void saveBestScores() {
-        ref = database.getReference("score");
+        ref = mainRef.child("score");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 dataSnapshot.getChildren();
                 index = dataSnapshot.getChildrenCount();
+                ref.child("score" + index ).setValue("Punteggio: "+ gameBar.getScore());
             }
 
             @Override
@@ -1901,8 +1904,6 @@ public class GameView extends SurfaceView implements Runnable {
                 Log.w("", "Failed to read value.", error.toException());
             }
         });
-
-        ref.child("score" + index ).setValue("Punteggio: "+ gameBar.getScore());
     }
 
     private void retrieveData() {

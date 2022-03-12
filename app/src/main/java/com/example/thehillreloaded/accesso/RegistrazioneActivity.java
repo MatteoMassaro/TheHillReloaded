@@ -18,6 +18,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class RegistrazioneActivity extends Animazioni {
@@ -90,6 +92,9 @@ public class RegistrazioneActivity extends Animazioni {
         }else{
             mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()){
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference ref = database.getReference().child(mAuth.getCurrentUser().getUid()).child("general_data");
+                    setDatabaseContent(ref);
                     Toast.makeText(RegistrazioneActivity.this, R.string.registrazione_effettuata, Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(RegistrazioneActivity.this, LoginActivity.class));
                     finish();
@@ -98,5 +103,10 @@ public class RegistrazioneActivity extends Animazioni {
                 }
             });
         }
+    }
+
+    private void setDatabaseContent(DatabaseReference ref) {
+        ref.child("is_saved").setValue(false);
+        ref.child("modalità").setValue("classica");
     }
 }
