@@ -25,7 +25,7 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
     //Variabili
     public CardView modalitaClassica, modalitaPowerUp;
     public ImageView indietro, info;
-    public static boolean classica, powerUp, partitaSalvata = false;
+    public static boolean classica, powerUp, partitaSalvata, accesso = false;
     public static boolean b, b1;
     public static String modalità, modalitàSalvata;
     FirebaseDatabase database;

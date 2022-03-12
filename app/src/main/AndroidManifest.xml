@@ -53,7 +53,7 @@
             android:name=".menu.DifficoltaActivity"
             android:exported="false" />
         <activity
-            android:name=".menu.BluetoothActivity"
+            android:name=".menu.WiFiActivity"
             android:exported="false" />
         <activity
             android:name=".menu.LinguaActivity"

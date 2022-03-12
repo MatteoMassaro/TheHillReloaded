@@ -15,6 +15,8 @@ import com.example.thehillreloaded.menu.MenuActivity;
 import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.animazioni.Animazioni;
 import com.example.thehillreloaded.menu.VolumeActivity;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class ModalitaAccessoActivity extends Animazioni implements View.OnClickListener{
 
@@ -22,6 +24,8 @@ public class ModalitaAccessoActivity extends Animazioni implements View.OnClickL
     public CardView account, ospite;
     public Animation slideIn, slideOut;
     public static boolean isPlayingAudio = false;
+    FirebaseDatabase database;
+    DatabaseReference ref;
 
     //Chiama l'animazione all'avvio dell'activity
     @Override
@@ -81,6 +85,9 @@ public class ModalitaAccessoActivity extends Animazioni implements View.OnClickL
         //Animazione pulsanti
         clickButtonAnimation(account);
         clickButtonAnimation(ospite);
+
+        database = FirebaseDatabase.getInstance();
+        ref = database.getReference("account").child("accesso");
     }
 
     //Crea l'intent per passare all'activity successiva dopo la pressione di un bottone
@@ -94,6 +101,7 @@ public class ModalitaAccessoActivity extends Animazioni implements View.OnClickL
                 startActivity(i);
                 break;
             case R.id.ospite:
+                ref.setValue(false);
                 i = new Intent(this, MenuActivity.class);
                 startActivity(i);
                 break;

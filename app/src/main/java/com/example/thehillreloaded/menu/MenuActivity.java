@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import androidx.cardview.widget.CardView;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -14,6 +16,11 @@ import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.accesso.LoginActivity;
 import com.example.thehillreloaded.accesso.ModalitaAccessoActivity;
 import com.example.thehillreloaded.animazioni.Animazioni;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MenuActivity extends Animazioni implements View.OnClickListener{
 
@@ -22,6 +29,9 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
     public ImageView logout, impostazioni, punteggi;
     public static double screenRatioX, screenRatioY, densityRatio;
     public static String modalità;
+    public static boolean accesso;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
 
     //Chiama l'animazione all'avvio dell'activity
     @Override
@@ -77,6 +87,21 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
         clickButtonAnimation(logout);
         clickButtonAnimation(impostazioni);
         clickButtonAnimation(punteggi);
+
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("account");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                accesso = dataSnapshot.child("accesso").getValue(Boolean.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("", "Failed to read value.", error.toException());
+            }
+        });
     }
 
     //Crea l'intent per passare all'activity successiva dopo la pressione di un pulsante

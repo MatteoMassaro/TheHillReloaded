@@ -1,6 +1,7 @@
 package com.example.thehillreloaded.accesso;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -29,7 +30,8 @@ public class RegistrazioneActivity extends Animazioni {
     TextInputEditText regPassword;
     Button registrati, accountCreato;
     ImageView indietro;
-
+    FirebaseDatabase database;
+    DatabaseReference ref;
     FirebaseAuth mAuth;
 
     @Override
@@ -40,6 +42,7 @@ public class RegistrazioneActivity extends Animazioni {
         //Imposta l'orientamento portrait come obbligatorio
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        //Trova le view tramite l'id e le assegna alle variabili
         regUsername = findViewById(R.id.username);
         regEmail = findViewById(R.id.email);
         regPassword = findViewById(R.id.password);
@@ -48,6 +51,9 @@ public class RegistrazioneActivity extends Animazioni {
         indietro = findViewById(R.id.indietro);
 
         mAuth = FirebaseAuth.getInstance();
+
+        database = FirebaseDatabase.getInstance();
+        ref = database.getReference("account").child("accesso");
 
         registrati.setOnClickListener(view ->{
             createUser();
@@ -78,6 +84,10 @@ public class RegistrazioneActivity extends Animazioni {
         String username = regUsername.getText().toString();
         String email = regEmail.getText().toString();
         String password = regPassword.getText().toString();
+
+        SharedPreferences.Editor editor = getSharedPreferences("accesso",MODE_PRIVATE).edit();
+        editor.putString("username",username);
+        editor.apply();
 
         if(TextUtils.isEmpty(username)){
             regUsername.setError("L'username non può essere vuoto");
