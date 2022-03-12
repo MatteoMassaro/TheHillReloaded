@@ -69,7 +69,7 @@ public class MultigiocatoreActivity extends Animazioni implements View.OnClickLi
             case R.id.uno_contro_uno:
             case R.id.cooperativo:
                 multigiocatore = true;
-                i = new Intent(this, BluetoothActivity.class);
+                i = new Intent(this, WiFiActivity.class);
                 Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i, b);
                 finish();
