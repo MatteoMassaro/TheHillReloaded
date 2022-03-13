@@ -19,8 +19,8 @@ public class SunnyPow extends PowerUp {
 
         sunnyPow = BitmapFactory.decodeResource(res, R.drawable.sun_powerup);
 
-        super.setWidth((int) (sunnyPow.getWidth() * screenRatioX * densityRatio/ 2.1));
-        super.setHeight((int) (sunnyPow.getHeight() * screenRatioY * densityRatio/ 2.1));
+        super.setWidth((int) (sunnyPow.getWidth() * screenRatioX * densityRatio/ 7));
+        super.setHeight((int) (sunnyPow.getHeight() * screenRatioY * densityRatio/ 7));
 
         sunnyPow = Bitmap.createScaledBitmap(sunnyPow, getWidth(), getHeight(), true);
     }

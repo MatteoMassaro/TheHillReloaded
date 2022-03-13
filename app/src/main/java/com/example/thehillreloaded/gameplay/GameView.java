@@ -1044,7 +1044,7 @@ public class GameView extends SurfaceView implements Runnable {
         canvas.drawBitmap(missioni.getImageBitmap(), missioni.getX() * 33 / 2, missioni.getY() - (float) (10 * screenRatioY), paint);
         if (!MultigiocatoreActivity.multigiocatore) {
             canvas.drawText("Difficoltà:", sunnyPoints.getX() + (int) (sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 0.8), textInfoPaint);
-            //canvas.drawText(DifficoltaActivity.difficoltà, sunnyPoints.getX() + (int) (sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 1.4), textInfoPaint);
+            canvas.drawText(DifficoltaActivity.difficoltà, sunnyPoints.getX() + (int) (sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 1.4), textInfoPaint);
         }
 
     }
