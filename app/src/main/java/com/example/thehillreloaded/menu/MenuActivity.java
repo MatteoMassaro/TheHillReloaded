@@ -87,21 +87,6 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
         clickButtonAnimation(logout);
         clickButtonAnimation(impostazioni);
         clickButtonAnimation(punteggi);
-
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("account");
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                accesso = dataSnapshot.child("accesso").getValue(Boolean.class);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("", "Failed to read value.", error.toException());
-            }
-        });
     }
 
     //Crea l'intent per passare all'activity successiva dopo la pressione di un pulsante

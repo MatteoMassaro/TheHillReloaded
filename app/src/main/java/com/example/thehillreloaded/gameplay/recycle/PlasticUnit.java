@@ -19,7 +19,7 @@ public class PlasticUnit extends RecUnit{
 
     public PlasticUnit(int x, int y, Resources res) {
         super(x, y);
-        setUnitType("Plastica");
+        setUnitType("plastic_unit");
         setRecycleScore(10);
         setUnitPrice(35);
 

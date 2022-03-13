@@ -19,7 +19,7 @@ public class EWasteUnit extends RecUnit{
 
     public EWasteUnit(int x, int y, Resources res) {
         super(x, y);
-        setUnitType("Rifiuti tecnologici");
+        setUnitType("ewaste_unit");
         setRecycleScore(12);
         setUnitPrice(40);
 

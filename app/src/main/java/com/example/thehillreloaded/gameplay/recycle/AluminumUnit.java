@@ -19,7 +19,7 @@ public class AluminumUnit extends RecUnit {
 
     public AluminumUnit(int x, int y, Resources res) {
         super(x, y);
-        setUnitType("Alluminio");
+        setUnitType("aluminum_unit");
         setRecycleScore(6);
         setUnitPrice(25);
 

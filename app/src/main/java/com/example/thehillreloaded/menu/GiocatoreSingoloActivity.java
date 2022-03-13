@@ -104,7 +104,7 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
                 classica = true;
                 powerUp = false;
                 modalità = "Classica";
-                if(partitaSalvata && modalitàSalvata.equals(modalità)){
+                if(partitaSalvata && modalitàSalvata.equals(modalità) && LoginActivity.currentUser != null){
                     i = new Intent(this, PartitaSalvataActivity.class);
                     Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                     startActivity(i, b);
@@ -122,7 +122,7 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
                 powerUp = true;
                 classica = false;
                 modalità = "Power_up";
-                if(partitaSalvata && modalitàSalvata.equals(modalità)){
+                if(partitaSalvata && modalitàSalvata.equals(modalità) && LoginActivity.currentUser != null){
                     i = new Intent(this, PartitaSalvataActivity.class);
                     Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                     startActivity(i, b);

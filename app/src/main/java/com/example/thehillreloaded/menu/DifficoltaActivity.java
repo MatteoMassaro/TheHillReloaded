@@ -77,6 +77,7 @@ public class DifficoltaActivity extends Animazioni implements View.OnClickListen
                 case R.id.facile:
                     tassoDifficolta = 0.8;
                     difficoltà = "Facile";
+                    GiocatoreSingoloActivity.partitaSalvata = false;
                     i = new Intent(this, SchermataCaricamentoActivity.class);
                     b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                     startActivity(i, b);
@@ -85,6 +86,7 @@ public class DifficoltaActivity extends Animazioni implements View.OnClickListen
                 case R.id.media:
                     tassoDifficolta = 1;
                     difficoltà = "Media";
+                    GiocatoreSingoloActivity.partitaSalvata = false;
                     i = new Intent(this, SchermataCaricamentoActivity.class);
                     b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                     startActivity(i, b);
@@ -93,6 +95,7 @@ public class DifficoltaActivity extends Animazioni implements View.OnClickListen
                 case R.id.difficile:
                     tassoDifficolta = 1.25;
                     difficoltà = "Difficile";
+                    GiocatoreSingoloActivity.partitaSalvata = false;
                     i = new Intent(this, SchermataCaricamentoActivity.class);
                     b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                     startActivity(i, b);

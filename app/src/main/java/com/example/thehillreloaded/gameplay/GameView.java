@@ -11,6 +11,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
@@ -80,7 +81,7 @@ public class GameView extends SurfaceView implements Runnable {
     DatabaseReference mainRef, ref;
 
     private Thread thread;
-    private boolean isPlaying;
+    private boolean isPlaying = false;
     protected static int nJunk;
     private final double designX = 1080f, designY = 2072f, designDensity = 2.75;
     private int screenX, screenY;
@@ -113,14 +114,10 @@ public class GameView extends SurfaceView implements Runnable {
     private VolumeActivity volumeActivity;
     private boolean pauseFlag;
     private GameActivity gameActivity;
-    private long value, index = -1;
+    private int num_junk, index;
 
     public GameView(Context context, int screenX, int screenY, float density) {
         super(context);
-
-        database = FirebaseDatabase.getInstance();
-        if (LoginActivity.currentUser != null)
-            mainRef = database.getReference(LoginActivity.currentUser);
 
         this.screenX = screenX;
         this.screenY = screenY;
@@ -131,6 +128,10 @@ public class GameView extends SurfaceView implements Runnable {
         spawnY = screenY * 6 / 11;
         isGameOver = false;
         pauseFlag = false;
+
+        database = FirebaseDatabase.getInstance();
+        if (LoginActivity.currentUser != null)
+            mainRef = database.getReference(LoginActivity.currentUser);
 
         //definisci oggetti per la visualizzazione e la manipolazione di dati inerenti il background, il rettangolo di spawn, la barra di sopra, ecc.
         background = new Background(screenX, screenY, getResources());
@@ -214,11 +215,6 @@ public class GameView extends SurfaceView implements Runnable {
         listaMissioni.add(new Missioni(missioni.getX(), missioni.getY(), 2, "Guadagna " + GoalSunnyAcc + " Sunny\npoints.", getResources()));
         listaMissioni.add(new Missioni(missioni.getX(), missioni.getY(), 3, "Usa " + GoalUnitPointsUsed + " Unit points.", getResources()));
 
-        //aggiungi il primo rifiuto alla lista dei rifiuti
-        Random random = new Random();
-        Glass glass = new Glass(0, 0, getResources());
-        junkList.add(new Glass(random.nextInt(spawnBoundX - glass.getWidth()) + (int) (25 * screenRatioX), spawnY, getResources()));
-
         //definisci l'oggetto per la visualizzazione delle info riguardanti l'oggetto ottenuto utilizzando gli unitPoints
         materialInfo = new MaterialInfo(0, (int) (230 * screenRatioY), getResources());
 
@@ -226,9 +222,23 @@ public class GameView extends SurfaceView implements Runnable {
         confirmBuilding = new ConfirmBuilding((int) (90 * screenRatioX), (int) (750 * screenRatioY), getResources());
 
         //modifica la velocità dei rifiuti e la velocità di riciclo in base alla difficoltà scelta
-        Junk.setSpeed(Junk.getSpeed() * tassoDifficolta);
-        Junk.setSpeedIncrease(Junk.getSpeedIncrease() * tassoDifficolta);
-        RecUnit.setRecyclingSpeed(RecUnit.getRecyclingSpeed() / tassoDifficolta);
+        if(!GiocatoreSingoloActivity.partitaSalvata) {
+            //aggiungi il primo rifiuto alla lista dei rifiuti
+            Random random = new Random();
+            Glass glass = new Glass(0, 0, getResources());
+            junkList.add(new Glass(random.nextInt(spawnBoundX - glass.getWidth()) + (int) (25 * screenRatioX), spawnY, getResources()));
+
+            //modifica la velocità dei rifiuti e la velocità di riciclo in base alla difficoltà scelta
+            Junk.setSpeed(Junk.getSpeed() * tassoDifficolta);
+            Junk.setSpeedIncrease(Junk.getSpeedIncrease() * tassoDifficolta);
+            RecUnit.setRecyclingSpeed(RecUnit.getRecyclingSpeed() / tassoDifficolta);
+
+            if(LoginActivity.currentUser != null) {
+                ref = mainRef.child("general_data");
+                ref.child("is_saved").setValue(false);
+            }
+        }
+
         retrieveData();
 
         //definisci tutti i paint
@@ -250,6 +260,7 @@ public class GameView extends SurfaceView implements Runnable {
         otherTextInfoPaint = new Paint(); //uno per il testo di ciò che riguarda le missioni e le informazioni degli oggetti ottenuti con gli unitPoints
         otherTextInfoPaint.setTextSize(36 * (float) (screenRatioX * screenRatioY * densityRatio));
         otherTextInfoPaint.setTypeface(ResourcesCompat.getFont(context, R.font.bevan));
+
     }
 
     @Override
@@ -630,7 +641,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void drawBackground(Canvas canvas) {
         canvas.drawBitmap(background.background, background.getX(), background.getY(), paint); //disegna il background
         canvas.drawBitmap(background.spawnZone, background.getX(), this.screenY * 6 / 11, paint); //disegna la zona di spawn (rettangolo celeste)
-        //canvas.drawText(String.valueOf(GiocatoreSingoloActivity.modalitàSalvata), 200, 80, paint);
+
     }
 
     private void drawRecUnit(ArrayList<RecUnit> recUnitArrayList, Canvas canvas) {
@@ -1033,7 +1044,7 @@ public class GameView extends SurfaceView implements Runnable {
         canvas.drawBitmap(missioni.getImageBitmap(), missioni.getX() * 33 / 2, missioni.getY() - (float) (10 * screenRatioY), paint);
         if (!MultigiocatoreActivity.multigiocatore) {
             canvas.drawText("Difficoltà:", sunnyPoints.getX() + (int) (sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 0.8), textInfoPaint);
-            canvas.drawText(DifficoltaActivity.difficoltà, sunnyPoints.getX() + (int) (sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 1.4), textInfoPaint);
+            //canvas.drawText(DifficoltaActivity.difficoltà, sunnyPoints.getX() + (int) (sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 1.4), textInfoPaint);
         }
 
     }
@@ -1260,6 +1271,7 @@ public class GameView extends SurfaceView implements Runnable {
         boolean isTouchingSave = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 29 && touchX < gameBar.getWidth() * 8 + gameOver.getWidth() && touchY < gameBar.getHeight() * 29 + gameOver.getHeight();
 
         if (isTouchingSave) { //se è stato toccato il tasto per salvare
+            if (LoginActivity.currentUser != null)
             save(); //salva la partita
         }
     }
@@ -1705,6 +1717,7 @@ public class GameView extends SurfaceView implements Runnable {
         ref = mainRef.child("general_data");
         ref.child("difficoltà").setValue(DifficoltaActivity.difficoltà);
         ref.child("modalità").setValue(GiocatoreSingoloActivity.modalità);
+        ref.child("is_saved").setValue(true);
         saveMissionData(ref);
         ref.child("score").setValue(gameBar.getScore());
         ref.child("sunny_points").setValue(sunnyPoints.getSunnyPoints());
@@ -1800,6 +1813,8 @@ public class GameView extends SurfaceView implements Runnable {
         savePlasticData(ref);
         saveEWasteData(ref);
         saveHazarWasteData(ref);
+        saveSlowDownData(ref);
+        saveSpeedUpData(ref);
         saveAllJunk(ref);
     }
 
@@ -1844,6 +1859,14 @@ public class GameView extends SurfaceView implements Runnable {
         ref.child("tasso_massimo_raggiunto").setValue(HazarWaste.isTassoMassimoRaggiunto());
     }
 
+    protected void saveSlowDownData(DatabaseReference ref) {
+        ref = ref.child("slow_down");
+    }
+
+    protected void saveSpeedUpData(DatabaseReference ref) {
+        ref = ref.child("speed_up");
+    }
+
     private void saveAllJunk(DatabaseReference ref) {
         int num_junk = 0;
 
@@ -1867,7 +1890,7 @@ public class GameView extends SurfaceView implements Runnable {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                index = snapshot.getChildrenCount();
+                index = Math.toIntExact(snapshot.getChildrenCount());
                 ref.child("score" + index).setValue("Modalità: " + GiocatoreSingoloActivity.modalità + " - Difficoltà: " + DifficoltaActivity.difficoltà + " - Punteggio: " + String.valueOf(gameBar.getScore()));
             }
 
@@ -1881,18 +1904,298 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void retrieveData() {
         if (LoginActivity.currentUser != null && GiocatoreSingoloActivity.partitaSalvata) {
-            ref = mainRef.child("junk");
-            ref.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    value = (long) snapshot.child("num_junk").getValue();
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
+            retrieveGeneralData();
+            retrieveRecUnitData();
+            retrieveJunkData();
         }
+    }
+
+    private void retrieveGeneralData() {
+        ref = mainRef.child("general_data");
+        ref.child("is_saved").setValue(false);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                DifficoltaActivity.difficoltà = snapshot.child("difficoltà").getValue(String.class);
+                GiocatoreSingoloActivity.modalità = snapshot.child("modalità").getValue(String.class);
+                gameBar.setScore(snapshot.child("score").getValue(Integer.class));
+                sunnyPoints.setSunnyPoints(snapshot.child("sunny_points").getValue(Integer.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        retrieveMissionsData();
+    }
+
+    private void retrieveMissionsData() {
+        ref = ref.child("missioni");
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listaMissioni.get(0).setTotJunkRec(snapshot.child("tot_junk_rec").getValue(Integer.class));
+                listaMissioni.get(1).setTotRecUpgr(snapshot.child("tot_rec_upgr").getValue(Integer.class));
+                listaMissioni.get(2).setTotSunnyAccum(snapshot.child("tot_sunny_accum").getValue(Integer.class));
+                listaMissioni.get(3).setTotUnitPointsUsed(snapshot.child("tot_unit_points_used").getValue(Integer.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void retrieveRecUnitData() {
+        ref = mainRef.child("rec_unit");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                RecUnit.setRecyclingSpeed(snapshot.child("recycling_speed").getValue(Double.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        retrieveRecUnit(recUnitList.get(0), ref);
+        retrieveRecUnit(recUnitList.get(1), ref);
+        retrieveRecUnit(recUnitList.get(2), ref);
+        retrieveRecUnit(recUnitList.get(3), ref);
+        retrieveRecUnit(recUnitList.get(4), ref);
+        retrieveRecUnit(recUnitList.get(5), ref);
+        retrieveRecUnit(recUnitList.get(6), ref);
+    }
+
+    private void retrieveRecUnit(RecUnit recUnit, DatabaseReference ref) {
+        ref = ref.child(recUnit.getUnitType());
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                recUnit.setIsRecycling(snapshot.child("is_recycling").getValue(Boolean.class));
+                recUnit.setIsUnlocked(snapshot.child("is_unlocked").getValue(Boolean.class));
+                recUnit.setIsUpgraded(snapshot.child("is_upgraded").getValue(Boolean.class));
+                recUnit.setJunkBeingRecycled(snapshot.child("junk_being_recycled").getValue(Integer.class));
+                recUnit.setRecTotal(snapshot.child("rec_total").getValue(Integer.class));
+                recUnit.setRecTotalUpgraded(snapshot.child("rec_total_upgraded").getValue(Integer.class));
+                recUnit.setRecycledUnit(snapshot.child("recycled_unit").getValue(Integer.class));
+                recUnit.setRecycledUnitUpgraded(snapshot.child("recycled_unit_upgraded").getValue(Integer.class));
+                recUnit.setState(snapshot.child("state").getValue(Integer.class));
+                recUnit.setUnitPoints(snapshot.child("unit_points").getValue(Integer.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void retrieveJunkData() {
+        ref = mainRef.child("junk");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Junk.setDistance(snapshot.child("distance").getValue(Integer.class));
+                Junk.setSpeed(snapshot.child("speed").getValue(Double.class));
+                Junk.setSpeedIncrease(snapshot.child("speed_increase").getValue(Double.class));
+                num_junk = snapshot.child("num_junk").getValue(Integer.class);
+                retrieveAllJunk(snapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        retrieveGlassData(ref);
+        retrievePaperData(ref);
+        retrieveAluminumData(ref);
+        retrieveSteelData(ref);
+        retrievePlasticData(ref);
+        retrieveEWasteData(ref);
+        retrieveHazarWasteData(ref);
+        retrieveSlowDownData(ref);
+        retrieveSpeedUpData(ref);
+    }
+
+    private void retrieveGlassData(DatabaseReference ref) {
+        ref = ref.child("glass");
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Glass.setTasso(snapshot.child("tasso").getValue(Double.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void retrievePaperData(DatabaseReference ref) {
+        ref = ref.child("paper");
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Paper.setTasso(snapshot.child("tasso").getValue(Double.class));
+                Paper.setTassoMassimoRaggiunto(snapshot.child("tasso_massimo_raggiunto").getValue(Boolean.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void retrieveAluminumData(DatabaseReference ref) {
+        ref = ref.child("aluminum");
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Aluminum.setTasso(snapshot.child("tasso").getValue(Double.class));
+                Aluminum.setTassoMassimoRaggiunto(snapshot.child("tasso_massimo_raggiunto").getValue(Boolean.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void retrieveSteelData(DatabaseReference ref) {
+        ref = ref.child("steel");
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Steel.setTasso(snapshot.child("tasso").getValue(Double.class));
+                Steel.setTassoMassimoRaggiunto(snapshot.child("tasso_massimo_raggiunto").getValue(Boolean.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void retrievePlasticData(DatabaseReference ref) {
+        ref = ref.child("plastic");
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Plastic.setTasso(snapshot.child("tasso").getValue(Double.class));
+                Plastic.setTassoMassimoRaggiunto(snapshot.child("tasso_massimo_raggiunto").getValue(Boolean.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void retrieveEWasteData(DatabaseReference ref) {
+        ref = ref.child("ewaste");
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                EWaste.setTasso(snapshot.child("tasso").getValue(Double.class));
+                EWaste.setTassoMassimoRaggiunto(snapshot.child("tasso_massimo_raggiunto").getValue(Boolean.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void retrieveHazarWasteData(DatabaseReference ref) {
+        ref = ref.child("hazar_waste");
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                HazarWaste.setTasso(snapshot.child("tasso").getValue(Double.class));
+                HazarWaste.setTassoMassimoRaggiunto(snapshot.child("tasso_massimo_raggiunto").getValue(Boolean.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    protected void retrieveSlowDownData(DatabaseReference ref) {
+        ref = ref.child("slow_down");
+    }
+
+    protected void retrieveSpeedUpData(DatabaseReference ref) {
+        ref = ref.child("speed_up");
+    }
+
+    private void retrieveAllJunk(DataSnapshot snapshot) {
+        for (int i = 0; i < num_junk; i++) {
+            DataSnapshot snap = snapshot.child("junk" + i);
+            String junkType = snap.child("type").getValue(String.class);
+            boolean intersection = snap.child("does_intersect").getValue(Boolean.class);
+            int x = snap.child("x").getValue(Integer.class);
+            int y = snap.child("y").getValue(Integer.class);
+            retrieveSingleJunk(junkType, x, y);
+        }
+    }
+
+    private void retrieveSingleJunk(String junkType, int x, int y) {
+        if (junkType.equals("glass")) {
+            junkList.add(new Glass(x, y, getResources()));
+
+        } else if (junkType.equals("paper")) {
+            junkList.add(new Paper(x, y, getResources()));
+
+        } else if (junkType.equals("aluminum")) {
+            junkList.add(new Aluminum(x, y, getResources()));
+
+        } else if (junkType.equals("steel")) {
+            junkList.add(new Steel(x, y, getResources()));
+
+        } else if (junkType.equals("plastic")) {
+            junkList.add(new Plastic(x, y, getResources()));
+
+        } else if (junkType.equals("ewaste")) {
+            junkList.add(new EWaste(x, y, getResources()));
+
+        } else if (junkType.equals("hazar_waste")) {
+            junkList.add(new HazarWaste(x, y, getResources()));
+
+        }
+
+        retrieveSingleSlowDown(junkType, x, y);
+        retrieveSingleSpeedUp(junkType, x, y);
+    }
+
+    protected void retrieveSingleSlowDown(String junkType, int x, int y) {
+
+    }
+
+    protected void retrieveSingleSpeedUp(String junkType, int x, int y) {
+
     }
 }

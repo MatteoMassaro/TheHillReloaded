@@ -6,6 +6,9 @@ import static com.example.thehillreloaded.menu.MusicPlayer.stopMusic;
 
 import android.content.Context;
 import android.content.Intent;
+import android.provider.ContactsContract;
+
+import androidx.annotation.NonNull;
 
 import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.gameplay.falling_objects.Aluminum;
@@ -25,7 +28,10 @@ import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
 import com.example.thehillreloaded.menu.MenuActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.SchermataCaricamentoActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -38,9 +44,11 @@ public class PowerUpGameView extends GameView {
         super(context, screenX, screenY, density);
 
         powerUpGameActivity = (PowerUpGameActivity) context;
-        PowerUp.setTasso(PowerUp.getTasso() / tassoDifficolta);
-        SlowDown.setDuration((int) (SlowDown.getDuration() / tassoDifficolta));
-        SpeedUp.setDuration((int) (SpeedUp.getDuration() / tassoDifficolta));
+        if(!GiocatoreSingoloActivity.partitaSalvata) {
+            PowerUp.setTasso(PowerUp.getTasso() / tassoDifficolta);
+            SlowDown.setDuration((int) (SlowDown.getDuration() / tassoDifficolta));
+            SpeedUp.setDuration((int) (SpeedUp.getDuration() / tassoDifficolta));
+        }
     }
 
     //metodo per ricominciare la partita
@@ -240,20 +248,65 @@ public class PowerUpGameView extends GameView {
     @Override
     protected void saveJunkData() {
         super.saveJunkData();
-        ref = database.getReference("junk");
-        saveSlowDownData(ref);
-        saveSpeedUpData(ref);
     }
 
-    private void saveSlowDownData(DatabaseReference ref) {
-        ref = ref.child("slow_down");
+    @Override
+    protected void saveSlowDownData(DatabaseReference ref) {
         ref.child("current_duration").setValue(SlowDown.getCurrentDuration());
         ref.child("is_powered_up").setValue(SlowDown.getIsPoweredUp());
     }
 
-    private void saveSpeedUpData(DatabaseReference ref) {
-        ref = ref.child("speed_up");
+    @Override
+    protected void saveSpeedUpData(DatabaseReference ref) {
         ref.child("current_duration").setValue(SpeedUp.getCurrentDuration());
         ref.child("is_powered_up").setValue(SpeedUp.getIsPoweredUp());
+    }
+
+    @Override
+    protected void retrieveSlowDownData(DatabaseReference ref) {
+        super.retrieveSlowDownData(ref);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                SlowDown.setCurrentDuration(snapshot.child("current_duration").getValue(Integer.class));
+                SlowDown.setIsPoweredUp(snapshot.child("is_powered_up").getValue(Boolean.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void retrieveSpeedUpData(DatabaseReference ref) {
+        super.retrieveSlowDownData(ref);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                SpeedUp.setCurrentDuration(snapshot.child("current_duration").getValue(Integer.class));
+                SpeedUp.setIsPoweredUp(snapshot.child("is_powered_up").getValue(Boolean.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void retrieveSingleSlowDown(String junkType, int x, int y) {
+        if(junkType.equals("slow_down")) {
+            junkList.add(new SlowDown(x, y, getResources()));
+        }
+    }
+
+    @Override
+    protected void retrieveSingleSpeedUp(String junkType, int x, int y) {
+        if(junkType.equals("speed_up")) {
+            junkList.add(new SpeedUp(x, y, getResources()));
+        }
     }
 }
