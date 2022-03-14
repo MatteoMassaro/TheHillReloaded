@@ -11,8 +11,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
@@ -63,7 +61,6 @@ import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
 import com.example.thehillreloaded.menu.MultigiocatoreActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.VolumeActivity;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -1259,10 +1256,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void restartIsTouched(int touchX, int touchY) {
         boolean isTouchingRestart = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 25 && touchX < gameBar.getWidth() * 8 + gameOver.getWidth() && touchY < gameBar.getHeight() * 25 + gameOver.getHeight();
-
-        if (isTouchingRestart) { //se è stato toccato il tasto per ricominciare
-            if (LoginActivity.currentUser != null)
-                saveScores();
+        if(isTouchingRestart) {
             restart(); //ricomincia la partita
         }
     }
@@ -1278,10 +1272,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void pauseExitIsTouched(int touchX, int touchY) {
         boolean isTouchingPauseExit = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 33 && touchX < gameBar.getWidth() * 8 + gameOver.getWidth() && touchY < gameBar.getHeight() * 33 + gameOver.getHeight();
-
-        if (isTouchingPauseExit) { //se è stato toccato il tasto per uscire
-            if (LoginActivity.currentUser != null)
-                saveScores();
+        if (isTouchingPauseExit){
             exit(); //esci dal gioco
             exit();
         }
@@ -1290,6 +1281,8 @@ public class GameView extends SurfaceView implements Runnable {
     private void gameOverPopupIsShowing(int touchX, int touchY) {
         //se è apparso il pop-up di fine partita
         if (isGameOver) {
+                if (LoginActivity.currentUser != null)
+                    saveScores();
             redoIsTouched(touchX, touchY); //se viene toccata l'icona "Ricomincia", ricomincia la partita
             gameOverExitIsTouched(touchX, touchY); //se viene toccata l'icona di "Esci", esci dal gioco
         }
@@ -1300,8 +1293,6 @@ public class GameView extends SurfaceView implements Runnable {
 
         //se è stato toccato il tasto di ricomincia
         if (isTouchingRedo) {
-            if (LoginActivity.currentUser != null)
-                saveScores();
             restart(); //ricomincia la partita
         }
     }
@@ -1310,8 +1301,6 @@ public class GameView extends SurfaceView implements Runnable {
         boolean isTouchingGameOverExit = (touchX >= gameOver.getX() + (int) (170 * screenRatioX) && touchY >= gameOver.getY() + (int) (500 * screenRatioY) && touchX < gameOver.getX() + (int) (170 * screenRatioX) + gameOver.getWidth() && touchY < gameOver.getY() + (int) (500 * screenRatioY) + gameOver.getHeight());
 
         if (isTouchingGameOverExit) { //se è stato toccato il tasto per uscire
-            if (LoginActivity.currentUser != null)
-                saveScores();
             exit(); //esci dal gioco
             exit();
         }
@@ -1891,7 +1880,7 @@ public class GameView extends SurfaceView implements Runnable {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 index = Math.toIntExact(snapshot.getChildrenCount());
-                ref.child("score" + index).setValue("Modalità: " + GiocatoreSingoloActivity.modalità + " - Difficoltà: " + DifficoltaActivity.difficoltà + " - Punteggio: " + String.valueOf(gameBar.getScore()));
+                ref.child("score" + index).setValue("Modalità: " + GiocatoreSingoloActivity.modalità + "\n" + "Difficoltà: " + DifficoltaActivity.difficoltà + "\n" + "Punteggio: " + String.valueOf(gameBar.getScore()));
             }
 
             @Override
