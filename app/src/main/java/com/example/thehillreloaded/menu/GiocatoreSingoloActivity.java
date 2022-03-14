@@ -121,7 +121,7 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
                 MenuActivity.modalità = "Power-up";
                 powerUp = true;
                 classica = false;
-                modalità = "Power_up";
+                modalità = "Power-up";
                 if(partitaSalvata && modalitàSalvata.equals(modalità) && LoginActivity.currentUser != null){
                     i = new Intent(this, PartitaSalvataActivity.class);
                     Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();

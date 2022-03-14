@@ -70,7 +70,7 @@ public class WiFiActivity extends Animazioni {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bluetooth);
+        setContentView(R.layout.activity_wifi);
 
         //Trova le view tramite l'id e le assegna alle variabili
         listaDispositivi = findViewById(R.id.listaDispositivi);
