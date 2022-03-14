@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.thehillreloaded.R;
+import com.example.thehillreloaded.accesso.LoginActivity;
 import com.example.thehillreloaded.animazioni.Animazioni;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,7 +27,7 @@ public class PunteggiActivity extends Animazioni {
     ImageView indietro;
     ListView listaPunteggi;
     FirebaseDatabase database;
-    DatabaseReference myRef;
+    DatabaseReference mainRef, myRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +56,10 @@ public class PunteggiActivity extends Animazioni {
             }
         });
 
-        if(MenuActivity.accesso) {
-            database = FirebaseDatabase.getInstance();
-            myRef = database.getReference("account").child("score");
+        database = FirebaseDatabase.getInstance();
+        if (LoginActivity.currentUser != null) {
+            mainRef = database.getReference(LoginActivity.currentUser);
+            myRef = mainRef.child("score");
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
