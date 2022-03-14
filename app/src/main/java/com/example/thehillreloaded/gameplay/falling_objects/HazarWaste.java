@@ -40,6 +40,10 @@ public class HazarWaste extends Junk {
         return tassoMassimoRaggiunto;
     }
 
+    public static void setTassoMassimoRaggiunto(boolean new_tassoMassimoRaggiunto) {
+        tassoMassimoRaggiunto = new_tassoMassimoRaggiunto;
+    }
+
     public static void tassoMassimoRaggiunto() {
         if (tasso > 0.05) {
             tassoMassimoRaggiunto = true;
@@ -48,6 +52,10 @@ public class HazarWaste extends Junk {
 
     public static double getTasso() {
         return tasso;
+    }
+
+    public static void setTasso(double new_tasso) {
+        tasso = new_tasso;
     }
 
     public static void resetValues() {

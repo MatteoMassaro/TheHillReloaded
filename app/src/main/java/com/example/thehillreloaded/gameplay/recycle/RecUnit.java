@@ -145,6 +145,10 @@ public class RecUnit {
         isUnlocked = true;
     }
 
+    public void setIsUnlocked(boolean isTrue) {
+        isUnlocked = isTrue;
+    }
+
     public boolean getIsUnlocking() {
         return isUnlocking;
     }

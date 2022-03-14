@@ -19,7 +19,7 @@ public class PaperUnit extends RecUnit{
 
     public PaperUnit(int x, int y, Resources res) {
         super(x,y);
-        setUnitType("Carta");
+        setUnitType("paper_unit");
         setRecycleScore(4);
         setUnitPrice(12);
 

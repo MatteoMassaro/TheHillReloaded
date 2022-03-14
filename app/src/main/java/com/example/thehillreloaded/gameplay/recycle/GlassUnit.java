@@ -20,7 +20,7 @@ public class GlassUnit extends RecUnit {
 
     public GlassUnit(int x, int y, Resources res) {
         super(x, y);
-        setUnitType("Vetro");
+        setUnitType("glass_unit");
         setRecycleScore(3);
         setIsUnlockedToTrue();
 

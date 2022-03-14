@@ -17,7 +17,7 @@ public class Incinerator extends RecUnit {
 
     public Incinerator(int x, int y, Resources res) {
         super(x, y);
-        setUnitType("Inceneritore");
+        setUnitType("incinerator");
         setIsUnlockedToTrue();
 
         incinerator = BitmapFactory.decodeResource(res, R.drawable.incinerator);

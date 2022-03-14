@@ -9,15 +9,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
 import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.animazioni.Animazioni;
 import com.example.thehillreloaded.menu.MenuActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,12 +23,11 @@ import java.util.Objects;
 public class LoginActivity extends Animazioni {
 
 
-    TextInputEditText loginEmail;
-    TextInputEditText loginPassword;
-    Button login, creaAccount;
-    ImageView indietro;
-    FirebaseDatabase database;
-    DatabaseReference ref;
+    private TextInputEditText loginEmail;
+    private TextInputEditText loginPassword;
+    private Button login, creaAccount;
+    private ImageView indietro;
+    public static String currentUser = null;
     FirebaseAuth mAuth;
 
     @Override
@@ -52,9 +46,6 @@ public class LoginActivity extends Animazioni {
         indietro = findViewById(R.id.indietro);
         mAuth = FirebaseAuth.getInstance();
 
-        database = FirebaseDatabase.getInstance();
-        ref = database.getReference("account").child("accesso");
-
         login.setOnClickListener(view -> {
             loginUser();
         });
@@ -64,12 +55,9 @@ public class LoginActivity extends Animazioni {
         });
 
         //Crea l'intent per passare all'activity successiva dopo la pressione del pulsante
-        indietro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, ModalitaAccessoActivity.class);
-                startActivity(i);
-            }
+        indietro.setOnClickListener(view -> {
+            Intent i = new Intent(LoginActivity.this, ModalitaAccessoActivity.class);
+            startActivity(i);
         });
 
         //Animazione pulsanti
@@ -92,7 +80,7 @@ public class LoginActivity extends Animazioni {
         }else{
             mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()){
-                    ref.setValue(true);
+                    currentUser = mAuth.getUid();
                     Toast.makeText(LoginActivity.this, R.string.accesso_effettuato, Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(LoginActivity.this, MenuActivity.class));
                     finish();

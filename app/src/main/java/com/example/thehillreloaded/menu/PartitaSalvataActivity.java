@@ -76,6 +76,7 @@ public class PartitaSalvataActivity extends Animazioni implements View.OnClickLi
                 finish();
                 break;
             case R.id.nuovaPartita:
+                GiocatoreSingoloActivity.partitaSalvata = false;
                 i = new Intent(this, DifficoltaActivity.class);
                 Bundle b1 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i, b1);
