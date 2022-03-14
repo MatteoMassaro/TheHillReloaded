@@ -83,11 +83,7 @@ public class RegistrazioneActivity extends Animazioni {
 
         String username = regUsername.getText().toString();
         String email = regEmail.getText().toString();
-        String password = regPassword.getText().toString();
-
-        SharedPreferences.Editor editor = getSharedPreferences("accesso",MODE_PRIVATE).edit();
-        editor.putString("username",username);
-        editor.apply();
+        String password = regPassword.getText().toString();;
 
         if(TextUtils.isEmpty(username)){
             regUsername.setError("L'username non può essere vuoto");
