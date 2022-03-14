@@ -16,6 +16,7 @@ public class SunnyPow extends PowerUp {
 
     public SunnyPow(int x, int y, Resources res) {
         super(x,y);
+        setJunkType("sunny_pow");
 
         sunnyPow = BitmapFactory.decodeResource(res, R.drawable.sun_powerup);
 

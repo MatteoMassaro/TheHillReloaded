@@ -44,7 +44,9 @@ public class PowerUpGameView extends GameView {
         super(context, screenX, screenY, density);
 
         powerUpGameActivity = (PowerUpGameActivity) context;
+        //se non si sta ripartendo da una partita salvata
         if(!GiocatoreSingoloActivity.partitaSalvata) {
+            //imposta i valori dei power-up in base alla difficoltà scelta
             PowerUp.setTasso(PowerUp.getTasso() / tassoDifficolta);
             SlowDown.setDuration((int) (SlowDown.getDuration() / tassoDifficolta));
             SpeedUp.setDuration((int) (SpeedUp.getDuration() / tassoDifficolta));
@@ -152,64 +154,52 @@ public class PowerUpGameView extends GameView {
     }
 
     @Override
-    protected void junkIsTouched(int touchX, int touchY) {
+    protected void activatePowerUp(Junk junk, int junkIndex) {
+        ((PowerUp) junk).applyPowerUp(); //applica il power up
+        junkList.remove(junkIndex); //rimuovi il power up dallo schermo
 
-        //per ciascun rifiuto presente sullo schermo
-        for (int i = 0; i < junkList.size(); i++) {
-            Junk junk = junkList.get(i);
-            boolean isTouching = (touchX >= junk.getX() && touchY >= junk.getY() && touchX < junk.getX() + junk.getWidth() && touchY < junk.getY() + junk.getHeight());
+        if (junk instanceof SunnyPow) { //se si tratta del power up dei sunnyPoints
+            sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints()+2); //aumenta il numero dei sunnyPoints di due
 
-            //se si sta toccando il rifiuto i-esimo
-            if (isTouching && !(junk instanceof PowerUp)) {
-                nJunk = i; //imposta la variabile nJunk
-            } else if (isTouching && junk instanceof PowerUp) {
-                ((PowerUp) junk).applyPowerUp(); //applica il power up
-                junkList.remove(i); //rimuovi il power up dallo schermo
+        } else if (junk instanceof ClearJunk) { //se si tratta del power up ClearJunk
+            Random random = new Random();
+            int size = junkList.size();
+            int firstJunk = random.nextInt(size);
+            int secondJunk = random.nextInt(size);
+            int amountOfPowerUps = 0;
 
-                if (junk instanceof SunnyPow) { //se si tratta del power up dei sunnyPoints
-                    sunnyPoints.setSunnyPoints(sunnyPoints.getSunnyPoints()+2); //aumenta il numero dei sunnyPoints di due
+            for (int x = 0; x < junkList.size(); x++) {
 
-                } else if (junk instanceof ClearJunk) { //se si tratta del power up ClearJunk
-                    Random random = new Random();
-                    int size = junkList.size();
-                    int firstJunk = random.nextInt(size);
-                    int secondJunk = random.nextInt(size);
-                    int amountOfPowerUps = 0;
-
-                    for (int x = 0; x < junkList.size(); x++) {
-
-                        if (junkList.get(x) instanceof PowerUp) {
-                            amountOfPowerUps++;
-                        }
-                    }
-
-                    if (size - amountOfPowerUps >= 2) { //se si hanno almeno due rifiuti sullo schermo
-
-                        // finché le variabili firstJunk e secondJunk sono uguali o sono tali da trovare solo potenziamenti
-                        while (junkList.get(firstJunk) instanceof PowerUp || junkList.get(secondJunk) instanceof PowerUp || firstJunk == secondJunk) {
-                            firstJunk = random.nextInt(size); //ricalcolale randomicamente
-                            secondJunk = random.nextInt(size);
-                        }
-
-                        if (firstJunk > secondJunk) { //se firstJunk è maggiore di secondJunk
-                            junkList.remove(firstJunk); //rimuovi i rifiuti all'indice firstJunk
-                            junkList.remove(secondJunk); //e secondJunk
-
-                        } else { //altrimenti
-                            junkList.remove(secondJunk); //rimuovi i rifiuti all'indice secondJunk
-                            junkList.remove(firstJunk); //e firstJunk
-                        }
-
-                    } else if (size - amountOfPowerUps == 1) { //se si ha un solo rifiuto sullo schermo
-
-                        // finché l'oggetto all'indice firstJunk è un power up
-                        while (junkList.get(firstJunk) instanceof PowerUp) {
-                            firstJunk = random.nextInt(size); //ricalcola la variabile firstJunk
-                        }
-
-                        junkList.remove(firstJunk); //rimuovi il rifiuto all'indice firstJunk
-                    }
+                if (junkList.get(x) instanceof PowerUp) {
+                    amountOfPowerUps++;
                 }
+            }
+
+            if (size - amountOfPowerUps >= 2) { //se si hanno almeno due rifiuti sullo schermo
+
+                // finché le variabili firstJunk e secondJunk sono uguali o sono tali da trovare solo potenziamenti
+                while (junkList.get(firstJunk) instanceof PowerUp || junkList.get(secondJunk) instanceof PowerUp || firstJunk == secondJunk) {
+                    firstJunk = random.nextInt(size); //ricalcolale randomicamente
+                    secondJunk = random.nextInt(size);
+                }
+
+                if (firstJunk > secondJunk) { //se firstJunk è maggiore di secondJunk
+                    junkList.remove(firstJunk); //rimuovi i rifiuti all'indice firstJunk
+                    junkList.remove(secondJunk); //e secondJunk
+
+                } else { //altrimenti
+                    junkList.remove(secondJunk); //rimuovi i rifiuti all'indice secondJunk
+                    junkList.remove(firstJunk); //e firstJunk
+                }
+
+            } else if (size - amountOfPowerUps == 1) { //se si ha un solo rifiuto sullo schermo
+
+                // finché l'oggetto all'indice firstJunk è un power up
+                while (junkList.get(firstJunk) instanceof PowerUp) {
+                    firstJunk = random.nextInt(size); //ricalcola la variabile firstJunk
+                }
+
+                junkList.remove(firstJunk); //rimuovi il rifiuto all'indice firstJunk
             }
         }
     }
@@ -246,18 +236,15 @@ public class PowerUpGameView extends GameView {
     }
 
     @Override
-    protected void saveJunkData() {
-        super.saveJunkData();
-    }
-
-    @Override
     protected void saveSlowDownData(DatabaseReference ref) {
+        //salva i valori inerenti al power-up SlowDown
         ref.child("current_duration").setValue(SlowDown.getCurrentDuration());
         ref.child("is_powered_up").setValue(SlowDown.getIsPoweredUp());
     }
 
     @Override
     protected void saveSpeedUpData(DatabaseReference ref) {
+        //salva i valori inerenti al power-up SpeedUp
         ref.child("current_duration").setValue(SpeedUp.getCurrentDuration());
         ref.child("is_powered_up").setValue(SpeedUp.getIsPoweredUp());
     }
@@ -268,6 +255,7 @@ public class PowerUpGameView extends GameView {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //prendi e imposta i valori inerenti al power-up SlowDown
                 SlowDown.setCurrentDuration(snapshot.child("current_duration").getValue(Integer.class));
                 SlowDown.setIsPoweredUp(snapshot.child("is_powered_up").getValue(Boolean.class));
             }
@@ -285,6 +273,7 @@ public class PowerUpGameView extends GameView {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //prendi e imposta i valori inerenti al power-up SpeedUp
                 SpeedUp.setCurrentDuration(snapshot.child("current_duration").getValue(Integer.class));
                 SpeedUp.setIsPoweredUp(snapshot.child("is_powered_up").getValue(Boolean.class));
             }
@@ -295,6 +284,9 @@ public class PowerUpGameView extends GameView {
             }
         });
     }
+
+
+    //metodi che servono per riportare a schermo i power-up di una partita precedentemente salvata
 
     @Override
     protected void retrieveSingleSlowDown(String junkType, int x, int y) {
@@ -307,6 +299,20 @@ public class PowerUpGameView extends GameView {
     protected void retrieveSingleSpeedUp(String junkType, int x, int y) {
         if(junkType.equals("speed_up")) {
             junkList.add(new SpeedUp(x, y, getResources()));
+        }
+    }
+
+    @Override
+    protected void retrieveSingleSunnyPow(String junkType, int x, int y) {
+        if(junkType.equals("sunny_pow")) {
+            junkList.add(new SunnyPow(x, y, getResources()));
+        }
+    }
+
+    @Override
+    protected void retrieveSingleClearJunk(String junkType, int x, int y) {
+        if(junkType.equals("clear_junk")) {
+            junkList.add(new ClearJunk(x, y, getResources()));
         }
     }
 }

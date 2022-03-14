@@ -31,8 +31,11 @@ public class SpeedUp extends PowerUp {
 
     @Override
     public void applyPowerUp() {
-        RecUnit.setRecyclingSpeed(RecUnit.getRecyclingSpeed()*2);
-        isPoweredUp = true;
+        if(!isPoweredUp) {
+            currentDuration = 0;
+            isPoweredUp = true;
+            RecUnit.setRecyclingSpeed(RecUnit.getRecyclingSpeed()*2);
+        }
     }
 
     public static void checkIfPowerIsUp() {

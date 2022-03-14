@@ -22,13 +22,16 @@ import androidx.core.content.res.ResourcesCompat;
 import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.accesso.LoginActivity;
 import com.example.thehillreloaded.gameplay.falling_objects.Aluminum;
+import com.example.thehillreloaded.gameplay.falling_objects.ClearJunk;
 import com.example.thehillreloaded.gameplay.falling_objects.EWaste;
 import com.example.thehillreloaded.gameplay.falling_objects.Glass;
 import com.example.thehillreloaded.gameplay.falling_objects.HazarWaste;
 import com.example.thehillreloaded.gameplay.falling_objects.Junk;
 import com.example.thehillreloaded.gameplay.falling_objects.Paper;
 import com.example.thehillreloaded.gameplay.falling_objects.Plastic;
+import com.example.thehillreloaded.gameplay.falling_objects.PowerUp;
 import com.example.thehillreloaded.gameplay.falling_objects.Steel;
+import com.example.thehillreloaded.gameplay.falling_objects.SunnyPow;
 import com.example.thehillreloaded.gameplay.imageclass.AboutToExpire;
 import com.example.thehillreloaded.gameplay.imageclass.AluminumInfo;
 import com.example.thehillreloaded.gameplay.imageclass.ConfirmBuilding;
@@ -133,7 +136,7 @@ public class GameView extends SurfaceView implements Runnable {
         if (LoginActivity.currentUser != null)
             mainRef = database.getReference(LoginActivity.currentUser);
 
-        //definisci oggetti per la visualizzazione e la manipolazione di dati inerenti il background, il rettangolo di spawn, la barra di sopra, ecc.
+        //definisci oggetti per la visualizzazione e la manipolazione di dati inerenti al background, al rettangolo di spawn, alla barra di sopra, ecc.
         background = new Background(screenX, screenY, getResources());
         gameBar = new GameBar(screenX, screenY, getResources());
         gameOver = new GameOver((int) (60 * screenRatioX), (int) (650 * screenRatioY), getResources());
@@ -182,7 +185,7 @@ public class GameView extends SurfaceView implements Runnable {
         unlockableUnitList.add(new UnlockableUnit((int) (800 * screenRatioX), (int) (670 * screenRatioY), getResources()));
         unlockableUnitList.add(new UnlockableUnit((int) (720 * screenRatioX), (int) (988 * screenRatioY), getResources()));
 
-        //definisci oggetti che servono alla visualizzazione delle immagini inerenti le informazioni delle unità di riciclo
+        //definisci oggetti che servono alla visualizzazione delle immagini inerenti alle informazioni delle unità di riciclo
         unitInfo = new UnitInfo(0, (int) (1235 * screenRatioY), getResources());
         upgrade = new Upgrade(unitInfo.getX() + (int) (316 * screenRatioX), unitInfo.getY() + (int) (388 * screenRatioY), getResources());
         unitPoints = new UnitPoints(unitInfo.getX() + (int) (228.34 * screenRatioX), unitInfo.getY() + (int) (423.36 * screenRatioY), getResources());
@@ -221,7 +224,7 @@ public class GameView extends SurfaceView implements Runnable {
         //definisci l'oggetto per la visualizzazione del pop-up di conferma della costruzione di un'unità di riciclo
         confirmBuilding = new ConfirmBuilding((int) (90 * screenRatioX), (int) (750 * screenRatioY), getResources());
 
-        //modifica la velocità dei rifiuti e la velocità di riciclo in base alla difficoltà scelta
+        //se si sta cominciando una nuova partita
         if(!GiocatoreSingoloActivity.partitaSalvata) {
             //aggiungi il primo rifiuto alla lista dei rifiuti
             Random random = new Random();
@@ -233,13 +236,14 @@ public class GameView extends SurfaceView implements Runnable {
             Junk.setSpeedIncrease(Junk.getSpeedIncrease() * tassoDifficolta);
             RecUnit.setRecyclingSpeed(RecUnit.getRecyclingSpeed() / tassoDifficolta);
 
+            //se l'utente ha precedentemente effettuato l'accesso
             if(LoginActivity.currentUser != null) {
                 ref = mainRef.child("general_data");
-                ref.child("is_saved").setValue(false);
+                ref.child("is_saved").setValue(false); //ora non è più presente una partita salvata (se prima c'era)
             }
         }
 
-        retrieveData();
+        retrieveData(); //imposta i dati di una partita precedentemente salvata se si sta riprendendo una partita salvata
 
         //definisci tutti i paint
         paint = new Paint(); //uno generico
@@ -320,11 +324,11 @@ public class GameView extends SurfaceView implements Runnable {
 
     //metodo per salvare la partita
     public void save() {
-        saveGeneralData();
-        saveRecUnitData();
-        saveJunkData();
+        saveGeneralData(); //salva i dati generici della partita
+        saveRecUnitData(); //salva i dati inerenti alle unità di riciclo
+        saveJunkData(); //salva i dati inerenti ai rifiuti
 
-        exit();
+        exit(); //esci dalla partita
     }
 
 
@@ -349,10 +353,10 @@ public class GameView extends SurfaceView implements Runnable {
     //Aggiorna i valori numerici inerenti alle unità di riciclo e ai rifiuti
     public void update() {
 
-        spawnJunk(junkList);
-        positionJunk(junkList);
-        updateRecUnit(recUnitList);
-        updateJunkValues();
+        spawnJunk(junkList); //metodo per far apparire a schermo i rifiuti
+        positionJunk(junkList); //metodo per gestire la caduta dei rifiuti
+        updateRecUnit(recUnitList); //metodo per gestire i dati inerenti alle unità di riciclo
+        updateJunkValues(); //metodo per aggiornare i tassi di spawn dei rifiuti
     }
 
     //metodo per disegnare a schermo i rifiuti, le unità di riciclo, i pop-up, ecc.
@@ -1009,7 +1013,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void drawLvl1MaterialInfo(InfoImages infoImages, Canvas canvas) {
         if (infoImages.getIsCheckingMaterialLvl1Info()) { //se si è prodotto il primo materiale
-            //disegna a schermo il background e il testo inerente il primo materiale
+            //disegna a schermo il background e il testo inerente al primo materiale
             canvas.drawBitmap(materialInfo.getImageBitmap(), materialInfo.getX(), materialInfo.getY(), paint);
             infoImages.drawMaterialLvl1Text(materialInfo.getX() + (int) (220 * screenRatioX), materialInfo.getY() + (int) (420 * screenRatioY), otherTextInfoPaint, canvas);
             pauseFlag = true; //il gioco verrà messo in pausa
@@ -1018,7 +1022,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void drawLvl2MaterialInfo(InfoImages infoImages, Canvas canvas) {
         if (infoImages.getIsCheckingMaterialLvl2Info()) { //se si è prodotto il secondo materiale
-            //disegna a schermo il background e il testo inerente il secondo materiale
+            //disegna a schermo il background e il testo inerente al secondo materiale
             canvas.drawBitmap(materialInfo.getImageBitmap(), materialInfo.getX(), materialInfo.getY(), paint);
             infoImages.drawMaterialLvl2Text(materialInfo.getX() + (int) (220 * screenRatioX), materialInfo.getY() + (int) (420 * screenRatioY), otherTextInfoPaint, canvas);
             pauseFlag = true; //il gioco verrà messo in pausa
@@ -1028,7 +1032,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void drawLvl3MaterialInfo(InfoImages infoImages, Canvas canvas) {
         if (infoImages.getIsCheckingMaterialLvl3Info()) { //se si è prodotto il terzo materiale
-            //disegna a schermo il background e il testo inerente il terzo materiale
+            //disegna a schermo il background e il testo inerente al terzo materiale
             canvas.drawBitmap(materialInfo.getImageBitmap(), materialInfo.getX(), materialInfo.getY(), paint);
             infoImages.drawMaterialLvl3Text(materialInfo.getX() + (int) (220 * screenRatioX), materialInfo.getY() + (int) (420 * screenRatioY), otherTextInfoPaint, canvas);
             pauseFlag = true; //il gioco verrà messo in pausa
@@ -1065,7 +1069,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     public void drawMissionsInfo(ArrayList<Missioni> missionsArrayList, Canvas canvas) {
-        //per ogni missione, disegna il testo e gli obiettivi inerenti la missione
+        //per ogni missione, disegna il testo e gli obiettivi inerenti alla missione
         for (int m = 0; m < missionsArrayList.size(); m++) {
             Missioni mission = missionsArrayList.get(m);
             drawMissionInfo(mission, canvas);
@@ -1280,8 +1284,9 @@ public class GameView extends SurfaceView implements Runnable {
         boolean isTouchingPauseExit = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 33 && touchX < gameBar.getWidth() * 8 + gameOver.getWidth() && touchY < gameBar.getHeight() * 33 + gameOver.getHeight();
 
         if (isTouchingPauseExit) { //se è stato toccato il tasto per uscire
+            //se l'utente ha effettuato il login
             if (LoginActivity.currentUser != null)
-                saveScores();
+                saveScores(); //salva il punteggio assieme alla modalità e alla difficoltà
             exit(); //esci dal gioco
             exit();
         }
@@ -1300,8 +1305,9 @@ public class GameView extends SurfaceView implements Runnable {
 
         //se è stato toccato il tasto di ricomincia
         if (isTouchingRedo) {
+            //se l'utente ha effettuato il login
             if (LoginActivity.currentUser != null)
-                saveScores();
+                saveScores(); //salva il punteggio assieme alla modalità e alla difficoltà
             restart(); //ricomincia la partita
         }
     }
@@ -1310,8 +1316,9 @@ public class GameView extends SurfaceView implements Runnable {
         boolean isTouchingGameOverExit = (touchX >= gameOver.getX() + (int) (170 * screenRatioX) && touchY >= gameOver.getY() + (int) (500 * screenRatioY) && touchX < gameOver.getX() + (int) (170 * screenRatioX) + gameOver.getWidth() && touchY < gameOver.getY() + (int) (500 * screenRatioY) + gameOver.getHeight());
 
         if (isTouchingGameOverExit) { //se è stato toccato il tasto per uscire
+            //se l'utente ha effettuato il login
             if (LoginActivity.currentUser != null)
-                saveScores();
+                saveScores(); //salva il punteggio assieme alla modalità e alla difficoltà
             exit(); //esci dal gioco
             exit();
         }
@@ -1325,10 +1332,16 @@ public class GameView extends SurfaceView implements Runnable {
             boolean isTouching = (touchX >= junk.getX() && touchY >= junk.getY() && touchX < junk.getX() + junk.getWidth() && touchY < junk.getY() + junk.getHeight());
 
             //se si sta toccando il rifiuto i-esimo
-            if (isTouching) {
+            if (isTouching && !(junk instanceof PowerUp)) {
                 nJunk = i; //imposta la variabile nJunk
+            } else if (isTouching && junk instanceof PowerUp && isPlaying) {
+                activatePowerUp(junk, i);
             }
         }
+    }
+
+    protected void activatePowerUp(Junk junk, int junkIndex) {
+        //questo metodo sarà sovrascritto da PowerUpGameView
     }
 
     private void recUnitControl(int touchX, int touchY) {
@@ -1713,7 +1726,12 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
+
+
+    //metodi che verranno incapsulati in save()
+
     private void saveGeneralData() {
+        //salva ai dati generici della partita (difficoltà, modalità, dati inerenti alle missioni...)
         ref = mainRef.child("general_data");
         ref.child("difficoltà").setValue(DifficoltaActivity.difficoltà);
         ref.child("modalità").setValue(GiocatoreSingoloActivity.modalità);
@@ -1724,6 +1742,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void saveMissionData(DatabaseReference ref) {
+        //salva ai dati delle missioni
         Missioni mission = listaMissioni.get(0);
         ref.child("missioni").child("tot_junk_rec").setValue(mission.getTotJunkRec());
         mission = listaMissioni.get(1);
@@ -1736,6 +1755,8 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void saveRecUnitData() {
         ref = mainRef.child("rec_unit");
+
+        //salva i dati inerenti alle unità di riciclo
         ref.child("recycling_speed").setValue(RecUnit.getRecyclingSpeed());
         saveGlassUnitData(ref);
         savePaperUnitData(ref);
@@ -1747,6 +1768,8 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void saveRecUnit(DatabaseReference ref, RecUnit recUnit) {
+
+        //salva i dati inerenti a ciascuna unità di riciclo
         ref.child("is_recycling").setValue(recUnit.getIsRecycling());
         ref.child("is_unlocked").setValue(recUnit.getIsUnlocked());
         ref.child("is_upgraded").setValue(recUnit.getIsUpgraded());
@@ -1762,47 +1785,49 @@ public class GameView extends SurfaceView implements Runnable {
     private void saveGlassUnitData(DatabaseReference ref) {
         RecUnit glassUnit = recUnitList.get(0);
         ref = ref.child("glass_unit");
-        saveRecUnit(ref, glassUnit);
+        saveRecUnit(ref, glassUnit); //salva i dati inerenti all'unità del vetro
     }
 
     private void savePaperUnitData(DatabaseReference ref) {
         RecUnit paperUnit = recUnitList.get(1);
         ref = ref.child("paper_unit");
-        saveRecUnit(ref, paperUnit);
+        saveRecUnit(ref, paperUnit); //salva i dati inerenti all'unità della carta
     }
 
     private void saveAluminumUnitData(DatabaseReference ref) {
         RecUnit aluminumUnit = recUnitList.get(2);
         ref = ref.child("aluminum_unit");
-        saveRecUnit(ref, aluminumUnit);
+        saveRecUnit(ref, aluminumUnit); //salva i dati inerenti all'unità dell'alluminio
     }
 
     private void saveSteelUnitData(DatabaseReference ref) {
         RecUnit steelUnit = recUnitList.get(3);
         ref = ref.child("steel_unit");
-        saveRecUnit(ref, steelUnit);
+        saveRecUnit(ref, steelUnit); //salva i dati inerenti l'unità dell'acciaio
     }
 
     private void savePlasticUnitData(DatabaseReference ref) {
         RecUnit plasticUnit = recUnitList.get(4);
         ref = ref.child("plastic_unit");
-        saveRecUnit(ref, plasticUnit);
+        saveRecUnit(ref, plasticUnit); //salva i dati inerenti all'unità della plastica
     }
 
     private void saveEWasteUnitData(DatabaseReference ref) {
         RecUnit eWasteUnit = recUnitList.get(5);
         ref = ref.child("ewaste_unit");
-        saveRecUnit(ref, eWasteUnit);
+        saveRecUnit(ref, eWasteUnit); //salva i dati inerenti all'unità dei rifiuti tecnologici
     }
 
     private void saveIncineratorData(DatabaseReference ref) {
         RecUnit incinerator = recUnitList.get(6);
         ref = ref.child("incinerator");
-        saveRecUnit(ref, incinerator);
+        saveRecUnit(ref, incinerator); //salva i dati inerenti all'inceneritore
     }
 
     protected void saveJunkData() {
         ref = mainRef.child("junk");
+
+        //salva i dati inerenti ai rifiuti
         ref.child("distance").setValue(Junk.getDistance());
         ref.child("speed").setValue(Junk.getSpeed());
         ref.child("speed_increase").setValue(Junk.getSpeedIncrease());
@@ -1820,49 +1845,63 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void saveGlassData(DatabaseReference ref) {
         ref = ref.child("glass");
-        ref.child("tasso").setValue(Glass.getTasso());
+        ref.child("tasso").setValue(Glass.getTasso()); //salva i dati inerenti ai rifiuti di vetro
     }
 
     private void savePaperData(DatabaseReference ref) {
         ref = ref.child("paper");
+
+        //salva i dati inerenti ai rifiuti di carta
         ref.child("tasso").setValue(Paper.getTasso());
         ref.child("tasso_massimo_raggiunto").setValue(Paper.isTassoMassimoRaggiunto());
     }
 
     private void saveAluminumData(DatabaseReference ref) {
         ref = ref.child("aluminum");
+
+        //salva i dati inerenti ai rifiuti di alluminio
         ref.child("tasso").setValue(Aluminum.getTasso());
         ref.child("tasso_massimo_raggiunto").setValue(Aluminum.isTassoMassimoRaggiunto());
     }
 
     private void saveSteelData(DatabaseReference ref) {
         ref = ref.child("steel");
+
+        //salva i dati inerenti ai rifiuti di acciaio
         ref.child("tasso").setValue(Steel.getTasso());
         ref.child("tasso_massimo_raggiunto").setValue(Steel.isTassoMassimoRaggiunto());
     }
 
     private void savePlasticData(DatabaseReference ref) {
         ref = ref.child("plastic");
+
+        //salva i dati inerenti ai rifiuti di plastica
         ref.child("tasso").setValue(Plastic.getTasso());
         ref.child("tasso_massimo_raggiunto").setValue(Plastic.isTassoMassimoRaggiunto());
     }
 
     private void saveEWasteData(DatabaseReference ref) {
         ref = ref.child("ewaste");
+
+        //salva i dati inerenti ai rifiuti tecnologici
         ref.child("tasso").setValue(EWaste.getTasso());
         ref.child("tasso_massimo_raggiunto").setValue(EWaste.isTassoMassimoRaggiunto());
     }
 
     private void saveHazarWasteData(DatabaseReference ref) {
         ref = ref.child("hazar_waste");
+
+        //salva i dati inerenti ai rifiuti pericolosi
         ref.child("tasso").setValue(HazarWaste.getTasso());
         ref.child("tasso_massimo_raggiunto").setValue(HazarWaste.isTassoMassimoRaggiunto());
     }
 
+    //metodo che verrà sovrascritto dalla PowerUpGameView
     protected void saveSlowDownData(DatabaseReference ref) {
         ref = ref.child("slow_down");
     }
 
+    //metodo che verrà sovrascritto dalla PowerUpGameView
     protected void saveSpeedUpData(DatabaseReference ref) {
         ref = ref.child("speed_up");
     }
@@ -1870,19 +1909,20 @@ public class GameView extends SurfaceView implements Runnable {
     private void saveAllJunk(DatabaseReference ref) {
         int num_junk = 0;
 
+        //per ogni rifiuto presente nella junkList
         for (int x = 0; x < junkList.size(); x++) {
             Junk junk = junkList.get(x);
 
+            //salva i dati inerenti al rifiuto (posizione e tipologia)
             ref = ref.child("junk" + x);
             ref.child("x").setValue(junk.getX());
             ref.child("y").setValue(junk.getY());
-            ref.child("does_intersect").setValue(junk.getIntersection());
             ref.child("type").setValue(junk.getJunkType());
             ref = ref.getParent();
-            num_junk++;
+            num_junk++; //aumenta di uno la variabile che conta il numero dei rifiuti
         }
 
-        ref.child("num_junk").setValue(num_junk);
+        ref.child("num_junk").setValue(num_junk); //salva il numero dei rifiuti
     }
 
     private void saveScores() {
@@ -1890,6 +1930,7 @@ public class GameView extends SurfaceView implements Runnable {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //salva il punteggio, la modalità e la difficoltà di gioco
                 index = Math.toIntExact(snapshot.getChildrenCount());
                 ref.child("score" + index).setValue("Modalità: " + GiocatoreSingoloActivity.modalità + " - Difficoltà: " + DifficoltaActivity.difficoltà + " - Punteggio: " + String.valueOf(gameBar.getScore()));
             }
@@ -1903,19 +1944,21 @@ public class GameView extends SurfaceView implements Runnable {
 
 
     private void retrieveData() {
+        //se l'utente è loggato ed è stata precedentemente salvata una partita
         if (LoginActivity.currentUser != null && GiocatoreSingoloActivity.partitaSalvata) {
-            retrieveGeneralData();
-            retrieveRecUnitData();
-            retrieveJunkData();
+            retrieveGeneralData(); //prendi e imposta i dati generici della partita
+            retrieveRecUnitData(); //prendi e imposta i dati inerenti alle unità di riciclo
+            retrieveJunkData(); //prendi e imposta i dati inerenti ai rifiuti
         }
     }
 
     private void retrieveGeneralData() {
         ref = mainRef.child("general_data");
-        ref.child("is_saved").setValue(false);
+        ref.child("is_saved").setValue(false); //la partita non è più considerata salvata
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //prendi e imposta i dati generici della partita
                 DifficoltaActivity.difficoltà = snapshot.child("difficoltà").getValue(String.class);
                 GiocatoreSingoloActivity.modalità = snapshot.child("modalità").getValue(String.class);
                 gameBar.setScore(snapshot.child("score").getValue(Integer.class));
@@ -1928,7 +1971,7 @@ public class GameView extends SurfaceView implements Runnable {
             }
         });
 
-        retrieveMissionsData();
+        retrieveMissionsData(); //prendi e imposta i dati inerenti alle missioni
     }
 
     private void retrieveMissionsData() {
@@ -1937,6 +1980,7 @@ public class GameView extends SurfaceView implements Runnable {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //prendi e imposta i dati inerenti alle missioni
                 listaMissioni.get(0).setTotJunkRec(snapshot.child("tot_junk_rec").getValue(Integer.class));
                 listaMissioni.get(1).setTotRecUpgr(snapshot.child("tot_rec_upgr").getValue(Integer.class));
                 listaMissioni.get(2).setTotSunnyAccum(snapshot.child("tot_sunny_accum").getValue(Integer.class));
@@ -1955,6 +1999,7 @@ public class GameView extends SurfaceView implements Runnable {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //prendi e imposta la velocità di riciclo delle unità
                 RecUnit.setRecyclingSpeed(snapshot.child("recycling_speed").getValue(Double.class));
             }
 
@@ -1964,6 +2009,7 @@ public class GameView extends SurfaceView implements Runnable {
             }
         });
 
+        //prendi e imposta i dati per ciascuna unità di riciclo
         retrieveRecUnit(recUnitList.get(0), ref);
         retrieveRecUnit(recUnitList.get(1), ref);
         retrieveRecUnit(recUnitList.get(2), ref);
@@ -1978,6 +2024,7 @@ public class GameView extends SurfaceView implements Runnable {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //prendi e imposta tutti i dati inerenti alle unità di riciclo
                 recUnit.setIsRecycling(snapshot.child("is_recycling").getValue(Boolean.class));
                 recUnit.setIsUnlocked(snapshot.child("is_unlocked").getValue(Boolean.class));
                 recUnit.setIsUpgraded(snapshot.child("is_upgraded").getValue(Boolean.class));
@@ -2002,6 +2049,7 @@ public class GameView extends SurfaceView implements Runnable {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //prendi e imposta i dati inerenti ai rifiuti
                 Junk.setDistance(snapshot.child("distance").getValue(Integer.class));
                 Junk.setSpeed(snapshot.child("speed").getValue(Double.class));
                 Junk.setSpeedIncrease(snapshot.child("speed_increase").getValue(Double.class));
@@ -2015,6 +2063,7 @@ public class GameView extends SurfaceView implements Runnable {
             }
         });
 
+        //prendi e imposti i dati inerenti a ciascuna tipologia di rifiuto
         retrieveGlassData(ref);
         retrievePaperData(ref);
         retrieveAluminumData(ref);
@@ -2144,28 +2193,32 @@ public class GameView extends SurfaceView implements Runnable {
         });
     }
 
+    //questo metodo verrà sovrascritto dalla PowerUpGameView
     protected void retrieveSlowDownData(DatabaseReference ref) {
         ref = ref.child("slow_down");
     }
 
+    //questo metodo verrà sovrascritto dalla PowerUpGameView
     protected void retrieveSpeedUpData(DatabaseReference ref) {
         ref = ref.child("speed_up");
     }
 
     private void retrieveAllJunk(DataSnapshot snapshot) {
+        //per ciascun rifiuto
         for (int i = 0; i < num_junk; i++) {
+            //setta i dati inerenti al rifiuto
             DataSnapshot snap = snapshot.child("junk" + i);
             String junkType = snap.child("type").getValue(String.class);
-            boolean intersection = snap.child("does_intersect").getValue(Boolean.class);
             int x = snap.child("x").getValue(Integer.class);
             int y = snap.child("y").getValue(Integer.class);
-            retrieveSingleJunk(junkType, x, y);
+            retrieveSingleJunk(junkType, x, y); //aggiungi il rifiuto in base alla tipologia
         }
     }
 
     private void retrieveSingleJunk(String junkType, int x, int y) {
+        //in base alla tipologia di rifiuto precedentemente salvato
         if (junkType.equals("glass")) {
-            junkList.add(new Glass(x, y, getResources()));
+            junkList.add(new Glass(x, y, getResources())); //aggiungi un rifiuto di quella tipologia
 
         } else if (junkType.equals("paper")) {
             junkList.add(new Paper(x, y, getResources()));
@@ -2187,15 +2240,26 @@ public class GameView extends SurfaceView implements Runnable {
 
         }
 
+        //aggiungi i power up se questi sono stati salvati precedentemente nel database
         retrieveSingleSlowDown(junkType, x, y);
         retrieveSingleSpeedUp(junkType, x, y);
+        retrieveSingleSunnyPow(junkType, x, y);
+        retrieveSingleClearJunk(junkType, x, y);
     }
 
     protected void retrieveSingleSlowDown(String junkType, int x, int y) {
-
+        //questo metodo verrà sovrascritto nella PowerUpGameView
     }
 
     protected void retrieveSingleSpeedUp(String junkType, int x, int y) {
+        //questo metodo verrà sovrascritto nella PowerUpGameView
+    }
 
+    protected void retrieveSingleSunnyPow(String junkType, int x, int y) {
+        //questo metodo verrà sovrascritto nella PowerUpGameView
+    }
+
+    protected void retrieveSingleClearJunk(String junkType, int x, int y) {
+        //questo metodo verrà sovrascritto nella PowerUpGameView
     }
 }
