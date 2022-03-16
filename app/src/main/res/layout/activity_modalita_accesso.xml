@@ -1,71 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/background"
     android:orientation="vertical"
     tools:context=".menu.MenuActivity">
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/background" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:background="@drawable/logo_background"
         android:fontFamily="@font/bevan"
         android:gravity="center"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="160dp"
-        android:layout_marginEnd="160dp"
         android:src="@drawable/logo"
         android:textColor="@color/black"
-        android:background="@drawable/logo_background"
-        android:textSize="19sp" />
+        android:textSize="19sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.00999999" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:id="@+id/textView5"
+        android:layout_width="244dp"
+        android:layout_height="94dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
-        android:text="@string/modalità_accesso"
         android:lineSpacingExtra="-20dp"
-        android:textColor="@color/dark_cornflower_blue"
-        android:textSize="40sp"
         android:shadowColor="@color/black"
         android:shadowDx="15"
         android:shadowDy="10"
-        android:shadowRadius="1.5"/>
+        android:shadowRadius="1.5"
+        android:text="@string/modalità_accesso"
+        android:textColor="@color/dark_cornflower_blue"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6"
+        app:layout_constraintVertical_bias="0.050000012" />
 
     <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="20sp"
-        tools:layout_editor_absoluteX="150dp"
-        tools:layout_editor_absoluteY="102dp"
+        android:id="@+id/gridLayout"
+        android:layout_width="329dp"
+        android:layout_height="140dp"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="@id/gridLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.55">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/account"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="140dp"
             app:cardCornerRadius="70dp"
             app:cardElevation="10dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@drawable/choice_button_background">
+                android:background="@drawable/choice_button_background"
+                android:orientation="vertical">
 
                 <ImageView
-                    android:contentDescription="@string/account"
                     android:layout_width="70dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/add_user"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/account"
+                    android:src="@drawable/add_user" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
@@ -74,64 +96,78 @@
                     android:text="@string/account"
                     android:textColor="@color/white"
                     android:textSize="28sp" />
+
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
     </GridLayout>
 
     <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="20dp"
-        tools:layout_editor_absoluteX="150dp"
-        tools:layout_editor_absoluteY="102dp"
+        android:id="@+id/gridLayout2"
+        android:layout_width="329dp"
+        android:layout_height="140dp"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout"
+        app:layout_constraintVertical_bias="0.3">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/ospite"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="140dp"
             app:cardCornerRadius="70dp"
             app:cardElevation="10dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@drawable/choice_button_background">
+                android:background="@drawable/choice_button_background"
+                android:orientation="vertical">
 
                 <ImageView
-                    android:contentDescription="@string/ospite"
                     android:layout_width="70dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/door"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/account"
+                    android:src="@drawable/door" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:gravity="center"
                     android:fontFamily="@font/bowlby_one_sc"
+                    android:gravity="center"
                     android:text="@string/ospite"
                     android:textColor="@color/white"
                     android:textSize="28sp" />
+
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
     </GridLayout>
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
-        android:text="@string/avviso_no_account"
-        android:textColor="@color/dark_cornflower_blue"
-        android:textSize="15sp"
-        android:layout_marginTop="20dp"
         android:shadowColor="@color/black"
         android:shadowDx="5"
         android:shadowDy="5"
-        android:shadowRadius="1.5"/>
+        android:shadowRadius="1.5"
+        android:text="@string/avviso_no_account"
+        android:textAlignment="center"
+        android:textColor="@color/dark_cornflower_blue"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout2"
+        app:layout_constraintVertical_bias="0.95" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
