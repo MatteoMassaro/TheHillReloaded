@@ -30,9 +30,12 @@ public class SlowDown extends PowerUp {
 
     @Override
     public void applyPowerUp() {
-        Junk.setSpeed(Junk.getSpeed()/2);
-        Junk.setSpeedIncrease(Junk.getSpeedIncrease()/2);
-        isPoweredUp = true;
+        if(!isPoweredUp) {
+            currentDuration = 0;
+            isPoweredUp = true;
+            Junk.setSpeed(Junk.getSpeed() / 2);
+            Junk.setSpeedIncrease(Junk.getSpeedIncrease() / 2);
+        }
     }
 
     public static void checkIfPowerIsUp() {

@@ -16,6 +16,7 @@ public class ClearJunk extends PowerUp {
 
     public ClearJunk(int x, int y, Resources res) {
         super(x,y);
+        setJunkType("clear_junk");
 
         clearJunk = BitmapFactory.decodeResource(res, R.drawable.clear_junk);
 
