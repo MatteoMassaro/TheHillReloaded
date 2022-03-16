@@ -35,6 +35,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHillReloaded">
         <activity
+            android:name=".menu.StanzaActivity"
+            android:exported="false" />
+        <activity
             android:name=".menu.PartitaSalvataActivity"
             android:exported="false" />
         <activity
@@ -53,7 +56,7 @@
             android:name=".menu.DifficoltaActivity"
             android:exported="false" />
         <activity
-            android:name=".menu.WiFiActivity"
+            android:name=".menu.ConnessioneActivity"
             android:exported="false" />
         <activity
             android:name=".menu.LinguaActivity"

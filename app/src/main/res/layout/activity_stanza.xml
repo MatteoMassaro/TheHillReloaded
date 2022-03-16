@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background"
     android:orientation="vertical"
-    tools:context=".menu.WiFiActivity">
+    tools:context=".menu.ConnessioneActivity">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -27,58 +27,30 @@
         android:layout_marginTop="35dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
-        android:text="@string/utenti_disponibili"
+        android:text="@string/attesa_avversario"
         android:lineSpacingExtra="-20dp"
         android:textColor="@color/dark_cornflower_blue"
-        android:textSize="45sp"
+        android:textSize="35sp"
         android:shadowColor="@color/black"
         android:shadowDx="15"
         android:shadowDy="10"
         android:shadowRadius="1.5"/>
 
-    <TextView
-        android:id="@+id/status"
+    <ProgressBar
+        android:id="@+id/caricamento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:layout_gravity="end"
-        android:text="@string/stato"
-        android:textColor="@color/lincoln_green"
-        android:textSize="20sp"
-        android:fontFamily="@font/bowlby_one_sc"/>
-
-    <ListView
-        android:id="@+id/listaDispositivi"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@drawable/listview_layout"
-        android:scrollbarThumbVertical="@android:color/transparent"
-        android:elevation="15dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp" />
-
-    <Button
-        android:id="@+id/cerca"
-        android:layout_width="120dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="10dp"
         android:layout_gravity="center"
-        android:text="@string/cerca"
-        android:onClick="discoverDevice"
-        android:fontFamily="@font/bowlby_one_sc"
-        android:background="@drawable/login_button_background"/>
+        android:layout_marginTop="30dp"/>
 
     <Button
         android:id="@+id/gioca"
         android:layout_width="120dp"
         android:layout_height="60dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center"
         android:background="@drawable/login_button_background"
-        android:enabled="true"
-        android:visibility="gone"
+        android:enabled="false"
         android:fontFamily="@font/bowlby_one_sc"
         android:text="@string/gioca"
         android:textSize="12sp"
@@ -94,7 +66,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="50dp"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/back"

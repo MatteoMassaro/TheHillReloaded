@@ -105,6 +105,8 @@ public class RegistrazioneActivity extends Animazioni {
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference ref = database.getReference().child(mAuth.getCurrentUser().getUid()).child("general_data");
                     setDatabaseContent(ref);
+                    ref = database.getReference().child(mAuth.getCurrentUser().getUid()).child("username");
+                    ref.setValue(username);
                     Toast.makeText(RegistrazioneActivity.this, R.string.registrazione_effettuata, Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(RegistrazioneActivity.this, LoginActivity.class));
                     finish();

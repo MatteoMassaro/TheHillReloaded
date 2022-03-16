@@ -30,8 +30,6 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
     public static double screenRatioX, screenRatioY, densityRatio;
     public static String modalità;
     public static boolean accesso;
-    FirebaseDatabase database;
-    DatabaseReference myRef;
 
     //Chiama l'animazione all'avvio dell'activity
     @Override
@@ -56,6 +54,11 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
         super.onPause();
         runAnimationSlideOut(giocatoreSingolo);
         runAnimationSlideOut(multigiocatore);
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
