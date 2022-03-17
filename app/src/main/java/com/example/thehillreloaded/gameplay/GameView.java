@@ -20,7 +20,6 @@ import androidx.core.content.res.ResourcesCompat;
 import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.accesso.LoginActivity;
 import com.example.thehillreloaded.gameplay.falling_objects.Aluminum;
-import com.example.thehillreloaded.gameplay.falling_objects.ClearJunk;
 import com.example.thehillreloaded.gameplay.falling_objects.EWaste;
 import com.example.thehillreloaded.gameplay.falling_objects.Glass;
 import com.example.thehillreloaded.gameplay.falling_objects.HazarWaste;
@@ -29,7 +28,6 @@ import com.example.thehillreloaded.gameplay.falling_objects.Paper;
 import com.example.thehillreloaded.gameplay.falling_objects.Plastic;
 import com.example.thehillreloaded.gameplay.falling_objects.PowerUp;
 import com.example.thehillreloaded.gameplay.falling_objects.Steel;
-import com.example.thehillreloaded.gameplay.falling_objects.SunnyPow;
 import com.example.thehillreloaded.gameplay.imageclass.AboutToExpire;
 import com.example.thehillreloaded.gameplay.imageclass.AluminumInfo;
 import com.example.thehillreloaded.gameplay.imageclass.ConfirmBuilding;
@@ -59,8 +57,10 @@ import com.example.thehillreloaded.gameplay.recycle.PaperUnit;
 import com.example.thehillreloaded.gameplay.recycle.PlasticUnit;
 import com.example.thehillreloaded.gameplay.recycle.RecUnit;
 import com.example.thehillreloaded.gameplay.recycle.SteelUnit;
+import com.example.thehillreloaded.menu.ConnessioneActivity;
 import com.example.thehillreloaded.menu.DifficoltaActivity;
 import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
+import com.example.thehillreloaded.menu.MenuActivity;
 import com.example.thehillreloaded.menu.MultigiocatoreActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.VolumeActivity;
@@ -70,6 +70,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -78,7 +79,7 @@ public class GameView extends SurfaceView implements Runnable {
     //Variabili, liste e oggetti
 
     FirebaseDatabase database;
-    DatabaseReference mainRef, ref;
+    DatabaseReference mainRef, ref, myRef;
 
     private Thread thread;
     private boolean isPlaying = false;
@@ -113,6 +114,7 @@ public class GameView extends SurfaceView implements Runnable {
     private Missioni goals;
     private VolumeActivity volumeActivity;
     private boolean pauseFlag;
+    public static int playerExit;
     private GameActivity gameActivity;
     private int num_junk, index;
 
@@ -228,6 +230,9 @@ public class GameView extends SurfaceView implements Runnable {
             Glass glass = new Glass(0, 0, getResources());
             junkList.add(new Glass(random.nextInt(spawnBoundX - glass.getWidth()) + (int) (25 * screenRatioX), spawnY, getResources()));
 
+            if(MultigiocatoreActivity.multigiocatore){
+                tassoDifficolta = 0.8;
+            }
             //modifica la velocità dei rifiuti e la velocità di riciclo in base alla difficoltà scelta
             Junk.setSpeed(Junk.getSpeed() * tassoDifficolta);
             Junk.setSpeedIncrease(Junk.getSpeedIncrease() * tassoDifficolta);
@@ -347,6 +352,24 @@ public class GameView extends SurfaceView implements Runnable {
         EWaste.resetValues();
     }
 
+    //metodo per uscire dal gioco e vedere i risultati
+    public void showResult() {
+
+        stopEffects();
+        stopMusic();
+
+        //ripristina tutti gli attributi statici ai valori originali
+        RecUnit.resetRecyclingSpeed();
+        Junk.resetJunkValues();
+        Glass.resetValues();
+        Paper.resetValues();
+        Aluminum.resetValues();
+        HazarWaste.resetValues();
+        Steel.resetValues();
+        Plastic.resetValues();
+        EWaste.resetValues();
+    }
+
     //Aggiorna i valori numerici inerenti alle unità di riciclo e ai rifiuti
     public void update() {
 
@@ -378,6 +401,28 @@ public class GameView extends SurfaceView implements Runnable {
                 stopEffects();
                 pause(); //metti il gioco in pausa
             }
+
+            ref = database.getReference("rooms").child(ConnessioneActivity.roomName).child("playerExit");
+            ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.exists()) {
+                        playerExit = snapshot.getValue(Integer.class);
+                        if (playerExit != 0) {
+                            myRef = database.getReference("rooms").child(ConnessioneActivity.roomName);
+                            myRef.child("player1_isPlaying").setValue(false);
+                            myRef.child("player2_isPlaying").setValue(false);
+                            myRef.child("numero_giocatori").setValue(0);
+                            showResult();
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
     }
 
@@ -836,10 +881,16 @@ public class GameView extends SurfaceView implements Runnable {
                 }
                 //disegna a schermo il pop-up di fine partita
                 canvas.drawBitmap(gameOver.getImageBitmap(), gameOver.getX(), gameOver.getY(), paint);
-                canvas.drawBitmap(gameOver.getImageBitmap2(), gameOver.getX() + (int) (170 * screenRatioX), gameOver.getY() + (int) (350 * screenRatioY), paint);
-                canvas.drawBitmap(gameOver.getImageBitmap3(), gameOver.getX() + (int) (170 * screenRatioX), gameOver.getY() + (int) (500 * screenRatioY), paint);
-                canvas.drawText("RICOMINCIA", gameOver.getX() + gameOver.getWidth() + (int) (200 * screenRatioX), gameOver.getY() + (int) (450 * screenRatioY), paint);
-                canvas.drawText("ESCI", gameOver.getX() + gameOver.getWidth() + (int) (200 * screenRatioX), gameOver.getY() + (int) (600 * screenRatioY), paint);
+                if(!MultigiocatoreActivity.multigiocatore) {
+                    canvas.drawBitmap(gameOver.getImageBitmap2(), gameOver.getX() + (int) (170 * screenRatioX), gameOver.getY() + (int) (350 * screenRatioY), paint);
+                    canvas.drawBitmap(gameOver.getImageBitmap3(), gameOver.getX() + (int) (170 * screenRatioX), gameOver.getY() + (int) (500 * screenRatioY), paint);
+                    canvas.drawText("RICOMINCIA", gameOver.getX() + gameOver.getWidth() + (int) (200 * screenRatioX), gameOver.getY() + (int) (450 * screenRatioY), paint);
+                    canvas.drawText("ESCI", gameOver.getX() + gameOver.getWidth() + (int) (200 * screenRatioX), gameOver.getY() + (int) (600 * screenRatioY), paint);
+                }else{
+                    canvas.drawBitmap(gameOver.getImageBitmap4(), gameOver.getX() + (int) (170 * screenRatioX), gameOver.getY() + (int) (420 * screenRatioY), paint);
+                    canvas.drawText("VEDI", gameOver.getX() + gameOver.getWidth() + (int) (220 * screenRatioX), gameOver.getY() + (int) (450 * screenRatioY), paint);
+                    canvas.drawText("RISULTATI", gameOver.getX() + gameOver.getWidth() + (int) (220 * screenRatioX), gameOver.getY() + (int) (550 * screenRatioY), paint);
+                }
                 isPlaying = false; //non verrà più rieseguito il corpo del metodo run() (simile a pause())
             }
 
@@ -1148,10 +1199,12 @@ public class GameView extends SurfaceView implements Runnable {
             }
 
             canvas.drawText("EFFETTI", missioni.getWidth() * 9 / 2, missioni.getHeight() * 17 / 2, otherTextInfoPaint);
-            canvas.drawBitmap(gameOver.getImageBitmap2(), gameBar.getWidth() * 8, gameBar.getHeight() * 25, paint);
-            canvas.drawText("RICOMINCIA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 9.83), otherTextInfoPaint);
-            canvas.drawBitmap(gameBar.getSaveIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 29, paint);
-            canvas.drawText("SALVA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 11.35), otherTextInfoPaint);
+            if(!MultigiocatoreActivity.multigiocatore) {
+                canvas.drawBitmap(gameOver.getImageBitmap2(), gameBar.getWidth() * 8, gameBar.getHeight() * 25, paint);
+                canvas.drawText("RICOMINCIA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 9.83), otherTextInfoPaint);
+                canvas.drawBitmap(gameBar.getSaveIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 29, paint);
+                canvas.drawText("SALVA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 11.35), otherTextInfoPaint);
+            }
             canvas.drawBitmap(gameOver.getImageBitmap3(), gameBar.getWidth() * 8, gameBar.getHeight() * 33, paint);
             canvas.drawText("ESCI", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 12.73), otherTextInfoPaint);
         }
@@ -1277,6 +1330,14 @@ public class GameView extends SurfaceView implements Runnable {
     private void pauseExitIsTouched(int touchX, int touchY) {
         boolean isTouchingPauseExit = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 33 && touchX < gameBar.getWidth() * 8 + gameOver.getWidth() && touchY < gameBar.getHeight() * 33 + gameOver.getHeight();
         if (isTouchingPauseExit) { //se è stato toccato il tasto per uscire
+            if(MultigiocatoreActivity.multigiocatore){
+                ref = database.getReference("rooms").child(ConnessioneActivity.roomName);
+                if(ConnessioneActivity.player1) {
+                    ref.child("playerExit").setValue(1);
+                }else{
+                    ref.child("playerExit").setValue(2);
+                }
+            }
             exit(); //esci dal gioco
             exit();
         }
@@ -1289,8 +1350,13 @@ public class GameView extends SurfaceView implements Runnable {
             if (LoginActivity.currentUser != null)
                 saveScores(); //salva il punteggio, assieme alla modalità e alla difficoltà scelta
 
+            if(MultigiocatoreActivity.multigiocatore){
+                setScore();
+            }
+
             redoIsTouched(touchX, touchY); //se viene toccata l'icona "Ricomincia", ricomincia la partita
             gameOverExitIsTouched(touchX, touchY); //se viene toccata l'icona di "Esci", esci dal gioco
+            showResultIsTouched(touchX, touchY); //se viene toccata l'icona di "Vedi risultati", vai ai risultati
         }
     }
 
@@ -1308,6 +1374,14 @@ public class GameView extends SurfaceView implements Runnable {
         if (isTouchingGameOverExit) { //se è stato toccato il tasto per uscire
             exit(); //esci dal gioco
             exit();
+        }
+    }
+
+    private void showResultIsTouched(int touchX, int touchY){
+        boolean isTouchingShowResult = (touchX >= gameOver.getX() + (int) (170 * screenRatioX) && touchY >= gameOver.getY() + (int) (420 * screenRatioY) && touchX < gameOver.getX() + (int) (170 * screenRatioX) + gameOver.getWidth() && touchY < gameOver.getY() + (int) (420 * screenRatioY) + gameOver.getHeight());
+
+        if(isTouchingShowResult){ //se è stata toccata l'icona per mostrare i risultati
+            showResult();
         }
     }
 
@@ -1913,13 +1987,17 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void saveScores() {
-        ref = mainRef.child("score");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef = database.getReference(LoginActivity.currentUser).child("score");
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 //salva il punteggio, la modalità e la difficoltà di gioco
                 index = Math.toIntExact(snapshot.getChildrenCount());
-                ref.child("score" + index).setValue("Modalità: " + GiocatoreSingoloActivity.modalità + "\n" + "Difficoltà: " + DifficoltaActivity.difficoltà + "\n" + "Punteggio: " + String.valueOf(gameBar.getScore()));
+                if(!MultigiocatoreActivity.multigiocatore) {
+                    myRef.child("score" + index).setValue("Modalità: " + GiocatoreSingoloActivity.modalità + "\n" + "Difficoltà: " + DifficoltaActivity.difficoltà + "\n" + "Punteggio: " + String.valueOf(gameBar.getScore()));
+                }else{
+                    myRef.child("score" + index).setValue("Modalità: " + MenuActivity.modalità + "\n" + "Punteggio: " + String.valueOf(gameBar.getScore()));
+                }
             }
 
             @Override
@@ -1927,6 +2005,25 @@ public class GameView extends SurfaceView implements Runnable {
 
             }
         });
+    }
+
+    private void setScore(){
+        if(ConnessioneActivity.player1){
+            ref = database.getReference("rooms").child(ConnessioneActivity.roomName).child("player1_isPlaying");
+            ref.setValue(false);
+            ref = null;
+            ref = database.getReference("rooms").child(ConnessioneActivity.roomName);
+            ref.child("score_player1").setValue(gameBar.getScore());
+
+        }else{
+            ref = database.getReference("rooms").child(ConnessioneActivity.roomName).child("player2_isPlaying");
+            ref.setValue(false);
+            ref = null;
+            ref = database.getReference("rooms").child(ConnessioneActivity.roomName);
+            ref.child("score_player2").setValue(gameBar.getScore());
+        }
+        ref = database.getReference("rooms").child(ConnessioneActivity.roomName).child("numero_giocatori");
+        ref.setValue(0);
     }
 
 

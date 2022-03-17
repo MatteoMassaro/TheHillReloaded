@@ -40,6 +40,7 @@ public class ConnessioneActivity extends Animazioni {
     FirebaseDatabase database;
     DatabaseReference ref, roomRef, roomsRef;
     int giocatori;
+    public static boolean player1, player2 = false;
 
 
     @Override
@@ -74,6 +75,7 @@ public class ConnessioneActivity extends Animazioni {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     playerName = dataSnapshot.child("username").getValue(String.class);
+                    ref.removeEventListener(this);
                 }
 
                 @Override
@@ -102,6 +104,8 @@ public class ConnessioneActivity extends Animazioni {
         creaStanza.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                player1 = true;
+                player2 = false;
                 roomName = playerName;
                 roomRef = database.getReference("rooms").child(roomName).child("player1");
                 addRoomEventListener();
@@ -114,6 +118,8 @@ public class ConnessioneActivity extends Animazioni {
         listaDispositivi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                player1 = false;
+                player2 = true;
                 roomName = roomsList.get(i);
                 roomRef = database.getReference("rooms").child(roomName).child("player2");
                 addRoomEventListener();
@@ -142,6 +148,7 @@ public class ConnessioneActivity extends Animazioni {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Intent i = new Intent(ConnessioneActivity.this, StanzaActivity.class);
                 startActivity(i);
+                roomRef.removeEventListener(this);
                 finish();
             }
 
@@ -163,10 +170,11 @@ public class ConnessioneActivity extends Animazioni {
                     if(dataSnapshot.child("numero_giocatori").exists()) {
                         giocatori = dataSnapshot.child("numero_giocatori").getValue(Integer.class);
                     }
-                    if (!dataSnapshot.getKey().equals(playerName) && giocatori > 0) {
+                    if (!dataSnapshot.getKey().equals(playerName) && giocatori == 1) {
                         roomsList.add(dataSnapshot.getKey());
 
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(ConnessioneActivity.this, android.R.layout.simple_list_item_1, roomsList);
+                        adapter.notifyDataSetChanged();
                         listaDispositivi.setAdapter(adapter);
                     }
                 }

@@ -67,6 +67,20 @@ public class StanzaActivity extends Animazioni {
         gioca.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(ConnessioneActivity.player1){
+                    ref = database.getReference("rooms").child(ConnessioneActivity.roomName).child("player1_isPlaying");
+                    ref.setValue(true);
+                }else{
+                    ref = database.getReference("rooms").child(ConnessioneActivity.roomName).child("player2_isPlaying");
+                    ref.setValue(true);
+                }
+                ref = null;
+                ref = database.getReference("rooms").child(ConnessioneActivity.roomName);
+                ref.child("score_player1").setValue(0);
+                ref.child("score_player2").setValue(0);
+                ref.child("playerExit").setValue(0);
+                ref.child("mostra_risultati_player1").setValue(false);
+                ref.child("mostra_risultati_player2").setValue(false);
                 Intent i = new Intent(StanzaActivity.this, SchermataCaricamentoActivity.class);
                 startActivity(i);
                 finish();
@@ -78,14 +92,16 @@ public class StanzaActivity extends Animazioni {
             ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
+                    if(snapshot.exists()) {
                         giocatori = snapshot.child("numero_giocatori").getValue(Integer.class);
                         if (giocatori == 2) {
                             caricamento.setVisibility(View.GONE);
                             gioca.setEnabled(true);
-                        }else{
+                        } else {
                             caricamento.setVisibility(View.VISIBLE);
                             gioca.setEnabled(false);
                         }
+                    }
                 }
 
                 @Override

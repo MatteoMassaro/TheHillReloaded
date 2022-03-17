@@ -9,6 +9,7 @@ import com.example.thehillreloaded.R;
 import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
 import com.example.thehillreloaded.menu.MenuActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
+import com.example.thehillreloaded.menu.RisultatiActivity;
 import com.example.thehillreloaded.menu.SchermataCaricamentoActivity;
 
 public class NormalGameView extends GameView {
@@ -38,6 +39,15 @@ public class NormalGameView extends GameView {
         //termina la partita e ritorna all'activity per scegliere la modalità di gioco
         normalGameActivity.finish();
         normalGameActivity.startActivity(new Intent(normalGameActivity, MenuActivity.class));
+    }
+
+    @Override
+    public void showResult(){
+        super.showResult();
+
+        //termina la partita e porta all'activity che mostra i risultati
+        normalGameActivity.finish();
+        normalGameActivity.startActivity(new Intent(normalGameActivity, RisultatiActivity.class));
     }
 
     @Override

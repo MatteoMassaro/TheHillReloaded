@@ -40,6 +40,11 @@
     <string name="nessun_giocatore">NESSUN GIOCATORE DISPONIBILE</string>
     <string name="cerca_giocatori">CERCA GIOCATORI</string>
     <string name="attesa_avversario">IN ATTESA DELL\'AVVERSARIO</string>
+    <string name="risultati">RISULTATI</string>
+    <string name="vittoria">HAI VINTO!</string>
+    <string name="sconfitta">HAI PERSO!</string>
+    <string name="pareggio">PAREGGIO!</string>
+    <string name="mostra_risultati">MOSTRA RISULTATI</string>
     <string name="cooperativo">COOPERATIVO</string>
     <string name="caricamento">CARICAMENTO</string>
     <string name="percentuale">0%</string>

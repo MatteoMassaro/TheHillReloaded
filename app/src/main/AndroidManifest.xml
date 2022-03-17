@@ -35,6 +35,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHillReloaded">
         <activity
+            android:name=".menu.RisultatiActivity"
+            android:exported="false" />
+        <activity
             android:name=".menu.StanzaActivity"
             android:exported="false" />
         <activity

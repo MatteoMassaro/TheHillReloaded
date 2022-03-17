@@ -19,6 +19,7 @@ public class GameOver extends RecImages {
         setImageBitmap(BitmapFactory.decodeResource(res, R.drawable.game_over));
         setImageBitmap2(BitmapFactory.decodeResource(res, R.drawable.redo));
         setImageBitmap3(BitmapFactory.decodeResource(res, R.drawable.exit));
+        setImageBitmap4(BitmapFactory.decodeResource(res, R.drawable.trophy));
         super.setWidth((int)(getImageBitmap().getWidth() * screenRatioX * densityRatio/2));
         super.setHeight((int)(getImageBitmap().getHeight() * screenRatioY * densityRatio/2));
         setImageBitmap(Bitmap.createScaledBitmap(getImageBitmap(), getWidth(), getHeight(), true));
@@ -27,6 +28,7 @@ public class GameOver extends RecImages {
         super.setHeight((int)(getImageBitmap2().getHeight() * screenRatioX * densityRatio/13));
         setImageBitmap2(Bitmap.createScaledBitmap(getImageBitmap2(), getWidth(), getHeight(), true));
         setImageBitmap3(Bitmap.createScaledBitmap(getImageBitmap3(), getWidth(), getHeight(), true));
+        setImageBitmap4(Bitmap.createScaledBitmap(getImageBitmap4(), getWidth(), getHeight(), true));
 
     }
 }
