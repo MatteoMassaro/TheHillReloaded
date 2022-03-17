@@ -47,9 +47,9 @@ public class AnimazioneBarraCaricamento extends Animation{
         barraCaricamento.setProgress((int)value);
         percentuale.setText((int)value + " %");
 
-        if (value == a && (GiocatoreSingoloActivity.classica || MultigiocatoreActivity.multigiocatore)){
+        if (value == a && (GiocatoreSingoloActivity.classica || MultigiocatoreActivity.unoVSunoClassico)){
             contesto.startActivity(new Intent(contesto, NormalGameActivity.class));
-        } else if (value == a && GiocatoreSingoloActivity.powerUp){
+        } else if (value == a && (GiocatoreSingoloActivity.powerUp || MultigiocatoreActivity.unoVSunoPowerUp)){
             contesto.startActivity(new Intent(contesto, PowerUpGameActivity.class));
         }
     }

@@ -55,7 +55,11 @@ public class StanzaActivity extends Animazioni {
         indietro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ref = database.getReference("rooms").child(ConnessioneActivity.roomName);
+                if(MultigiocatoreActivity.unoVSunoClassico) {
+                    ref = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName);
+                }else{
+                    ref = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName);
+                }
                 ref.child("numero_giocatori").setValue(giocatori - 1);
                 Intent i = new Intent(StanzaActivity.this, ConnessioneActivity.class);
                 startActivity(i);
@@ -67,18 +71,33 @@ public class StanzaActivity extends Animazioni {
         gioca.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(ConnessioneActivity.player1){
-                    ref = database.getReference("rooms").child(ConnessioneActivity.roomName).child("player1_isPlaying");
-                    ref.setValue(true);
+                if(MultigiocatoreActivity.unoVSunoClassico) {
+                    if (ConnessioneActivity.player1) {
+                        ref = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName).child("player1_isPlaying");
+                        ref.setValue(true);
+                    } else {
+                        ref = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName).child("player2_isPlaying");
+                        ref.setValue(true);
+                    }
+                    ref = null;
+                    ref = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName);
+                    ref.child("score_player1").setValue(0);
+                    ref.child("score_player2").setValue(0);
+                    ref.child("playerExit").setValue(0);
                 }else{
-                    ref = database.getReference("rooms").child(ConnessioneActivity.roomName).child("player2_isPlaying");
-                    ref.setValue(true);
+                    if (ConnessioneActivity.player1) {
+                        ref = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName).child("player1_isPlaying");
+                        ref.setValue(true);
+                    } else {
+                        ref = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName).child("player2_isPlaying");
+                        ref.setValue(true);
+                    }
+                    ref = null;
+                    ref = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName);
+                    ref.child("score_player1").setValue(0);
+                    ref.child("score_player2").setValue(0);
+                    ref.child("playerExit").setValue(0);
                 }
-                ref = null;
-                ref = database.getReference("rooms").child(ConnessioneActivity.roomName);
-                ref.child("score_player1").setValue(0);
-                ref.child("score_player2").setValue(0);
-                ref.child("playerExit").setValue(0);
                 Intent i = new Intent(StanzaActivity.this, SchermataCaricamentoActivity.class);
                 startActivity(i);
                 finish();
@@ -86,7 +105,11 @@ public class StanzaActivity extends Animazioni {
             }
         });
 
-            ref = database.getReference("rooms").child(ConnessioneActivity.roomName);
+        if(MultigiocatoreActivity.unoVSunoClassico) {
+            ref = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName);
+        }else{
+            ref = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName);
+        }
             ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {

@@ -41,6 +41,7 @@ public class NormalGameView extends GameView {
         normalGameActivity.startActivity(new Intent(normalGameActivity, MenuActivity.class));
     }
 
+    //metodo per uscire dal gioco e andare all'activity che mostra i risultati
     @Override
     public void showResult(){
         super.showResult();

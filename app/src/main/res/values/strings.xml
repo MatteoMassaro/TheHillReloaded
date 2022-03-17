@@ -28,7 +28,8 @@
     <string name="scegli_partita">SCEGLI PARTITA</string>
     <string name="partita_salvata">PARTITA SALVATA</string>
     <string name="nuova_partita">NUOVA PARTITA</string>
-    <string name="uno_contro_uno">1 VS 1</string>
+    <string name="uno_contro_uno">1 VS 1 CLASSICO</string>
+    <string name="uno_contro_uno_powerUp">1 VS 1 POWER UP</string>
     <string name="seleziona_giocatore">SELEZIONA UN GIOCATORE</string>
     <string name="stato">STATO</string>
     <string name="utenti_disponibili">UTENTI DISPONIBILI</string>

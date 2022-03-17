@@ -27,6 +27,7 @@ import com.example.thehillreloaded.gameplay.falling_objects.SunnyPow;
 import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
 import com.example.thehillreloaded.menu.MenuActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
+import com.example.thehillreloaded.menu.RisultatiActivity;
 import com.example.thehillreloaded.menu.SchermataCaricamentoActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -77,6 +78,19 @@ public class PowerUpGameView extends GameView {
         powerUpGameActivity.finish();
         powerUpGameActivity.startActivity(new Intent(powerUpGameActivity, MenuActivity.class));
     }
+
+    //metodo per uscire dal gioco e andare all'activity che mostra i risultati
+    public void showResult() {
+        super.showResult();
+        PowerUp.resetTasso();
+        SlowDown.resetValues();
+        SpeedUp.resetValues();
+
+        //termina la partita e porta all'activity che mostra i risultati
+        powerUpGameActivity.finish();
+        powerUpGameActivity.startActivity(new Intent(powerUpGameActivity, RisultatiActivity.class));
+    }
+
 
     @Override
     protected void spawnJunk(ArrayList<Junk> junkArrayList) {

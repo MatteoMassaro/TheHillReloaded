@@ -47,7 +47,7 @@
         android:focusable="true">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/uno_contro_uno"
+            android:id="@+id/uno_contro_uno_classico"
             android:layout_width="match_parent"
             android:layout_height="160dp"
             app:cardCornerRadius="70dp"
@@ -62,7 +62,7 @@
                     android:contentDescription="@string/uno_contro_uno"
                     android:layout_width="70dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/vs"
+                    android:src="@drawable/uno_contro_uno_classica"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp" />
                 <TextView
@@ -89,7 +89,7 @@
         android:focusable="true">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cooperativo"
+            android:id="@+id/uno_contro_uno_powerUp"
             android:layout_width="match_parent"
             android:layout_height="160dp"
             app:cardCornerRadius="70dp"
@@ -104,7 +104,7 @@
                     android:contentDescription="@string/cooperativo"
                     android:layout_width="70dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/cooperation"
+                    android:src="@drawable/uno_contro_uno_powerup"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"/>
                 <TextView
@@ -112,7 +112,7 @@
                     android:layout_height="60dp"
                     android:gravity="center"
                     android:fontFamily="@font/bowlby_one_sc"
-                    android:text="@string/cooperativo"
+                    android:text="@string/uno_contro_uno_powerUp"
                     android:textColor="@color/white"
                     android:textSize="28sp" />
             </LinearLayout>

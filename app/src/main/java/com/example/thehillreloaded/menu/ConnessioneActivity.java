@@ -107,11 +107,19 @@ public class ConnessioneActivity extends Animazioni {
                 player1 = true;
                 player2 = false;
                 roomName = playerName;
-                roomRef = database.getReference("rooms").child(roomName).child("player1");
-                addRoomEventListener();
-                roomRef.setValue(playerName);
-                roomRef = database.getReference("rooms").child(roomName).child("numero_giocatori");
-                roomRef.setValue(1);
+                if(MultigiocatoreActivity.unoVSunoClassico) {
+                    roomRef = database.getReference("rooms_uno_contro_uno_classico").child(roomName).child("player1");
+                    addRoomEventListener();
+                    roomRef.setValue(playerName);
+                    roomRef = database.getReference("rooms_uno_contro_uno_classico").child(roomName).child("numero_giocatori");
+                    roomRef.setValue(1);
+                }else{
+                    roomRef = database.getReference("rooms_uno_contro_uno_powerUp").child(roomName).child("player1");
+                    addRoomEventListener();
+                    roomRef.setValue(playerName);
+                    roomRef = database.getReference("rooms_uno_contro_uno_powerUp").child(roomName).child("numero_giocatori");
+                    roomRef.setValue(1);
+                }
             }
         });
 
@@ -121,11 +129,19 @@ public class ConnessioneActivity extends Animazioni {
                 player1 = false;
                 player2 = true;
                 roomName = roomsList.get(i);
-                roomRef = database.getReference("rooms").child(roomName).child("player2");
-                addRoomEventListener();
-                roomRef.setValue(playerName);
-                roomRef = database.getReference("rooms").child(roomName).child("numero_giocatori");
-                roomRef.setValue(2);
+                if(MultigiocatoreActivity.unoVSunoClassico) {
+                    roomRef = database.getReference("rooms_uno_contro_uno_classico").child(roomName).child("player2");
+                    addRoomEventListener();
+                    roomRef.setValue(playerName);
+                    roomRef = database.getReference("rooms_uno_contro_uno_classico").child(roomName).child("numero_giocatori");
+                    roomRef.setValue(2);
+                }else{
+                    roomRef = database.getReference("rooms_uno_contro_uno_powerUp").child(roomName).child("player2");
+                    addRoomEventListener();
+                    roomRef.setValue(playerName);
+                    roomRef = database.getReference("rooms_uno_contro_uno_powerUp").child(roomName).child("numero_giocatori");
+                    roomRef.setValue(2);
+                }
             }
         });
 
@@ -143,7 +159,7 @@ public class ConnessioneActivity extends Animazioni {
     }
 
     private void addRoomEventListener(){
-        roomRef.addValueEventListener(new ValueEventListener() {
+        roomRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Intent i = new Intent(ConnessioneActivity.this, StanzaActivity.class);
@@ -160,7 +176,11 @@ public class ConnessioneActivity extends Animazioni {
     }
 
     private void addRoomsEventListener(){
-        roomsRef = database.getReference("rooms");
+        if(MultigiocatoreActivity.unoVSunoClassico) {
+            roomsRef = database.getReference("rooms_uno_contro_uno_classico");
+        }else{
+            roomsRef = database.getReference("rooms_uno_contro_uno_powerUp");
+        }
         roomsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

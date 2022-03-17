@@ -79,7 +79,7 @@ public class GameView extends SurfaceView implements Runnable {
     //Variabili, liste e oggetti
 
     FirebaseDatabase database;
-    DatabaseReference mainRef, ref, myRef;
+    DatabaseReference mainRef, ref, ref2, ref3, myRef;
 
     private Thread thread;
     private boolean isPlaying = false;
@@ -117,6 +117,7 @@ public class GameView extends SurfaceView implements Runnable {
     public static int playerExit;
     private GameActivity gameActivity;
     private int num_junk, index;
+    private String avversario;
 
     public GameView(Context context, int screenX, int screenY, float density) {
         super(context);
@@ -230,7 +231,7 @@ public class GameView extends SurfaceView implements Runnable {
             Glass glass = new Glass(0, 0, getResources());
             junkList.add(new Glass(random.nextInt(spawnBoundX - glass.getWidth()) + (int) (25 * screenRatioX), spawnY, getResources()));
 
-            if(MultigiocatoreActivity.multigiocatore){
+            if(MultigiocatoreActivity.unoVSunoClassico || MultigiocatoreActivity.unoVSunoPowerUp){
                 tassoDifficolta = 0.8;
             }
             //modifica la velocità dei rifiuti e la velocità di riciclo in base alla difficoltà scelta
@@ -242,6 +243,50 @@ public class GameView extends SurfaceView implements Runnable {
             if(LoginActivity.currentUser != null) {
                 ref = mainRef.child("general_data");
                 ref.child("is_saved").setValue(false); //ora non è più presente una partita salvata (se prima c'era)
+            }
+
+            //se è iniziata una partita multiplayer classica
+            if(MultigiocatoreActivity.unoVSunoClassico) {
+                ref3 = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName);
+                ref3.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            if (ConnessioneActivity.player1) {
+                                avversario = snapshot.child("player2").getValue(String.class);
+                            } else {
+                                avversario = snapshot.child("player1").getValue(String.class);
+                            }
+                        }
+                        ref.removeEventListener(this);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+             //se è iniziata una partita multiplayer power-up
+            }else if(MultigiocatoreActivity.unoVSunoPowerUp) {
+                ref3 = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName);
+                ref3.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            if (ConnessioneActivity.player1) {
+                                avversario = snapshot.child("player2").getValue(String.class);
+                            } else {
+                                avversario = snapshot.child("player1").getValue(String.class);
+                            }
+                        }
+                        ref.removeEventListener(this);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         }
 
@@ -402,17 +447,25 @@ public class GameView extends SurfaceView implements Runnable {
                 pause(); //metti il gioco in pausa
             }
 
-            ref = database.getReference("rooms").child(ConnessioneActivity.roomName).child("playerExit");
+            if(MultigiocatoreActivity.unoVSunoClassico) {
+                ref = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName).child("playerExit");
+            }else if (MultigiocatoreActivity.unoVSunoPowerUp){
+                ref = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName).child("playerExit");
+            }
             ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(snapshot.exists()) {
                         playerExit = snapshot.getValue(Integer.class);
                         if (playerExit != 0) {
-                            myRef = database.getReference("rooms").child(ConnessioneActivity.roomName);
-                            myRef.child("player1_isPlaying").setValue(false);
-                            myRef.child("player2_isPlaying").setValue(false);
-                            myRef.child("numero_giocatori").setValue(0);
+                            if(MultigiocatoreActivity.unoVSunoClassico) {
+                                ref2 = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName);
+                            }else if (MultigiocatoreActivity.unoVSunoPowerUp){
+                                ref2 = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName);
+                            }
+                            ref2.child("player1_isPlaying").setValue(false);
+                            ref2.child("player2_isPlaying").setValue(false);
+                            ref2.child("numero_giocatori").setValue(0);
                             showResult();
                         }
                     }
@@ -881,7 +934,7 @@ public class GameView extends SurfaceView implements Runnable {
                 }
                 //disegna a schermo il pop-up di fine partita
                 canvas.drawBitmap(gameOver.getImageBitmap(), gameOver.getX(), gameOver.getY(), paint);
-                if(!MultigiocatoreActivity.multigiocatore) {
+                if(!MultigiocatoreActivity.unoVSunoClassico && !MultigiocatoreActivity.unoVSunoPowerUp) {
                     canvas.drawBitmap(gameOver.getImageBitmap2(), gameOver.getX() + (int) (170 * screenRatioX), gameOver.getY() + (int) (350 * screenRatioY), paint);
                     canvas.drawBitmap(gameOver.getImageBitmap3(), gameOver.getX() + (int) (170 * screenRatioX), gameOver.getY() + (int) (500 * screenRatioY), paint);
                     canvas.drawText("RICOMINCIA", gameOver.getX() + gameOver.getWidth() + (int) (200 * screenRatioX), gameOver.getY() + (int) (450 * screenRatioY), paint);
@@ -1094,12 +1147,17 @@ public class GameView extends SurfaceView implements Runnable {
         canvas.drawText(String.valueOf(sunnyPoints.getSunnyPoints()), sunnyPoints.getX() + sunnyPoints.getWidth() * 2, sunnyPoints.getY() + sunnyPoints.getHeight() * 6 / 5, paint);
         canvas.drawText("Punti: " + (gameBar.getScore()), sunnyPoints.getX() + (int) (sunnyPoints.getWidth() * 10), sunnyPoints.getY() + sunnyPoints.getHeight() * 6 / 5, otherTextInfoPaint);
         canvas.drawBitmap(missioni.getImageBitmap(), missioni.getX() * 33 / 2, missioni.getY() - (float) (10 * screenRatioY), paint);
-        if (!MultigiocatoreActivity.multigiocatore) {
+        if (!MultigiocatoreActivity.unoVSunoClassico && !MultigiocatoreActivity.unoVSunoPowerUp) {
             canvas.drawText("Difficoltà:", sunnyPoints.getX() + (int) (sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 0.8), textInfoPaint);
             canvas.drawText(DifficoltaActivity.difficoltà, sunnyPoints.getX() + (int) (sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 1.4), textInfoPaint);
+        }else if(MultigiocatoreActivity.unoVSunoClassico) {
+            canvas.drawText("Avversario:", sunnyPoints.getX() + (int) (sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 0.8), textInfoPaint);
+            canvas.drawText(avversario, sunnyPoints.getX() + (int) (sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 1.4), textInfoPaint);
+        }else if(MultigiocatoreActivity.unoVSunoPowerUp) {
+                canvas.drawText("Avversario:", sunnyPoints.getX() + (int) (sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 0.8), textInfoPaint);
+                canvas.drawText(avversario, sunnyPoints.getX() + (int) (sunnyPoints.getWidth() * 3.5), (float) (sunnyPoints.getY() + sunnyPoints.getHeight() * 1.4), textInfoPaint);
+            }
         }
-
-    }
 
     private void drawMissions(ArrayList<Missioni> missionsArrayList, Canvas canvas) {
         //se l'icona delle missioni è stata cliccata
@@ -1199,7 +1257,7 @@ public class GameView extends SurfaceView implements Runnable {
             }
 
             canvas.drawText("EFFETTI", missioni.getWidth() * 9 / 2, missioni.getHeight() * 17 / 2, otherTextInfoPaint);
-            if(!MultigiocatoreActivity.multigiocatore) {
+            if(!MultigiocatoreActivity.unoVSunoClassico && !MultigiocatoreActivity.unoVSunoPowerUp) {
                 canvas.drawBitmap(gameOver.getImageBitmap2(), gameBar.getWidth() * 8, gameBar.getHeight() * 25, paint);
                 canvas.drawText("RICOMINCIA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 9.83), otherTextInfoPaint);
                 canvas.drawBitmap(gameBar.getSaveIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 29, paint);
@@ -1330,13 +1388,15 @@ public class GameView extends SurfaceView implements Runnable {
     private void pauseExitIsTouched(int touchX, int touchY) {
         boolean isTouchingPauseExit = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 33 && touchX < gameBar.getWidth() * 8 + gameOver.getWidth() && touchY < gameBar.getHeight() * 33 + gameOver.getHeight();
         if (isTouchingPauseExit) { //se è stato toccato il tasto per uscire
-            if(MultigiocatoreActivity.multigiocatore){
-                ref = database.getReference("rooms").child(ConnessioneActivity.roomName);
-                if(ConnessioneActivity.player1) {
-                    ref.child("playerExit").setValue(1);
-                }else{
-                    ref.child("playerExit").setValue(2);
-                }
+            if(MultigiocatoreActivity.unoVSunoClassico) {
+                ref = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName);
+            }else if(MultigiocatoreActivity.unoVSunoPowerUp) {
+                ref = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName);
+            }
+            if(ConnessioneActivity.player1) {
+                ref.child("playerExit").setValue(1);
+            }else{
+                ref.child("playerExit").setValue(2);
             }
             exit(); //esci dal gioco
             exit();
@@ -1350,13 +1410,13 @@ public class GameView extends SurfaceView implements Runnable {
             if (LoginActivity.currentUser != null)
                 saveScores(); //salva il punteggio, assieme alla modalità e alla difficoltà scelta
 
-            if(MultigiocatoreActivity.multigiocatore){
-                setScore();
+            if(MultigiocatoreActivity.unoVSunoClassico || MultigiocatoreActivity.unoVSunoPowerUp){
+                showResultIsTouched(touchX, touchY); //se viene toccata l'icona di "Vedi risultati", vai ai risultati
+                setScore(); //setta lo score del giocatore
+            }else{
+                redoIsTouched(touchX, touchY); //se viene toccata l'icona "Ricomincia", ricomincia la partita
+                gameOverExitIsTouched(touchX, touchY); //se viene toccata l'icona di "Esci", esci dal gioco
             }
-
-            redoIsTouched(touchX, touchY); //se viene toccata l'icona "Ricomincia", ricomincia la partita
-            gameOverExitIsTouched(touchX, touchY); //se viene toccata l'icona di "Esci", esci dal gioco
-            showResultIsTouched(touchX, touchY); //se viene toccata l'icona di "Vedi risultati", vai ai risultati
         }
     }
 
@@ -1993,10 +2053,10 @@ public class GameView extends SurfaceView implements Runnable {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 //salva il punteggio, la modalità e la difficoltà di gioco
                 index = Math.toIntExact(snapshot.getChildrenCount());
-                if(!MultigiocatoreActivity.multigiocatore) {
+                if(!MultigiocatoreActivity.unoVSunoClassico && !MultigiocatoreActivity.unoVSunoPowerUp) {
                     myRef.child("score" + index).setValue("Modalità: " + GiocatoreSingoloActivity.modalità + "\n" + "Difficoltà: " + DifficoltaActivity.difficoltà + "\n" + "Punteggio: " + String.valueOf(gameBar.getScore()));
                 }else{
-                    myRef.child("score" + index).setValue("Modalità: " + MenuActivity.modalità + "\n" + "Punteggio: " + String.valueOf(gameBar.getScore()));
+                    myRef.child("score" + index).setValue("Modalità: " + MultigiocatoreActivity.modalità + "\n" + "Punteggio: " + String.valueOf(gameBar.getScore()));
                 }
             }
 
@@ -2008,22 +2068,41 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void setScore(){
-        if(ConnessioneActivity.player1){
-            ref = database.getReference("rooms").child(ConnessioneActivity.roomName).child("player1_isPlaying");
-            ref.setValue(false);
-            ref = null;
-            ref = database.getReference("rooms").child(ConnessioneActivity.roomName);
-            ref.child("score_player1").setValue(gameBar.getScore());
+        if(MultigiocatoreActivity.unoVSunoClassico) {
+            if (ConnessioneActivity.player1) {
+                ref = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName).child("player1_isPlaying");
+                ref.setValue(false);
+                ref = null;
+                ref = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName);
+                ref.child("score_player1").setValue(gameBar.getScore());
 
-        }else{
-            ref = database.getReference("rooms").child(ConnessioneActivity.roomName).child("player2_isPlaying");
-            ref.setValue(false);
-            ref = null;
-            ref = database.getReference("rooms").child(ConnessioneActivity.roomName);
-            ref.child("score_player2").setValue(gameBar.getScore());
+            } else {
+                ref = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName).child("player2_isPlaying");
+                ref.setValue(false);
+                ref = null;
+                ref = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName);
+                ref.child("score_player2").setValue(gameBar.getScore());
+            }
+            ref = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName).child("numero_giocatori");
+            ref.setValue(0);
+        }else if(MultigiocatoreActivity.unoVSunoPowerUp){
+            if (ConnessioneActivity.player1) {
+                ref = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName).child("player1_isPlaying");
+                ref.setValue(false);
+                ref = null;
+                ref = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName);
+                ref.child("score_player1").setValue(gameBar.getScore());
+
+            } else {
+                ref = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName).child("player2_isPlaying");
+                ref.setValue(false);
+                ref = null;
+                ref = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName);
+                ref.child("score_player2").setValue(gameBar.getScore());
+            }
+            ref = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName).child("numero_giocatori");
+            ref.setValue(0);
         }
-        ref = database.getReference("rooms").child(ConnessioneActivity.roomName).child("numero_giocatori");
-        ref.setValue(0);
     }
 
 

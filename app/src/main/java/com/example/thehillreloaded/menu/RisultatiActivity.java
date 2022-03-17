@@ -51,7 +51,11 @@ public class RisultatiActivity extends Animazioni {
 
         database = FirebaseDatabase.getInstance();
 
-        ref = database.getReference("rooms").child(ConnessioneActivity.roomName);
+        if(MultigiocatoreActivity.unoVSunoClassico) {
+            ref = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName);
+        }else{
+            ref = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName);
+        }
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -67,7 +71,11 @@ public class RisultatiActivity extends Animazioni {
             }
         });
 
-        ref2 = database.getReference("rooms").child(ConnessioneActivity.roomName);
+        if(MultigiocatoreActivity.unoVSunoClassico) {
+            ref2 = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName);
+        }else{
+            ref2 = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName);
+        }
         ref2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

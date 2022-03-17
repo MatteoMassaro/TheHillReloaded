@@ -15,24 +15,25 @@ import com.example.thehillreloaded.animazioni.Animazioni;
 public class MultigiocatoreActivity extends Animazioni implements View.OnClickListener{
 
     //Variabili
-    public CardView unoControUno, cooperativo;
+    public CardView unoControUnoClassico, unoControUnoPowerUp;
     public ImageView indietro;
-    public static boolean multigiocatore = false;
+    public static boolean unoVSunoClassico, unoVSunoPowerUp = false;
+    public static String modalità;
 
     //Chiama l'animazione all'avvio dell'activity
     @Override
     protected void onStart(){
         super.onStart();
-        runAnimationSlideIn(unoControUno);
-        runAnimationSlideIn(cooperativo);
+        runAnimationSlideIn(unoControUnoClassico);
+        runAnimationSlideIn(unoControUnoPowerUp);
     }
 
     //Chiama l'animazione alla pausa dell'activity
     @Override
     protected void onPause(){
         super.onPause();
-        runAnimationSlideOut(unoControUno);
-        runAnimationSlideOut(cooperativo);
+        runAnimationSlideOut(unoControUnoClassico);
+        runAnimationSlideOut(unoControUnoPowerUp);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -45,18 +46,18 @@ public class MultigiocatoreActivity extends Animazioni implements View.OnClickLi
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         //Trova le view tramite l'id e le assegna alle variabili
-        unoControUno = findViewById(R.id.uno_contro_uno);
-        cooperativo = findViewById(R.id.cooperativo);
+        unoControUnoClassico = findViewById(R.id.uno_contro_uno_classico);
+        unoControUnoPowerUp = findViewById(R.id.uno_contro_uno_powerUp);
         indietro = findViewById(R.id.indietro);
 
         //Imposta metodo di callback quando la view viene cliccata
-        unoControUno.setOnClickListener(this);
-        cooperativo.setOnClickListener(this);
+        unoControUnoClassico.setOnClickListener(this);
+        unoControUnoPowerUp.setOnClickListener(this);
         indietro.setOnClickListener(this);
 
         //Animazione pulsanti
-        clickButtonAnimation(unoControUno);
-        clickButtonAnimation(cooperativo);
+        clickButtonAnimation(unoControUnoClassico);
+        clickButtonAnimation(unoControUnoPowerUp);
         clickButtonAnimation(indietro);
     }
 
@@ -66,12 +67,22 @@ public class MultigiocatoreActivity extends Animazioni implements View.OnClickLi
     public void onClick(View view) {
         Intent i;
         switch (view.getId()){
-            case R.id.uno_contro_uno:
-            case R.id.cooperativo:
-                multigiocatore = true;
+            case R.id.uno_contro_uno_classico:
+                unoVSunoClassico = true;
+                unoVSunoPowerUp = false;
+                modalità = "1 VS 1 Classico";
                 i = new Intent(this, ConnessioneActivity.class);
                 Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i, b);
+                finish();
+                break;
+            case R.id.uno_contro_uno_powerUp:
+                unoVSunoPowerUp = true;
+                unoVSunoClassico = false;
+                modalità = "1 VS 1 Power-up";
+                i = new Intent(this, ConnessioneActivity.class);
+                Bundle b1 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+                startActivity(i, b1);
                 finish();
                 break;
             case R.id.indietro:
