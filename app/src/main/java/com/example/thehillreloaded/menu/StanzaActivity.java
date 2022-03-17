@@ -79,8 +79,6 @@ public class StanzaActivity extends Animazioni {
                 ref.child("score_player1").setValue(0);
                 ref.child("score_player2").setValue(0);
                 ref.child("playerExit").setValue(0);
-                ref.child("mostra_risultati_player1").setValue(false);
-                ref.child("mostra_risultati_player2").setValue(false);
                 Intent i = new Intent(StanzaActivity.this, SchermataCaricamentoActivity.class);
                 startActivity(i);
                 finish();

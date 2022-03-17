@@ -161,7 +161,7 @@ public class ConnessioneActivity extends Animazioni {
 
     private void addRoomsEventListener(){
         roomsRef = database.getReference("rooms");
-        roomsRef.addValueEventListener(new ValueEventListener() {
+        roomsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 roomsList.clear();
