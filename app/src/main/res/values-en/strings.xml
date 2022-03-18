@@ -47,6 +47,11 @@
     <string name="sconfitta">YOU LOST!</string>
     <string name="pareggio">TIE!</string>
     <string name="mostra_risultati">SHOW RESULTS</string>
+    <string name="aggiorna">REFRESH</string>
+    <string name="tuo_punteggio">YOUR SCORE:</string>
+    <string name="punteggio_avversario">OPPONENT SCORE:</string>
+    <string name="tuo_abbandono">YOU ABANDONED THE MATCH</string>
+    <string name="abbandono_avversario">THE OPPONENT ABANDONED THE MATCH</string>
     <string name="cooperativo">COOPERATIVE</string>
     <string name="caricamento">LOADING</string>
     <string name="percentuale">0%</string>

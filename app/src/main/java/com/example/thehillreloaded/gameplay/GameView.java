@@ -114,7 +114,7 @@ public class GameView extends SurfaceView implements Runnable {
     private Missioni goals;
     private VolumeActivity volumeActivity;
     private boolean pauseFlag;
-    public static int playerExit;
+    private int playerExit;
     private GameActivity gameActivity;
     private int num_junk, index;
     private String avversario;
@@ -447,37 +447,7 @@ public class GameView extends SurfaceView implements Runnable {
                 pause(); //metti il gioco in pausa
             }
 
-            if (MultigiocatoreActivity.unoVSunoClassico || MultigiocatoreActivity.unoVSunoPowerUp) {
-                if (MultigiocatoreActivity.unoVSunoClassico) {
-                    ref = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName).child("playerExit");
-                } else if (MultigiocatoreActivity.unoVSunoPowerUp) {
-                    ref = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName).child("playerExit");
-                }
-                ref.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
-                            playerExit = snapshot.getValue(Integer.class);
-                            if (playerExit != 0) {
-                                if (MultigiocatoreActivity.unoVSunoClassico) {
-                                    ref2 = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName);
-                                } else if (MultigiocatoreActivity.unoVSunoPowerUp) {
-                                    ref2 = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName);
-                                }
-                                ref2.child("player1_isPlaying").setValue(false);
-                                ref2.child("player2_isPlaying").setValue(false);
-                                ref2.child("numero_giocatori").setValue(0);
-                                showResult();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-            }
+            getPlayerExit();
         }
     }
 
@@ -510,6 +480,40 @@ public class GameView extends SurfaceView implements Runnable {
     private void stopEffects() {
         if (MusicPlayer.isPlayingEffect) { //se ci sono gli effetti delle unità di riciclo
             MusicPlayer.stopEffetti(); //ferma gli effetti
+        }
+    }
+
+    private void getPlayerExit(){
+        if (MultigiocatoreActivity.unoVSunoClassico || MultigiocatoreActivity.unoVSunoPowerUp) {
+            if (MultigiocatoreActivity.unoVSunoClassico) {
+                ref = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName).child("playerExit");
+            } else if (MultigiocatoreActivity.unoVSunoPowerUp) {
+                ref = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName).child("playerExit");
+            }
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        playerExit = snapshot.getValue(Integer.class);
+                        if (playerExit != 0) {
+                            if (MultigiocatoreActivity.unoVSunoClassico) {
+                                ref2 = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName);
+                            } else if (MultigiocatoreActivity.unoVSunoPowerUp) {
+                                ref2 = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName);
+                            }
+                            ref2.child("player1_isPlaying").setValue(false);
+                            ref2.child("player2_isPlaying").setValue(false);
+                            ref2.child("numero_giocatori").setValue(0);
+                            showResult();
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
     }
 
@@ -1172,7 +1176,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void drawMissionsBackground(Canvas canvas) {
         //disegna il background delle missioni
-        canvas.drawBitmap(gameBar.getMissioniRect(), 0, gameBar.getHeight() * 3, paint);
+        canvas.drawBitmap(gameBar.getMissioniRect(), 0, gameBar.getHeight() * 5, paint);
         canvas.drawText("MISSIONI", missioni.getWidth() * 8 / 3, missioni.getHeight() * 7 / 2, paint);
     }
 
@@ -1248,7 +1252,7 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas.drawBitmap(gameBar.getMusicIconRed(), gameBar.getWidth() * 32, gameBar.getHeight() * 68, paint);
                 gameBar.setMusicClicked(false);
             }
-            canvas.drawText("MUSICA", missioni.getWidth() * 9 / 2, missioni.getHeight() * 14 / 2, otherTextInfoPaint);
+            canvas.drawText("MUSICA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 6.8), otherTextInfoPaint);
 
             if (gameBar.isAudioClicked() && GameActivity.b1 == true) {
                 canvas.drawBitmap(gameBar.getAudioIcon(), gameBar.getWidth() * 32, gameBar.getHeight() * 84, paint);
@@ -1258,24 +1262,24 @@ public class GameView extends SurfaceView implements Runnable {
                 gameBar.setAudioClicked(false);
             }
 
-            canvas.drawText("EFFETTI", missioni.getWidth() * 9 / 2, missioni.getHeight() * 17 / 2, otherTextInfoPaint);
+            canvas.drawText("EFFETTI", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 8.3), otherTextInfoPaint);
             if(!MultigiocatoreActivity.unoVSunoClassico && !MultigiocatoreActivity.unoVSunoPowerUp) {
                 canvas.drawBitmap(gameOver.getImageBitmap2(), gameBar.getWidth() * 32, gameBar.getHeight() * 100, paint);
-                canvas.drawText("RICOMINCIA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 9.83), otherTextInfoPaint);
+                canvas.drawText("RICOMINCIA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 9.7), otherTextInfoPaint);
                 if(LoginActivity.currentUser != null) {
                     canvas.drawBitmap(gameBar.getSaveIcon(), gameBar.getWidth() * 32, gameBar.getHeight() * 116, paint);
                 }else{
                     canvas.drawBitmap(gameBar.getSaveIconRed(), gameBar.getWidth() * 32, gameBar.getHeight() * 116, paint);
                 }
-                canvas.drawText("SALVA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 11.35), otherTextInfoPaint);
+                canvas.drawText("SALVA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 11.2), otherTextInfoPaint);
             }else{
                 canvas.drawBitmap(gameOver.getImageBitmap5(), gameBar.getWidth() * 32, gameBar.getHeight() * 100, paint);
-                canvas.drawText("RICOMINCIA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 9.83), otherTextInfoPaint);
+                canvas.drawText("RICOMINCIA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 9.7), otherTextInfoPaint);
                 canvas.drawBitmap(gameBar.getSaveIconRed(), gameBar.getWidth() * 32, gameBar.getHeight() * 116, paint);
-                canvas.drawText("SALVA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 11.35), otherTextInfoPaint);
+                canvas.drawText("SALVA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 11.2), otherTextInfoPaint);
             }
             canvas.drawBitmap(gameOver.getImageBitmap3(), gameBar.getWidth() * 32, gameBar.getHeight() * 132, paint);
-            canvas.drawText("ESCI", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 12.73), otherTextInfoPaint);
+            canvas.drawText("ESCI", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 12.6), otherTextInfoPaint);
         }
     }
 
@@ -1414,9 +1418,13 @@ public class GameView extends SurfaceView implements Runnable {
                 } else {
                     ref.child("playerExit").setValue(2);
                 }
+                isPlaying = false;
+                getPlayerExit();
+                showResult();
+            }else {
+                exit(); //esci dal gioco
+                exit();
             }
-            exit(); //esci dal gioco
-            exit();
         }
     }
 
@@ -1458,6 +1466,7 @@ public class GameView extends SurfaceView implements Runnable {
         boolean isTouchingShowResult = (touchX >= gameOver.getX() + (int) (170 * screenRatioX) && touchY >= gameOver.getY() + (int) (420 * screenRatioY) && touchX < gameOver.getX() + (int) (170 * screenRatioX) + gameOver.getWidth() && touchY < gameOver.getY() + (int) (420 * screenRatioY) + gameOver.getHeight());
 
         if(isTouchingShowResult){ //se è stata toccata l'icona per mostrare i risultati
+            showResult();
             showResult();
         }
     }
@@ -2070,6 +2079,10 @@ public class GameView extends SurfaceView implements Runnable {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 //salva il punteggio, la modalità e la difficoltà di gioco
                 index = Math.toIntExact(snapshot.getChildrenCount());
+                if(index > 9){
+                    myRef.removeValue();
+                    index = 0;
+                }
                 if(!MultigiocatoreActivity.unoVSunoClassico && !MultigiocatoreActivity.unoVSunoPowerUp) {
                     myRef.child("score" + index).setValue("Modalità: " + GiocatoreSingoloActivity.modalità + "\n" + "Difficoltà: " + DifficoltaActivity.difficoltà + "\n" + "Punteggio: " + String.valueOf(gameBar.getScore()));
                 }else{
