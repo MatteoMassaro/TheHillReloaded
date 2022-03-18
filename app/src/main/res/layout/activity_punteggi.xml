@@ -1,48 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout6"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background"
     android:orientation="vertical"
     tools:context=".menu.MenuActivity">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:id="@+id/imageView7"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:background="@drawable/logo_background"
         android:fontFamily="@font/bevan"
         android:gravity="center"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="160dp"
-        android:layout_marginEnd="160dp"
         android:src="@drawable/logo"
         android:textColor="@color/black"
-        android:background="@drawable/logo_background"
-        android:textSize="19sp" />
+        android:textSize="19sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.00999999" />
 
     <TextView
         android:id="@+id/punteggiPartite"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_width="330dp"
+        android:layout_height="73dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
-        android:text="@string/punteggi"
         android:lineSpacingExtra="-20dp"
-        android:textColor="@color/dark_cornflower_blue"
-        android:textSize="40sp"
         android:shadowColor="@color/black"
         android:shadowDx="15"
         android:shadowDy="10"
-        android:shadowRadius="1.5"/>
+        android:shadowRadius="1.5"
+        android:text="@string/punteggi"
+        android:textColor="@color/dark_cornflower_blue"
+        android:textSize="33sp"
+        app:layout_constraintBottom_toTopOf="@+id/listaPunteggi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView7"
+        app:layout_constraintVertical_bias="0.178" />
 
     <TextView
         android:id="@+id/avvisoAccesso"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/bowlby_one_sc"
-        android:layout_gravity="center"
         android:shadowColor="@color/black"
         android:shadowDx="5"
         android:shadowDy="5"
@@ -51,30 +59,38 @@
         android:textAlignment="center"
         android:textColor="@color/dark_cornflower_blue"
         android:textSize="15sp"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/listaPunteggi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/punteggiPartite"
+        app:layout_constraintVertical_bias="0.51" />
 
     <ListView
         android:id="@+id/listaPunteggi"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_width="345dp"
+        android:layout_height="306dp"
         android:background="@drawable/listview_layout"
-        android:scrollbarThumbVertical="@android:color/transparent"
         android:elevation="15dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp" />
+        android:scrollbarThumbVertical="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.663" />
 
     <ImageView
         android:id="@+id/indietro"
-        android:contentDescription="@string/back"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/nav_button_background"
         android:clickable="true"
+        android:contentDescription="@string/back"
         android:focusable="true"
-        android:src="@drawable/back"
         android:onClick="onClick"
-        android:background="@drawable/nav_button_background"/>
+        android:src="@drawable/back"
+        app:layout_constraintStart_toStartOf="@+id/listaPunteggi"
+        app:layout_constraintTop_toBottomOf="@+id/listaPunteggi" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
