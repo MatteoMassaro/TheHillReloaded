@@ -48,11 +48,18 @@
         android:textColor="@color/lincoln_green"
         android:fontFamily="@font/bowlby_one_sc"/>
 
+    <ProgressBar
+        android:id="@+id/caricamento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"/>
+
     <Button
         android:id="@+id/mostraRisultati"
         android:layout_width="120dp"
         android:layout_height="60dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="40dp"
         android:layout_gravity="center"
         android:background="@drawable/login_button_background"
         android:enabled="false"

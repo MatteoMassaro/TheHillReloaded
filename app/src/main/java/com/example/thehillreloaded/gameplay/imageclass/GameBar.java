@@ -13,7 +13,7 @@ import com.example.thehillreloaded.R;
 public class GameBar {
 
     private int x, y, width, height;
-    private Bitmap pausaRect, missioniRect, elencoPause, saveIcon, exitIcon, audioIcon, musicIcon, audioIconRed, musicIconRed;
+    private Bitmap pausaRect, missioniRect, elencoPause, saveIcon, exitIcon, audioIcon, musicIcon, audioIconRed, musicIconRed, saveIconRed;
     private int score;
     private boolean musicClicked = true;
     private boolean audioClicked = true;
@@ -30,16 +30,18 @@ public class GameBar {
         setExitIcon(BitmapFactory.decodeResource(res, R.drawable.exit));
         setAudioIconRed(BitmapFactory.decodeResource(res, R.drawable.audiored));
         setMusicIconRed(BitmapFactory.decodeResource(res, R.drawable.musicred));
+        setSaveIconRed(BitmapFactory.decodeResource(res, R.drawable.savered));
         this.setWidth((int)(getMusicIconRed().getWidth() * screenRatioX * densityRatio /30));
         this.setHeight((int)(getMusicIconRed().getHeight() * screenRatioY * densityRatio /30));
         setPausaRect(Bitmap.createScaledBitmap(getPausaRect(), screenX, (int)(screenY*0.87), true));
         setMissioniRect(Bitmap.createScaledBitmap(getMissioniRect(), screenX, screenY*4/5, true));
-        setAudioIcon(Bitmap.createScaledBitmap(getAudioIcon(), getWidth() *3, getHeight()*3, true));
-        setMusicIcon(Bitmap.createScaledBitmap(getMusicIcon(), getWidth() *3, getHeight()*3, true));
-        setSaveIcon(Bitmap.createScaledBitmap(getSaveIcon(), getWidth() *3, getHeight()*3, true));
+        setAudioIcon(Bitmap.createScaledBitmap(getAudioIcon(), getWidth() *10, getHeight()*10, true));
+        setMusicIcon(Bitmap.createScaledBitmap(getMusicIcon(), getWidth() *10, getHeight()*10, true));
+        setSaveIcon(Bitmap.createScaledBitmap(getSaveIcon(), getWidth() *10, getHeight()*10, true));
         setExitIcon(Bitmap.createScaledBitmap(getExitIcon(), getWidth() *3, getHeight()*3, true));
-        setAudioIconRed(Bitmap.createScaledBitmap(getAudioIconRed(), getWidth() *3, getHeight()*3, true));
-        setMusicIconRed(Bitmap.createScaledBitmap(getMusicIconRed(), getWidth() *3, getHeight()*3, true));
+        setAudioIconRed(Bitmap.createScaledBitmap(getAudioIconRed(), getWidth() *10, getHeight()*10, true));
+        setMusicIconRed(Bitmap.createScaledBitmap(getMusicIconRed(), getWidth() *10, getHeight()*10, true));
+        setSaveIconRed(Bitmap.createScaledBitmap(getSaveIconRed(), getWidth() *10, getHeight()*10, true));
     }
     public int getX() {
         return x;
@@ -123,6 +125,14 @@ public class GameBar {
 
     public void setMusicIconRed(Bitmap musicIconRed) {
         this.musicIconRed = musicIconRed;
+    }
+
+    public Bitmap getSaveIconRed() {
+        return saveIconRed;
+    }
+
+    public void setSaveIconRed(Bitmap saveIconRed) {
+        this.saveIconRed = saveIconRed;
     }
 
     public void increaseScore(int score) {

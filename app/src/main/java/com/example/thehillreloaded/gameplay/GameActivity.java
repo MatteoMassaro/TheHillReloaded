@@ -1,8 +1,5 @@
 package com.example.thehillreloaded.gameplay;
 
-import static com.example.thehillreloaded.menu.GiocatoreSingoloActivity.b;
-import static com.example.thehillreloaded.menu.GiocatoreSingoloActivity.b1;
-
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
@@ -22,6 +19,7 @@ public class GameActivity extends AppCompatActivity {
     protected Point point;
     protected float density;
     public static int i;
+    public static boolean b, b1;
 
     public void changeAudio(int audioFlag){
         SharedPreferences.Editor editor;

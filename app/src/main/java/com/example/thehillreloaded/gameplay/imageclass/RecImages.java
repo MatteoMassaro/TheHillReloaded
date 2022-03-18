@@ -7,7 +7,7 @@ import android.graphics.Paint;
 public class RecImages {
 
     private int x, y, width, height;
-    private Bitmap imageBitmap, imageBitmap2, imageBitmap3, imageBitmap4;
+    private Bitmap imageBitmap, imageBitmap2, imageBitmap3, imageBitmap4, imageBitmap5;
     private boolean clicked = false;
 
     public RecImages(int x, int y) {
@@ -77,6 +77,14 @@ public class RecImages {
 
     public void setImageBitmap4(Bitmap imageBitmap4) {
         this.imageBitmap4 = imageBitmap4;
+    }
+
+    public Bitmap getImageBitmap5() {
+        return imageBitmap5;
+    }
+
+    public void setImageBitmap5(Bitmap imageBitmap5) {
+        this.imageBitmap5 = imageBitmap5;
     }
 
     public void drawMultiLineText(String string, int x, int y, Paint paint, Canvas canvas) {

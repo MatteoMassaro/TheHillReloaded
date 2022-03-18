@@ -33,6 +33,7 @@
     <string name="seleziona_giocatore">SELECT A PLAYER</string>
     <string name="utenti_disponibili">AVAILABLE USERS</string>
     <string name="accedi_per_giocare">LOG IN TO PLAY ONLINE</string>
+    <string name="accedi_per_vedere">LOG IN TO SEE THE SCORES</string>
     <string name="cerca">FIND</string>
     <string name="stato">STATUS</string>
     <string name="gioca">PLAY</string>

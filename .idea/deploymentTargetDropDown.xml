@@ -12,7 +12,7 @@
         </deviceKey>
       </Target>
     </targetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2022-03-17T09:06:23.502268900Z" />
+    <timeTargetWasSelectedWithDropDown value="2022-03-18T09:09:23.995632800Z" />
     <multipleDevicesSelectedInDropDown value="true" />
     <runningDeviceTargetsSelectedWithDialog>
       <Target>
@@ -21,6 +21,15 @@
           <Key>
             <type value="SERIAL_NUMBER" />
             <value value="5203a8feec5714a7" />
+          </Key>
+        </deviceKey>
+      </Target>
+      <Target>
+        <type value="RUNNING_DEVICE_TARGET" />
+        <deviceKey>
+          <Key>
+            <type value="SERIAL_NUMBER" />
+            <value value="adb-R58MA5C0Y5B-A6KjRB._adb-tls-connect._tcp" />
           </Key>
         </deviceKey>
       </Target>

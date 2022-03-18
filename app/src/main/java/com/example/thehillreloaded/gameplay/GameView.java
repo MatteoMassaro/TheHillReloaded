@@ -447,35 +447,37 @@ public class GameView extends SurfaceView implements Runnable {
                 pause(); //metti il gioco in pausa
             }
 
-            if(MultigiocatoreActivity.unoVSunoClassico) {
-                ref = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName).child("playerExit");
-            }else if (MultigiocatoreActivity.unoVSunoPowerUp){
-                ref = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName).child("playerExit");
-            }
-            ref.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if(snapshot.exists()) {
-                        playerExit = snapshot.getValue(Integer.class);
-                        if (playerExit != 0) {
-                            if(MultigiocatoreActivity.unoVSunoClassico) {
-                                ref2 = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName);
-                            }else if (MultigiocatoreActivity.unoVSunoPowerUp){
-                                ref2 = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName);
+            if (MultigiocatoreActivity.unoVSunoClassico || MultigiocatoreActivity.unoVSunoPowerUp) {
+                if (MultigiocatoreActivity.unoVSunoClassico) {
+                    ref = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName).child("playerExit");
+                } else if (MultigiocatoreActivity.unoVSunoPowerUp) {
+                    ref = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName).child("playerExit");
+                }
+                ref.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            playerExit = snapshot.getValue(Integer.class);
+                            if (playerExit != 0) {
+                                if (MultigiocatoreActivity.unoVSunoClassico) {
+                                    ref2 = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName);
+                                } else if (MultigiocatoreActivity.unoVSunoPowerUp) {
+                                    ref2 = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName);
+                                }
+                                ref2.child("player1_isPlaying").setValue(false);
+                                ref2.child("player2_isPlaying").setValue(false);
+                                ref2.child("numero_giocatori").setValue(0);
+                                showResult();
                             }
-                            ref2.child("player1_isPlaying").setValue(false);
-                            ref2.child("player2_isPlaying").setValue(false);
-                            ref2.child("numero_giocatori").setValue(0);
-                            showResult();
                         }
                     }
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-                }
-            });
+                    }
+                });
+            }
         }
     }
 
@@ -1239,31 +1241,40 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(gameBar.getPausaRect(), gameBar.getWidth() * 2 / 9, gameBar.getHeight() * 1 / 4, paint);
             canvas.drawText("PAUSA", missioni.getWidth() * 3, (int) (missioni.getHeight() * 5.8), paint);
 
-            if (gameBar.isMusicClicked() && GiocatoreSingoloActivity.b == true) {
-                canvas.drawBitmap(gameBar.getMusicIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 17, paint);
+            if (gameBar.isMusicClicked() && GameActivity.b == true) {
+                canvas.drawBitmap(gameBar.getMusicIcon(), gameBar.getWidth() * 32, gameBar.getHeight() * 68, paint);
 
             } else {
-                canvas.drawBitmap(gameBar.getMusicIconRed(), gameBar.getWidth() * 8, gameBar.getHeight() * 17, paint);
+                canvas.drawBitmap(gameBar.getMusicIconRed(), gameBar.getWidth() * 32, gameBar.getHeight() * 68, paint);
                 gameBar.setMusicClicked(false);
             }
             canvas.drawText("MUSICA", missioni.getWidth() * 9 / 2, missioni.getHeight() * 14 / 2, otherTextInfoPaint);
 
-            if (gameBar.isAudioClicked() && GiocatoreSingoloActivity.b1 == true) {
-                canvas.drawBitmap(gameBar.getAudioIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 21, paint);
+            if (gameBar.isAudioClicked() && GameActivity.b1 == true) {
+                canvas.drawBitmap(gameBar.getAudioIcon(), gameBar.getWidth() * 32, gameBar.getHeight() * 84, paint);
 
             } else {
-                canvas.drawBitmap(gameBar.getAudioIconRed(), gameBar.getWidth() * 8, gameBar.getHeight() * 21, paint);
+                canvas.drawBitmap(gameBar.getAudioIconRed(), gameBar.getWidth() * 32, gameBar.getHeight() * 84, paint);
                 gameBar.setAudioClicked(false);
             }
 
             canvas.drawText("EFFETTI", missioni.getWidth() * 9 / 2, missioni.getHeight() * 17 / 2, otherTextInfoPaint);
             if(!MultigiocatoreActivity.unoVSunoClassico && !MultigiocatoreActivity.unoVSunoPowerUp) {
-                canvas.drawBitmap(gameOver.getImageBitmap2(), gameBar.getWidth() * 8, gameBar.getHeight() * 25, paint);
+                canvas.drawBitmap(gameOver.getImageBitmap2(), gameBar.getWidth() * 32, gameBar.getHeight() * 100, paint);
                 canvas.drawText("RICOMINCIA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 9.83), otherTextInfoPaint);
-                canvas.drawBitmap(gameBar.getSaveIcon(), gameBar.getWidth() * 8, gameBar.getHeight() * 29, paint);
+                if(LoginActivity.currentUser != null) {
+                    canvas.drawBitmap(gameBar.getSaveIcon(), gameBar.getWidth() * 32, gameBar.getHeight() * 116, paint);
+                }else{
+                    canvas.drawBitmap(gameBar.getSaveIconRed(), gameBar.getWidth() * 32, gameBar.getHeight() * 116, paint);
+                }
+                canvas.drawText("SALVA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 11.35), otherTextInfoPaint);
+            }else{
+                canvas.drawBitmap(gameOver.getImageBitmap5(), gameBar.getWidth() * 32, gameBar.getHeight() * 100, paint);
+                canvas.drawText("RICOMINCIA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 9.83), otherTextInfoPaint);
+                canvas.drawBitmap(gameBar.getSaveIconRed(), gameBar.getWidth() * 32, gameBar.getHeight() * 116, paint);
                 canvas.drawText("SALVA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 11.35), otherTextInfoPaint);
             }
-            canvas.drawBitmap(gameOver.getImageBitmap3(), gameBar.getWidth() * 8, gameBar.getHeight() * 33, paint);
+            canvas.drawBitmap(gameOver.getImageBitmap3(), gameBar.getWidth() * 32, gameBar.getHeight() * 132, paint);
             canvas.drawText("ESCI", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 12.73), otherTextInfoPaint);
         }
     }
@@ -1343,12 +1354,12 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void musicIsTouched(int touchX, int touchY) {
-        boolean isTouchingMusic = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 17 && touchX < gameBar.getWidth() * 8 + gameBar.getWidth() * 3 && touchY < gameBar.getHeight() * 17 + gameBar.getHeight() * 3;
+        boolean isTouchingMusic = touchX >= gameBar.getWidth() * 32 && touchY >= gameBar.getHeight() * 68 && touchX < gameBar.getWidth() * 40 + gameBar.getWidth() * 3 && touchY < gameBar.getHeight() * 76 + gameBar.getHeight() * 3;
 
         //se l'utente sta toccando l'icona della musica
         if (isTouchingMusic) {
 
-            if (gameBar.isMusicClicked() && GiocatoreSingoloActivity.b == false) {
+            if (gameBar.isMusicClicked()) {
                 gameBar.setMusicClicked(false); //l'icona non è considerata cliccata
             } else {
                 gameBar.setMusicClicked(true); //l'icona è ora considerata cliccata
@@ -1358,10 +1369,10 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void audioIsTouched(int touchX, int touchY) {
-        boolean isTouchingAudio = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 21 && touchX < gameBar.getWidth() * 8 + gameBar.getWidth() * 3 && touchY < gameBar.getHeight() * 21 + gameBar.getHeight() * 3;
+        boolean isTouchingAudio = touchX >= gameBar.getWidth() * 32 && touchY >= gameBar.getHeight() * 84 && touchX < gameBar.getWidth() * 40 + gameBar.getWidth() * 3 && touchY < gameBar.getHeight() * 92 + gameBar.getHeight() * 3;
 
         if (isTouchingAudio) { //se l'utente sta toccando l'icona degli effetti
-            if (gameBar.isAudioClicked() && GiocatoreSingoloActivity.b1 == false) {
+            if (gameBar.isAudioClicked()) {
                 gameBar.setAudioClicked(false); //l'icona non è considerata cliccata
             } else {
                 gameBar.setAudioClicked(true);//l'icona è ora considerata cliccata
@@ -1370,33 +1381,39 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void restartIsTouched(int touchX, int touchY) {
-        boolean isTouchingRestart = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 25 && touchX < gameBar.getWidth() * 8 + gameOver.getWidth() && touchY < gameBar.getHeight() * 25 + gameOver.getHeight();
-        if(isTouchingRestart) {
-            restart(); //ricomincia la partita
+        boolean isTouchingRestart = touchX >= gameBar.getWidth() * 32 && touchY >= gameBar.getHeight() * 100 && touchX < gameBar.getWidth() * 32 + gameOver.getWidth() && touchY < gameBar.getHeight() * 100 + gameOver.getHeight();
+        if(!MultigiocatoreActivity.unoVSunoClassico && !MultigiocatoreActivity.unoVSunoPowerUp) {
+            if (isTouchingRestart) {
+                restart(); //ricomincia la partita
+            }
         }
     }
 
     private void saveIsTouched(int touchX, int touchY) {
-        boolean isTouchingSave = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 29 && touchX < gameBar.getWidth() * 8 + gameOver.getWidth() && touchY < gameBar.getHeight() * 29 + gameOver.getHeight();
+        boolean isTouchingSave = touchX >= gameBar.getWidth() * 32 && touchY >= gameBar.getHeight() * 116 && touchX < gameBar.getWidth() * 32 + gameOver.getWidth() && touchY < gameBar.getHeight() * 116 + gameOver.getHeight();
 
-        if (isTouchingSave) { //se è stato toccato il tasto per salvare
-            if (LoginActivity.currentUser != null)
-            save(); //salva la partita
+        if(!MultigiocatoreActivity.unoVSunoClassico && !MultigiocatoreActivity.unoVSunoPowerUp) {
+            if (isTouchingSave) { //se è stato toccato il tasto per salvare
+                if (LoginActivity.currentUser != null)
+                    save(); //salva la partita
+            }
         }
     }
 
     private void pauseExitIsTouched(int touchX, int touchY) {
-        boolean isTouchingPauseExit = touchX >= gameBar.getWidth() * 8 && touchY >= gameBar.getHeight() * 33 && touchX < gameBar.getWidth() * 8 + gameOver.getWidth() && touchY < gameBar.getHeight() * 33 + gameOver.getHeight();
+        boolean isTouchingPauseExit = touchX >= gameBar.getWidth() * 32 && touchY >= gameBar.getHeight() * 132 && touchX < gameBar.getWidth() * 32 + gameOver.getWidth() && touchY < gameBar.getHeight() * 132 + gameOver.getHeight();
         if (isTouchingPauseExit) { //se è stato toccato il tasto per uscire
-            if(MultigiocatoreActivity.unoVSunoClassico) {
-                ref = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName);
-            }else if(MultigiocatoreActivity.unoVSunoPowerUp) {
-                ref = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName);
-            }
-            if(ConnessioneActivity.player1) {
-                ref.child("playerExit").setValue(1);
-            }else{
-                ref.child("playerExit").setValue(2);
+            if(MultigiocatoreActivity.unoVSunoClassico || MultigiocatoreActivity.unoVSunoPowerUp) {
+                if (MultigiocatoreActivity.unoVSunoClassico) {
+                    ref = database.getReference("rooms_uno_contro_uno_classico").child(ConnessioneActivity.roomName);
+                } else if (MultigiocatoreActivity.unoVSunoPowerUp) {
+                    ref = database.getReference("rooms_uno_contro_uno_powerUp").child(ConnessioneActivity.roomName);
+                }
+                if (ConnessioneActivity.player1) {
+                    ref.child("playerExit").setValue(1);
+                } else {
+                    ref.child("playerExit").setValue(2);
+                }
             }
             exit(); //esci dal gioco
             exit();

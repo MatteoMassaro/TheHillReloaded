@@ -53,12 +53,16 @@ public class NormalGameView extends GameView {
 
     @Override
     protected void changeMusic(int x, int y) {
-        if(x >= gameBar.getWidth() * 8 && y >= gameBar.getHeight() * 16 && x < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 16 + gameBar.getHeight()*3 && pause.isClicked()){
-            if(gameBar.isMusicClicked() && GiocatoreSingoloActivity.b == false) {
+        if(x >= gameBar.getWidth() * 32 && y >= gameBar.getHeight() * 68 && x < gameBar.getWidth() * 40 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 76 + gameBar.getHeight()*3 && pause.isClicked()){
+            if(gameBar.isMusicClicked() && GameActivity.b == false) {
                 MusicPlayer.playMusic(this.normalGameActivity, R.raw.game_music);
                 this.normalGameActivity.changeMusic(0);
             }
-            else {
+            else if(!gameBar.isMusicClicked() && GameActivity.b == false){
+                MusicPlayer.playMusic(this.normalGameActivity, R.raw.game_music);
+                this.normalGameActivity.changeMusic(0);
+            }
+            else{
                 stopMusic();
                 this.normalGameActivity.changeMusic(1);
             }
@@ -67,8 +71,11 @@ public class NormalGameView extends GameView {
 
     @Override
     protected void changeAudio(int x, int y) {
-        if(x >= gameBar.getWidth() * 8 && y >= gameBar.getHeight() * 20 && x < gameBar.getWidth() * 8 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 20 + gameBar.getHeight()*3 && pause.isClicked()){
-            if(gameBar.isAudioClicked() && GiocatoreSingoloActivity.b1 == false) {
+        if(x >= gameBar.getWidth() * 32 && y >= gameBar.getHeight() * 84 && x < gameBar.getWidth() * 40 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 92 + gameBar.getHeight()*3 && pause.isClicked()){
+            if(gameBar.isAudioClicked() && GameActivity.b1 == false) {
+                this.normalGameActivity.changeAudio(0);
+            }
+            else if(!gameBar.isAudioClicked() && GameActivity.b1 == false){
                 this.normalGameActivity.changeAudio(0);
             }
             else{

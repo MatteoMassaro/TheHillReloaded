@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 public class PunteggiActivity extends Animazioni {
 
     //Variabili
-    TextView punteggiPartite;
+    TextView punteggiPartite, avvisoAccesso;
     ImageView indietro;
     ListView listaPunteggi;
     FirebaseDatabase database;
@@ -38,6 +38,7 @@ public class PunteggiActivity extends Animazioni {
         indietro = findViewById(R.id.indietro);
         listaPunteggi = findViewById(R.id.listaPunteggi);
         punteggiPartite = findViewById(R.id.punteggiPartite);
+        avvisoAccesso = findViewById(R.id.avvisoAccesso);
 
         //Imposta l'orientamento portrait come obbligatorio
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -79,6 +80,8 @@ public class PunteggiActivity extends Animazioni {
                     Log.w("", "Failed to read value.", error.toException());
                 }
             });
+        }else{
+            avvisoAccesso.setVisibility(View.VISIBLE);
         }
     }
 }

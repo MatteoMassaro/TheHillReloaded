@@ -34,6 +34,7 @@
     <string name="stato">STATO</string>
     <string name="utenti_disponibili">UTENTI DISPONIBILI</string>
     <string name="accedi_per_giocare">ACCEDI PER GIOCARE ONLINE</string>
+    <string name="accedi_per_vedere">ACCEDI PER VEDERE I PUNTEGGI</string>
     <string name="cerca">CERCA</string>
     <string name="gioca">GIOCA</string>
     <string name="creaStanza">CREA STANZA</string>

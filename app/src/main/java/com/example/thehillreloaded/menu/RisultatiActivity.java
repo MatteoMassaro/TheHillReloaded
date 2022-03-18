@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ public class RisultatiActivity extends Animazioni {
     //variabili
     Button mostraRisultati, menu;
     TextView testo;
+    ProgressBar caricamento;
     boolean player1IsPlaying, player2IsPLaying, mostraRisultatiPlayer1, mostraRisultatiPlayer2;
     int scorePlayer1, scorePlayer2;
     FirebaseDatabase database;
@@ -41,6 +43,7 @@ public class RisultatiActivity extends Animazioni {
         mostraRisultati = findViewById(R.id.mostraRisultati);
         menu = findViewById(R.id.menu);
         testo = findViewById(R.id.testo);
+        caricamento = findViewById(R.id.caricamento);
 
         //Imposta l'orientamento portrait come obbligatorio
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -87,6 +90,7 @@ public class RisultatiActivity extends Animazioni {
                             mostraRisultati.setEnabled(true);
                         }
                     } else {
+                        caricamento.setVisibility(View.GONE);
                         mostraRisultati.setEnabled(true);
                     }
                 }
