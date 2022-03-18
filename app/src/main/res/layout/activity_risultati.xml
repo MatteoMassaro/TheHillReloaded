@@ -48,6 +48,28 @@
         android:textColor="@color/lincoln_green"
         android:fontFamily="@font/bowlby_one_sc"/>
 
+    <TextView
+        android:id="@+id/testoTuoPunteggio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:text=""
+        android:textColor="@color/lincoln_green"
+        android:fontFamily="@font/bowlby_one_sc"/>
+
+    <TextView
+        android:id="@+id/testoPunteggioAvversario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:text=""
+        android:textColor="@color/lincoln_green"
+        android:fontFamily="@font/bowlby_one_sc"/>
+
     <ProgressBar
         android:id="@+id/caricamento"
         android:layout_width="wrap_content"
@@ -65,6 +87,21 @@
         android:enabled="false"
         android:fontFamily="@font/bowlby_one_sc"
         android:text="@string/mostra_risultati"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <Button
+        android:id="@+id/aggiorna"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:background="@drawable/login_button_background"
+        android:fontFamily="@font/bowlby_one_sc"
+        android:text="@string/aggiorna"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -47,6 +47,11 @@
     <string name="sconfitta">HAI PERSO!</string>
     <string name="pareggio">PAREGGIO!</string>
     <string name="mostra_risultati">MOSTRA RISULTATI</string>
+    <string name="aggiorna">AGGIORNA</string>
+    <string name="tuo_punteggio">TUO PUNTEGGIO:</string>
+    <string name="punteggio_avversario">PUNTEGGIO AVVERSARIO:</string>
+    <string name="tuo_abbandono">HAI ABBANDONATO LA PARTITA</string>
+    <string name="abbandono_avversario">L\'AVVERSARIO HA ABBANDONATO LA PARTITA</string>
     <string name="cooperativo">COOPERATIVO</string>
     <string name="caricamento">CARICAMENTO</string>
     <string name="percentuale">0%</string>
