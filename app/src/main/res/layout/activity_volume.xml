@@ -1,68 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background"
     android:orientation="vertical"
     tools:context=".menu.MenuActivity">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:id="@+id/imageView4"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:background="@drawable/logo_background"
         android:fontFamily="@font/bevan"
         android:gravity="center"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="160dp"
-        android:layout_marginEnd="160dp"
         android:src="@drawable/logo"
         android:textColor="@color/black"
-        android:background="@drawable/logo_background"
-        android:textSize="19sp" />
+        android:textSize="19sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.00999999" />
+
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:layout_width="266dp"
+        android:layout_height="65dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
-        android:text="@string/volume"
-        android:textColor="@color/dark_cornflower_blue"
-        android:textSize="50sp"
+        android:lineSpacingExtra="-20dp"
         android:shadowColor="@color/black"
         android:shadowDx="15"
         android:shadowDy="10"
-        android:shadowRadius="1.5"/>
+        android:shadowRadius="1.5"
+        android:text="@string/volume"
+        android:textColor="@color/dark_cornflower_blue"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:layout_constraintVertical_bias="0.533" />
 
     <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        tools:layout_editor_absoluteX="150dp"
-        tools:layout_editor_absoluteY="102dp"
+        android:id="@+id/gridLayout"
+        android:layout_width="329dp"
+        android:layout_height="190dp"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="@id/gridLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.41000003">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/musica"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="190dp"
             app:cardCornerRadius="70dp"
             app:cardElevation="10dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@drawable/choice_button_background">
+                android:background="@drawable/choice_button_background"
+                android:orientation="vertical">
 
                 <ImageView
-                    android:contentDescription="@string/musica"
                     android:layout_width="70dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/music"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/musica"
+                    android:src="@drawable/music" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
@@ -70,55 +86,64 @@
                     android:gravity="center"
                     android:text="@string/musica"
                     android:textColor="@color/white"
-                    android:textSize="28sp" />
+                    android:textSize="25sp" />
+
                 <Switch
                     android:id="@+id/switchMusica"
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:thumb="@drawable/switch_thumb"
                     android:track="@drawable/switch_track" />
+
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
     </GridLayout>
 
+
     <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="20dp"
-        tools:layout_editor_absoluteX="150dp"
-        tools:layout_editor_absoluteY="102dp"
+        android:id="@+id/gridLayout2"
+        android:layout_width="329dp"
+        android:layout_height="190dp"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout"
+        app:layout_constraintVertical_bias="0.1">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/effetti"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="190dp"
             app:cardCornerRadius="70dp"
             app:cardElevation="10dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@drawable/choice_button_background">
+                android:background="@drawable/choice_button_background"
+                android:orientation="vertical">
+
                 <ImageView
-                    android:contentDescription="@string/effetti"
                     android:layout_width="70dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/audio"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/effetti"
+                    android:src="@drawable/audio" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:gravity="center"
                     android:fontFamily="@font/bowlby_one_sc"
+                    android:gravity="center"
                     android:text="@string/effetti"
                     android:textColor="@color/white"
-                    android:textSize="28sp"/>
+                    android:textSize="25sp" />
+
                 <Switch
                     android:id="@+id/switchEffetti"
                     android:layout_width="100dp"
@@ -126,20 +151,29 @@
                     android:layout_gravity="center"
                     android:thumb="@drawable/switch_thumb"
                     android:track="@drawable/switch_track" />
+
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
     </GridLayout>
 
+
     <ImageView
         android:id="@+id/indietro"
-        android:contentDescription="@string/back"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/nav_button_background"
         android:clickable="true"
+        android:contentDescription="@string/back"
         android:focusable="true"
-        android:src="@drawable/back"
         android:onClick="onClick"
-        android:background="@drawable/nav_button_background"/>
-</LinearLayout>
+        android:src="@drawable/back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/gridLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout2"
+        app:layout_constraintVertical_bias="0.92" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
