@@ -1,66 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".menu.SchermataCaricamentoActivity"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    tools:context=".menu.SchermataCaricamentoActivity">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:id="@+id/imageView9"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:background="@drawable/logo_background"
         android:fontFamily="@font/bevan"
         android:gravity="center"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="160dp"
-        android:layout_marginEnd="160dp"
         android:src="@drawable/logo"
         android:textColor="@color/black"
-        android:background="@drawable/logo_background"
-        android:textSize="19sp" />
+        android:textSize="19sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.00999999" />
 
     <TextView
+        android:id="@+id/textView8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="36dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
-        android:text="@string/caricamento"
-        android:textColor="@color/dark_cornflower_blue"
-        android:textSize="40sp"
         android:shadowColor="@color/black"
         android:shadowDx="15"
         android:shadowDy="10"
-        android:shadowRadius="1.5"/>
+        android:shadowRadius="1.5"
+        android:text="@string/caricamento"
+        android:textColor="@color/dark_cornflower_blue"
+        android:textSize="38sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView9" />
 
     <TextView
         android:id="@+id/percentuale"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/barra_caricamento"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+        android:layout_width="128dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="48dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:text="@string/percentuale"
+        android:textAlignment="center"
         android:textColor="@color/lincoln_green"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <ProgressBar
         android:id="@+id/barra_caricamento"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="350dp"
         android:layout_height="20dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="300dp"
-        android:progressDrawable="@drawable/barra_caricamento" />
+        android:layout_marginTop="44dp"
+        android:progressDrawable="@drawable/barra_caricamento"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/percentuale" />
 
     <TextView
         android:id="@+id/info_caricamento1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="430dp"
+        android:layout_marginTop="44dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
         android:shadowColor="@color/black"
@@ -69,40 +82,50 @@
         android:shadowRadius="1.5"
         android:text="@string/info_caricamento1"
         android:textColor="@color/dark_cornflower_blue"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barra_caricamento" />
 
     <TextView
         android:id="@+id/info_caricamento2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
-        android:text="@string/info_caricamento2"
-        android:textColor="@color/dark_cornflower_blue"
-        android:textSize="15sp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="450dp"
-        android:visibility="gone"
         android:shadowColor="@color/black"
         android:shadowDx="5"
         android:shadowDy="5"
-        android:shadowRadius="1.5"/>
+        android:shadowRadius="1.5"
+        android:text="@string/info_caricamento2"
+        android:textColor="@color/dark_cornflower_blue"
+        android:textSize="15sp"
+        android:visibility="gone"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_caricamento1" />
 
     <TextView
         android:id="@+id/info_caricamento3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
-        android:text="@string/info_caricamento3"
-        android:textColor="@color/dark_cornflower_blue"
-        android:textSize="15sp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="470dp"
-        android:visibility="gone"
         android:shadowColor="@color/black"
         android:shadowDx="5"
         android:shadowDy="5"
-        android:shadowRadius="1.5"/>
+        android:shadowRadius="1.5"
+        android:text="@string/info_caricamento3"
+        android:textColor="@color/dark_cornflower_blue"
+        android:textSize="15sp"
+        android:visibility="gone"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_caricamento2" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

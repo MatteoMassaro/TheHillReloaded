@@ -62,7 +62,7 @@
 
     <TextView
         android:id="@+id/testoTuoPunteggio"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="88dp"
         android:fontFamily="@font/bowlby_one_sc"
@@ -77,7 +77,7 @@
 
     <TextView
         android:id="@+id/testoPunteggioAvversario"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="88dp"
         android:fontFamily="@font/bowlby_one_sc"

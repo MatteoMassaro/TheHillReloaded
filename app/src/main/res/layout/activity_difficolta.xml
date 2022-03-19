@@ -1,71 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout9"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background"
     android:orientation="vertical"
     tools:context=".menu.MenuActivity">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:id="@+id/imageView12"
+        android:layout_width="76dp"
+        android:layout_height="75dp"
+        android:background="@drawable/logo_background"
         android:fontFamily="@font/bevan"
         android:gravity="center"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="160dp"
-        android:layout_marginEnd="160dp"
         android:src="@drawable/logo"
         android:textColor="@color/black"
-        android:background="@drawable/logo_background"
-        android:textSize="19sp" />
+        android:textSize="19sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.00999999" />
+
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:id="@+id/textView12"
+        android:layout_width="261dp"
+        android:layout_height="58dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
-        android:text="@string/difficoltà"
         android:lineSpacingExtra="-20dp"
-        android:textColor="@color/dark_cornflower_blue"
-        android:textSize="40sp"
         android:shadowColor="@color/black"
         android:shadowDx="15"
         android:shadowDy="10"
-        android:shadowRadius="1.5"/>
+        android:shadowRadius="1.5"
+        android:text="@string/difficoltà"
+        android:textColor="@color/dark_cornflower_blue"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView12" />
 
     <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="10dp"
-        tools:layout_editor_absoluteX="150dp"
-        tools:layout_editor_absoluteY="102dp"
+        android:id="@+id/gridLayout"
+        android:layout_width="320dp"
+        android:layout_height="125dp"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView12">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/facile"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="125dp"
             app:cardCornerRadius="70dp"
             app:cardElevation="10dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@drawable/choice_button_background">
+                android:background="@drawable/choice_button_background"
+                android:orientation="vertical">
 
                 <ImageView
-                    android:contentDescription="@string/facile"
                     android:layout_width="70dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/easy"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/facile"
+                    android:src="@drawable/easy" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
@@ -73,107 +83,123 @@
                     android:gravity="center"
                     android:text="@string/facile"
                     android:textColor="@color/white"
-                    android:textSize="28sp" />
+                    android:textSize="25sp" />
+
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
     </GridLayout>
 
+
     <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="10dp"
-        tools:layout_editor_absoluteX="150dp"
-        tools:layout_editor_absoluteY="102dp"
+        android:id="@+id/gridLayout2"
+        android:layout_width="320dp"
+        android:layout_height="125dp"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/media"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="125dp"
             app:cardCornerRadius="70dp"
             app:cardElevation="10dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@drawable/choice_button_background">
+                android:background="@drawable/choice_button_background"
+                android:orientation="vertical">
 
                 <ImageView
-                    android:contentDescription="@string/media"
                     android:layout_width="70dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/medium"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/media"
+                    android:src="@drawable/medium" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:gravity="center"
                     android:fontFamily="@font/bowlby_one_sc"
+                    android:gravity="center"
                     android:text="@string/media"
                     android:textColor="@color/white"
-                    android:textSize="28sp" />
+                    android:textSize="25sp" />
+
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
     </GridLayout>
 
+
     <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="10dp"
-        tools:layout_editor_absoluteX="150dp"
-        tools:layout_editor_absoluteY="102dp"
+        android:id="@+id/gridLayout3"
+        android:layout_width="320dp"
+        android:layout_height="125dp"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout2">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/difficile"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="125dp"
             app:cardCornerRadius="70dp"
             app:cardElevation="10dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@drawable/choice_button_background">
+                android:background="@drawable/choice_button_background"
+                android:orientation="vertical">
 
                 <ImageView
-                    android:contentDescription="@string/difficile"
                     android:layout_width="70dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/hard"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/difficile"
+                    android:src="@drawable/hard" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:gravity="center"
                     android:fontFamily="@font/bowlby_one_sc"
+                    android:gravity="center"
                     android:text="@string/difficile"
                     android:textColor="@color/white"
-                    android:textSize="28sp" />
+                    android:textSize="25sp" />
+
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
     </GridLayout>
 
+
     <ImageView
         android:id="@+id/indietro"
-        android:contentDescription="@string/back"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/nav_button_background"
         android:clickable="true"
+        android:contentDescription="@string/back"
         android:focusable="true"
-        android:src="@drawable/back"
         android:onClick="onClick"
-        android:background="@drawable/nav_button_background"/>
+        android:src="@drawable/back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/gridLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout3"
+        app:layout_constraintVertical_bias="0.9" />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

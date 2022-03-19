@@ -1,75 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout8"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background"
     android:orientation="vertical"
     tools:context=".menu.ConnessioneActivity">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:id="@+id/imageView11"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:background="@drawable/logo_background"
         android:fontFamily="@font/bevan"
         android:gravity="center"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="160dp"
-        android:layout_marginEnd="160dp"
         android:src="@drawable/logo"
         android:textColor="@color/black"
-        android:background="@drawable/logo_background"
-        android:textSize="19sp" />
+        android:textSize="19sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.00999999" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:id="@+id/textView10"
+        android:layout_width="381dp"
+        android:layout_height="104dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
-        android:text="@string/attesa_avversario"
         android:lineSpacingExtra="-20dp"
-        android:textColor="@color/dark_cornflower_blue"
-        android:textSize="35sp"
         android:shadowColor="@color/black"
         android:shadowDx="15"
         android:shadowDy="10"
-        android:shadowRadius="1.5"/>
+        android:shadowRadius="1.5"
+        android:text="@string/attesa_avversario"
+        android:textColor="@color/dark_cornflower_blue"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toTopOf="@+id/caricamento"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView11"
+        app:layout_constraintVertical_bias="0.464" />
 
     <ProgressBar
         android:id="@+id/caricamento"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"/>
+        android:layout_width="60dp"
+        android:layout_height="66dp"
+        android:layout_marginBottom="76dp"
+        app:layout_constraintBottom_toTopOf="@+id/gioca"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/gioca"
-        android:layout_width="120dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
+        android:layout_width="94dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="196dp"
         android:background="@drawable/login_button_background"
         android:enabled="false"
         android:fontFamily="@font/bowlby_one_sc"
         android:text="@string/gioca"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintTop_toBottomOf="@id/textView10" />
 
     <ImageView
         android:id="@+id/indietro"
-        android:contentDescription="@string/back"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="260dp"
+        android:background="@drawable/nav_button_background"
         android:clickable="true"
+        android:contentDescription="@string/back"
         android:focusable="true"
         android:src="@drawable/back"
-        android:background="@drawable/nav_button_background"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/textView10"
+        app:layout_constraintVertical_bias="0.1" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
