@@ -77,4 +77,18 @@
         android:onClick="onClick"
         android:background="@drawable/nav_button_background"/>
 
+    <ImageView
+        android:id="@+id/condividi"
+        android:contentDescription="@string/back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        android:src="@drawable/back"
+        android:onClick="onClick"
+        android:background="@drawable/nav_button_background"/>
+
 </LinearLayout>
