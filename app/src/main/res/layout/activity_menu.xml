@@ -63,7 +63,7 @@
             android:id="@+id/giocatoreSingolo"
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            app:cardCornerRadius="70dp"
+            app:cardCornerRadius="60dp"
             app:cardElevation="10dp">
 
             <LinearLayout
@@ -111,7 +111,7 @@
             android:id="@+id/multigiocatore"
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            app:cardCornerRadius="70dp"
+            app:cardCornerRadius="60dp"
             app:cardElevation="10dp">
 
             <LinearLayout
@@ -147,8 +147,6 @@
         android:id="@+id/logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:layout_marginBottom="20dp"
         android:background="@drawable/nav_button_background"
         android:clickable="true"
         android:contentDescription="@string/logout"
@@ -158,15 +156,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/gridLayout2"
         app:layout_constraintTop_toBottomOf="@+id/gridLayout2"
-        app:layout_constraintVertical_bias="0.9" />
+        app:layout_constraintVertical_bias="0.2" />
 
     <ImageView
         android:id="@+id/impostazioni"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginBottom="20dp"
         android:background="@drawable/nav_button_background"
         android:clickable="true"
         android:contentDescription="@string/impostazioni"
@@ -176,15 +172,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/logout"
         app:layout_constraintTop_toBottomOf="@+id/gridLayout2"
-        app:layout_constraintVertical_bias="0.9" />
+        app:layout_constraintVertical_bias="0.2" />
 
     <ImageView
         android:id="@+id/punteggi"
         android:layout_width="54dp"
         android:layout_height="54dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginBottom="20dp"
         android:background="@drawable/nav_button_background"
         android:clickable="true"
         android:contentDescription="@string/punteggi"
@@ -196,7 +190,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/impostazioni"
         app:layout_constraintTop_toBottomOf="@+id/gridLayout2"
-        app:layout_constraintVertical_bias="0.888" />
+        app:layout_constraintVertical_bias="0.2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

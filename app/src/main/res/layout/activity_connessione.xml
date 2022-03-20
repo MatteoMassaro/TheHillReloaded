@@ -74,8 +74,8 @@
 
     <Button
         android:id="@+id/cerca"
-        android:layout_width="101dp"
-        android:layout_height="50dp"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/login_button_background"
         android:fontFamily="@font/bowlby_one_sc"
@@ -87,8 +87,8 @@
 
     <Button
         android:id="@+id/creaStanza"
-        android:layout_width="105dp"
-        android:layout_height="53dp"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/login_button_background"
         android:enabled="true"
@@ -104,8 +104,7 @@
         android:id="@+id/indietro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/nav_button_background"
         android:clickable="true"
         android:contentDescription="@string/back"

@@ -71,7 +71,7 @@
             android:id="@+id/account"
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            app:cardCornerRadius="70dp"
+            app:cardCornerRadius="60dp"
             app:cardElevation="10dp">
 
             <LinearLayout
@@ -118,7 +118,7 @@
             android:id="@+id/ospite"
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            app:cardCornerRadius="70dp"
+            app:cardCornerRadius="60dp"
             app:cardElevation="10dp">
 
             <LinearLayout

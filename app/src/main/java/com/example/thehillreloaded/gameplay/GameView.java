@@ -118,6 +118,7 @@ public class GameView extends SurfaceView implements Runnable {
     private GameActivity gameActivity;
     private int num_junk, index;
     private String avversario;
+    public static int flag;
 
     public GameView(Context context, int screenX, int screenY, float density) {
         super(context);
@@ -1323,6 +1324,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             if (!pause.isClicked() && isPlaying) { //se la pausa non è stata cliccata
                 pause.setClicked(true); //la pausa ora è considerata cliccata
+                flag = 0;
 
             } else if (pause.isClicked() && !isPlaying) { //se la pausa è stata cliccata
                 pause.setClicked(false); //la pausa ora è considerata non cliccata

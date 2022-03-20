@@ -103,8 +103,8 @@
 
     <Button
         android:id="@+id/registrazione"
-        android:layout_width="139dp"
-        android:layout_height="54dp"
+        android:layout_width="140dp"
+        android:layout_height="70dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/login_button_background"
         android:enabled="true"
@@ -119,8 +119,8 @@
 
     <Button
         android:id="@+id/accountGiàCreato"
-        android:layout_width="151dp"
-        android:layout_height="48dp"
+        android:layout_width="140dp"
+        android:layout_height="70dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/login_button_background"
         android:enabled="true"
@@ -148,7 +148,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.4"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

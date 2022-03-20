@@ -63,7 +63,7 @@
             android:id="@+id/italiano"
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            app:cardCornerRadius="70dp"
+            app:cardCornerRadius="60dp"
             app:cardElevation="10dp">
 
             <LinearLayout
@@ -112,7 +112,7 @@
             android:id="@+id/inglese"
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            app:cardCornerRadius="70dp"
+            app:cardCornerRadius="60dp"
             app:cardElevation="10dp">
 
             <LinearLayout
@@ -149,8 +149,6 @@
         android:id="@+id/indietro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:layout_marginBottom="20dp"
         android:background="@drawable/nav_button_background"
         android:clickable="true"
         android:contentDescription="@string/back"
@@ -160,7 +158,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/gridLayout2"
         app:layout_constraintTop_toBottomOf="@+id/gridLayout2"
-        app:layout_constraintVertical_bias="0.9" />
+        app:layout_constraintVertical_bias="0.2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

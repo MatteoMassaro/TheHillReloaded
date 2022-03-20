@@ -2,6 +2,8 @@ package com.example.thehillreloaded.gameplay;
 
 import static com.example.thehillreloaded.menu.DifficoltaActivity.tassoDifficolta;
 import static com.example.thehillreloaded.menu.MenuActivity.screenRatioX;
+import static com.example.thehillreloaded.menu.MusicPlayer.isPlayingEffect;
+import static com.example.thehillreloaded.menu.MusicPlayer.isPlayingMusic;
 import static com.example.thehillreloaded.menu.MusicPlayer.stopMusic;
 
 import android.content.Context;
@@ -221,11 +223,11 @@ public class PowerUpGameView extends GameView {
     @Override
     protected void changeMusic(int x, int y) {
         if(x >= gameBar.getWidth() * 32 && y >= gameBar.getHeight() * 68 && x < gameBar.getWidth() * 40 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 76 + gameBar.getHeight()*3 && pause.isClicked()){
-            if(gameBar.isMusicClicked() && GameActivity.b == false) {
+            if(gameBar.isMusicClicked() && GameActivity.b == false && !isPlayingMusic) {
                 MusicPlayer.playMusic(this.powerUpGameActivity, R.raw.game_music);
                 this.powerUpGameActivity.changeMusic(0);
             }
-            else if(!gameBar.isMusicClicked() && GameActivity.b == false){
+            else if(!gameBar.isMusicClicked() && GameActivity.b == false && !isPlayingMusic){
                 MusicPlayer.playMusic(this.powerUpGameActivity, R.raw.game_music);
                 this.powerUpGameActivity.changeMusic(0);
             }
@@ -239,10 +241,10 @@ public class PowerUpGameView extends GameView {
     @Override
     protected void changeAudio(int x, int y) {
         if(x >= gameBar.getWidth() * 32 && y >= gameBar.getHeight() * 84 && x < gameBar.getWidth() * 40 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 92 + gameBar.getHeight()*3 && pause.isClicked()){
-            if(gameBar.isAudioClicked() && GameActivity.b1 == false) {
+            if(gameBar.isAudioClicked() && GameActivity.b1 == false && !isPlayingEffect) {
                 this.powerUpGameActivity.changeAudio(0);
             }
-            else if(!gameBar.isAudioClicked() && GameActivity.b1 == false){
+            else if(!gameBar.isAudioClicked() && GameActivity.b1 == false && !isPlayingEffect){
                 this.powerUpGameActivity.changeAudio(0);
             }
             else{
