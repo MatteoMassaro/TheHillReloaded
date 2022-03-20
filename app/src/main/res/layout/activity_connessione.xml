@@ -49,6 +49,7 @@
         android:id="@+id/status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:text="@string/stato"
@@ -57,7 +58,7 @@
         app:layout_constraintBottom_toTopOf="@+id/listaDispositivi"
         app:layout_constraintStart_toStartOf="@+id/textView9"
         app:layout_constraintTop_toBottomOf="@+id/textView9"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.489" />
 
     <ListView
         android:id="@+id/listaDispositivi"
@@ -110,7 +111,9 @@
         android:contentDescription="@string/back"
         android:focusable="true"
         android:src="@drawable/back"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/listaDispositivi"
-        app:layout_constraintTop_toBottomOf="@+id/creaStanza" />
+        app:layout_constraintTop_toBottomOf="@+id/creaStanza"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

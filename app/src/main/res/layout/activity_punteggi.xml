@@ -11,8 +11,8 @@
 
     <ImageView
         android:id="@+id/imageView7"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="93dp"
+        android:layout_height="91dp"
         android:background="@drawable/logo_background"
         android:fontFamily="@font/bevan"
         android:gravity="center"
@@ -27,8 +27,8 @@
 
     <TextView
         android:id="@+id/punteggiPartite"
-        android:layout_width="330dp"
-        android:layout_height="73dp"
+        android:layout_width="322dp"
+        android:layout_height="82dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
         android:lineSpacingExtra="-20dp"
@@ -38,13 +38,12 @@
         android:shadowRadius="1.5"
         android:text="@string/punteggi"
         android:textColor="@color/dark_cornflower_blue"
-        android:textSize="33sp"
+        android:textSize="35sp"
         app:layout_constraintBottom_toTopOf="@+id/listaPunteggi"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView7"
-        app:layout_constraintVertical_bias="0.178" />
+        app:layout_constraintVertical_bias="0.114" />
 
     <TextView
         android:id="@+id/avvisoAccesso"
@@ -59,7 +58,7 @@
         android:textAlignment="center"
         android:textColor="@color/dark_cornflower_blue"
         android:textSize="15sp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/listaPunteggi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,23 +74,26 @@
         android:scrollbarThumbVertical="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.663" />
+        app:layout_constraintVertical_bias="0.76" />
 
     <ImageView
         android:id="@+id/indietro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/nav_button_background"
         android:clickable="true"
         android:contentDescription="@string/back"
         android:focusable="true"
         android:onClick="onClick"
         android:src="@drawable/back"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/listaPunteggi"
-        app:layout_constraintTop_toBottomOf="@+id/listaPunteggi" />
+        app:layout_constraintTop_toBottomOf="@+id/listaPunteggi"
+        app:layout_constraintVertical_bias="0.111" />
 
     <ImageView
         android:id="@+id/condividi"
