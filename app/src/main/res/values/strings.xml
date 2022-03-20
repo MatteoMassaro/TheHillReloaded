@@ -42,6 +42,7 @@
     <string name="nessun_giocatore">NESSUN GIOCATORE DISPONIBILE</string>
     <string name="cerca_giocatori">CERCA GIOCATORI</string>
     <string name="attesa_avversario">IN ATTESA DELL\'AVVERSARIO</string>
+    <string name="avversario_pronto">L\'AVVERSARIO È PRONTO</string>
     <string name="risultati">RISULTATI</string>
     <string name="vittoria">HAI VINTO!</string>
     <string name="sconfitta">HAI PERSO!</string>

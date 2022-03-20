@@ -42,6 +42,7 @@
     <string name="nessun_giocatore">NO PLAYERS AVAILABLE</string>
     <string name="cerca_giocatori">FIND PLAYERS</string>
     <string name="attesa_avversario">WAITING FOR THE OPPONENT</string>
+    <string name="avversario_pronto">THE OPPONENT IS READY</string>
     <string name="risultati">RESULTS</string>
     <string name="vittoria">YOU WON!</string>
     <string name="sconfitta">YOU LOST!</string>

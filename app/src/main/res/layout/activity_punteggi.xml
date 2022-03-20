@@ -11,8 +11,8 @@
 
     <ImageView
         android:id="@+id/imageView7"
-        android:layout_width="93dp"
-        android:layout_height="91dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
         android:background="@drawable/logo_background"
         android:fontFamily="@font/bevan"
         android:gravity="center"
@@ -27,8 +27,8 @@
 
     <TextView
         android:id="@+id/punteggiPartite"
-        android:layout_width="322dp"
-        android:layout_height="82dp"
+        android:layout_width="355dp"
+        android:layout_height="90dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
         android:lineSpacingExtra="-20dp"
@@ -58,12 +58,12 @@
         android:textAlignment="center"
         android:textColor="@color/dark_cornflower_blue"
         android:textSize="15sp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/listaPunteggi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/punteggiPartite"
-        app:layout_constraintVertical_bias="0.51" />
+        app:layout_constraintVertical_bias="0.8" />
 
     <ListView
         android:id="@+id/listaPunteggi"
@@ -77,13 +77,12 @@
         app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.76" />
+        app:layout_constraintVertical_bias="0.6" />
 
     <ImageView
         android:id="@+id/indietro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:background="@drawable/nav_button_background"
         android:clickable="true"
         android:contentDescription="@string/back"
@@ -93,7 +92,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/listaPunteggi"
         app:layout_constraintTop_toBottomOf="@+id/listaPunteggi"
-        app:layout_constraintVertical_bias="0.111" />
+        app:layout_constraintVertical_bias="0.2" />
 
     <ImageView
         android:id="@+id/condividi"

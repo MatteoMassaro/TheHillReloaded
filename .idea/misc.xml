@@ -22,6 +22,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/cardview_background.xml" value="0.13229166666666667" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/choice_background.xml" value="0.14322916666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/choice_button_background.xml" value="0.1203125" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/cooperation_background.xml" value="0.153" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/ic_baseline_exit_to_app_24.xml" value="0.14322916666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/ic_baseline_pause_circle_outline_24.xml" value="0.153" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.14322916666666666" />
@@ -54,7 +55,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_game.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_giocatoresingolo.xml" value="0.176" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_impostazioni.xml" value="0.176" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_info.xml" value="0.12158054711246201" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_info.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_lingua.xml" value="0.2" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_login.xml" value="0.176" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TheHillReloaded/app/src/main/res/layout/activity_main.xml" value="0.1" />

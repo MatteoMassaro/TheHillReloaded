@@ -102,6 +102,8 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
                 MenuActivity.modalità = "Classica";
                 classica = true;
                 powerUp = false;
+                MultigiocatoreActivity.unoVSunoClassico = false;
+                MultigiocatoreActivity.unoVSunoPowerUp = false;
                 modalità = "Classica";
                 if(partitaSalvata && modalitàSalvata.equals(modalità) && LoginActivity.currentUser != null){
                     i = new Intent(this, PartitaSalvataActivity.class);
@@ -120,6 +122,8 @@ public class GiocatoreSingoloActivity extends Animazioni implements View.OnClick
                 MenuActivity.modalità = "Power-up";
                 powerUp = true;
                 classica = false;
+                MultigiocatoreActivity.unoVSunoClassico = false;
+                MultigiocatoreActivity.unoVSunoPowerUp = false;
                 modalità = "Power-up";
                 if(partitaSalvata && modalitàSalvata.equals(modalità) && LoginActivity.currentUser != null){
                     i = new Intent(this, PartitaSalvataActivity.class);

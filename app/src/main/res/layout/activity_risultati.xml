@@ -64,14 +64,14 @@
         android:id="@+id/testoTuoPunteggio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="30dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:text=""
         android:textAlignment="center"
         android:textColor="@color/lincoln_green"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.218"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/testo" />
 
@@ -79,14 +79,14 @@
         android:id="@+id/testoPunteggioAvversario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="60dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:text=""
         android:textAlignment="center"
         android:textColor="@color/lincoln_green"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.739"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/testo" />
 
@@ -94,16 +94,16 @@
         android:id="@+id/caricamento"
         android:layout_width="56dp"
         android:layout_height="53dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/testo" />
 
     <Button
         android:id="@+id/mostraRisultati"
-        android:layout_width="138dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="84dp"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/login_button_background"
         android:enabled="false"
         android:fontFamily="@font/bowlby_one_sc"
@@ -111,13 +111,13 @@
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/caricamento" />
+        app:layout_constraintTop_toBottomOf="@+id/testoPunteggioAvversario" />
 
     <Button
         android:id="@+id/aggiorna"
-        android:layout_width="103dp"
-        android:layout_height="51dp"
-        android:layout_marginTop="36dp"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/login_button_background"
         android:fontFamily="@font/bowlby_one_sc"
         android:text="@string/aggiorna"
@@ -129,14 +129,14 @@
 
     <Button
         android:id="@+id/menu"
-        android:layout_width="103dp"
-        android:layout_height="51dp"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/login_button_background"
         android:fontFamily="@font/bowlby_one_sc"
         android:text="@string/menu"
         android:textSize="12sp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"

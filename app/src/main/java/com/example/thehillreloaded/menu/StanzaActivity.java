@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ public class StanzaActivity extends Animazioni {
     //variabili
     Button gioca;
     ImageView indietro;
+    TextView testo;
     ProgressBar caricamento;
     FirebaseDatabase database;
     DatabaseReference ref;
@@ -40,6 +42,7 @@ public class StanzaActivity extends Animazioni {
         //Trova le view tramite l'id e le assegna alle variabili
         gioca =  findViewById(R.id.gioca);
         indietro =  findViewById(R.id.indietro);
+        testo =  findViewById(R.id.testo);
         caricamento =  findViewById(R.id.caricamento);
 
         //Imposta l'orientamento portrait come obbligatorio
@@ -116,9 +119,11 @@ public class StanzaActivity extends Animazioni {
                     if(snapshot.exists()) {
                         giocatori = snapshot.child("numero_giocatori").getValue(Integer.class);
                         if (giocatori == 2) {
+                            testo.setText(getResources().getString(R.string.avversario_pronto));
                             caricamento.setVisibility(View.GONE);
                             gioca.setEnabled(true);
                         } else {
+                            testo.setText("");
                             caricamento.setVisibility(View.VISIBLE);
                             gioca.setEnabled(false);
                         }

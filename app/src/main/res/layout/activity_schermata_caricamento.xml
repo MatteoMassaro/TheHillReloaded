@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/imageView9"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
         android:background="@drawable/logo_background"
         android:fontFamily="@font/bevan"
         android:gravity="center"
@@ -45,7 +45,7 @@
 
     <TextView
         android:id="@+id/percentuale"
-        android:layout_width="128dp"
+        android:layout_width="150dp"
         android:layout_height="68dp"
         android:layout_marginTop="48dp"
         android:fontFamily="@font/bowlby_one_sc"

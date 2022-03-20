@@ -27,8 +27,8 @@
 
     <TextView
         android:id="@+id/textView10"
-        android:layout_width="381dp"
-        android:layout_height="104dp"
+        android:layout_width="380dp"
+        android:layout_height="100dp"
         android:fontFamily="@font/bowlby_one_sc"
         android:gravity="center"
         android:lineSpacingExtra="-20dp"
@@ -39,28 +39,43 @@
         android:text="@string/attesa_avversario"
         android:textColor="@color/dark_cornflower_blue"
         android:textSize="35sp"
-        app:layout_constraintBottom_toTopOf="@+id/caricamento"
+        app:layout_constraintBottom_toTopOf="@+id/gioca"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView11"
-        app:layout_constraintVertical_bias="0.464" />
+        app:layout_constraintVertical_bias="0.2" />
 
     <ProgressBar
         android:id="@+id/caricamento"
         android:layout_width="60dp"
-        android:layout_height="66dp"
-        android:layout_marginBottom="76dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="70dp"
         app:layout_constraintBottom_toTopOf="@+id/gioca"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintVertical_bias="0.6"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/testo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/bowlby_one_sc"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="@color/lincoln_green"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <Button
         android:id="@+id/gioca"
-        android:layout_width="94dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="196dp"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="180dp"
         android:background="@drawable/login_button_background"
         android:enabled="false"
         android:fontFamily="@font/bowlby_one_sc"
@@ -75,7 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="260dp"
+        android:layout_marginTop="240dp"
         android:background="@drawable/nav_button_background"
         android:clickable="true"
         android:contentDescription="@string/back"
@@ -84,6 +99,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textView10"
         app:layout_constraintTop_toBottomOf="@+id/textView10"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintVertical_bias="0.2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

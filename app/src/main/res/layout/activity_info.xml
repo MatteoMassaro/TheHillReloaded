@@ -12,11 +12,10 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginStart="175dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="160dp"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             android:background="@drawable/logo_background"
             android:fontFamily="@font/bevan"
             android:gravity="center"
