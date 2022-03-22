@@ -26,7 +26,7 @@ public class PunteggiActivity extends Animazioni {
 
     //Variabili
     TextView punteggiPartite, avvisoAccesso;
-    ImageView indietro, condividi;
+    ImageView indietro;
     ListView listaPunteggi;
     FirebaseDatabase database;
     DatabaseReference mainRef, myRef;
@@ -39,7 +39,6 @@ public class PunteggiActivity extends Animazioni {
 
         //Trova le view tramite l'id e le assegna alle variabili
         indietro = findViewById(R.id.indietro);
-        condividi = findViewById(R.id.condividi);
         listaPunteggi = findViewById(R.id.listaPunteggi);
         punteggiPartite = findViewById(R.id.punteggiPartite);
         avvisoAccesso = findViewById(R.id.avvisoAccesso);
@@ -63,21 +62,8 @@ public class PunteggiActivity extends Animazioni {
             }
         });
 
-        condividi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                punteggi.add("Matteo");
-                Intent shareIntent = new Intent();
-                shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
-                shareIntent.putStringArrayListExtra(Intent.EXTRA_TEXT, punteggi);
-                shareIntent.setType("text/*");
-                startActivity(Intent.createChooser(shareIntent, null));
-            }
-        });
-
         database = FirebaseDatabase.getInstance();
         if (LoginActivity.currentUser != null) {
-            condividi.setVisibility(View.VISIBLE);
             mainRef = database.getReference(LoginActivity.currentUser);
             myRef = mainRef.child("score");
             myRef.addValueEventListener(new ValueEventListener() {

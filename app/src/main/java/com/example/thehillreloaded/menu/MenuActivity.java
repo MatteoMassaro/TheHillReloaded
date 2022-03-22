@@ -26,7 +26,7 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
 
     //Variabili
     public CardView giocatoreSingolo, multigiocatore;
-    public ImageView logout, impostazioni, punteggi;
+    public ImageView logout, impostazioni, cronologia, punteggi;
     public static double screenRatioX, screenRatioY, densityRatio;
     public static String modalità;
     public static boolean accesso;
@@ -75,6 +75,7 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
         multigiocatore = findViewById(R.id.multigiocatore);
         logout = findViewById(R.id.logout);
         impostazioni = findViewById(R.id.impostazioni);
+        cronologia = findViewById(R.id.cronologia);
         punteggi = findViewById(R.id.punteggi);
 
         //Imposta metodo di callback quando la view viene cliccata
@@ -82,6 +83,7 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
         giocatoreSingolo.setOnClickListener(this);
         logout.setOnClickListener(this);
         impostazioni.setOnClickListener(this);
+        cronologia.setOnClickListener(this);
         punteggi.setOnClickListener(this);
 
         //Animazione pulsanti
@@ -89,6 +91,7 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
         clickButtonAnimation(multigiocatore);
         clickButtonAnimation(logout);
         clickButtonAnimation(impostazioni);
+        clickButtonAnimation(cronologia);
         clickButtonAnimation(punteggi);
     }
 
@@ -120,10 +123,15 @@ public class MenuActivity extends Animazioni implements View.OnClickListener{
                 Bundle b3 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i,b3);
                 break;
-            case R.id.punteggi:
+            case R.id.cronologia:
                 i = new Intent(this, PunteggiActivity.class);
                 Bundle b4 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
                 startActivity(i,b4);
+                break;
+            case R.id.punteggi:
+                i = new Intent(this, ClassificaActivity.class);
+                Bundle b5 = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+                startActivity(i,b5);
                 break;
 
         }

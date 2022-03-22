@@ -58,6 +58,8 @@
     <string name="percentuale">0%</string>
     <string name="impostazioni">IMPOSTAZIONI</string>
     <string name="punteggi">PUNTEGGI PARTITE</string>
+    <string name="classifica">CLASSIFICA</string>
+    <string name="seleziona_modalità">SELEZIONA UNA MODALITÀ</string>
     <string name="lingua">LINGUA</string>
     <string name="inglese">INGLESE</string>
     <string name="italiano">ITALIANO</string>

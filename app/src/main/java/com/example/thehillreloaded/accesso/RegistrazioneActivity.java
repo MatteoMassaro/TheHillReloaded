@@ -103,6 +103,10 @@ public class RegistrazioneActivity extends Animazioni {
                     setDatabaseContent(ref);
                     ref = database.getReference().child(mAuth.getCurrentUser().getUid()).child("username");
                     ref.setValue(username);
+                    ref = database.getReference().child(mAuth.getCurrentUser().getUid()).child("best_score_modalità_classica");
+                    ref.setValue(0);
+                    ref = database.getReference().child(mAuth.getCurrentUser().getUid()).child("best_score_modalità_powerUp");
+                    ref.setValue(0);
                     Toast.makeText(RegistrazioneActivity.this, R.string.registrazione_effettuata, Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(RegistrazioneActivity.this, LoginActivity.class));
                     finish();

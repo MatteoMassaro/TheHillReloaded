@@ -60,7 +60,6 @@ import com.example.thehillreloaded.gameplay.recycle.SteelUnit;
 import com.example.thehillreloaded.menu.ConnessioneActivity;
 import com.example.thehillreloaded.menu.DifficoltaActivity;
 import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
-import com.example.thehillreloaded.menu.MenuActivity;
 import com.example.thehillreloaded.menu.MultigiocatoreActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
 import com.example.thehillreloaded.menu.VolumeActivity;
@@ -70,7 +69,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -116,7 +114,7 @@ public class GameView extends SurfaceView implements Runnable {
     private boolean pauseFlag;
     private int playerExit;
     private GameActivity gameActivity;
-    private int num_junk, index;
+    private int num_junk, index, bestScore;
     private String avversario;
     public static int flag;
 
@@ -259,7 +257,6 @@ public class GameView extends SurfaceView implements Runnable {
                                 avversario = snapshot.child("player1").getValue(String.class);
                             }
                         }
-                        ref.removeEventListener(this);
                     }
 
                     @Override
@@ -280,7 +277,6 @@ public class GameView extends SurfaceView implements Runnable {
                                 avversario = snapshot.child("player1").getValue(String.class);
                             }
                         }
-                        ref.removeEventListener(this);
                     }
 
                     @Override
@@ -2097,6 +2093,27 @@ public class GameView extends SurfaceView implements Runnable {
 
             }
         });
+
+        if(GiocatoreSingoloActivity.classica) {
+            ref = database.getReference(LoginActivity.currentUser).child("best_score_modalità_classica");
+        }else if(GiocatoreSingoloActivity.powerUp){
+            ref = database.getReference(LoginActivity.currentUser).child("best_score_modalità_powerUp");
+        }
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                bestScore = snapshot.getValue(Integer.class);
+                if(gameBar.getScore() > bestScore){
+                    ref.setValue(gameBar.getScore());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     private void setScore(){
