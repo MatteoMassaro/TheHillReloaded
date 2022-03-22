@@ -49,14 +49,14 @@
     <GridLayout
         android:id="@+id/gridLayout"
         android:layout_width="329dp"
-        android:layout_height="190dp"
+        android:layout_height="200dp"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="@id/gridLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5">
+        app:layout_constraintVertical_bias="0.48">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/musica"
@@ -105,7 +105,7 @@
     <GridLayout
         android:id="@+id/gridLayout2"
         android:layout_width="329dp"
-        android:layout_height="190dp"
+        android:layout_height="200dp"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"

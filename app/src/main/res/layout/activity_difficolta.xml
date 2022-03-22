@@ -49,7 +49,7 @@
     <GridLayout
         android:id="@+id/gridLayout"
         android:layout_width="320dp"
-        android:layout_height="130dp"
+        android:layout_height="140dp"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -95,7 +95,7 @@
     <GridLayout
         android:id="@+id/gridLayout2"
         android:layout_width="320dp"
-        android:layout_height="130dp"
+        android:layout_height="140dp"
         android:clickable="true"
         android:focusable="true"
         android:layout_marginTop="10dp"
@@ -142,7 +142,7 @@
     <GridLayout
         android:id="@+id/gridLayout3"
         android:layout_width="320dp"
-        android:layout_height="130dp"
+        android:layout_height="140dp"
         android:clickable="true"
         android:focusable="true"
         android:layout_marginTop="10dp"
