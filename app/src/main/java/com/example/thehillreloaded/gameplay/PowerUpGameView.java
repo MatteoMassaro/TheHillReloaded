@@ -2,6 +2,7 @@ package com.example.thehillreloaded.gameplay;
 
 import static com.example.thehillreloaded.menu.DifficoltaActivity.tassoDifficolta;
 import static com.example.thehillreloaded.menu.MenuActivity.screenRatioX;
+import static com.example.thehillreloaded.menu.MenuActivity.screenRatioY;
 import static com.example.thehillreloaded.menu.MusicPlayer.isPlayingEffect;
 import static com.example.thehillreloaded.menu.MusicPlayer.isPlayingMusic;
 import static com.example.thehillreloaded.menu.MusicPlayer.stopMusic;
@@ -26,6 +27,8 @@ import com.example.thehillreloaded.gameplay.falling_objects.SlowDown;
 import com.example.thehillreloaded.gameplay.falling_objects.SpeedUp;
 import com.example.thehillreloaded.gameplay.falling_objects.Steel;
 import com.example.thehillreloaded.gameplay.falling_objects.SunnyPow;
+import com.example.thehillreloaded.gameplay.imageclass.Missioni;
+import com.example.thehillreloaded.gameplay.imageclass.RecImages;
 import com.example.thehillreloaded.menu.GiocatoreSingoloActivity;
 import com.example.thehillreloaded.menu.MenuActivity;
 import com.example.thehillreloaded.menu.MusicPlayer;
@@ -42,11 +45,13 @@ import java.util.Random;
 public class PowerUpGameView extends GameView {
 
     private PowerUpGameActivity powerUpGameActivity;
+    private RecImages missioni;
 
     public PowerUpGameView(Context context, int screenX, int screenY, float density) {
         super(context, screenX, screenY, density);
 
         powerUpGameActivity = (PowerUpGameActivity) context;
+        missioni = new Missioni((int) (30 * screenRatioX), (int) (10 * screenRatioY), getResources());
         //se non si sta ripartendo da una partita salvata
         if(!GiocatoreSingoloActivity.partitaSalvata) {
             //imposta i valori dei power-up in base alla difficoltà scelta
@@ -222,7 +227,7 @@ public class PowerUpGameView extends GameView {
 
     @Override
     protected void changeMusic(int x, int y) {
-        if(x >= gameBar.getWidth() * 32 && y >= gameBar.getHeight() * 68 && x < gameBar.getWidth() * 40 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 76 + gameBar.getHeight()*3 && pause.isClicked()){
+        if(x >= missioni.getWidth() * 3 && y >= (int) (missioni.getHeight() * 6.2) && x < missioni.getWidth() * 3 + gameBar.getWidth() * 10 && y < (int) (missioni.getHeight() * 6.2) + gameBar.getHeight() * 10 && pause.isClicked()){
             if(gameBar.isMusicClicked() && GameActivity.b == false && !isPlayingMusic) {
                 MusicPlayer.playMusic(this.powerUpGameActivity, R.raw.game_music);
                 this.powerUpGameActivity.changeMusic(0);
@@ -240,7 +245,7 @@ public class PowerUpGameView extends GameView {
 
     @Override
     protected void changeAudio(int x, int y) {
-        if(x >= gameBar.getWidth() * 32 && y >= gameBar.getHeight() * 84 && x < gameBar.getWidth() * 40 + gameBar.getWidth()*3 && y < gameBar.getHeight() * 92 + gameBar.getHeight()*3 && pause.isClicked()){
+        if(x >= missioni.getWidth() * 3  && y >= (int) (missioni.getHeight() * 7.7) && x < missioni.getWidth() * 3 + gameBar.getWidth()*10 && y < (int) (missioni.getHeight() * 7.7) + gameBar.getHeight()*10 && pause.isClicked()){
             if(gameBar.isAudioClicked() && GameActivity.b1 == false && !isPlayingEffect) {
                 this.powerUpGameActivity.changeAudio(0);
             }

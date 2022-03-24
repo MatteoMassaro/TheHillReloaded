@@ -1243,39 +1243,39 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawText("PAUSA", missioni.getWidth() * 3, (int) (missioni.getHeight() * 5.8), paint);
 
             if (gameBar.isMusicClicked() && GameActivity.b == true) {
-                canvas.drawBitmap(gameBar.getMusicIcon(), gameBar.getWidth() * 32, gameBar.getHeight() * 68, paint);
+                canvas.drawBitmap(gameBar.getMusicIcon(), missioni.getWidth() * 3, (int) (missioni.getHeight() * 6.2), paint);
 
             } else {
-                canvas.drawBitmap(gameBar.getMusicIconRed(), gameBar.getWidth() * 32, gameBar.getHeight() * 68, paint);
+                canvas.drawBitmap(gameBar.getMusicIconRed(), missioni.getWidth() * 3, (int) (missioni.getHeight() * 6.2), paint);
                 gameBar.setMusicClicked(false);
             }
             canvas.drawText("MUSICA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 6.8), otherTextInfoPaint);
 
             if (gameBar.isAudioClicked() && GameActivity.b1 == true) {
-                canvas.drawBitmap(gameBar.getAudioIcon(), gameBar.getWidth() * 32, gameBar.getHeight() * 84, paint);
+                canvas.drawBitmap(gameBar.getAudioIcon(), missioni.getWidth() * 3, (int) (missioni.getHeight() * 7.7), paint);
 
             } else {
-                canvas.drawBitmap(gameBar.getAudioIconRed(), gameBar.getWidth() * 32, gameBar.getHeight() * 84, paint);
+                canvas.drawBitmap(gameBar.getAudioIconRed(), missioni.getWidth() * 3, (int) (missioni.getHeight() * 7.7), paint);
                 gameBar.setAudioClicked(false);
             }
 
             canvas.drawText("EFFETTI", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 8.3), otherTextInfoPaint);
             if(!MultigiocatoreActivity.unoVSunoClassico && !MultigiocatoreActivity.unoVSunoPowerUp) {
-                canvas.drawBitmap(gameOver.getImageBitmap2(), gameBar.getWidth() * 32, gameBar.getHeight() * 100, paint);
+                canvas.drawBitmap(gameOver.getImageBitmap2(), missioni.getWidth() * 3, (int) (missioni.getHeight() * 9.1), paint);
                 canvas.drawText("RICOMINCIA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 9.7), otherTextInfoPaint);
                 if(LoginActivity.currentUser != null) {
-                    canvas.drawBitmap(gameBar.getSaveIcon(), gameBar.getWidth() * 32, gameBar.getHeight() * 116, paint);
+                    canvas.drawBitmap(gameBar.getSaveIcon(), missioni.getWidth() * 3, (int) (missioni.getHeight() * 10.6), paint);
                 }else{
-                    canvas.drawBitmap(gameBar.getSaveIconRed(), gameBar.getWidth() * 32, gameBar.getHeight() * 116, paint);
+                    canvas.drawBitmap(gameBar.getSaveIconRed(), missioni.getWidth() * 3, (int) (missioni.getHeight() * 10.6), paint);
                 }
                 canvas.drawText("SALVA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 11.2), otherTextInfoPaint);
             }else{
-                canvas.drawBitmap(gameOver.getImageBitmap5(), gameBar.getWidth() * 32, gameBar.getHeight() * 100, paint);
+                canvas.drawBitmap(gameOver.getImageBitmap5(), missioni.getWidth() * 3, (int) (missioni.getHeight() * 9.1), paint);
                 canvas.drawText("RICOMINCIA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 9.7), otherTextInfoPaint);
-                canvas.drawBitmap(gameBar.getSaveIconRed(), gameBar.getWidth() * 32, gameBar.getHeight() * 116, paint);
+                canvas.drawBitmap(gameBar.getSaveIconRed(), missioni.getWidth() * 3, (int) (missioni.getHeight() * 10.6), paint);
                 canvas.drawText("SALVA", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 11.2), otherTextInfoPaint);
             }
-            canvas.drawBitmap(gameOver.getImageBitmap3(), gameBar.getWidth() * 32, gameBar.getHeight() * 132, paint);
+            canvas.drawBitmap(gameOver.getImageBitmap3(), missioni.getWidth() * 3, (int) (missioni.getHeight() * 12), paint);
             canvas.drawText("ESCI", missioni.getWidth() * 9 / 2, (int) (missioni.getHeight() * 12.6), otherTextInfoPaint);
         }
     }
@@ -1356,7 +1356,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void musicIsTouched(int touchX, int touchY) {
-        boolean isTouchingMusic = touchX >= gameBar.getWidth() * 32 && touchY >= gameBar.getHeight() * 68 && touchX < gameBar.getWidth() * 40 + gameBar.getWidth() * 3 && touchY < gameBar.getHeight() * 76 + gameBar.getHeight() * 3;
+        boolean isTouchingMusic = touchX >= missioni.getWidth() * 3 && touchY >= (int) (missioni.getHeight() * 6.2) && touchX < missioni.getWidth() * 3 + gameBar.getWidth() * 10 && touchY < (int) (missioni.getHeight() * 6.2) + gameBar.getHeight() * 10;
 
         //se l'utente sta toccando l'icona della musica
         if (isTouchingMusic) {
@@ -1371,7 +1371,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void audioIsTouched(int touchX, int touchY) {
-        boolean isTouchingAudio = touchX >= gameBar.getWidth() * 32 && touchY >= gameBar.getHeight() * 84 && touchX < gameBar.getWidth() * 40 + gameBar.getWidth() * 3 && touchY < gameBar.getHeight() * 92 + gameBar.getHeight() * 3;
+        boolean isTouchingAudio = touchX >= missioni.getWidth() * 3 && touchY >= (int) (missioni.getHeight() * 7.7) && touchX < missioni.getWidth() * 3 + gameBar.getWidth() * 10 && touchY < (int) (missioni.getHeight() * 7.7) + gameBar.getHeight() * 10;
 
         if (isTouchingAudio) { //se l'utente sta toccando l'icona degli effetti
             if (gameBar.isAudioClicked()) {
@@ -1383,7 +1383,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void restartIsTouched(int touchX, int touchY) {
-        boolean isTouchingRestart = touchX >= gameBar.getWidth() * 32 && touchY >= gameBar.getHeight() * 100 && touchX < gameBar.getWidth() * 32 + gameOver.getWidth() && touchY < gameBar.getHeight() * 100 + gameOver.getHeight();
+        boolean isTouchingRestart = touchX >= missioni.getWidth() * 3 && touchY >= (int) (missioni.getHeight() * 9.1) && touchX < missioni.getWidth() * 3 + gameOver.getWidth() && touchY < (int) (missioni.getHeight() * 9.1) + gameOver.getHeight();
         if(!MultigiocatoreActivity.unoVSunoClassico && !MultigiocatoreActivity.unoVSunoPowerUp) {
             if (isTouchingRestart) {
                 restart(); //ricomincia la partita
@@ -1392,7 +1392,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void saveIsTouched(int touchX, int touchY) {
-        boolean isTouchingSave = touchX >= gameBar.getWidth() * 32 && touchY >= gameBar.getHeight() * 116 && touchX < gameBar.getWidth() * 32 + gameOver.getWidth() && touchY < gameBar.getHeight() * 116 + gameOver.getHeight();
+        boolean isTouchingSave = touchX >= missioni.getWidth() * 3 && touchY >= (int) (missioni.getHeight() * 10.6) && touchX < missioni.getWidth() * 3 + gameOver.getWidth() && touchY < (int) (missioni.getHeight() * 10.6) + gameOver.getHeight();
 
         if(!MultigiocatoreActivity.unoVSunoClassico && !MultigiocatoreActivity.unoVSunoPowerUp) {
             if (isTouchingSave) { //se è stato toccato il tasto per salvare
@@ -1403,7 +1403,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void pauseExitIsTouched(int touchX, int touchY) {
-        boolean isTouchingPauseExit = touchX >= gameBar.getWidth() * 32 && touchY >= gameBar.getHeight() * 132 && touchX < gameBar.getWidth() * 32 + gameOver.getWidth() && touchY < gameBar.getHeight() * 132 + gameOver.getHeight();
+        boolean isTouchingPauseExit = touchX >= missioni.getWidth() * 3 && touchY >= (int) (missioni.getHeight() * 12) && touchX < missioni.getWidth() * 3 + gameOver.getWidth() && touchY < (int) (missioni.getHeight() * 12) + gameOver.getHeight();
         if (isTouchingPauseExit) { //se è stato toccato il tasto per uscire
             if(MultigiocatoreActivity.unoVSunoClassico || MultigiocatoreActivity.unoVSunoPowerUp) {
                 if (MultigiocatoreActivity.unoVSunoClassico) {
