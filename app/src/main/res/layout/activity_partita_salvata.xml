@@ -85,7 +85,7 @@
                     android:layout_height="60dp"
                     android:fontFamily="@font/bowlby_one_sc"
                     android:gravity="center"
-                    android:text="@string/scegli_partita"
+                    android:text="@string/partita_salvata"
                     android:textColor="@color/white"
                     android:textSize="25sp" />
 

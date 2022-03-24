@@ -1,6 +1,7 @@
 package com.example.thehillreloaded.menu;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.example.thehillreloaded.R;
+import com.example.thehillreloaded.accesso.ModalitaAccessoActivity;
 import com.example.thehillreloaded.animazioni.Animazioni;
 import com.example.thehillreloaded.gameplay.GameView;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +34,21 @@ public class RisultatiActivity extends Animazioni {
 
     @Override
     public void onBackPressed() {
+    }
+
+    //Chiama l'animazione all'avvio dell'activity
+    @Override
+    protected void onStart(){
+        super.onStart();
+        SharedPreferences preferenze = getSharedPreferences("salva1",MODE_PRIVATE);
+        boolean b = preferenze.getBoolean("musica",true);
+        if(b) {
+            if (VolumeActivity.flagMusic == 0) {
+                MusicPlayer.playMusic(this, R.raw.menu_music);
+                ModalitaAccessoActivity.isPlayingAudio = true;
+                VolumeActivity.flagMusic = 1;
+            }
+        }
     }
 
     @Override

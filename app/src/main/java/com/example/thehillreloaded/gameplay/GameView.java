@@ -1173,7 +1173,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void drawMissionsBackground(Canvas canvas) {
         //disegna il background delle missioni
-        canvas.drawBitmap(gameBar.getMissioniRect(), 0, gameBar.getHeight() * 5, paint);
+        canvas.drawBitmap(gameBar.getMissioniRect(), 0, gameBar.getHeight() * 10, paint);
         canvas.drawText("MISSIONI", missioni.getWidth() * 8 / 3, missioni.getHeight() * 7 / 2, paint);
     }
 
