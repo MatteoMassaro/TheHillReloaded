@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.TheHillReloaded" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme.TheHillReloaded" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/emerald</item>
         <item name="colorButtonNormal">@color/lincoln_green</item>
